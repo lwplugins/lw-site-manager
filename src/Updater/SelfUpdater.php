@@ -26,6 +26,14 @@ class SelfUpdater {
         add_filter("pre_set_site_transient_update_plugins", [$this, "check_for_update"]);
         add_filter("plugins_api", [$this, "plugin_info"], 20, 3);
         add_filter("upgrader_source_selection", [$this, "fix_directory_name"], 10, 4);
+
+        // Clear our cache when WordPress clears its update cache (force-check)
+        add_action("delete_site_transient_update_plugins", [$this, "clear_update_cache"]);
+    }
+
+    public function clear_update_cache(): void {
+        delete_transient("wpsm_update_info");
+        $this->update_info = null;
     }
 
     public function check_for_update($transient) {
@@ -105,16 +113,11 @@ class SelfUpdater {
         }
 
         $cache_key = "wpsm_update_info";
+        $cached = get_transient($cache_key);
 
-        // Force check - bypass cache when user clicks "Check again"
-        $force_check = isset($_GET["force-check"]) && $_GET["force-check"] === "1";
-
-        if (!$force_check) {
-            $cached = get_transient($cache_key);
-            if ($cached !== false) {
-                $this->update_info = $cached;
-                return $cached;
-            }
+        if ($cached !== false) {
+            $this->update_info = $cached;
+            return $cached;
         }
 
         $url = self::UPDATER_URL . "/update/" . $this->plugin_slug . "?version=" . $this->current_version;
