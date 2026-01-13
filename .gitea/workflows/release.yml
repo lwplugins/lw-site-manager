@@ -36,7 +36,8 @@ jobs:
         if: steps.check_tag.outputs.exists == 'false'
         run: |
           mkdir -p dist/wp-site-manager
-          rsync -av --exclude='dist' --exclude='.git' --exclude='.gitea' . dist/wp-site-manager/
+          cp -r . dist/wp-site-manager/
+          rm -rf dist/wp-site-manager/dist dist/wp-site-manager/.git dist/wp-site-manager/.gitea
           cd dist && zip -r ../wp-site-manager-${{ steps.version.outputs.version }}.zip wp-site-manager
 
       - name: Create tag and release
@@ -45,24 +46,24 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           VERSION="${{ steps.version.outputs.version }}"
-          
+
           # Create tag
           git config user.name "gitea-actions"
           git config user.email "actions@gobird.io"
           git tag -a "v$VERSION" -m "Release v$VERSION"
           git push origin "v$VERSION"
-          
+
           # Create release using Gitea API
           curl -X POST \
             -H "Authorization: token $GITHUB_TOKEN" \
             -H "Content-Type: application/json" \
             -d "{\"tag_name\": \"v$VERSION\", \"name\": \"v$VERSION\", \"body\": \"Release v$VERSION\", \"draft\": false, \"prerelease\": false}" \
             "$GITHUB_SERVER_URL/api/v1/repos/$GITHUB_REPOSITORY/releases"
-          
+
           # Get release ID
           RELEASE_ID=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
             "$GITHUB_SERVER_URL/api/v1/repos/$GITHUB_REPOSITORY/releases/tags/v$VERSION" | jq -r .id)
-          
+
           # Upload asset
           curl -X POST \
             -H "Authorization: token $GITHUB_TOKEN" \
