@@ -35,10 +35,10 @@ jobs:
       - name: Create ZIP archive
         if: steps.check_tag.outputs.exists == 'false'
         run: |
-          mkdir -p dist/wp-site-manager
-          cp -r . dist/wp-site-manager/
-          rm -rf dist/wp-site-manager/dist dist/wp-site-manager/.git dist/wp-site-manager/.gitea
-          cd dist && zip -r ../wp-site-manager-${{ steps.version.outputs.version }}.zip wp-site-manager
+          mkdir -p /tmp/wp-site-manager
+          cp -r . /tmp/wp-site-manager/
+          rm -rf /tmp/wp-site-manager/.git /tmp/wp-site-manager/.gitea
+          cd /tmp && zip -r $GITHUB_WORKSPACE/wp-site-manager-${{ steps.version.outputs.version }}.zip wp-site-manager
 
       - name: Create tag and release
         if: steps.check_tag.outputs.exists == 'false'
