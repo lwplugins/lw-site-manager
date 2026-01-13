@@ -105,11 +105,16 @@ class SelfUpdater {
         }
 
         $cache_key = "wpsm_update_info";
-        $cached = get_transient($cache_key);
 
-        if ($cached !== false) {
-            $this->update_info = $cached;
-            return $cached;
+        // Force check - bypass cache when user clicks "Check again"
+        $force_check = isset($_GET["force-check"]) && $_GET["force-check"] === "1";
+
+        if (!$force_check) {
+            $cached = get_transient($cache_key);
+            if ($cached !== false) {
+                $this->update_info = $cached;
+                return $cached;
+            }
         }
 
         $url = self::UPDATER_URL . "/update/" . $this->plugin_slug . "?version=" . $this->current_version;
