@@ -142,7 +142,7 @@ curl -s -u "user:pass" \
 | `menu_order` | integer | nem | - | Menü sorrend |
 | `date` | string | nem | now | Dátum (Y-m-d H:i:s) |
 | `categories` | array | nem | - | Kategória ID-k |
-| `tags` | array | nem | - | Tag nevek vagy ID-k |
+| `tags` | array | nem | - | Tag nevek, slugok vagy ID-k (vegyes is lehet) |
 | `featured_image` | integer | nem | - | Kiemelt kép attachment ID |
 | `meta` | object | nem | - | Egyedi meta mezők |
 
@@ -207,7 +207,7 @@ Meglévő bejegyzés módosítása.
 | `menu_order` | integer | nem | Menü sorrend |
 | `date` | string | nem | Új dátum |
 | `categories` | array | nem | Kategória ID-k |
-| `tags` | array | nem | Tag nevek |
+| `tags` | array | nem | Tag nevek, slugok vagy ID-k (vegyes is lehet) |
 | `featured_image` | integer | nem | Kiemelt kép ID |
 | `meta` | object | nem | Meta mezők |
 

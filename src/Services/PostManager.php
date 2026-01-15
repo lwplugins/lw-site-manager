@@ -10,6 +10,43 @@ namespace WPSiteManager\Services;
 class PostManager extends AbstractService {
 
     /**
+     * Process tags input - handles both IDs and names/slugs
+     *
+     * @param array $tags Array of tag IDs (int) or names/slugs (string)
+     * @return array Array of tag IDs for wp_set_post_tags
+     */
+    private static function process_tags( array $tags ): array {
+        $tag_ids = [];
+
+        foreach ( $tags as $tag ) {
+            if ( is_int( $tag ) ) {
+                // Integer: treat as tag ID
+                $term = get_term( $tag, 'post_tag' );
+                if ( $term && ! is_wp_error( $term ) ) {
+                    $tag_ids[] = $term->term_id;
+                }
+            } else {
+                // String: try slug first, then name, then create new
+                $term = get_term_by( 'slug', $tag, 'post_tag' );
+                if ( ! $term ) {
+                    $term = get_term_by( 'name', $tag, 'post_tag' );
+                }
+                if ( $term ) {
+                    $tag_ids[] = $term->term_id;
+                } else {
+                    // Create new tag
+                    $new_term = wp_insert_term( $tag, 'post_tag' );
+                    if ( ! is_wp_error( $new_term ) ) {
+                        $tag_ids[] = $new_term['term_id'];
+                    }
+                }
+            }
+        }
+
+        return $tag_ids;
+    }
+
+    /**
      * List posts
      */
     public static function list_posts( array $input ): array {
@@ -139,15 +176,18 @@ class PostManager extends AbstractService {
             $postarr['post_category'] = (array) $input['categories'];
         }
 
-        // Tags
-        if ( ! empty( $input['tags'] ) ) {
-            $postarr['tags_input'] = (array) $input['tags'];
-        }
-
         $post_id = wp_insert_post( $postarr, true );
 
         if ( is_wp_error( $post_id ) ) {
             return $post_id;
+        }
+
+        // Tags (after post creation to handle IDs properly)
+        if ( ! empty( $input['tags'] ) ) {
+            $tag_ids = self::process_tags( (array) $input['tags'] );
+            if ( ! empty( $tag_ids ) ) {
+                wp_set_post_tags( $post_id, $tag_ids );
+            }
         }
 
         // Featured image
@@ -216,15 +256,16 @@ class PostManager extends AbstractService {
             $postarr['post_category'] = (array) $input['categories'];
         }
 
-        // Tags
-        if ( isset( $input['tags'] ) ) {
-            $postarr['tags_input'] = (array) $input['tags'];
-        }
-
         $result = wp_update_post( $postarr, true );
 
         if ( is_wp_error( $result ) ) {
             return $result;
+        }
+
+        // Tags (after post update to handle IDs properly)
+        if ( isset( $input['tags'] ) ) {
+            $tag_ids = self::process_tags( (array) $input['tags'] );
+            wp_set_post_tags( $input['id'], $tag_ids );
         }
 
         // Featured image

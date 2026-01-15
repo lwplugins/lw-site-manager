@@ -246,8 +246,13 @@ class PostAbilities {
                         ],
                         'tags' => [
                             'type'        => 'array',
-                            'items'       => [ 'type' => 'string' ],
-                            'description' => 'Tag names or IDs',
+                            'items'       => [
+                                'oneOf' => [
+                                    [ 'type' => 'string' ],
+                                    [ 'type' => 'integer' ],
+                                ],
+                            ],
+                            'description' => 'Tag names, slugs, or IDs',
                         ],
                         'featured_image' => [
                             'type'        => 'integer',
@@ -327,8 +332,13 @@ class PostAbilities {
                         ],
                         'tags' => [
                             'type'        => 'array',
-                            'items'       => [ 'type' => 'string' ],
-                            'description' => 'Tag names',
+                            'items'       => [
+                                'oneOf' => [
+                                    [ 'type' => 'string' ],
+                                    [ 'type' => 'integer' ],
+                                ],
+                            ],
+                            'description' => 'Tag names, slugs, or IDs',
                         ],
                         'featured_image' => [
                             'type'        => 'integer',
