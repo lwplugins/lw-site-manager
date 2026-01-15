@@ -358,7 +358,7 @@ curl -s -u "user:pass" \
 
 Oldal beállítása kezdőlapként.
 
-**Method:** `DELETE`  
+**Method:** `POST`  
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/set-homepage/run`
 
 ### Input
@@ -381,8 +381,10 @@ Oldal beállítása kezdőlapként.
 ### Példa
 
 ```bash
-curl -s -u "user:pass" -X DELETE \
-  'https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/set-homepage/run?input%5Bid%5D=10'
+curl -s -u "user:pass" -X POST \
+  'https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/set-homepage/run' \
+  -H "Content-Type: application/json" \
+  -d '{"input":{"id":10}}'
 ```
 
 ---
@@ -391,7 +393,7 @@ curl -s -u "user:pass" -X DELETE \
 
 Oldal beállítása blog oldalként.
 
-**Method:** `DELETE`  
+**Method:** `POST`  
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/set-posts-page/run`
 
 ### Input
@@ -414,6 +416,163 @@ Oldal beállítása blog oldalként.
 ### Példa
 
 ```bash
-curl -s -u "user:pass" -X DELETE \
-  'https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/set-posts-page/run?input%5Bid%5D=15'
+curl -s -u "user:pass" -X POST \
+  'https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/set-posts-page/run' \
+  -H "Content-Type: application/json" \
+  -d '{"input":{"id":15}}'
+```
+
+---
+
+## restore-page
+
+Oldal visszaállítása kukából.
+
+**Method:** `POST`  
+**Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/restore-page/run`
+
+### Input
+
+| Mező | Típus | Kötelező | Leírás |
+|------|-------|----------|--------|
+| `id` | integer | **igen** | Page ID |
+
+### Output
+
+```json
+{
+  "success": true,
+  "message": "Page restored successfully",
+  "page": {
+    "id": 38,
+    "title": "Visszaállított oldal",
+    "slug": "visszaallitott-oldal",
+    "status": "draft",
+    ...
+  }
+}
+```
+
+### Példa
+
+```bash
+curl -s -u "user:pass" -X POST \
+  'https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/restore-page/run' \
+  -H "Content-Type: application/json" \
+  -d '{"input":{"id":38}}'
+```
+
+---
+
+## duplicate-page
+
+Oldal duplikálása.
+
+**Method:** `POST`  
+**Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/duplicate-page/run`
+
+### Input
+
+| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
+|------|-------|----------|-----------------|--------|
+| `id` | integer | **igen** | - | Duplikálandó oldal ID |
+| `new_title` | string | nem | - | Új cím a másolatnak |
+| `status` | string | nem | `draft` | Másolat állapota |
+| `copy_meta` | boolean | nem | `true` | Meta mezők másolása |
+
+### Output
+
+```json
+{
+  "success": true,
+  "message": "Page duplicated successfully",
+  "id": 45,
+  "page": {
+    "id": 45,
+    "title": "Oldal (másolat)",
+    "slug": "oldal-masolat",
+    "status": "draft",
+    ...
+  }
+}
+```
+
+### Példa
+
+```bash
+curl -s -u "user:pass" -X POST \
+  'https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/duplicate-page/run' \
+  -H "Content-Type: application/json" \
+  -d '{"input":{"id":38,"new_title":"Oldal másolata","status":"draft"}}'
+```
+
+---
+
+## reorder-pages
+
+Oldalak sorrendjének módosítása.
+
+**Method:** `POST`  
+**Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/reorder-pages/run`
+
+### Input
+
+| Mező | Típus | Kötelező | Leírás |
+|------|-------|----------|--------|
+| `order` | array | **igen** | Page ID-k tömbje a kívánt sorrendben |
+
+### Output
+
+```json
+{
+  "success": true,
+  "message": "Pages reordered successfully",
+  "updated": 5
+}
+```
+
+### Példa
+
+```bash
+curl -s -u "user:pass" -X POST \
+  'https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/reorder-pages/run' \
+  -H "Content-Type: application/json" \
+  -d '{"input":{"order":[10,5,15,8,12]}}'
+```
+
+---
+
+## set-page-template
+
+Oldal sablonjának beállítása.
+
+**Method:** `POST`  
+**Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/set-page-template/run`
+
+### Input
+
+| Mező | Típus | Kötelező | Leírás |
+|------|-------|----------|--------|
+| `id` | integer | **igen** | Page ID |
+| `template` | string | nem | Sablon slug (vagy "default") |
+
+### Output
+
+```json
+{
+  "success": true,
+  "message": "Page template updated successfully",
+  "page_id": 38,
+  "template": "page-no-title",
+  "previous_template": "default"
+}
+```
+
+### Példa
+
+```bash
+curl -s -u "user:pass" -X POST \
+  'https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/set-page-template/run' \
+  -H "Content-Type: application/json" \
+  -d '{"input":{"id":38,"template":"page-no-title"}}'
 ```

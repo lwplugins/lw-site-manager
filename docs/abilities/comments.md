@@ -11,13 +11,14 @@ Hozzászólások listázása szűrési lehetőségekkel.
 
 | Mező | Típus | Kötelező | Alapértelmezett | Leírás |
 |------|-------|----------|-----------------|--------|
-| `limit` | integer | nem | `20` | Visszaadott elemek (1-100) |
+| `limit` | integer | nem | `50` | Visszaadott elemek (1-100) |
 | `offset` | integer | nem | `0` | Kihagyott elemek |
 | `status` | string | nem | `all` | Állapot: `all`, `approve`, `hold`, `spam`, `trash` |
 | `post_id` | integer | nem | - | Szűrés post ID alapján |
+| `type` | string | nem | - | Típus: `comment`, `pingback`, `trackback` |
 | `author_email` | string | nem | - | Szűrés szerző email alapján |
 | `search` | string | nem | - | Keresés tartalomban |
-| `orderby` | string | nem | `date` | Rendezés |
+| `orderby` | string | nem | `comment_date` | Rendezés |
 | `order` | string | nem | `DESC` | Irány: `ASC`, `DESC` |
 
 ### Output
@@ -120,8 +121,8 @@ curl -s -u "user:pass" \
 | `author_email` | string | nem | - | Szerző email |
 | `author_url` | string | nem | - | Szerző weboldala |
 | `parent` | integer | nem | `0` | Szülő comment ID (válaszhoz) |
-| `status` | string | nem | `1` | Állapot: `1` (approved), `0` (pending), `spam` |
-| `user_id` | integer | nem | - | WordPress user ID |
+| `approved` | boolean | nem | `true` | Jóváhagyott-e a hozzászólás |
+| `user_id` | integer | nem | - | WordPress user ID (felülírja az author mezőket) |
 
 ### Output
 
@@ -171,7 +172,7 @@ Hozzászólás módosítása.
 | `author_name` | string | nem | Új szerző név |
 | `author_email` | string | nem | Új email |
 | `author_url` | string | nem | Új URL |
-| `status` | string | nem | Új állapot |
+| `status` | string | nem | Új állapot: `approve`, `hold`, `spam`, `trash` |
 
 ### Output
 

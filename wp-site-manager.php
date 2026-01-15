@@ -3,7 +3,7 @@
  * Plugin Name: WP Site Manager
  * Plugin URI: https://github.com/trueqap/wp-site-manager
  * Description: WordPress Site Manager using Abilities API - Full site maintenance via AI/REST
- * Version: 1.0.3
+ * Version: 1.0.4
  * Requires at least: 6.9
  * Requires PHP: 8.0
  * Author: trueqap
@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Plugin constants
-define( 'WPSM_VERSION', '1.0.3' );
+define( 'WPSM_VERSION', '1.0.4' );
 define( 'WPSM_PLUGIN_FILE', __FILE__ );
 define( 'WPSM_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'WPSM_PLUGIN_URL', plugin_dir_url( __FILE__ ) );

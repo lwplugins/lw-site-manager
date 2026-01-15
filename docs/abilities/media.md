@@ -13,10 +13,9 @@ Média elemek listázása.
 |------|-------|----------|-----------------|--------|
 | `limit` | integer | nem | `20` | Visszaadott elemek (1-100) |
 | `offset` | integer | nem | `0` | Kihagyott elemek |
-| `mime_type` | string | nem | - | Szűrés típus szerint (pl. `image`, `image/jpeg`) |
-| `author` | integer | nem | - | Szűrés szerző szerint |
+| `mime_type` | string | nem | - | Szűrés típus szerint (pl. `image`, `image/jpeg`, `video`) |
 | `search` | string | nem | - | Keresés címben |
-| `orderby` | string | nem | `date` | Rendezés |
+| `orderby` | string | nem | `date` | Rendezés: `date`, `title`, `modified` |
 | `order` | string | nem | `DESC` | Irány: `ASC`, `DESC` |
 
 ### Output
@@ -120,13 +119,15 @@ Média feltöltése URL-ről.
 
 | Mező | Típus | Kötelező | Leírás |
 |------|-------|----------|--------|
-| `url` | string | **igen** | Forrás URL |
-| `filename` | string | nem | Fájlnév (auto ha nincs megadva) |
+| `url` | string | - | Forrás URL (használd VAGY `data`+`filename`) |
+| `data` | string | - | Base64 kódolt fájl adat (`filename`-mel együtt) |
+| `filename` | string | - | Fájlnév kiterjesztéssel (`data` használatakor kötelező) |
 | `title` | string | nem | Média cím |
 | `alt` | string | nem | Alt szöveg |
 | `caption` | string | nem | Képaláírás |
 | `description` | string | nem | Leírás |
-| `post_id` | integer | nem | Csatolás post-hoz |
+
+> **Megjegyzés:** `url` VAGY `data`+`filename` megadása kötelező.
 
 ### Output
 
@@ -217,9 +218,10 @@ Média törlése.
 
 ### Input
 
-| Mező | Típus | Kötelező | Leírás |
-|------|-------|----------|--------|
-| `id` | integer | **igen** | Media ID |
+| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
+|------|-------|----------|-----------------|--------|
+| `id` | integer | **igen** | - | Media ID |
+| `force` | boolean | nem | `true` | Végleges törlés (kuka kihagyása) |
 
 ### Output
 

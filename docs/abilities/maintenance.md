@@ -31,6 +31,14 @@ Backup, health check, database és cache kezelésére szolgáló ability-k.
 |---------|--------|---------|
 | flush-cache | Cache-ek ürítése | POST |
 
+### Plugin Database Updates
+| Ability | Leírás | Metódus |
+|---------|--------|---------|
+| check-plugin-db-updates | WooCommerce, Elementor stb. DB frissítések ellenőrzése | GET |
+| update-plugin-db | Adott plugin DB frissítése | DELETE |
+| update-all-plugin-dbs | Összes plugin DB frissítése | DELETE |
+| get-supported-db-plugins | Támogatott pluginek listázása | GET |
+
 ---
 
 ## Backup Abilities
@@ -596,3 +604,188 @@ A WordPress Abilities API a meta annotations alapján határozza meg a HTTP met�
 - `readonly: true` → GET
 - `destructive: true, idempotent: true` → DELETE
 - egyébként → POST
+
+---
+
+## Plugin Database Updates
+
+Bizonyos pluginek (WooCommerce, Elementor) időnként adatbázis-frissítést igényelnek. Ezek az ability-k segítenek a DB frissítések kezelésében.
+
+### check-plugin-db-updates
+
+Függőben lévő adatbázis frissítések ellenőrzése.
+
+**Endpoint:** `GET /wp-json/wp-abilities/v1/abilities/site-manager/check-plugin-db-updates/run`
+
+#### Output Schema
+
+| Mező | Típus | Leírás |
+|------|-------|--------|
+| updates | object | Függőben lévő frissítések plugin slug szerint |
+| total_updates | integer | Összes függőben lévő frissítés |
+| supported | array | Támogatott plugin slugok listája |
+
+#### Példa
+
+**Request:**
+```bash
+curl -X GET "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/check-plugin-db-updates/run" \
+  -u "user:application_password"
+```
+
+**Response:**
+```json
+{
+  "updates": {
+    "woocommerce/woocommerce.php": {
+      "current_version": "9.5.1",
+      "db_version": "9.4.0",
+      "needs_update": true
+    }
+  },
+  "total_updates": 1,
+  "supported": ["woocommerce/woocommerce.php", "elementor/elementor.php", "elementor-pro/elementor-pro.php"]
+}
+```
+
+---
+
+### update-plugin-db
+
+Adott plugin adatbázis-frissítésének futtatása.
+
+**Endpoint:** `DELETE /wp-json/wp-abilities/v1/abilities/site-manager/update-plugin-db/run`
+
+#### Input Schema
+
+| Mező | Típus | Kötelező | Leírás |
+|------|-------|----------|--------|
+| plugin | string | igen | Plugin slug (woocommerce/woocommerce.php, elementor/elementor.php, elementor-pro/elementor-pro.php) |
+
+#### Output Schema
+
+| Mező | Típus | Leírás |
+|------|-------|--------|
+| success | boolean | Frissítés sikeressége |
+| message | string | Státusz üzenet |
+| plugin | string | Plugin slug |
+| php_errors | array | PHP hibák listája (ha voltak) |
+
+#### Példa
+
+**Request:**
+```bash
+curl -X DELETE "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/update-plugin-db/run?input%5Bplugin%5D=woocommerce/woocommerce.php" \
+  -u "user:application_password"
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Database update completed for woocommerce/woocommerce.php",
+  "plugin": "woocommerce/woocommerce.php",
+  "php_errors": []
+}
+```
+
+---
+
+### update-all-plugin-dbs
+
+Összes függőben lévő plugin adatbázis-frissítés futtatása.
+
+**Endpoint:** `DELETE /wp-json/wp-abilities/v1/abilities/site-manager/update-all-plugin-dbs/run`
+
+#### Input Schema
+
+| Mező | Típus | Alapértelmezett | Leírás |
+|------|-------|-----------------|--------|
+| stop_on_error | boolean | true | Megállítás PHP hiba esetén |
+
+#### Output Schema
+
+| Mező | Típus | Leírás |
+|------|-------|--------|
+| success | boolean | Összes frissítés sikeressége |
+| summary | string | Összefoglaló üzenet |
+| updated | array | Sikeresen frissített pluginek |
+| failed | array | Sikertelen frissítések |
+| php_errors | array | PHP hibák listája |
+| stopped_early | boolean | Korán leállt-e hiba miatt |
+
+#### Példa
+
+**Request:**
+```bash
+curl -X DELETE "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/update-all-plugin-dbs/run" \
+  -u "user:application_password"
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "summary": "Updated 2 plugin databases",
+  "updated": ["woocommerce/woocommerce.php", "elementor/elementor.php"],
+  "failed": [],
+  "php_errors": [],
+  "stopped_early": false
+}
+```
+
+---
+
+### get-supported-db-plugins
+
+Támogatott DB-frissítéses pluginek listázása.
+
+**Endpoint:** `GET /wp-json/wp-abilities/v1/abilities/site-manager/get-supported-db-plugins/run`
+
+#### Output Schema
+
+| Mező | Típus | Leírás |
+|------|-------|--------|
+| plugins | array | Támogatott pluginek részletes listája |
+| plugins[].slug | string | Plugin slug |
+| plugins[].name | string | Plugin neve |
+| plugins[].installed | boolean | Telepítve van-e |
+| plugins[].active | boolean | Aktív-e |
+| total | integer | Összes támogatott plugin |
+| installed_count | integer | Telepített támogatott pluginek száma |
+
+#### Példa
+
+**Request:**
+```bash
+curl -X GET "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/get-supported-db-plugins/run" \
+  -u "user:application_password"
+```
+
+**Response:**
+```json
+{
+  "plugins": [
+    {
+      "slug": "woocommerce/woocommerce.php",
+      "name": "WooCommerce",
+      "installed": true,
+      "active": true
+    },
+    {
+      "slug": "elementor/elementor.php",
+      "name": "Elementor",
+      "installed": true,
+      "active": true
+    },
+    {
+      "slug": "elementor-pro/elementor-pro.php",
+      "name": "Elementor Pro",
+      "installed": false,
+      "active": false
+    }
+  ],
+  "total": 3,
+  "installed_count": 2
+}
+```
