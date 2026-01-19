@@ -93,6 +93,14 @@ class PostAbilities {
                             'enum'    => [ 'ASC', 'DESC' ],
                             'default' => 'DESC',
                         ],
+                        'meta_key' => [
+                            'type'        => 'string',
+                            'description' => 'Filter by meta key',
+                        ],
+                        'meta_value' => [
+                            'type'        => 'string',
+                            'description' => 'Filter by meta value (requires meta_key)',
+                        ],
                     ],
                 ],
                 'output_schema' => self::getListOutputSchema(),

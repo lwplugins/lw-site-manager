@@ -92,6 +92,14 @@ class PostManager extends AbstractService {
             ];
         }
 
+        // Meta query
+        if ( ! empty( $input['meta_key'] ) ) {
+            $args['meta_key'] = $input['meta_key'];
+            if ( ! empty( $input['meta_value'] ) ) {
+                $args['meta_value'] = $input['meta_value'];
+            }
+        }
+
         $query = new \WP_Query( $args );
         $posts = [];
 
