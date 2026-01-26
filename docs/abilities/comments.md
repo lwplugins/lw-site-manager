@@ -2,24 +2,24 @@
 
 ## list-comments
 
-Hozzászólások listázása szűrési lehetőségekkel.
+List comments with filtering options.
 
-**Method:** `GET`  
+**Method:** `GET`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/list-comments/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `limit` | integer | nem | `50` | Visszaadott elemek (1-100) |
-| `offset` | integer | nem | `0` | Kihagyott elemek |
-| `status` | string | nem | `all` | Állapot: `all`, `approve`, `hold`, `spam`, `trash` |
-| `post_id` | integer | nem | - | Szűrés post ID alapján |
-| `type` | string | nem | - | Típus: `comment`, `pingback`, `trackback` |
-| `author_email` | string | nem | - | Szűrés szerző email alapján |
-| `search` | string | nem | - | Keresés tartalomban |
-| `orderby` | string | nem | `comment_date` | Rendezés |
-| `order` | string | nem | `DESC` | Irány: `ASC`, `DESC` |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `limit` | integer | no | `50` | Items to return (1-100) |
+| `offset` | integer | no | `0` | Items to skip |
+| `status` | string | no | `all` | Status: `all`, `approve`, `hold`, `spam`, `trash` |
+| `post_id` | integer | no | - | Filter by post ID |
+| `type` | string | no | - | Type: `comment`, `pingback`, `trackback` |
+| `author_email` | string | no | - | Filter by author email |
+| `search` | string | no | - | Search in content |
+| `orderby` | string | no | `comment_date` | Sort field |
+| `order` | string | no | `DESC` | Direction: `ASC`, `DESC` |
 
 ### Output
 
@@ -29,9 +29,9 @@ Hozzászólások listázása szűrési lehetőségekkel.
     {
       "id": 18,
       "post_id": 32,
-      "author": "kata_junior",
-      "author_email": "kata@example.com",
-      "content": "Köszönöm mindenkinek a válaszokat!",
+      "author": "john_doe",
+      "author_email": "john@example.com",
+      "content": "Thank you everyone for the answers!",
       "date": "2026-01-13 06:20:14",
       "status": "approved",
       "parent": 0,
@@ -46,7 +46,7 @@ Hozzászólások listázása szűrési lehetőségekkel.
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" \
@@ -57,16 +57,16 @@ curl -s -u "user:pass" \
 
 ## get-comment
 
-Egyetlen hozzászólás részletes lekérése.
+Get detailed information about a single comment.
 
-**Method:** `GET`  
+**Method:** `GET`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/get-comment/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Leírás |
-|------|-------|----------|--------|
-| `id` | integer | **igen** | Comment ID |
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `id` | integer | **yes** | Comment ID |
 
 ### Output
 
@@ -78,7 +78,7 @@ Egyetlen hozzászólás részletes lekérése.
     "post_id": 32,
     "author": "Test User",
     "author_email": "test@test.com",
-    "content": "Ez egy teszt komment",
+    "content": "This is a test comment",
     "date": "2026-01-13 06:43:40",
     "status": "approved",
     "parent": 0,
@@ -88,14 +88,14 @@ Egyetlen hozzászólás részletes lekérése.
     "user_id": 0,
     "agent": "",
     "date_gmt": "2026-01-13 06:43:40",
-    "post_title": "A Git legfontosabb parancsai",
+    "post_title": "Essential Git Commands",
     "avatar": "https://gravatar.com/avatar/...",
     "replies_count": 0
   }
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" \
@@ -106,23 +106,23 @@ curl -s -u "user:pass" \
 
 ## create-comment
 
-Új hozzászólás létrehozása.
+Create a new comment.
 
-**Method:** `POST`  
+**Method:** `POST`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/create-comment/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `post_id` | integer | **igen** | - | Post ID |
-| `content` | string | **igen** | - | Hozzászólás tartalma |
-| `author_name` | string | nem | - | Szerző neve |
-| `author_email` | string | nem | - | Szerző email |
-| `author_url` | string | nem | - | Szerző weboldala |
-| `parent` | integer | nem | `0` | Szülő comment ID (válaszhoz) |
-| `approved` | boolean | nem | `true` | Jóváhagyott-e a hozzászólás |
-| `user_id` | integer | nem | - | WordPress user ID (felülírja az author mezőket) |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `post_id` | integer | **yes** | - | Post ID |
+| `content` | string | **yes** | - | Comment content |
+| `author_name` | string | no | - | Author name |
+| `author_email` | string | no | - | Author email |
+| `author_url` | string | no | - | Author website |
+| `parent` | integer | no | `0` | Parent comment ID (for replies) |
+| `approved` | boolean | no | `true` | Whether the comment is approved |
+| `user_id` | integer | no | - | WordPress user ID (overrides author fields) |
 
 ### Output
 
@@ -135,7 +135,7 @@ curl -s -u "user:pass" \
     "post_id": 32,
     "author": "Test User",
     "author_email": "test@test.com",
-    "content": "Ez egy teszt komment",
+    "content": "This is a test comment",
     "date": "2026-01-13 06:43:40",
     "status": "approved",
     "parent": 0,
@@ -145,34 +145,34 @@ curl -s -u "user:pass" \
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" -X POST \
   'https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/create-comment/run' \
   -H "Content-Type: application/json" \
-  -d '{"input":{"post_id":32,"author_name":"Test User","author_email":"test@test.com","content":"Teszt komment"}}'
+  -d '{"input":{"post_id":32,"author_name":"Test User","author_email":"test@test.com","content":"Test comment"}}'
 ```
 
 ---
 
 ## update-comment
 
-Hozzászólás módosítása.
+Update a comment.
 
-**Method:** `POST`  
+**Method:** `POST`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/update-comment/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Leírás |
-|------|-------|----------|--------|
-| `id` | integer | **igen** | Comment ID |
-| `content` | string | nem | Új tartalom |
-| `author_name` | string | nem | Új szerző név |
-| `author_email` | string | nem | Új email |
-| `author_url` | string | nem | Új URL |
-| `status` | string | nem | Új állapot: `approve`, `hold`, `spam`, `trash` |
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `id` | integer | **yes** | Comment ID |
+| `content` | string | no | New content |
+| `author_name` | string | no | New author name |
+| `author_email` | string | no | New email |
+| `author_url` | string | no | New URL |
+| `status` | string | no | New status: `approve`, `hold`, `spam`, `trash` |
 
 ### Output
 
@@ -184,37 +184,37 @@ Hozzászólás módosítása.
     "id": 19,
     "post_id": 32,
     "author": "Test User",
-    "content": "Ez egy frissített teszt komment",
+    "content": "This is an updated test comment",
     "status": "approved",
     ...
   }
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" -X POST \
   'https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/update-comment/run' \
   -H "Content-Type: application/json" \
-  -d '{"input":{"id":19,"content":"Frissített tartalom"}}'
+  -d '{"input":{"id":19,"content":"Updated content"}}'
 ```
 
 ---
 
 ## delete-comment
 
-Hozzászólás törlése.
+Delete a comment.
 
-**Method:** `DELETE`  
+**Method:** `DELETE`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/delete-comment/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `id` | integer | **igen** | - | Comment ID |
-| `force` | boolean | nem | `false` | Végleges törlés (kuka kihagyása) |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `id` | integer | **yes** | - | Comment ID |
+| `force` | boolean | no | `false` | Permanent deletion (skip trash) |
 
 ### Output
 
@@ -227,14 +227,14 @@ Hozzászólás törlése.
 }
 ```
 
-### Példa
+### Example
 
 ```bash
-# Kukába helyezés
+# Move to trash
 curl -s -u "user:pass" -X DELETE \
   'https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/delete-comment/run?input%5Bid%5D=19'
 
-# Végleges törlés
+# Permanent deletion
 curl -s -u "user:pass" -X DELETE \
   'https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/delete-comment/run?input%5Bid%5D=19&input%5Bforce%5D=true'
 ```
@@ -243,16 +243,16 @@ curl -s -u "user:pass" -X DELETE \
 
 ## approve-comment
 
-Hozzászólás jóváhagyása.
+Approve a comment.
 
-**Method:** `POST`  
+**Method:** `POST`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/approve-comment/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Leírás |
-|------|-------|----------|--------|
-| `id` | integer | **igen** | Comment ID |
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `id` | integer | **yes** | Comment ID |
 
 ### Output
 
@@ -268,7 +268,7 @@ Hozzászólás jóváhagyása.
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" -X POST \
@@ -281,16 +281,16 @@ curl -s -u "user:pass" -X POST \
 
 ## spam-comment
 
-Hozzászólás spamnek jelölése.
+Mark a comment as spam.
 
-**Method:** `POST`  
+**Method:** `POST`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/spam-comment/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Leírás |
-|------|-------|----------|--------|
-| `id` | integer | **igen** | Comment ID |
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `id` | integer | **yes** | Comment ID |
 
 ### Output
 
@@ -302,7 +302,7 @@ Hozzászólás spamnek jelölése.
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" -X POST \
@@ -315,17 +315,17 @@ curl -s -u "user:pass" -X POST \
 
 ## bulk-comments
 
-Tömeges művelet hozzászólásokon.
+Bulk operations on comments.
 
-**Method:** `POST`  
+**Method:** `POST`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/bulk-comments/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Leírás |
-|------|-------|----------|--------|
-| `ids` | array | **igen** | Comment ID-k tömbje |
-| `action` | string | **igen** | Művelet: `approve`, `unapprove`, `spam`, `trash`, `delete` |
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `ids` | array | **yes** | Array of comment IDs |
+| `action` | string | **yes** | Action: `approve`, `unapprove`, `spam`, `trash`, `delete` |
 
 ### Output
 
@@ -342,7 +342,7 @@ Tömeges művelet hozzászólásokon.
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" -X POST \
@@ -355,16 +355,16 @@ curl -s -u "user:pass" -X POST \
 
 ## comment-counts
 
-Hozzászólás statisztikák lekérése.
+Get comment statistics.
 
-**Method:** `GET`  
+**Method:** `GET`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/comment-counts/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Leírás |
-|------|-------|----------|--------|
-| `post_id` | integer | nem | Szűrés adott post-ra |
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `post_id` | integer | no | Filter by specific post |
 
 ### Output
 
@@ -379,13 +379,13 @@ Hozzászólás statisztikák lekérése.
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" \
   'https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/comment-counts/run'
 
-# Egy adott post-ra
+# For a specific post
 curl -s -u "user:pass" \
   'https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/comment-counts/run?input%5Bpost_id%5D=32'
 ```

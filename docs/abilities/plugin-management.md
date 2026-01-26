@@ -2,16 +2,16 @@
 
 ## list-plugins
 
-Listázza az összes telepített plugint.
+List all installed plugins.
 
-**Method:** `GET`  
+**Method:** `GET`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/list-plugins/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `status` | string | nem | `all` | Szűrés állapot szerint: `all`, `active`, `inactive` |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `status` | string | no | `all` | Filter by status: `all`, `active`, `inactive` |
 
 ### Output
 
@@ -23,7 +23,7 @@ Listázza az összes telepített plugint.
       "name": "Akismet Anti-spam: Spam Protection",
       "version": "5.6",
       "author": "Automattic - Anti-spam Team",
-      "description": "Plugin leírása...",
+      "description": "Plugin description...",
       "active": true
     }
   ],
@@ -31,7 +31,7 @@ Listázza az összes telepített plugint.
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" \
@@ -42,17 +42,17 @@ curl -s -u "user:pass" \
 
 ## install-plugin
 
-Plugin telepítése a WordPress.org repository-ból.
+Install a plugin from the WordPress.org repository.
 
-**Method:** `POST`  
+**Method:** `POST`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/install-plugin/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `slug` | string | **igen** | - | Plugin slug a WordPress.org-ról (pl. `hello-dolly`) |
-| `activate` | boolean | nem | `false` | Aktiválja-e telepítés után |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `slug` | string | **yes** | - | Plugin slug from WordPress.org (e.g., `hello-dolly`) |
+| `activate` | boolean | no | `false` | Activate after installation |
 
 ### Output
 
@@ -68,7 +68,7 @@ Plugin telepítése a WordPress.org repository-ból.
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" -X POST \
@@ -81,18 +81,18 @@ curl -s -u "user:pass" -X POST \
 
 ## activate-plugin
 
-Plugin aktiválása.
+Activate a plugin.
 
-**Method:** `DELETE`  
+**Method:** `DELETE`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/activate-plugin/run`
 
-> **Megjegyzés:** DELETE method szükséges mert destructive művelet.
+> **Note:** DELETE method is required because this is a destructive operation.
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `plugin` | string | **igen** | - | Plugin slug (pl. `hello-dolly/hello.php`) |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `plugin` | string | **yes** | - | Plugin slug (e.g., `hello-dolly/hello.php`) |
 
 ### Output
 
@@ -104,7 +104,7 @@ Plugin aktiválása.
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" -X DELETE \
@@ -115,16 +115,16 @@ curl -s -u "user:pass" -X DELETE \
 
 ## deactivate-plugin
 
-Plugin deaktiválása.
+Deactivate a plugin.
 
-**Method:** `DELETE`  
+**Method:** `DELETE`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/deactivate-plugin/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `plugin` | string | **igen** | - | Plugin slug (pl. `hello-dolly/hello.php`) |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `plugin` | string | **yes** | - | Plugin slug (e.g., `hello-dolly/hello.php`) |
 
 ### Output
 
@@ -135,7 +135,7 @@ Plugin deaktiválása.
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" -X DELETE \
@@ -146,16 +146,16 @@ curl -s -u "user:pass" -X DELETE \
 
 ## delete-plugin
 
-Plugin törlése.
+Delete a plugin.
 
-**Method:** `DELETE`  
+**Method:** `DELETE`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/delete-plugin/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `plugin` | string | **igen** | - | Plugin fájl útvonal (pl. `hello-dolly/hello.php`) |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `plugin` | string | **yes** | - | Plugin file path (e.g., `hello-dolly/hello.php`) |
 
 ### Output
 
@@ -166,7 +166,7 @@ Plugin törlése.
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" -X DELETE \
@@ -177,16 +177,16 @@ curl -s -u "user:pass" -X DELETE \
 
 ## update-plugin
 
-Egyetlen plugin frissítése.
+Update a single plugin.
 
-**Method:** `POST`  
+**Method:** `POST`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/update-plugin/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `plugin` | string | **igen** | - | Plugin slug (pl. `classic-editor/classic-editor.php`) |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `plugin` | string | **yes** | - | Plugin slug (e.g., `classic-editor/classic-editor.php`) |
 
 ### Output
 
@@ -200,7 +200,7 @@ Egyetlen plugin frissítése.
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" -X POST \
@@ -213,17 +213,17 @@ curl -s -u "user:pass" -X POST \
 
 ## check-updates
 
-Elérhető frissítések ellenőrzése (core, plugins, themes).
+Check for available updates (core, plugins, themes).
 
-**Method:** `GET`  
+**Method:** `GET`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/check-updates/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `type` | string | nem | `all` | Típus: `all`, `core`, `plugins`, `themes` |
-| `force_refresh` | boolean | nem | `false` | Frissítési cache törlése |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `type` | string | no | `all` | Type: `all`, `core`, `plugins`, `themes` |
+| `force_refresh` | boolean | no | `false` | Clear update cache |
 
 ### Output
 
@@ -254,7 +254,7 @@ Elérhető frissítések ellenőrzése (core, plugins, themes).
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" \
@@ -265,19 +265,19 @@ curl -s -u "user:pass" \
 
 ## update-all
 
-Összes plugin és téma frissítése egyszerre.
+Update all plugins and themes at once.
 
-**Method:** `POST`  
+**Method:** `POST`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/update-all/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `include_core` | boolean | nem | `false` | WordPress core frissítése is |
-| `include_plugins` | boolean | nem | `true` | Pluginok frissítése |
-| `include_themes` | boolean | nem | `true` | Témák frissítése |
-| `stop_on_error` | boolean | nem | `true` | PHP hiba esetén leálljon |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `include_core` | boolean | no | `false` | Include WordPress core update |
+| `include_plugins` | boolean | no | `true` | Update plugins |
+| `include_themes` | boolean | no | `true` | Update themes |
+| `stop_on_error` | boolean | no | `true` | Stop on PHP error |
 
 ### Output
 
@@ -310,7 +310,7 @@ curl -s -u "user:pass" \
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" -X POST \

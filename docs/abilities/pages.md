@@ -2,23 +2,23 @@
 
 ## list-pages
 
-Oldalak listázása szűrési lehetőségekkel.
+List pages with filtering options.
 
-**Method:** `GET`  
+**Method:** `GET`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/list-pages/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `limit` | integer | nem | `20` | Visszaadott elemek (1-100) |
-| `offset` | integer | nem | `0` | Kihagyott elemek |
-| `status` | string | nem | `any` | Állapot: `publish`, `draft`, `pending`, `trash`, `any` |
-| `author` | integer | nem | - | Szerző ID |
-| `search` | string | nem | - | Keresés címben és tartalomban |
-| `parent` | integer | nem | - | Szülő oldal ID |
-| `orderby` | string | nem | `menu_order` | Rendezés |
-| `order` | string | nem | `ASC` | Irány: `ASC`, `DESC` |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `limit` | integer | no | `20` | Items to return (1-100) |
+| `offset` | integer | no | `0` | Items to skip |
+| `status` | string | no | `any` | Status: `publish`, `draft`, `pending`, `trash`, `any` |
+| `author` | integer | no | - | Author ID |
+| `search` | string | no | - | Search in title and content |
+| `parent` | integer | no | - | Parent page ID |
+| `orderby` | string | no | `menu_order` | Sort field |
+| `order` | string | no | `ASC` | Direction: `ASC`, `DESC` |
 
 ### Output
 
@@ -44,7 +44,7 @@ Oldalak listázása szűrési lehetőségekkel.
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" \
@@ -55,19 +55,19 @@ curl -s -u "user:pass" \
 
 ## get-page
 
-Egyetlen oldal részletes lekérése.
+Get detailed information about a single page.
 
-**Method:** `GET`  
+**Method:** `GET`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/get-page/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Leírás |
-|------|-------|----------|--------|
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
 | `id` | integer | - | Page ID |
 | `slug` | string | - | Page slug |
 
-> **Megjegyzés:** `id` vagy `slug` megadása kötelező.
+> **Note:** Either `id` or `slug` is required.
 
 ### Output
 
@@ -83,7 +83,7 @@ Egyetlen oldal részletes lekérése.
     "date": "2026-01-12 20:27:32",
     "modified": "2026-01-12 20:27:32",
     "author": 1,
-    "content": "<p>Tartalom...</p>",
+    "content": "<p>Content...</p>",
     "excerpt": "",
     "parent": 0,
     "menu_order": 0,
@@ -94,7 +94,7 @@ Egyetlen oldal részletes lekérése.
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" \
@@ -105,26 +105,26 @@ curl -s -u "user:pass" \
 
 ## create-page
 
-Új oldal létrehozása.
+Create a new page.
 
-**Method:** `POST`  
+**Method:** `POST`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/create-page/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `title` | string | **igen** | - | Cím |
-| `content` | string | nem | - | Tartalom (HTML) |
-| `excerpt` | string | nem | - | Kivonat |
-| `status` | string | nem | `draft` | Állapot: `draft`, `publish`, `pending`, `private` |
-| `slug` | string | nem | auto | URL slug |
-| `author` | integer | nem | current | Szerző ID |
-| `parent` | integer | nem | - | Szülő oldal ID |
-| `menu_order` | integer | nem | - | Menü sorrend |
-| `template` | string | nem | - | Oldal sablon slug |
-| `featured_image` | integer | nem | - | Kiemelt kép ID |
-| `meta` | object | nem | - | Meta mezők |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `title` | string | **yes** | - | Title |
+| `content` | string | no | - | Content (HTML) |
+| `excerpt` | string | no | - | Excerpt |
+| `status` | string | no | `draft` | Status: `draft`, `publish`, `pending`, `private` |
+| `slug` | string | no | auto | URL slug |
+| `author` | integer | no | current | Author ID |
+| `parent` | integer | no | - | Parent page ID |
+| `menu_order` | integer | no | - | Menu order |
+| `template` | string | no | - | Page template slug |
+| `featured_image` | integer | no | - | Featured image ID |
+| `meta` | object | no | - | Meta fields |
 
 ### Output
 
@@ -135,48 +135,48 @@ curl -s -u "user:pass" \
   "id": 38,
   "page": {
     "id": 38,
-    "title": "Teszt Oldal",
-    "slug": "teszt-oldal",
+    "title": "Test Page",
+    "slug": "test-page",
     "status": "publish",
     ...
   }
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" -X POST \
   'https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/create-page/run' \
   -H "Content-Type: application/json" \
-  -d '{"input":{"title":"Új oldal","content":"<p>Tartalom</p>","status":"publish"}}'
+  -d '{"input":{"title":"New page","content":"<p>Content</p>","status":"publish"}}'
 ```
 
 ---
 
 ## update-page
 
-Meglévő oldal módosítása.
+Update an existing page.
 
-**Method:** `POST`  
+**Method:** `POST`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/update-page/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Leírás |
-|------|-------|----------|--------|
-| `id` | integer | **igen** | Page ID |
-| `title` | string | nem | Új cím |
-| `content` | string | nem | Új tartalom |
-| `excerpt` | string | nem | Új kivonat |
-| `status` | string | nem | Új állapot |
-| `slug` | string | nem | Új slug |
-| `author` | integer | nem | Új szerző |
-| `parent` | integer | nem | Szülő ID |
-| `menu_order` | integer | nem | Menü sorrend |
-| `template` | string | nem | Sablon |
-| `featured_image` | integer | nem | Kiemelt kép ID |
-| `meta` | object | nem | Meta mezők |
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `id` | integer | **yes** | Page ID |
+| `title` | string | no | New title |
+| `content` | string | no | New content |
+| `excerpt` | string | no | New excerpt |
+| `status` | string | no | New status |
+| `slug` | string | no | New slug |
+| `author` | integer | no | New author |
+| `parent` | integer | no | Parent ID |
+| `menu_order` | integer | no | Menu order |
+| `template` | string | no | Template |
+| `featured_image` | integer | no | Featured image ID |
+| `meta` | object | no | Meta fields |
 
 ### Output
 
@@ -186,36 +186,36 @@ Meglévő oldal módosítása.
   "message": "Post updated successfully",
   "page": {
     "id": 38,
-    "title": "Frissített oldal",
+    "title": "Updated page",
     ...
   }
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" -X POST \
   'https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/update-page/run' \
   -H "Content-Type: application/json" \
-  -d '{"input":{"id":38,"title":"Frissített cím"}}'
+  -d '{"input":{"id":38,"title":"Updated title"}}'
 ```
 
 ---
 
 ## delete-page
 
-Oldal törlése.
+Delete a page.
 
-**Method:** `DELETE`  
+**Method:** `DELETE`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/delete-page/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `id` | integer | **igen** | - | Page ID |
-| `force` | boolean | nem | `false` | Végleges törlés |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `id` | integer | **yes** | - | Page ID |
+| `force` | boolean | no | `false` | Permanent deletion |
 
 ### Output
 
@@ -228,7 +228,7 @@ Oldal törlése.
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" -X DELETE \
@@ -239,16 +239,16 @@ curl -s -u "user:pass" -X DELETE \
 
 ## page-hierarchy
 
-Hierarchikus oldalfa lekérése.
+Get hierarchical page tree.
 
-**Method:** `GET`  
+**Method:** `GET`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/page-hierarchy/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `status` | string | nem | `publish` | Oldalak állapota |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `status` | string | no | `publish` | Page status |
 
 ### Output
 
@@ -267,7 +267,7 @@ Hierarchikus oldalfa lekérése.
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" \
@@ -278,9 +278,9 @@ curl -s -u "user:pass" \
 
 ## page-templates
 
-Elérhető oldalsablonok listázása.
+List available page templates.
 
-**Method:** `GET`  
+**Method:** `GET`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/page-templates/run`
 
 ### Output
@@ -301,7 +301,7 @@ Elérhető oldalsablonok listázása.
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" \
@@ -312,9 +312,9 @@ curl -s -u "user:pass" \
 
 ## front-page-settings
 
-Kezdőlap és blog oldal beállítások lekérése.
+Get homepage and blog page settings.
 
-**Method:** `GET`  
+**Method:** `GET`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/front-page-settings/run`
 
 ### Output
@@ -327,14 +327,14 @@ Kezdőlap és blog oldal beállítások lekérése.
 }
 ```
 
-Ha statikus oldal van beállítva:
+When static page is set:
 
 ```json
 {
   "display_mode": "page",
   "homepage": {
     "id": 10,
-    "title": "Kezdőlap",
+    "title": "Home",
     "slug": "home"
   },
   "posts_page": {
@@ -345,7 +345,7 @@ Ha statikus oldal van beállítva:
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" \
@@ -356,16 +356,16 @@ curl -s -u "user:pass" \
 
 ## set-homepage
 
-Oldal beállítása kezdőlapként.
+Set a page as homepage.
 
-**Method:** `POST`  
+**Method:** `POST`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/set-homepage/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Leírás |
-|------|-------|----------|--------|
-| `id` | integer | **igen** | Page ID |
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `id` | integer | **yes** | Page ID |
 
 ### Output
 
@@ -378,7 +378,7 @@ Oldal beállítása kezdőlapként.
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" -X POST \
@@ -391,16 +391,16 @@ curl -s -u "user:pass" -X POST \
 
 ## set-posts-page
 
-Oldal beállítása blog oldalként.
+Set a page as blog page.
 
-**Method:** `POST`  
+**Method:** `POST`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/set-posts-page/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Leírás |
-|------|-------|----------|--------|
-| `id` | integer | **igen** | Page ID |
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `id` | integer | **yes** | Page ID |
 
 ### Output
 
@@ -413,7 +413,7 @@ Oldal beállítása blog oldalként.
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" -X POST \
@@ -426,16 +426,16 @@ curl -s -u "user:pass" -X POST \
 
 ## restore-page
 
-Oldal visszaállítása kukából.
+Restore a page from trash.
 
-**Method:** `POST`  
+**Method:** `POST`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/restore-page/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Leírás |
-|------|-------|----------|--------|
-| `id` | integer | **igen** | Page ID |
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `id` | integer | **yes** | Page ID |
 
 ### Output
 
@@ -445,15 +445,15 @@ Oldal visszaállítása kukából.
   "message": "Page restored successfully",
   "page": {
     "id": 38,
-    "title": "Visszaállított oldal",
-    "slug": "visszaallitott-oldal",
+    "title": "Restored page",
+    "slug": "restored-page",
     "status": "draft",
     ...
   }
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" -X POST \
@@ -466,19 +466,19 @@ curl -s -u "user:pass" -X POST \
 
 ## duplicate-page
 
-Oldal duplikálása.
+Duplicate a page.
 
-**Method:** `POST`  
+**Method:** `POST`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/duplicate-page/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `id` | integer | **igen** | - | Duplikálandó oldal ID |
-| `new_title` | string | nem | - | Új cím a másolatnak |
-| `status` | string | nem | `draft` | Másolat állapota |
-| `copy_meta` | boolean | nem | `true` | Meta mezők másolása |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `id` | integer | **yes** | - | Page ID to duplicate |
+| `new_title` | string | no | - | New title for the copy |
+| `status` | string | no | `draft` | Copy status |
+| `copy_meta` | boolean | no | `true` | Copy meta fields |
 
 ### Output
 
@@ -489,37 +489,37 @@ Oldal duplikálása.
   "id": 45,
   "page": {
     "id": 45,
-    "title": "Oldal (másolat)",
-    "slug": "oldal-masolat",
+    "title": "Page (copy)",
+    "slug": "page-copy",
     "status": "draft",
     ...
   }
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" -X POST \
   'https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/duplicate-page/run' \
   -H "Content-Type: application/json" \
-  -d '{"input":{"id":38,"new_title":"Oldal másolata","status":"draft"}}'
+  -d '{"input":{"id":38,"new_title":"Page copy","status":"draft"}}'
 ```
 
 ---
 
 ## reorder-pages
 
-Oldalak sorrendjének módosítása.
+Reorder pages.
 
-**Method:** `POST`  
+**Method:** `POST`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/reorder-pages/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Leírás |
-|------|-------|----------|--------|
-| `order` | array | **igen** | Page ID-k tömbje a kívánt sorrendben |
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `order` | array | **yes** | Array of page IDs in desired order |
 
 ### Output
 
@@ -531,7 +531,7 @@ Oldalak sorrendjének módosítása.
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" -X POST \
@@ -544,17 +544,17 @@ curl -s -u "user:pass" -X POST \
 
 ## set-page-template
 
-Oldal sablonjának beállítása.
+Set a page template.
 
-**Method:** `POST`  
+**Method:** `POST`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/set-page-template/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Leírás |
-|------|-------|----------|--------|
-| `id` | integer | **igen** | Page ID |
-| `template` | string | nem | Sablon slug (vagy "default") |
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `id` | integer | **yes** | Page ID |
+| `template` | string | no | Template slug (or "default") |
 
 ### Output
 
@@ -568,7 +568,7 @@ Oldal sablonjának beállítása.
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" -X POST \

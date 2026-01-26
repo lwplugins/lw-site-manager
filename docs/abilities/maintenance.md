@@ -1,43 +1,43 @@
-# Maintenance (Karbantartás)
+# Maintenance
 
-Backup, health check, database és cache kezelésére szolgáló ability-k.
+Abilities for backup, health check, database and cache management.
 
 ## Abilities
 
 ### Backup
-| Ability | Leírás | Metódus |
-|---------|--------|---------|
-| create-backup | Backup indítása | POST |
-| backup-status | Backup állapot lekérése | GET |
-| cancel-backup | Backup megszakítása | POST |
-| list-backups | Backupok listázása | GET |
-| restore-backup | Backup visszaállítása | DELETE |
-| delete-backup | Backup törlése | DELETE |
+| Ability | Description | Method |
+|---------|-------------|--------|
+| create-backup | Start backup | POST |
+| backup-status | Get backup status | GET |
+| cancel-backup | Cancel backup | POST |
+| list-backups | List backups | GET |
+| restore-backup | Restore backup | DELETE |
+| delete-backup | Delete backup | DELETE |
 
 ### Health & Diagnostics
-| Ability | Leírás | Metódus |
-|---------|--------|---------|
-| health-check | Átfogó oldal állapotfelmérés | GET |
-| error-log | PHP hibanapló lekérése | GET |
+| Ability | Description | Method |
+|---------|-------------|--------|
+| health-check | Comprehensive site health check | GET |
+| error-log | Get PHP error log | GET |
 
 ### Database
-| Ability | Leírás | Metódus |
-|---------|--------|---------|
-| optimize-database | Adatbázis táblák optimalizálása | DELETE |
-| cleanup-database | Revíziók, transientek, spam törlése | POST |
+| Ability | Description | Method |
+|---------|-------------|--------|
+| optimize-database | Optimize database tables | DELETE |
+| cleanup-database | Delete revisions, transients, spam | POST |
 
 ### Cache
-| Ability | Leírás | Metódus |
-|---------|--------|---------|
-| flush-cache | Cache-ek ürítése | POST |
+| Ability | Description | Method |
+|---------|-------------|--------|
+| flush-cache | Flush caches | POST |
 
 ### Plugin Database Updates
-| Ability | Leírás | Metódus |
-|---------|--------|---------|
-| check-plugin-db-updates | WooCommerce, Elementor stb. DB frissítések ellenőrzése | GET |
-| update-plugin-db | Adott plugin DB frissítése | DELETE |
-| update-all-plugin-dbs | Összes plugin DB frissítése | DELETE |
-| get-supported-db-plugins | Támogatott pluginek listázása | GET |
+| Ability | Description | Method |
+|---------|-------------|--------|
+| check-plugin-db-updates | Check WooCommerce, Elementor etc. DB updates | GET |
+| update-plugin-db | Update specific plugin DB | DELETE |
+| update-all-plugin-dbs | Update all plugin DBs | DELETE |
+| get-supported-db-plugins | List supported plugins | GET |
 
 ---
 
@@ -45,31 +45,31 @@ Backup, health check, database és cache kezelésére szolgáló ability-k.
 
 ### create-backup
 
-Backup job indítása. Azonnal visszatér a job ID-val, a backup a háttérben fut.
+Start a backup job. Returns immediately with job ID, backup runs in background.
 
 **Endpoint:** `POST /wp-json/wp-abilities/v1/abilities/site-manager/create-backup/run`
 
 #### Input Schema
 
-| Mező | Típus | Alapértelmezett | Leírás |
-|------|-------|-----------------|--------|
-| include_database | boolean | true | Adatbázis hozzáadása a backuphoz |
-| include_files | boolean | true | WordPress fájlok hozzáadása |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| include_database | boolean | true | Include database in backup |
+| include_files | boolean | true | Include WordPress files |
 
 #### Output Schema
 
-| Mező | Típus | Leírás |
-|------|-------|--------|
-| success | boolean | Indítás sikeressége |
-| message | string | Státusz üzenet |
-| backup_id | string | Backup job azonosító |
-| status | string | Kezdeti állapot ("pending") |
-| total_files | integer | Összes fájlok száma |
-| total_size | integer | Összes méret byte-ban |
-| total_size_human | string | Olvasható méret |
-| chunks_total | integer | Feldolgozási chunk-ok száma |
+| Field | Type | Description |
+|-------|------|-------------|
+| success | boolean | Whether job started successfully |
+| message | string | Status message |
+| backup_id | string | Backup job identifier |
+| status | string | Initial status ("pending") |
+| total_files | integer | Total number of files |
+| total_size | integer | Total size in bytes |
+| total_size_human | string | Human readable size |
+| chunks_total | integer | Number of processing chunks |
 
-#### Példa
+#### Example
 
 **Request:**
 ```bash
@@ -97,36 +97,36 @@ curl -X POST "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager
 
 ### backup-status
 
-Backup job állapotának és haladásának lekérése.
+Get backup job status and progress.
 
 **Endpoint:** `GET /wp-json/wp-abilities/v1/abilities/site-manager/backup-status/run`
 
 #### Input Schema
 
-| Mező | Típus | Kötelező | Leírás |
-|------|-------|----------|--------|
-| backup_id | string | igen | Backup job azonosító |
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| backup_id | string | yes | Backup job identifier |
 
 #### Output Schema
 
-| Mező | Típus | Leírás |
-|------|-------|--------|
-| backup_id | string | Backup azonosító |
-| status | string | Állapot (pending, processing, completed, failed, cancelled) |
-| progress | number | Haladás százalékban (0-100) |
-| total_files | integer | Összes fájlok száma |
-| processed_files | integer | Feldolgozott fájlok száma |
-| current_chunk | integer | Aktuális chunk |
-| chunks_total | integer | Összes chunk |
-| created_at | string | Létrehozás időpontja |
-| started_at | string | Indítás időpontja |
-| completed_at | string/null | Befejezés időpontja |
-| file_path | string | Backup fájl elérési útja (ha kész) |
-| file_size | integer | Backup méret byte-ban (ha kész) |
-| file_size_human | string | Olvasható méret (ha kész) |
-| errors | array | Hibák listája |
+| Field | Type | Description |
+|-------|------|-------------|
+| backup_id | string | Backup identifier |
+| status | string | Status (pending, processing, completed, failed, cancelled) |
+| progress | number | Progress percentage (0-100) |
+| total_files | integer | Total number of files |
+| processed_files | integer | Processed files count |
+| current_chunk | integer | Current chunk |
+| chunks_total | integer | Total chunks |
+| created_at | string | Creation time |
+| started_at | string | Start time |
+| completed_at | string/null | Completion time |
+| file_path | string | Backup file path (when complete) |
+| file_size | integer | Backup size in bytes (when complete) |
+| file_size_human | string | Human readable size (when complete) |
+| errors | array | List of errors |
 
-#### Példa
+#### Example
 
 **Request:**
 ```bash
@@ -134,7 +134,7 @@ curl -X GET "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/
   -u "user:application_password"
 ```
 
-**Response (folyamatban):**
+**Response (in progress):**
 ```json
 {
   "backup_id": "2026-01-13_07-04-13_8fMZyHG8",
@@ -151,7 +151,7 @@ curl -X GET "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/
 }
 ```
 
-**Response (kész):**
+**Response (completed):**
 ```json
 {
   "backup_id": "2026-01-13_07-04-13_8fMZyHG8",
@@ -175,30 +175,30 @@ curl -X GET "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/
 
 ### list-backups
 
-Elérhető backupok listázása.
+List available backups.
 
 **Endpoint:** `GET /wp-json/wp-abilities/v1/abilities/site-manager/list-backups/run`
 
 #### Input Schema
 
-| Mező | Típus | Alapértelmezett | Leírás |
-|------|-------|-----------------|--------|
-| limit | integer | 20 | Visszaadott elemek száma |
-| offset | integer | 0 | Kihagyandó elemek száma |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| limit | integer | 20 | Number of items to return |
+| offset | integer | 0 | Number of items to skip |
 
 #### Output Schema
 
-| Mező | Típus | Leírás |
-|------|-------|--------|
-| backups | array | Backupok listája |
-| backups[].file_path | string | Backup fájl elérési útja |
-| backups[].file_size | integer | Méret byte-ban |
-| backups[].file_size_human | string | Olvasható méret |
-| backups[].file_exists | boolean | Fájl létezik-e |
-| backups[].manifest | object | Backup metaadatai |
-| total | integer | Összes backup száma |
+| Field | Type | Description |
+|-------|------|-------------|
+| backups | array | List of backups |
+| backups[].file_path | string | Backup file path |
+| backups[].file_size | integer | Size in bytes |
+| backups[].file_size_human | string | Human readable size |
+| backups[].file_exists | boolean | Whether file exists |
+| backups[].manifest | object | Backup metadata |
+| total | integer | Total number of backups |
 
-#### Példa
+#### Example
 
 **Request:**
 ```bash
@@ -242,25 +242,25 @@ curl -X GET "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/
 
 ### delete-backup
 
-Backup fájl törlése.
+Delete a backup file.
 
 **Endpoint:** `DELETE /wp-json/wp-abilities/v1/abilities/site-manager/delete-backup/run`
 
 #### Input Schema
 
-| Mező | Típus | Kötelező | Leírás |
-|------|-------|----------|--------|
-| backup_id | string | igen | Törlendő backup azonosító |
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| backup_id | string | yes | Backup identifier to delete |
 
 #### Output Schema
 
-| Mező | Típus | Leírás |
-|------|-------|--------|
-| success | boolean | Törlés sikeressége |
-| message | string | Státusz üzenet |
-| deleted_id | string | Törölt backup azonosító |
+| Field | Type | Description |
+|-------|------|-------------|
+| success | boolean | Whether deletion succeeded |
+| message | string | Status message |
+| deleted_id | string | Deleted backup identifier |
 
-#### Példa
+#### Example
 
 **Request:**
 ```bash
@@ -283,34 +283,34 @@ curl -X DELETE "https://example.com/wp-json/wp-abilities/v1/abilities/site-manag
 
 ### health-check
 
-Átfogó oldal állapotfelmérés futtatása.
+Run a comprehensive site health check.
 
 **Endpoint:** `GET /wp-json/wp-abilities/v1/abilities/site-manager/health-check/run`
 
 #### Input Schema
 
-| Mező | Típus | Alapértelmezett | Leírás |
-|------|-------|-----------------|--------|
-| include_debug | boolean | false | Debug információk hozzáadása |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| include_debug | boolean | false | Include debug information |
 
 #### Output Schema
 
-| Mező | Típus | Leírás |
-|------|-------|--------|
-| status | string | Összesített állapot (good, recommended, should_be_improved, critical) |
-| score | integer | Pontszám (0-100) |
-| issues | array | Talált problémák listája |
-| issues[].type | string | Probléma típusa (critical, warning, info) |
-| issues[].message | string | Probléma leírása |
-| issues[].category | string | Kategória (updates, security, performance, storage, etc.) |
-| php_version | string | PHP verzió |
-| wp_version | string | WordPress verzió |
-| disk_usage | object | Lemezhasználat adatai |
-| memory | object | Memória adatok |
-| server | object | Szerver információk |
-| paths | object | WordPress útvonalak |
+| Field | Type | Description |
+|-------|------|-------------|
+| status | string | Overall status (good, recommended, should_be_improved, critical) |
+| score | integer | Score (0-100) |
+| issues | array | List of issues found |
+| issues[].type | string | Issue type (critical, warning, info) |
+| issues[].message | string | Issue description |
+| issues[].category | string | Category (updates, security, performance, storage, etc.) |
+| php_version | string | PHP version |
+| wp_version | string | WordPress version |
+| disk_usage | object | Disk usage data |
+| memory | object | Memory data |
+| server | object | Server information |
+| paths | object | WordPress paths |
 
-#### Példa
+#### Example
 
 **Request:**
 ```bash
@@ -375,26 +375,26 @@ curl -X GET "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/
 
 ### error-log
 
-PHP hibanapló lekérése.
+Get PHP error log.
 
 **Endpoint:** `GET /wp-json/wp-abilities/v1/abilities/site-manager/error-log/run`
 
 #### Input Schema
 
-| Mező | Típus | Alapértelmezett | Leírás |
-|------|-------|-----------------|--------|
-| lines | integer | 100 | Lekérendő sorok száma (max 1000) |
-| filter | string | - | Szűrés kulcsszóra |
-| level | string | "all" | Szűrés szint alapján (all, error, warning, notice) |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| lines | integer | 100 | Number of lines to retrieve (max 1000) |
+| filter | string | - | Filter by keyword |
+| level | string | "all" | Filter by level (all, error, warning, notice) |
 
 #### Output Schema
 
-| Mező | Típus | Leírás |
-|------|-------|--------|
-| errors | array | Hiba sorok listája (stringek) |
-| total | integer | Visszaadott hibák száma |
+| Field | Type | Description |
+|-------|------|-------------|
+| errors | array | List of error lines (strings) |
+| total | integer | Number of errors returned |
 
-#### Példa
+#### Example
 
 **Request:**
 ```bash
@@ -422,26 +422,26 @@ curl -X GET "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/
 
 ### optimize-database
 
-Adatbázis táblák optimalizálása.
+Optimize database tables.
 
 **Endpoint:** `DELETE /wp-json/wp-abilities/v1/abilities/site-manager/optimize-database/run`
 
 #### Input Schema
 
-| Mező | Típus | Leírás |
-|------|-------|--------|
-| tables | array | Specifikus táblák (ha üres, az összes) |
+| Field | Type | Description |
+|-------|------|-------------|
+| tables | array | Specific tables (if empty, all tables) |
 
 #### Output Schema
 
-| Mező | Típus | Leírás |
-|------|-------|--------|
-| success | boolean | Művelet sikeressége |
-| message | string | Státusz üzenet |
-| optimized | array | Optimalizált táblák listája |
-| failed | array | Sikertelen táblák listája |
+| Field | Type | Description |
+|-------|------|-------------|
+| success | boolean | Operation success |
+| message | string | Status message |
+| optimized | array | List of optimized tables |
+| failed | array | List of failed tables |
 
-#### Példa
+#### Example
 
 **Request:**
 ```bash
@@ -476,40 +476,40 @@ curl -X DELETE "https://example.com/wp-json/wp-abilities/v1/abilities/site-manag
 
 ### cleanup-database
 
-Revíziók, transientek, spam és egyéb felesleges adatok törlése.
+Delete revisions, transients, spam and other unnecessary data.
 
 **Endpoint:** `POST /wp-json/wp-abilities/v1/abilities/site-manager/cleanup-database/run`
 
 #### Input Schema
 
-| Mező | Típus | Alapértelmezett | Leírás |
-|------|-------|-----------------|--------|
-| revisions | boolean | true | Post revíziók törlése |
-| auto_drafts | boolean | true | Auto-draft bejegyzések törlése |
-| trash_posts | boolean | true | Kukában lévő bejegyzések törlése |
-| spam_comments | boolean | true | Spam kommentek törlése |
-| trash_comments | boolean | true | Kukában lévő kommentek törlése |
-| expired_transients | boolean | true | Lejárt transientek törlése |
-| all_transients | boolean | false | Összes transient törlése |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| revisions | boolean | true | Delete post revisions |
+| auto_drafts | boolean | true | Delete auto-draft posts |
+| trash_posts | boolean | true | Delete trashed posts |
+| spam_comments | boolean | true | Delete spam comments |
+| trash_comments | boolean | true | Delete trashed comments |
+| expired_transients | boolean | true | Delete expired transients |
+| all_transients | boolean | false | Delete all transients |
 
 #### Output Schema
 
-| Mező | Típus | Leírás |
-|------|-------|--------|
-| success | boolean | Művelet sikeressége |
-| message | string | Státusz üzenet |
-| deleted | object | Törölt elemek kategóriánként |
-| deleted.revisions | integer | Törölt revíziók száma |
-| deleted.auto_drafts | integer | Törölt auto-draft-ok száma |
-| deleted.trash_posts | integer | Törölt kukás bejegyzések száma |
-| deleted.spam_comments | integer | Törölt spam kommentek száma |
-| deleted.trash_comments | integer | Törölt kukás kommentek száma |
-| deleted.expired_transients | integer | Törölt lejárt transientek száma |
-| deleted.orphaned_postmeta | integer | Törölt árva postmeta bejegyzések |
-| deleted.orphaned_commentmeta | integer | Törölt árva commentmeta bejegyzések |
-| total | integer | Összes törölt elem |
+| Field | Type | Description |
+|-------|------|-------------|
+| success | boolean | Operation success |
+| message | string | Status message |
+| deleted | object | Deleted items by category |
+| deleted.revisions | integer | Deleted revisions count |
+| deleted.auto_drafts | integer | Deleted auto-drafts count |
+| deleted.trash_posts | integer | Deleted trashed posts count |
+| deleted.spam_comments | integer | Deleted spam comments count |
+| deleted.trash_comments | integer | Deleted trashed comments count |
+| deleted.expired_transients | integer | Deleted expired transients count |
+| deleted.orphaned_postmeta | integer | Deleted orphaned postmeta entries |
+| deleted.orphaned_commentmeta | integer | Deleted orphaned commentmeta entries |
+| total | integer | Total deleted items |
 
-#### Példa
+#### Example
 
 **Request:**
 ```bash
@@ -545,28 +545,28 @@ curl -X POST "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager
 
 ### flush-cache
 
-Cache-ek ürítése (object cache, page cache, OPcache, plugin cache-ek).
+Flush caches (object cache, page cache, OPcache, plugin caches).
 
 **Endpoint:** `POST /wp-json/wp-abilities/v1/abilities/site-manager/flush-cache/run`
 
 #### Input Schema
 
-| Mező | Típus | Alapértelmezett | Leírás |
-|------|-------|-----------------|--------|
-| object_cache | boolean | true | Object cache ürítése (Redis, Memcached) |
-| page_cache | boolean | true | Page cache ürítése |
-| opcache | boolean | true | PHP OPcache ürítése |
-| plugin_caches | boolean | true | Plugin cache-ek ürítése |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| object_cache | boolean | true | Flush object cache (Redis, Memcached) |
+| page_cache | boolean | true | Flush page cache |
+| opcache | boolean | true | Flush PHP OPcache |
+| plugin_caches | boolean | true | Flush plugin caches |
 
 #### Output Schema
 
-| Mező | Típus | Leírás |
-|------|-------|--------|
-| success | boolean | Művelet sikeressége |
-| message | string | Státusz üzenet |
-| flushed | array | Ürített cache-ek listája |
+| Field | Type | Description |
+|-------|------|-------------|
+| success | boolean | Operation success |
+| message | string | Status message |
+| flushed | array | List of flushed caches |
 
-#### Példa
+#### Example
 
 **Request:**
 ```bash
@@ -591,41 +591,41 @@ curl -X POST "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager
 
 ---
 
-## Megjegyzések
+## Notes
 
-### Backup működés
-- A backup job aszinkron módon fut a háttérben
-- Használd a `backup-status` ability-t a haladás követéséhez
-- A backupok a `wp-content/uploads/wpsm-backups/` mappába kerülnek
-- Nagy oldalak esetén a backup több percig is tarthat
+### Backup Operation
+- The backup job runs asynchronously in the background
+- Use the `backup-status` ability to track progress
+- Backups are stored in `wp-content/uploads/wpsm-backups/`
+- Large sites may take several minutes to backup
 
-### HTTP metódusok meghatározása
-A WordPress Abilities API a meta annotations alapján határozza meg a HTTP metódust:
+### HTTP Method Determination
+The WordPress Abilities API determines HTTP method based on meta annotations:
 - `readonly: true` → GET
 - `destructive: true, idempotent: true` → DELETE
-- egyébként → POST
+- otherwise → POST
 
 ---
 
 ## Plugin Database Updates
 
-Bizonyos pluginek (WooCommerce, Elementor) időnként adatbázis-frissítést igényelnek. Ezek az ability-k segítenek a DB frissítések kezelésében.
+Certain plugins (WooCommerce, Elementor) occasionally require database updates. These abilities help manage DB updates.
 
 ### check-plugin-db-updates
 
-Függőben lévő adatbázis frissítések ellenőrzése.
+Check for pending database updates.
 
 **Endpoint:** `GET /wp-json/wp-abilities/v1/abilities/site-manager/check-plugin-db-updates/run`
 
 #### Output Schema
 
-| Mező | Típus | Leírás |
-|------|-------|--------|
-| updates | object | Függőben lévő frissítések plugin slug szerint |
-| total_updates | integer | Összes függőben lévő frissítés |
-| supported | array | Támogatott plugin slugok listája |
+| Field | Type | Description |
+|-------|------|-------------|
+| updates | object | Pending updates by plugin slug |
+| total_updates | integer | Total pending updates |
+| supported | array | List of supported plugin slugs |
 
-#### Példa
+#### Example
 
 **Request:**
 ```bash
@@ -652,26 +652,26 @@ curl -X GET "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/
 
 ### update-plugin-db
 
-Adott plugin adatbázis-frissítésének futtatása.
+Run database update for a specific plugin.
 
 **Endpoint:** `DELETE /wp-json/wp-abilities/v1/abilities/site-manager/update-plugin-db/run`
 
 #### Input Schema
 
-| Mező | Típus | Kötelező | Leírás |
-|------|-------|----------|--------|
-| plugin | string | igen | Plugin slug (woocommerce/woocommerce.php, elementor/elementor.php, elementor-pro/elementor-pro.php) |
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| plugin | string | yes | Plugin slug (woocommerce/woocommerce.php, elementor/elementor.php, elementor-pro/elementor-pro.php) |
 
 #### Output Schema
 
-| Mező | Típus | Leírás |
-|------|-------|--------|
-| success | boolean | Frissítés sikeressége |
-| message | string | Státusz üzenet |
+| Field | Type | Description |
+|-------|------|-------------|
+| success | boolean | Update success |
+| message | string | Status message |
 | plugin | string | Plugin slug |
-| php_errors | array | PHP hibák listája (ha voltak) |
+| php_errors | array | List of PHP errors (if any) |
 
-#### Példa
+#### Example
 
 **Request:**
 ```bash
@@ -693,28 +693,28 @@ curl -X DELETE "https://example.com/wp-json/wp-abilities/v1/abilities/site-manag
 
 ### update-all-plugin-dbs
 
-Összes függőben lévő plugin adatbázis-frissítés futtatása.
+Run all pending plugin database updates.
 
 **Endpoint:** `DELETE /wp-json/wp-abilities/v1/abilities/site-manager/update-all-plugin-dbs/run`
 
 #### Input Schema
 
-| Mező | Típus | Alapértelmezett | Leírás |
-|------|-------|-----------------|--------|
-| stop_on_error | boolean | true | Megállítás PHP hiba esetén |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| stop_on_error | boolean | true | Stop on PHP error |
 
 #### Output Schema
 
-| Mező | Típus | Leírás |
-|------|-------|--------|
-| success | boolean | Összes frissítés sikeressége |
-| summary | string | Összefoglaló üzenet |
-| updated | array | Sikeresen frissített pluginek |
-| failed | array | Sikertelen frissítések |
-| php_errors | array | PHP hibák listája |
-| stopped_early | boolean | Korán leállt-e hiba miatt |
+| Field | Type | Description |
+|-------|------|-------------|
+| success | boolean | Overall success |
+| summary | string | Summary message |
+| updated | array | Successfully updated plugins |
+| failed | array | Failed updates |
+| php_errors | array | List of PHP errors |
+| stopped_early | boolean | Whether stopped due to error |
 
-#### Példa
+#### Example
 
 **Request:**
 ```bash
@@ -738,23 +738,23 @@ curl -X DELETE "https://example.com/wp-json/wp-abilities/v1/abilities/site-manag
 
 ### get-supported-db-plugins
 
-Támogatott DB-frissítéses pluginek listázása.
+List supported plugins for DB updates.
 
 **Endpoint:** `GET /wp-json/wp-abilities/v1/abilities/site-manager/get-supported-db-plugins/run`
 
 #### Output Schema
 
-| Mező | Típus | Leírás |
-|------|-------|--------|
-| plugins | array | Támogatott pluginek részletes listája |
+| Field | Type | Description |
+|-------|------|-------------|
+| plugins | array | Detailed list of supported plugins |
 | plugins[].slug | string | Plugin slug |
-| plugins[].name | string | Plugin neve |
-| plugins[].installed | boolean | Telepítve van-e |
-| plugins[].active | boolean | Aktív-e |
-| total | integer | Összes támogatott plugin |
-| installed_count | integer | Telepített támogatott pluginek száma |
+| plugins[].name | string | Plugin name |
+| plugins[].installed | boolean | Whether installed |
+| plugins[].active | boolean | Whether active |
+| total | integer | Total supported plugins |
+| installed_count | integer | Installed supported plugins count |
 
-#### Példa
+#### Example
 
 **Request:**
 ```bash

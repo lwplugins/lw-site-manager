@@ -2,21 +2,21 @@
 
 ## list-media
 
-Média elemek listázása.
+List media items.
 
-**Method:** `GET`  
+**Method:** `GET`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/list-media/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `limit` | integer | nem | `20` | Visszaadott elemek (1-100) |
-| `offset` | integer | nem | `0` | Kihagyott elemek |
-| `mime_type` | string | nem | - | Szűrés típus szerint (pl. `image`, `image/jpeg`, `video`) |
-| `search` | string | nem | - | Keresés címben |
-| `orderby` | string | nem | `date` | Rendezés: `date`, `title`, `modified` |
-| `order` | string | nem | `DESC` | Irány: `ASC`, `DESC` |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `limit` | integer | no | `20` | Items to return (1-100) |
+| `offset` | integer | no | `0` | Items to skip |
+| `mime_type` | string | no | - | Filter by type (e.g., `image`, `image/jpeg`, `video`) |
+| `search` | string | no | - | Search in title |
+| `orderby` | string | no | `date` | Sort by: `date`, `title`, `modified` |
+| `order` | string | no | `DESC` | Direction: `ASC`, `DESC` |
 
 ### Output
 
@@ -38,7 +38,7 @@ Média elemek listázása.
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" \
@@ -49,16 +49,16 @@ curl -s -u "user:pass" \
 
 ## get-media
 
-Egyetlen média elem részletes lekérése.
+Get detailed information about a single media item.
 
-**Method:** `GET`  
+**Method:** `GET`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/get-media/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Leírás |
-|------|-------|----------|--------|
-| `id` | integer | **igen** | Media ID |
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `id` | integer | **yes** | Media ID |
 
 ### Output
 
@@ -99,7 +99,7 @@ Egyetlen média elem részletes lekérése.
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" \
@@ -110,24 +110,24 @@ curl -s -u "user:pass" \
 
 ## upload-media
 
-Média feltöltése URL-ről.
+Upload media from URL.
 
-**Method:** `POST`  
+**Method:** `POST`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/upload-media/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Leírás |
-|------|-------|----------|--------|
-| `url` | string | - | Forrás URL (használd VAGY `data`+`filename`) |
-| `data` | string | - | Base64 kódolt fájl adat (`filename`-mel együtt) |
-| `filename` | string | - | Fájlnév kiterjesztéssel (`data` használatakor kötelező) |
-| `title` | string | nem | Média cím |
-| `alt` | string | nem | Alt szöveg |
-| `caption` | string | nem | Képaláírás |
-| `description` | string | nem | Leírás |
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `url` | string | - | Source URL (use EITHER `url` OR `data`+`filename`) |
+| `data` | string | - | Base64 encoded file data (together with `filename`) |
+| `filename` | string | - | Filename with extension (required when using `data`) |
+| `title` | string | no | Media title |
+| `alt` | string | no | Alt text |
+| `caption` | string | no | Caption |
+| `description` | string | no | Description |
 
-> **Megjegyzés:** `url` VAGY `data`+`filename` megadása kötelező.
+> **Note:** Either `url` OR `data`+`filename` is required.
 
 ### Output
 
@@ -156,7 +156,7 @@ Média feltöltése URL-ről.
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" -X POST \
@@ -169,20 +169,20 @@ curl -s -u "user:pass" -X POST \
 
 ## update-media
 
-Média metaadatok módosítása.
+Update media metadata.
 
-**Method:** `POST`  
+**Method:** `POST`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/update-media/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Leírás |
-|------|-------|----------|--------|
-| `id` | integer | **igen** | Media ID |
-| `title` | string | nem | Új cím |
-| `alt` | string | nem | Új alt szöveg |
-| `caption` | string | nem | Új képaláírás |
-| `description` | string | nem | Új leírás |
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `id` | integer | **yes** | Media ID |
+| `title` | string | no | New title |
+| `alt` | string | no | New alt text |
+| `caption` | string | no | New caption |
+| `description` | string | no | New description |
 
 ### Output
 
@@ -191,37 +191,37 @@ Média metaadatok módosítása.
   "success": true,
   "media": {
     "id": 40,
-    "title": "Frissített cím",
-    "alt": "Új alt szöveg",
+    "title": "Updated title",
+    "alt": "New alt text",
     ...
   }
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" -X POST \
   'https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/update-media/run' \
   -H "Content-Type: application/json" \
-  -d '{"input":{"id":40,"title":"Frissített cím","alt":"Új alt szöveg"}}'
+  -d '{"input":{"id":40,"title":"Updated title","alt":"New alt text"}}'
 ```
 
 ---
 
 ## delete-media
 
-Média törlése.
+Delete media.
 
-**Method:** `DELETE`  
+**Method:** `DELETE`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/delete-media/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `id` | integer | **igen** | - | Media ID |
-| `force` | boolean | nem | `true` | Végleges törlés (kuka kihagyása) |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `id` | integer | **yes** | - | Media ID |
+| `force` | boolean | no | `true` | Permanent deletion (skip trash) |
 
 ### Output
 
@@ -233,7 +233,7 @@ Média törlése.
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" -X DELETE \

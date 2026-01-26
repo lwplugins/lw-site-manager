@@ -1,36 +1,36 @@
 # WordPress Abilities API
 
-## Mi az az Abilities API?
+## What is the Abilities API?
 
-A WordPress Abilities API egy WordPress 6.9-ben bevezetett új funkció, amely lehetővé teszi, hogy a WordPress oldalak strukturált, felfedezhetó és biztonságos műveleteket tegyenek elérhetővé külső rendszerek (AI asszisztensek, automatizációs eszközök, távoli adminisztrációs panelek) számára.
+The WordPress Abilities API is a new feature introduced in WordPress 6.9 that enables WordPress sites to expose structured, discoverable, and secure operations to external systems (AI assistants, automation tools, remote administration panels).
 
-Az Abilities API lényegében egy **standardizált interfész**, amelyen keresztül:
-- AI rendszerek (Claude, ChatGPT, Gemini) képesek megérteni és végrehajtani WordPress műveleteket
-- Automatizációs eszközök (n8n, Make, Zapier) integrálódhatnak a WordPress-szel
-- Központi kezelőfelületek több WordPress oldalt is irányíthatnak egységes módon
+The Abilities API is essentially a **standardized interface** through which:
+- AI systems (Claude, ChatGPT, Gemini) can understand and execute WordPress operations
+- Automation tools (n8n, Make, Zapier) can integrate with WordPress
+- Central management interfaces can control multiple WordPress sites in a unified way
 
-## Miért jobb mint a REST API?
+## Why is it Better Than REST API?
 
-| Tulajdonság | REST API | Abilities API |
-|-------------|----------|---------------|
-| **Felfedezhetőség** | Dokumentációt kell olvasni | Önleíró - JSON Schema-val |
-| **Validáció** | Egyedi implementáció | Beépített input/output validáció |
-| **Jogosultságok** | Capability-alapú | Ability-szintű finomhangolás |
-| **AI-integráció** | Nincs natív támogatás | MCP-kompatibilis, AI-ready |
-| **Annotációk** | Nincs | readonly, destructive, idempotent |
+| Property | REST API | Abilities API |
+|----------|----------|---------------|
+| **Discoverability** | Requires reading documentation | Self-describing - with JSON Schema |
+| **Validation** | Custom implementation | Built-in input/output validation |
+| **Permissions** | Capability-based | Ability-level fine-tuning |
+| **AI Integration** | No native support | MCP-compatible, AI-ready |
+| **Annotations** | None | readonly, destructive, idempotent |
 
-## Hogyan működik?
+## How Does It Work?
 
-### 1. Ability regisztráció
+### 1. Ability Registration
 
-Egy ability egy jól definiált művelet, amelynek van:
-- **Neve** (pl. `site-manager/create-backup`)
-- **Leírása** (mit csinál)
-- **Input sémája** (milyen paramétereket vár - JSON Schema)
-- **Output sémája** (mit ad vissza - JSON Schema)
-- **Végrehajtó függvénye** (a tényleges logika)
-- **Jogosultság-ellenőrzése** (ki futtathatja)
-- **Metaadatai** (REST-ben elérhető-e, destruktív-e, stb.)
+An ability is a well-defined operation that has:
+- **Name** (e.g., `site-manager/create-backup`)
+- **Description** (what it does)
+- **Input Schema** (expected parameters - JSON Schema)
+- **Output Schema** (what it returns - JSON Schema)
+- **Execute Callback** (the actual logic)
+- **Permission Check** (who can run it)
+- **Metadata** (available in REST, destructive, etc.)
 
 ```php
 wp_register_ability( 'site-manager/create-backup', [
@@ -65,17 +65,17 @@ wp_register_ability( 'site-manager/create-backup', [
 ]);
 ```
 
-### 2. REST API végpontok
+### 2. REST API Endpoints
 
-Ha `show_in_rest => true`, az ability automatikusan elérhető lesz:
+If `show_in_rest => true`, the ability automatically becomes available:
 
-| Művelet | Végpont |
-|---------|---------|
-| Összes ability listázása | `GET /wp-json/wp-abilities/v1/abilities` |
-| Egy ability lekérése | `GET /wp-json/wp-abilities/v1/abilities/{name}` |
-| Ability végrehajtása | `POST /wp-json/wp-abilities/v1/abilities/{name}/run` |
+| Operation | Endpoint |
+|-----------|----------|
+| List all abilities | `GET /wp-json/wp-abilities/v1/abilities` |
+| Get single ability | `GET /wp-json/wp-abilities/v1/abilities/{name}` |
+| Execute ability | `POST /wp-json/wp-abilities/v1/abilities/{name}/run` |
 
-### 3. Végrehajtás
+### 3. Execution
 
 ```bash
 curl -X POST \
@@ -85,23 +85,23 @@ curl -X POST \
   https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/create-backup/run
 ```
 
-## Annotációk jelentése
+## Annotation Meanings
 
-| Annotáció | Jelentés |
-|-----------|----------|
-| `readonly: true` | Csak olvas, nem módosít semmit (GET kérés) |
-| `destructive: true` | Adatvesztést vagy visszafordíthatatlan változást okozhat |
-| `idempotent: true` | Többszöri futtatás ugyanazt az eredményt adja |
+| Annotation | Meaning |
+|------------|---------|
+| `readonly: true` | Only reads, does not modify anything (GET request) |
+| `destructive: true` | May cause data loss or irreversible changes |
+| `idempotent: true` | Multiple executions produce the same result |
 
-Ezek az annotációk segítenek az AI rendszereknek és automatizációs eszközöknek megérteni, hogy egy művelet mennyire "veszélyes", és szükséges-e megerősítést kérni a felhasználótól.
+These annotations help AI systems and automation tools understand how "dangerous" an operation is and whether user confirmation is needed.
 
-## AI és MCP integráció
+## AI and MCP Integration
 
-Az Abilities API-t úgy tervezték, hogy natívan illeszkedjen az AI asszisztensek világába:
+The Abilities API is designed to natively fit into the world of AI assistants:
 
 ### Model Context Protocol (MCP)
 
-Az MCP egy nyílt szabvány, amelyet az Anthropic fejlesztett ki az AI modellek és külső rendszerek közötti kommunikációra. Az Abilities API tökéletesen illeszkedik ehhez:
+MCP is an open standard developed by Anthropic for communication between AI models and external systems. The Abilities API fits perfectly with this:
 
 ```
 +-------------+     MCP      +-----------------+     REST     +-------------+
@@ -110,70 +110,70 @@ Az MCP egy nyílt szabvány, amelyet az Anthropic fejlesztett ki az AI modellek 
 +-------------+              +-----------------+              +-------------+
 ```
 
-### Hogyan használja egy AI?
+### How Does an AI Use It?
 
-1. **Felfedezés**: Az AI lekéri az elérhető ability-ket
-2. **Megértés**: A JSON Schema-ból megérti, milyen paraméterek kellenek
-3. **Validáció**: Az annotációkból tudja, hogy kell-e megerősítést kérni
-4. **Végrehajtás**: Meghívja az ability-t a megfelelő paraméterekkel
-5. **Feldolgozás**: A strukturált válaszból kinyeri az információt
+1. **Discovery**: The AI retrieves available abilities
+2. **Understanding**: From the JSON Schema, it understands what parameters are needed
+3. **Validation**: From the annotations, it knows if confirmation is required
+4. **Execution**: It calls the ability with the appropriate parameters
+5. **Processing**: It extracts information from the structured response
 
-## WP Site Manager Plugin
+## LW Site Manager Plugin
 
-Ez a projekt egy WordPress plugin, amely az Abilities API-t használva komplett site management funkciókat biztosít:
+This project is a WordPress plugin that uses the Abilities API to provide complete site management functionality:
 
-### Kategóriák
+### Categories
 
-| Kategória | Leírás | Példa ability-k |
-|-----------|--------|-----------------|
-| **maintenance** | Karbantartás | backup, cache flush, DB optimalizálás |
-| **diagnostics** | Diagnosztika | health check, error log |
-| **updates** | Frissítések | plugin/téma/core update |
-| **plugins** | Bővítmények | list, activate, deactivate, install |
-| **themes** | Témák | list, activate, install |
-| **users** | Felhasználók | CRUD, role management |
-| **content** | Tartalom | posts, pages, comments, media |
-| **settings** | Beállítások | general, reading, discussion, permalinks |
-| **wc-products** | WooCommerce termékek | CRUD, stock, variations |
-| **wc-orders** | WooCommerce rendelések | list, status update, refunds |
-| **wc-reports** | WooCommerce riportok | sales, top sellers, revenue |
+| Category | Description | Example Abilities |
+|----------|-------------|-------------------|
+| **maintenance** | Maintenance | backup, cache flush, DB optimization |
+| **diagnostics** | Diagnostics | health check, error log |
+| **updates** | Updates | plugin/theme/core update |
+| **plugins** | Plugins | list, activate, deactivate, install |
+| **themes** | Themes | list, activate, install |
+| **users** | Users | CRUD, role management |
+| **content** | Content | posts, pages, comments, media |
+| **settings** | Settings | general, reading, discussion, permalinks |
+| **wc-products** | WooCommerce Products | CRUD, stock, variations |
+| **wc-orders** | WooCommerce Orders | list, status update, refunds |
+| **wc-reports** | WooCommerce Reports | sales, top sellers, revenue |
 
-### Telepítés
+### Installation
 
 ```bash
-composer require wordpress/abilities-api
+composer require lwplugins/lw-site-manager
 ```
 
-A plugin automatikusan regisztrálja az összes ability-t a `wp_abilities_api_init` hook-on.
+The plugin automatically registers all abilities on the `wp_abilities_api_init` hook.
 
-### Hitelesítés
+### Authentication
 
-Az API Application Password-öt használ:
+The API uses Application Passwords:
 
-1. WordPress admin > Users > Profil
-2. Application Passwords szekció
-3. Új jelszó generálása
-4. Használat: `curl -u "username:xxxx-xxxx-xxxx-xxxx"`
+1. WordPress admin > Users > Profile
+2. Application Passwords section
+3. Generate new password
+4. Usage: `curl -u "username:xxxx-xxxx-xxxx-xxxx"`
 
-## Dokumentáció
+## Documentation
 
-Részletes ability dokumentáció:
+Detailed ability documentation:
 
-- [Posts (Bejegyzések)](posts.md)
-- [Pages (Oldalak)](pages.md)
-- [Comments (Hozzászólások)](comments.md)
-- [Media (Média)](media.md)
-- [Users (Felhasználók)](user-management.md)
-- [Settings (Beállítások)](settings.md)
-- [Maintenance (Karbantartás)](maintenance.md)
-- [Plugins (Bővítmények)](plugin-management.md)
-- [Themes (Témák)](theme-management.md)
-- [Categories (Kategóriák)](categories.md)
-- [Tags (Címkék)](tags.md)
+- [Posts](posts.md)
+- [Pages](pages.md)
+- [Comments](comments.md)
+- [Media](media.md)
+- [Users](user-management.md)
+- [Settings](settings.md)
+- [Maintenance](maintenance.md)
+- [Plugins](plugin-management.md)
+- [Themes](theme-management.md)
+- [Categories](categories.md)
+- [Tags](tags.md)
 - [Meta](meta.md)
 - [WooCommerce](woocommerce.md)
 
-## Hivatalos források
+## Official Sources
 
 - [Introducing the WordPress Abilities API](https://developer.wordpress.org/news/2025/11/introducing-the-wordpress-abilities-api/)
 - [Abilities API - Common APIs Handbook](https://developer.wordpress.org/apis/abilities-api/)

@@ -1,53 +1,53 @@
-# Categories (Kategóriák)
+# Categories
 
-A kategóriák kezelésére szolgáló ability-k.
+Abilities for managing categories.
 
 ## Abilities
 
-| Ability | Leírás | Metódus |
-|---------|--------|---------|
-| list-categories | Kategóriák listázása | GET |
-| get-category | Kategória részletei | GET |
-| create-category | Kategória létrehozása | POST |
-| update-category | Kategória frissítése | POST |
-| delete-category | Kategória törlése | DELETE |
+| Ability | Description | Method |
+|---------|-------------|--------|
+| list-categories | List categories | GET |
+| get-category | Get category details | GET |
+| create-category | Create category | POST |
+| update-category | Update category | POST |
+| delete-category | Delete category | DELETE |
 
 ---
 
 ## list-categories
 
-Kategóriák listázása szűrési és rendezési lehetőségekkel.
+List categories with filtering and sorting options.
 
 **Endpoint:** `GET /wp-json/wp-abilities/v1/abilities/site-manager/list-categories/run`
 
 ### Input Schema
 
-| Mező | Típus | Alapértelmezett | Leírás |
-|------|-------|-----------------|--------|
-| limit | integer | 20 | Visszaadott elemek száma |
-| offset | integer | 0 | Kihagyandó elemek száma |
-| hide_empty | boolean | false | Üres kategóriák elrejtése |
-| search | string | - | Keresési kifejezés |
-| parent | integer | - | Szűrés szülő kategória ID alapján |
-| orderby | string | "name" | Rendezési mező (name, slug, term_id, count) |
-| order | string | "ASC" | Rendezési irány (ASC, DESC) |
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| limit | integer | 20 | Number of items to return |
+| offset | integer | 0 | Number of items to skip |
+| hide_empty | boolean | false | Hide empty categories |
+| search | string | - | Search term |
+| parent | integer | - | Filter by parent category ID |
+| orderby | string | "name" | Sort field (name, slug, term_id, count) |
+| order | string | "ASC" | Sort direction (ASC, DESC) |
 
 ### Output Schema
 
-| Mező | Típus | Leírás |
-|------|-------|--------|
-| terms | array | Kategóriák listája |
-| terms[].id | integer | Kategória ID |
-| terms[].name | string | Kategória neve |
-| terms[].slug | string | Kategória slug |
-| terms[].taxonomy | string | Taxonómia típus ("category") |
-| terms[].count | integer | Bejegyzések száma |
-| total | integer | Összes kategória száma |
-| total_pages | integer | Összes oldalak száma |
-| limit | integer | Visszaadott limit |
-| offset | integer | Alkalmazott offset |
+| Field | Type | Description |
+|-------|------|-------------|
+| terms | array | List of categories |
+| terms[].id | integer | Category ID |
+| terms[].name | string | Category name |
+| terms[].slug | string | Category slug |
+| terms[].taxonomy | string | Taxonomy type ("category") |
+| terms[].count | integer | Number of posts |
+| total | integer | Total number of categories |
+| total_pages | integer | Total number of pages |
+| limit | integer | Applied limit |
+| offset | integer | Applied offset |
 
-### Példa
+### Example
 
 **Request:**
 ```bash
@@ -61,15 +61,15 @@ curl -X GET "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/
   "terms": [
     {
       "id": 8,
-      "name": "Fejlesztés",
-      "slug": "fejlesztes",
+      "name": "Development",
+      "slug": "development",
       "taxonomy": "category",
       "count": 0
     },
     {
       "id": 4,
-      "name": "Gasztronómia",
-      "slug": "gasztronomia",
+      "name": "Gastronomy",
+      "slug": "gastronomy",
       "taxonomy": "category",
       "count": 1
     },
@@ -92,32 +92,32 @@ curl -X GET "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/
 
 ## get-category
 
-Egy kategória részletes adatainak lekérése.
+Get detailed information about a category.
 
 **Endpoint:** `GET /wp-json/wp-abilities/v1/abilities/site-manager/get-category/run`
 
 ### Input Schema
 
-| Mező | Típus | Kötelező | Leírás |
-|------|-------|----------|--------|
-| id | integer | igen | Kategória ID |
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| id | integer | yes | Category ID |
 
 ### Output Schema
 
-| Mező | Típus | Leírás |
-|------|-------|--------|
-| success | boolean | Művelet sikeressége |
-| term | object | Kategória adatai |
-| term.id | integer | Kategória ID |
-| term.name | string | Kategória neve |
-| term.slug | string | Kategória slug |
-| term.taxonomy | string | Taxonómia típus |
-| term.count | integer | Bejegyzések száma |
-| term.description | string | Kategória leírása |
-| term.parent | integer | Szülő kategória ID (0 ha nincs) |
-| term.link | string | Kategória archív URL |
+| Field | Type | Description |
+|-------|------|-------------|
+| success | boolean | Operation success |
+| term | object | Category data |
+| term.id | integer | Category ID |
+| term.name | string | Category name |
+| term.slug | string | Category slug |
+| term.taxonomy | string | Taxonomy type |
+| term.count | integer | Number of posts |
+| term.description | string | Category description |
+| term.parent | integer | Parent category ID (0 if none) |
+| term.link | string | Category archive URL |
 
-### Példa
+### Example
 
 **Request:**
 ```bash
@@ -131,13 +131,13 @@ curl -X GET "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/
   "success": true,
   "term": {
     "id": 4,
-    "name": "Gasztronómia",
-    "slug": "gasztronomia",
+    "name": "Gastronomy",
+    "slug": "gastronomy",
     "taxonomy": "category",
     "count": 1,
-    "description": "Ételek, italok, receptek",
+    "description": "Food, drinks, recipes",
     "parent": 0,
-    "link": "https://example.com/category/gasztronomia/"
+    "link": "https://example.com/category/gastronomy/"
   }
 }
 ```
@@ -146,42 +146,42 @@ curl -X GET "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/
 
 ## create-category
 
-Új kategória létrehozása.
+Create a new category.
 
 **Endpoint:** `POST /wp-json/wp-abilities/v1/abilities/site-manager/create-category/run`
 
 ### Input Schema
 
-| Mező | Típus | Kötelező | Leírás |
-|------|-------|----------|--------|
-| name | string | igen | Kategória neve |
-| slug | string | nem | Kategória slug (automatikusan generálódik ha nincs megadva) |
-| description | string | nem | Kategória leírása |
-| parent | integer | nem | Szülő kategória ID |
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| name | string | yes | Category name |
+| slug | string | no | Category slug (auto-generated if not provided) |
+| description | string | no | Category description |
+| parent | integer | no | Parent category ID |
 
 ### Output Schema
 
-| Mező | Típus | Leírás |
-|------|-------|--------|
-| success | boolean | Művelet sikeressége |
-| term | object | Létrehozott kategória adatai |
-| term.id | integer | Kategória ID |
-| term.name | string | Kategória neve |
-| term.slug | string | Kategória slug |
-| term.taxonomy | string | Taxonómia típus |
-| term.count | integer | Bejegyzések száma |
-| term.description | string | Kategória leírása |
-| term.parent | integer | Szülő kategória ID |
-| term.link | string | Kategória archív URL |
+| Field | Type | Description |
+|-------|------|-------------|
+| success | boolean | Operation success |
+| term | object | Created category data |
+| term.id | integer | Category ID |
+| term.name | string | Category name |
+| term.slug | string | Category slug |
+| term.taxonomy | string | Taxonomy type |
+| term.count | integer | Number of posts |
+| term.description | string | Category description |
+| term.parent | integer | Parent category ID |
+| term.link | string | Category archive URL |
 
-### Példa
+### Example
 
 **Request:**
 ```bash
 curl -X POST "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/create-category/run" \
   -u "user:application_password" \
   -H "Content-Type: application/json" \
-  -d '{"input":{"name":"Teszt Kategória","slug":"teszt-kategoria","description":"Ez egy teszt kategória","parent":0}}'
+  -d '{"input":{"name":"Test Category","slug":"test-category","description":"This is a test category","parent":0}}'
 ```
 
 **Response:**
@@ -190,13 +190,13 @@ curl -X POST "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager
   "success": true,
   "term": {
     "id": 14,
-    "name": "Teszt Kategória",
-    "slug": "teszt-kategoria",
+    "name": "Test Category",
+    "slug": "test-category",
     "taxonomy": "category",
     "count": 0,
-    "description": "Ez egy teszt kategória",
+    "description": "This is a test category",
     "parent": 0,
-    "link": "https://example.com/category/teszt-kategoria/"
+    "link": "https://example.com/category/test-category/"
   }
 }
 ```
@@ -205,43 +205,43 @@ curl -X POST "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager
 
 ## update-category
 
-Létező kategória frissítése.
+Update an existing category.
 
 **Endpoint:** `POST /wp-json/wp-abilities/v1/abilities/site-manager/update-category/run`
 
 ### Input Schema
 
-| Mező | Típus | Kötelező | Leírás |
-|------|-------|----------|--------|
-| id | integer | igen | Kategória ID |
-| name | string | nem | Új név |
-| slug | string | nem | Új slug |
-| description | string | nem | Új leírás |
-| parent | integer | nem | Új szülő kategória ID |
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| id | integer | yes | Category ID |
+| name | string | no | New name |
+| slug | string | no | New slug |
+| description | string | no | New description |
+| parent | integer | no | New parent category ID |
 
 ### Output Schema
 
-| Mező | Típus | Leírás |
-|------|-------|--------|
-| success | boolean | Művelet sikeressége |
-| term | object | Frissített kategória adatai |
-| term.id | integer | Kategória ID |
-| term.name | string | Kategória neve |
-| term.slug | string | Kategória slug |
-| term.taxonomy | string | Taxonómia típus |
-| term.count | integer | Bejegyzések száma |
-| term.description | string | Kategória leírása |
-| term.parent | integer | Szülő kategória ID |
-| term.link | string | Kategória archív URL |
+| Field | Type | Description |
+|-------|------|-------------|
+| success | boolean | Operation success |
+| term | object | Updated category data |
+| term.id | integer | Category ID |
+| term.name | string | Category name |
+| term.slug | string | Category slug |
+| term.taxonomy | string | Taxonomy type |
+| term.count | integer | Number of posts |
+| term.description | string | Category description |
+| term.parent | integer | Parent category ID |
+| term.link | string | Category archive URL |
 
-### Példa
+### Example
 
 **Request:**
 ```bash
 curl -X POST "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/update-category/run" \
   -u "user:application_password" \
   -H "Content-Type: application/json" \
-  -d '{"input":{"id":14,"name":"Teszt Kategória Frissítve","description":"Frissített leírás"}}'
+  -d '{"input":{"id":14,"name":"Test Category Updated","description":"Updated description"}}'
 ```
 
 **Response:**
@@ -250,13 +250,13 @@ curl -X POST "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager
   "success": true,
   "term": {
     "id": 14,
-    "name": "Teszt Kategória Frissítve",
-    "slug": "teszt-kategoria",
+    "name": "Test Category Updated",
+    "slug": "test-category",
     "taxonomy": "category",
     "count": 0,
-    "description": "Frissített leírás",
+    "description": "Updated description",
     "parent": 0,
-    "link": "https://example.com/category/teszt-kategoria/"
+    "link": "https://example.com/category/test-category/"
   }
 }
 ```
@@ -265,25 +265,25 @@ curl -X POST "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager
 
 ## delete-category
 
-Kategória törlése.
+Delete a category.
 
 **Endpoint:** `DELETE /wp-json/wp-abilities/v1/abilities/site-manager/delete-category/run`
 
 ### Input Schema
 
-| Mező | Típus | Kötelező | Leírás |
-|------|-------|----------|--------|
-| id | integer | igen | Törlendő kategória ID |
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| id | integer | yes | Category ID to delete |
 
 ### Output Schema
 
-| Mező | Típus | Leírás |
-|------|-------|--------|
-| success | boolean | Művelet sikeressége |
-| message | string | Státusz üzenet |
-| id | integer | Törölt kategória ID |
+| Field | Type | Description |
+|-------|------|-------------|
+| success | boolean | Operation success |
+| message | string | Status message |
+| id | integer | Deleted category ID |
 
-### Példa
+### Example
 
 **Request:**
 ```bash
@@ -300,7 +300,7 @@ curl -X DELETE "https://example.com/wp-json/wp-abilities/v1/abilities/site-manag
 }
 ```
 
-### Megjegyzések
+### Notes
 
-- Az alapértelmezett kategória (Uncategorized) nem törölhető
-- A törölt kategóriához tartozó bejegyzések az alapértelmezett kategóriába kerülnek
+- The default category (Uncategorized) cannot be deleted
+- Posts belonging to deleted categories will be moved to the default category

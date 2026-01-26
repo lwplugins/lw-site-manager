@@ -1,29 +1,29 @@
-# Meta (Metaadatok)
+# Meta (Metadata)
 
-Post, user és term metaadatok kezelésére szolgáló ability-k.
+Abilities for managing post, user and term metadata.
 
 ## Abilities
 
 ### Post Meta
-| Ability | Leírás | Metódus |
-|---------|--------|---------|
-| get-post-meta | Post/oldal metaadatok lekérése | GET |
-| set-post-meta | Post/oldal metaadat beállítása | POST |
-| delete-post-meta | Post/oldal metaadat törlése | DELETE |
+| Ability | Description | Method |
+|---------|-------------|--------|
+| get-post-meta | Get post/page metadata | GET |
+| set-post-meta | Set post/page metadata | POST |
+| delete-post-meta | Delete post/page metadata | DELETE |
 
 ### User Meta
-| Ability | Leírás | Metódus |
-|---------|--------|---------|
-| get-user-meta | Felhasználó metaadatok lekérése | GET |
-| set-user-meta | Felhasználó metaadat beállítása | POST |
-| delete-user-meta | Felhasználó metaadat törlése | DELETE |
+| Ability | Description | Method |
+|---------|-------------|--------|
+| get-user-meta | Get user metadata | GET |
+| set-user-meta | Set user metadata | POST |
+| delete-user-meta | Delete user metadata | DELETE |
 
 ### Term Meta
-| Ability | Leírás | Metódus |
-|---------|--------|---------|
-| get-term-meta | Kategória/címke metaadatok lekérése | GET |
-| set-term-meta | Kategória/címke metaadat beállítása | POST |
-| delete-term-meta | Kategória/címke metaadat törlése | DELETE |
+| Ability | Description | Method |
+|---------|-------------|--------|
+| get-term-meta | Get category/tag metadata | GET |
+| set-term-meta | Set category/tag metadata | POST |
+| delete-term-meta | Delete category/tag metadata | DELETE |
 
 ---
 
@@ -31,36 +31,36 @@ Post, user és term metaadatok kezelésére szolgáló ability-k.
 
 ### get-post-meta
 
-Post vagy oldal metaadatainak lekérése.
+Get metadata for a post or page.
 
 **Endpoint:** `GET /wp-json/wp-abilities/v1/abilities/site-manager/get-post-meta/run`
 
 #### Input Schema
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| post_id | integer | igen | - | Post vagy oldal ID |
-| key | string | nem | - | Specifikus meta kulcs (opcionális, ha nincs megadva, összes meta) |
-| include_private | boolean | nem | false | Privát meta kulcsok (_-al kezdődők) belefoglalása |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| post_id | integer | yes | - | Post or page ID |
+| key | string | no | - | Specific meta key (optional, if not provided returns all meta) |
+| include_private | boolean | no | false | Include private meta keys (starting with _) |
 
-#### Output Schema (összes meta)
+#### Output Schema (all meta)
 
-| Mező | Típus | Leírás |
-|------|-------|--------|
-| success | boolean | Művelet sikeressége |
+| Field | Type | Description |
+|-------|------|-------------|
+| success | boolean | Operation success |
 | post_id | integer | Post ID |
-| meta | object | Meta kulcs-érték párok |
+| meta | object | Meta key-value pairs |
 
-#### Output Schema (specifikus kulcs)
+#### Output Schema (specific key)
 
-| Mező | Típus | Leírás |
-|------|-------|--------|
-| success | boolean | Művelet sikeressége |
+| Field | Type | Description |
+|-------|------|-------------|
+| success | boolean | Operation success |
 | post_id | integer | Post ID |
-| key | string | Meta kulcs |
-| value | mixed | Meta érték |
+| key | string | Meta key |
+| value | mixed | Meta value |
 
-#### Példa - Összes meta
+#### Example - All meta
 
 **Request:**
 ```bash
@@ -77,11 +77,11 @@ curl -X GET "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/
 }
 ```
 
-#### Példa - Specifikus kulcs
+#### Example - Specific key
 
 **Request:**
 ```bash
-curl -X GET "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/get-post-meta/run?input%5Bpost_id%5D=1&input%5Bkey%5D=teszt_meta_kulcs" \
+curl -X GET "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/get-post-meta/run?input%5Bpost_id%5D=1&input%5Bkey%5D=test_meta_key" \
   -u "user:application_password"
 ```
 
@@ -90,8 +90,8 @@ curl -X GET "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/
 {
   "success": true,
   "post_id": 1,
-  "key": "teszt_meta_kulcs",
-  "value": "teszt érték"
+  "key": "test_meta_key",
+  "value": "test value"
 }
 ```
 
@@ -99,36 +99,36 @@ curl -X GET "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/
 
 ### set-post-meta
 
-Post vagy oldal metaadatának beállítása.
+Set metadata for a post or page.
 
 **Endpoint:** `POST /wp-json/wp-abilities/v1/abilities/site-manager/set-post-meta/run`
 
 #### Input Schema
 
-| Mező | Típus | Kötelező | Leírás |
-|------|-------|----------|--------|
-| post_id | integer | igen | Post vagy oldal ID |
-| key | string | igen | Meta kulcs |
-| value | mixed | igen | Meta érték (string, number, boolean, array, object) |
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| post_id | integer | yes | Post or page ID |
+| key | string | yes | Meta key |
+| value | mixed | yes | Meta value (string, number, boolean, array, object) |
 
 #### Output Schema
 
-| Mező | Típus | Leírás |
-|------|-------|--------|
-| success | boolean | Művelet sikeressége |
-| message | string | Státusz üzenet |
+| Field | Type | Description |
+|-------|------|-------------|
+| success | boolean | Operation success |
+| message | string | Status message |
 | post_id | integer | Post ID |
-| key | string | Meta kulcs |
-| value | mixed | Beállított érték |
+| key | string | Meta key |
+| value | mixed | Set value |
 
-#### Példa
+#### Example
 
 **Request:**
 ```bash
 curl -X POST "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/set-post-meta/run" \
   -u "user:application_password" \
   -H "Content-Type: application/json" \
-  -d '{"input":{"post_id":1,"key":"teszt_meta_kulcs","value":"teszt érték"}}'
+  -d '{"input":{"post_id":1,"key":"test_meta_key","value":"test value"}}'
 ```
 
 **Response:**
@@ -137,8 +137,8 @@ curl -X POST "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager
   "success": true,
   "message": "Meta updated successfully",
   "post_id": 1,
-  "key": "teszt_meta_kulcs",
-  "value": "teszt érték"
+  "key": "test_meta_key",
+  "value": "test value"
 }
 ```
 
@@ -146,31 +146,31 @@ curl -X POST "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager
 
 ### delete-post-meta
 
-Post vagy oldal metaadatának törlése.
+Delete metadata for a post or page.
 
 **Endpoint:** `DELETE /wp-json/wp-abilities/v1/abilities/site-manager/delete-post-meta/run`
 
 #### Input Schema
 
-| Mező | Típus | Kötelező | Leírás |
-|------|-------|----------|--------|
-| post_id | integer | igen | Post vagy oldal ID |
-| key | string | igen | Törlendő meta kulcs |
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| post_id | integer | yes | Post or page ID |
+| key | string | yes | Meta key to delete |
 
 #### Output Schema
 
-| Mező | Típus | Leírás |
-|------|-------|--------|
-| success | boolean | Művelet sikeressége |
-| message | string | Státusz üzenet |
+| Field | Type | Description |
+|-------|------|-------------|
+| success | boolean | Operation success |
+| message | string | Status message |
 | post_id | integer | Post ID |
-| key | string | Törölt meta kulcs |
+| key | string | Deleted meta key |
 
-#### Példa
+#### Example
 
 **Request:**
 ```bash
-curl -X DELETE "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/delete-post-meta/run?input%5Bpost_id%5D=1&input%5Bkey%5D=teszt_meta_kulcs" \
+curl -X DELETE "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/delete-post-meta/run?input%5Bpost_id%5D=1&input%5Bkey%5D=test_meta_key" \
   -u "user:application_password"
 ```
 
@@ -180,7 +180,7 @@ curl -X DELETE "https://example.com/wp-json/wp-abilities/v1/abilities/site-manag
   "success": true,
   "message": "Meta deleted successfully",
   "post_id": 1,
-  "key": "teszt_meta_kulcs"
+  "key": "test_meta_key"
 }
 ```
 
@@ -190,27 +190,27 @@ curl -X DELETE "https://example.com/wp-json/wp-abilities/v1/abilities/site-manag
 
 ### get-user-meta
 
-Felhasználó metaadatainak lekérése.
+Get user metadata.
 
 **Endpoint:** `GET /wp-json/wp-abilities/v1/abilities/site-manager/get-user-meta/run`
 
 #### Input Schema
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| user_id | integer | igen | - | Felhasználó ID |
-| key | string | nem | - | Specifikus meta kulcs (opcionális) |
-| include_private | boolean | nem | false | Privát meta kulcsok belefoglalása |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| user_id | integer | yes | - | User ID |
+| key | string | no | - | Specific meta key (optional) |
+| include_private | boolean | no | false | Include private meta keys |
 
 #### Output Schema
 
-| Mező | Típus | Leírás |
-|------|-------|--------|
-| success | boolean | Művelet sikeressége |
-| user_id | integer | Felhasználó ID |
-| meta | object | Meta kulcs-érték párok |
+| Field | Type | Description |
+|-------|------|-------------|
+| success | boolean | Operation success |
+| user_id | integer | User ID |
+| meta | object | Meta key-value pairs |
 
-#### Példa
+#### Example
 
 **Request:**
 ```bash
@@ -240,36 +240,36 @@ curl -X GET "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/
 
 ### set-user-meta
 
-Felhasználó metaadatának beállítása.
+Set user metadata.
 
 **Endpoint:** `POST /wp-json/wp-abilities/v1/abilities/site-manager/set-user-meta/run`
 
 #### Input Schema
 
-| Mező | Típus | Kötelező | Leírás |
-|------|-------|----------|--------|
-| user_id | integer | igen | Felhasználó ID |
-| key | string | igen | Meta kulcs |
-| value | mixed | igen | Meta érték |
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| user_id | integer | yes | User ID |
+| key | string | yes | Meta key |
+| value | mixed | yes | Meta value |
 
 #### Output Schema
 
-| Mező | Típus | Leírás |
-|------|-------|--------|
-| success | boolean | Művelet sikeressége |
-| message | string | Státusz üzenet |
-| user_id | integer | Felhasználó ID |
-| key | string | Meta kulcs |
-| value | mixed | Beállított érték |
+| Field | Type | Description |
+|-------|------|-------------|
+| success | boolean | Operation success |
+| message | string | Status message |
+| user_id | integer | User ID |
+| key | string | Meta key |
+| value | mixed | Set value |
 
-#### Példa
+#### Example
 
 **Request:**
 ```bash
 curl -X POST "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/set-user-meta/run" \
   -u "user:application_password" \
   -H "Content-Type: application/json" \
-  -d '{"input":{"user_id":1,"key":"teszt_user_meta","value":"user meta érték"}}'
+  -d '{"input":{"user_id":1,"key":"test_user_meta","value":"user meta value"}}'
 ```
 
 **Response:**
@@ -278,8 +278,8 @@ curl -X POST "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager
   "success": true,
   "message": "Meta updated successfully",
   "user_id": 1,
-  "key": "teszt_user_meta",
-  "value": "user meta érték"
+  "key": "test_user_meta",
+  "value": "user meta value"
 }
 ```
 
@@ -287,31 +287,31 @@ curl -X POST "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager
 
 ### delete-user-meta
 
-Felhasználó metaadatának törlése.
+Delete user metadata.
 
 **Endpoint:** `DELETE /wp-json/wp-abilities/v1/abilities/site-manager/delete-user-meta/run`
 
 #### Input Schema
 
-| Mező | Típus | Kötelező | Leírás |
-|------|-------|----------|--------|
-| user_id | integer | igen | Felhasználó ID |
-| key | string | igen | Törlendő meta kulcs |
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| user_id | integer | yes | User ID |
+| key | string | yes | Meta key to delete |
 
 #### Output Schema
 
-| Mező | Típus | Leírás |
-|------|-------|--------|
-| success | boolean | Művelet sikeressége |
-| message | string | Státusz üzenet |
-| user_id | integer | Felhasználó ID |
-| key | string | Törölt meta kulcs |
+| Field | Type | Description |
+|-------|------|-------------|
+| success | boolean | Operation success |
+| message | string | Status message |
+| user_id | integer | User ID |
+| key | string | Deleted meta key |
 
-#### Példa
+#### Example
 
 **Request:**
 ```bash
-curl -X DELETE "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/delete-user-meta/run?input%5Buser_id%5D=1&input%5Bkey%5D=teszt_user_meta" \
+curl -X DELETE "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/delete-user-meta/run?input%5Buser_id%5D=1&input%5Bkey%5D=test_user_meta" \
   -u "user:application_password"
 ```
 
@@ -321,7 +321,7 @@ curl -X DELETE "https://example.com/wp-json/wp-abilities/v1/abilities/site-manag
   "success": true,
   "message": "Meta deleted successfully",
   "user_id": 1,
-  "key": "teszt_user_meta"
+  "key": "test_user_meta"
 }
 ```
 
@@ -331,26 +331,26 @@ curl -X DELETE "https://example.com/wp-json/wp-abilities/v1/abilities/site-manag
 
 ### get-term-meta
 
-Kategória vagy címke metaadatainak lekérése.
+Get category or tag metadata.
 
 **Endpoint:** `GET /wp-json/wp-abilities/v1/abilities/site-manager/get-term-meta/run`
 
 #### Input Schema
 
-| Mező | Típus | Kötelező | Leírás |
-|------|-------|----------|--------|
-| term_id | integer | igen | Term (kategória/címke) ID |
-| key | string | nem | Specifikus meta kulcs (opcionális) |
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| term_id | integer | yes | Term (category/tag) ID |
+| key | string | no | Specific meta key (optional) |
 
 #### Output Schema
 
-| Mező | Típus | Leírás |
-|------|-------|--------|
-| success | boolean | Művelet sikeressége |
+| Field | Type | Description |
+|-------|------|-------------|
+| success | boolean | Operation success |
 | term_id | integer | Term ID |
-| meta | object | Meta kulcs-érték párok |
+| meta | object | Meta key-value pairs |
 
-#### Példa
+#### Example
 
 **Request:**
 ```bash
@@ -371,36 +371,36 @@ curl -X GET "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/
 
 ### set-term-meta
 
-Kategória vagy címke metaadatának beállítása.
+Set category or tag metadata.
 
 **Endpoint:** `POST /wp-json/wp-abilities/v1/abilities/site-manager/set-term-meta/run`
 
 #### Input Schema
 
-| Mező | Típus | Kötelező | Leírás |
-|------|-------|----------|--------|
-| term_id | integer | igen | Term ID |
-| key | string | igen | Meta kulcs |
-| value | mixed | igen | Meta érték |
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| term_id | integer | yes | Term ID |
+| key | string | yes | Meta key |
+| value | mixed | yes | Meta value |
 
 #### Output Schema
 
-| Mező | Típus | Leírás |
-|------|-------|--------|
-| success | boolean | Művelet sikeressége |
-| message | string | Státusz üzenet |
+| Field | Type | Description |
+|-------|------|-------------|
+| success | boolean | Operation success |
+| message | string | Status message |
 | term_id | integer | Term ID |
-| key | string | Meta kulcs |
-| value | mixed | Beállított érték |
+| key | string | Meta key |
+| value | mixed | Set value |
 
-#### Példa
+#### Example
 
 **Request:**
 ```bash
 curl -X POST "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/set-term-meta/run" \
   -u "user:application_password" \
   -H "Content-Type: application/json" \
-  -d '{"input":{"term_id":1,"key":"teszt_term_meta","value":"term meta érték"}}'
+  -d '{"input":{"term_id":1,"key":"test_term_meta","value":"term meta value"}}'
 ```
 
 **Response:**
@@ -409,8 +409,8 @@ curl -X POST "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager
   "success": true,
   "message": "Meta updated successfully",
   "term_id": 1,
-  "key": "teszt_term_meta",
-  "value": "term meta érték"
+  "key": "test_term_meta",
+  "value": "term meta value"
 }
 ```
 
@@ -418,31 +418,31 @@ curl -X POST "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager
 
 ### delete-term-meta
 
-Kategória vagy címke metaadatának törlése.
+Delete category or tag metadata.
 
 **Endpoint:** `DELETE /wp-json/wp-abilities/v1/abilities/site-manager/delete-term-meta/run`
 
 #### Input Schema
 
-| Mező | Típus | Kötelező | Leírás |
-|------|-------|----------|--------|
-| term_id | integer | igen | Term ID |
-| key | string | igen | Törlendő meta kulcs |
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| term_id | integer | yes | Term ID |
+| key | string | yes | Meta key to delete |
 
 #### Output Schema
 
-| Mező | Típus | Leírás |
-|------|-------|--------|
-| success | boolean | Művelet sikeressége |
-| message | string | Státusz üzenet |
+| Field | Type | Description |
+|-------|------|-------------|
+| success | boolean | Operation success |
+| message | string | Status message |
 | term_id | integer | Term ID |
-| key | string | Törölt meta kulcs |
+| key | string | Deleted meta key |
 
-#### Példa
+#### Example
 
 **Request:**
 ```bash
-curl -X DELETE "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/delete-term-meta/run?input%5Bterm_id%5D=1&input%5Bkey%5D=teszt_term_meta" \
+curl -X DELETE "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/delete-term-meta/run?input%5Bterm_id%5D=1&input%5Bkey%5D=test_term_meta" \
   -u "user:application_password"
 ```
 
@@ -452,15 +452,15 @@ curl -X DELETE "https://example.com/wp-json/wp-abilities/v1/abilities/site-manag
   "success": true,
   "message": "Meta deleted successfully",
   "term_id": 1,
-  "key": "teszt_term_meta"
+  "key": "test_term_meta"
 }
 ```
 
 ---
 
-## Megjegyzések
+## Notes
 
-- A privát meta kulcsok (amelyek `_` karakterrel kezdődnek) alapértelmezetten nem jelennek meg a lekérdezésekben
-- A `include_private: true` paraméterrel a privát meta kulcsok is lekérhetők (post és user meta esetén)
-- A meta értékek lehetnek egyszerű típusok (string, number, boolean) vagy összetett típusok (array, object)
-- A WordPress automatikusan szerializálja/deszerializálja az összetett értékeket
+- Private meta keys (starting with `_`) are not included in queries by default
+- Use `include_private: true` parameter to include private meta keys (for post and user meta)
+- Meta values can be simple types (string, number, boolean) or complex types (array, object)
+- WordPress automatically serializes/deserializes complex values

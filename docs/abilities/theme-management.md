@@ -2,14 +2,14 @@
 
 ## list-themes
 
-Listázza az összes telepített témát.
+List all installed themes.
 
-**Method:** `GET`  
+**Method:** `GET`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/list-themes/run`
 
 ### Input
 
-Nincs kötelező paraméter.
+No required parameters.
 
 ### Output
 
@@ -39,7 +39,7 @@ Nincs kötelező paraméter.
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" \
@@ -50,17 +50,17 @@ curl -s -u "user:pass" \
 
 ## install-theme
 
-Téma telepítése a WordPress.org repository-ból.
+Install a theme from the WordPress.org repository.
 
-**Method:** `POST`  
+**Method:** `POST`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/install-theme/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `slug` | string | **igen** | - | Téma slug a WordPress.org-ról (pl. `oceanwp`) |
-| `activate` | boolean | nem | `false` | Aktiválja-e telepítés után |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `slug` | string | **yes** | - | Theme slug from WordPress.org (e.g., `oceanwp`) |
+| `activate` | boolean | no | `false` | Activate after installation |
 
 ### Output
 
@@ -76,14 +76,14 @@ Téma telepítése a WordPress.org repository-ból.
 }
 ```
 
-### Hibakódok
+### Error Codes
 
-| Kód | Leírás |
-|-----|--------|
-| `themes_api_failed` | A téma nem található a WordPress.org-on |
-| `theme_exists` | A téma már telepítve van |
+| Code | Description |
+|------|-------------|
+| `themes_api_failed` | Theme not found on WordPress.org |
+| `theme_exists` | Theme is already installed |
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" -X POST \
@@ -96,18 +96,18 @@ curl -s -u "user:pass" -X POST \
 
 ## activate-theme
 
-Téma aktiválása (váltás másik témára).
+Activate a theme (switch to another theme).
 
-**Method:** `DELETE`  
+**Method:** `DELETE`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/activate-theme/run`
 
-> **Megjegyzés:** DELETE method szükséges mert destructive művelet.
+> **Note:** DELETE method is required because this is a destructive operation.
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `theme` | string | **igen** | - | Téma slug (pl. `oceanwp`) |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `theme` | string | **yes** | - | Theme slug (e.g., `oceanwp`) |
 
 ### Output
 
@@ -119,13 +119,13 @@ Téma aktiválása (váltás másik témára).
 }
 ```
 
-### Hibakódok
+### Error Codes
 
-| Kód | Leírás |
-|-----|--------|
-| `theme_not_found` | A téma nem található |
+| Code | Description |
+|------|-------------|
+| `theme_not_found` | Theme not found |
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" -X DELETE \
@@ -136,16 +136,16 @@ curl -s -u "user:pass" -X DELETE \
 
 ## delete-theme
 
-Téma törlése.
+Delete a theme.
 
-**Method:** `DELETE`  
+**Method:** `DELETE`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/delete-theme/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `theme` | string | **igen** | - | Téma slug (pl. `oceanwp`) |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `theme` | string | **yes** | - | Theme slug (e.g., `oceanwp`) |
 
 ### Output
 
@@ -156,14 +156,14 @@ Téma törlése.
 }
 ```
 
-### Hibakódok
+### Error Codes
 
-| Kód | Leírás |
-|-----|--------|
-| `theme_not_found` | A téma nem található |
-| `cannot_delete_active` | Aktív témát nem lehet törölni |
+| Code | Description |
+|------|-------------|
+| `theme_not_found` | Theme not found |
+| `cannot_delete_active` | Cannot delete active theme |
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" -X DELETE \
@@ -174,16 +174,16 @@ curl -s -u "user:pass" -X DELETE \
 
 ## update-theme
 
-Egyetlen téma frissítése.
+Update a single theme.
 
-**Method:** `POST`  
+**Method:** `POST`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/update-theme/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `theme` | string | **igen** | - | Téma slug (pl. `astra`) |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `theme` | string | **yes** | - | Theme slug (e.g., `astra`) |
 
 ### Output
 
@@ -197,7 +197,7 @@ Egyetlen téma frissítése.
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" -X POST \

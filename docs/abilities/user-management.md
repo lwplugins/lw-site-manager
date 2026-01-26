@@ -2,21 +2,21 @@
 
 ## list-users
 
-Felhasználók listázása szűrési és lapozási lehetőségekkel.
+List users with filtering and pagination options.
 
-**Method:** `GET`  
+**Method:** `GET`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/list-users/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `limit` | integer | nem | `50` | Visszaadott elemek száma |
-| `offset` | integer | nem | `0` | Kihagyott elemek száma |
-| `orderby` | string | nem | `registered` | Rendezés: `registered`, `display_name`, `email`, `login` |
-| `order` | string | nem | `DESC` | Irány: `ASC`, `DESC` |
-| `role` | string | nem | - | Szűrés szerepkör szerint (pl. `administrator`) |
-| `search` | string | nem | - | Keresés username, email, display_name mezőkben |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `limit` | integer | no | `50` | Number of items to return |
+| `offset` | integer | no | `0` | Number of items to skip |
+| `orderby` | string | no | `registered` | Sort by: `registered`, `display_name`, `email`, `login` |
+| `order` | string | no | `DESC` | Direction: `ASC`, `DESC` |
+| `role` | string | no | - | Filter by role (e.g., `administrator`) |
+| `search` | string | no | - | Search in username, email, display_name fields |
 
 ### Output
 
@@ -40,7 +40,7 @@ Felhasználók listázása szűrési és lapozási lehetőségekkel.
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" \
@@ -51,19 +51,19 @@ curl -s -u "user:pass" \
 
 ## get-user
 
-Egyetlen felhasználó részletes adatainak lekérése.
+Get detailed information about a single user.
 
-**Method:** `GET`  
+**Method:** `GET`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/get-user/run`
 
 ### Input
 
-Legalább egy azonosító megadása kötelező:
+At least one identifier is required:
 
-| Mező | Típus | Kötelező | Leírás |
-|------|-------|----------|--------|
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
 | `id` | integer | - | User ID |
-| `email` | string | - | Email cím |
+| `email` | string | - | Email address |
 | `login` | string | - | Username |
 
 ### Output
@@ -90,7 +90,7 @@ Legalább egy azonosító megadása kötelező:
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" \
@@ -101,24 +101,24 @@ curl -s -u "user:pass" \
 
 ## create-user
 
-Új felhasználó létrehozása.
+Create a new user.
 
-**Method:** `POST`  
+**Method:** `POST`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/create-user/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `username` | string | **igen** | - | Felhasználónév |
-| `email` | string | **igen** | - | Email cím |
-| `password` | string | nem | auto-generated | Jelszó |
-| `display_name` | string | nem | - | Megjelenítendő név |
-| `first_name` | string | nem | - | Keresztnév |
-| `last_name` | string | nem | - | Vezetéknév |
-| `website` | string | nem | - | Weboldal URL |
-| `role` | string | nem | `subscriber` | Szerepkör |
-| `send_notification` | boolean | nem | `false` | Üdvözlő email küldése |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `username` | string | **yes** | - | Username |
+| `email` | string | **yes** | - | Email address |
+| `password` | string | no | auto-generated | Password |
+| `display_name` | string | no | - | Display name |
+| `first_name` | string | no | - | First name |
+| `last_name` | string | no | - | Last name |
+| `website` | string | no | - | Website URL |
+| `role` | string | no | `subscriber` | Role |
+| `send_notification` | boolean | no | `false` | Send welcome email |
 
 ### Output
 
@@ -139,9 +139,9 @@ curl -s -u "user:pass" \
 }
 ```
 
-> **Megjegyzés:** A `password` mező csak akkor szerepel a válaszban, ha automatikusan lett generálva.
+> **Note:** The `password` field is only included in the response if it was auto-generated.
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" -X POST \
@@ -154,23 +154,23 @@ curl -s -u "user:pass" -X POST \
 
 ## update-user
 
-Meglévő felhasználó módosítása.
+Update an existing user.
 
-**Method:** `POST`  
+**Method:** `POST`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/update-user/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Leírás |
-|------|-------|----------|--------|
-| `id` | integer | **igen** | User ID |
-| `email` | string | nem | Új email cím |
-| `display_name` | string | nem | Megjelenítendő név |
-| `first_name` | string | nem | Keresztnév |
-| `last_name` | string | nem | Vezetéknév |
-| `website` | string | nem | Weboldal URL |
-| `password` | string | nem | Új jelszó |
-| `role` | string | nem | Új szerepkör |
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `id` | integer | **yes** | User ID |
+| `email` | string | no | New email address |
+| `display_name` | string | no | Display name |
+| `first_name` | string | no | First name |
+| `last_name` | string | no | Last name |
+| `website` | string | no | Website URL |
+| `password` | string | no | New password |
+| `role` | string | no | New role |
 
 ### Output
 
@@ -189,7 +189,7 @@ Meglévő felhasználó módosítása.
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" -X POST \
@@ -202,17 +202,17 @@ curl -s -u "user:pass" -X POST \
 
 ## delete-user
 
-Felhasználó törlése.
+Delete a user.
 
-**Method:** `DELETE`  
+**Method:** `DELETE`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/delete-user/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Leírás |
-|------|-------|----------|--------|
-| `id` | integer | **igen** | Törlendő user ID |
-| `reassign_to` | integer | nem | Tartalmak átruházása erre a user ID-ra |
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `id` | integer | **yes** | User ID to delete |
+| `reassign_to` | integer | no | Reassign content to this user ID |
 
 ### Output
 
@@ -225,7 +225,7 @@ Felhasználó törlése.
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" -X DELETE \
@@ -236,22 +236,22 @@ curl -s -u "user:pass" -X DELETE \
 
 ## reset-password
 
-Felhasználó jelszavának visszaállítása.
+Reset a user's password.
 
-**Method:** `POST`  
+**Method:** `POST`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/reset-password/run`
 
 ### Input
 
-Legalább egy azonosító megadása kötelező:
+At least one identifier is required:
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
 | `id` | integer | - | - | User ID |
-| `email` | string | - | - | Email cím |
+| `email` | string | - | - | Email address |
 | `login` | string | - | - | Username |
-| `new_password` | string | nem | auto-generated | Új jelszó |
-| `send_notification` | boolean | nem | `true` | Email küldése az új jelszóval |
+| `new_password` | string | no | auto-generated | New password |
+| `send_notification` | boolean | no | `true` | Send email with new password |
 
 ### Output
 
@@ -266,9 +266,9 @@ Legalább egy azonosító megadása kötelező:
 }
 ```
 
-> **Megjegyzés:** A `password` mező csak akkor szerepel, ha automatikusan lett generálva.
+> **Note:** The `password` field is only included if it was auto-generated.
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" -X POST \
@@ -281,14 +281,14 @@ curl -s -u "user:pass" -X POST \
 
 ## get-roles
 
-Elérhető szerepkörök listázása.
+List available roles.
 
-**Method:** `GET`  
+**Method:** `GET`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/get-roles/run`
 
 ### Input
 
-Nincs kötelező paraméter.
+No required parameters.
 
 ### Output
 
@@ -318,7 +318,7 @@ Nincs kötelező paraméter.
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" \

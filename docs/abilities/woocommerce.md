@@ -1,8 +1,8 @@
 # WooCommerce Abilities
 
-A WooCommerce ability-k csak akkor elérhetők, ha a WooCommerce plugin aktív.
+WooCommerce abilities are only available when the WooCommerce plugin is active.
 
-## Tartalomjegyzék
+## Table of Contents
 
 - [Products](#products)
   - [wc-list-products](#wc-list-products)
@@ -38,26 +38,26 @@ A WooCommerce ability-k csak akkor elérhetők, ha a WooCommerce plugin aktív.
 
 ## wc-list-products
 
-Termékek listázása szűrési és lapozási lehetőségekkel.
+List products with filtering and pagination options.
 
-**Method:** `GET`  
+**Method:** `GET`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/wc-list-products/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `status` | string | nem | `any` | Állapot: `publish`, `draft`, `pending`, `private`, `trash`, `any` |
-| `type` | string | nem | - | Típus: `simple`, `variable`, `grouped`, `external` |
-| `category` | string | nem | - | Kategória slug vagy ID |
-| `stock_status` | string | nem | - | Készlet: `instock`, `outofstock`, `onbackorder` |
-| `featured` | boolean | nem | - | Kiemelt termékek |
-| `on_sale` | boolean | nem | - | Akciós termékek |
-| `search` | string | nem | - | Keresés névben |
-| `limit` | integer | nem | `20` | Visszaadott elemek (1-100) |
-| `offset` | integer | nem | `0` | Kihagyott elemek |
-| `orderby` | string | nem | `date` | Rendezés mező |
-| `order` | string | nem | `DESC` | Irány: `ASC`, `DESC` |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `status` | string | no | `any` | Status: `publish`, `draft`, `pending`, `private`, `trash`, `any` |
+| `type` | string | no | - | Type: `simple`, `variable`, `grouped`, `external` |
+| `category` | string | no | - | Category slug or ID |
+| `stock_status` | string | no | - | Stock: `instock`, `outofstock`, `onbackorder` |
+| `featured` | boolean | no | - | Featured products |
+| `on_sale` | boolean | no | - | Products on sale |
+| `search` | string | no | - | Search in name |
+| `limit` | integer | no | `20` | Items to return (1-100) |
+| `offset` | integer | no | `0` | Items to skip |
+| `orderby` | string | no | `date` | Sort field |
+| `order` | string | no | `DESC` | Direction: `ASC`, `DESC` |
 
 ### Output
 
@@ -102,7 +102,7 @@ Termékek listázása szűrési és lapozási lehetőségekkel.
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" \
@@ -113,20 +113,20 @@ curl -s -u "user:pass" \
 
 ## wc-get-product
 
-Egyetlen termék részletes lekérése.
+Get detailed information about a single product.
 
-**Method:** `GET`  
+**Method:** `GET`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/wc-get-product/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
 | `id` | integer | - | - | Product ID |
 | `sku` | string | - | - | Product SKU |
 | `slug` | string | - | - | Product slug |
 
-> **Megjegyzés:** `id`, `sku` vagy `slug` valamelyikének megadása kötelező.
+> **Note:** Either `id`, `sku` or `slug` is required.
 
 ### Output
 
@@ -180,31 +180,31 @@ Egyetlen termék részletes lekérése.
 
 ## wc-create-product
 
-Új termék létrehozása.
+Create a new product.
 
-**Method:** `POST`  
+**Method:** `POST`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/wc-create-product/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `name` | string | **igen** | - | Termék neve |
-| `type` | string | nem | `simple` | Típus: `simple`, `variable`, `grouped`, `external` |
-| `status` | string | nem | `publish` | Állapot |
-| `description` | string | nem | - | Leírás |
-| `short_description` | string | nem | - | Rövid leírás |
-| `regular_price` | string | nem | - | Normál ár |
-| `sale_price` | string | nem | - | Akciós ár |
-| `sku` | string | nem | - | SKU |
-| `manage_stock` | boolean | nem | - | Készletkezelés |
-| `stock_quantity` | integer | nem | - | Készlet mennyiség |
-| `stock_status` | string | nem | - | Készlet státusz |
-| `featured` | boolean | nem | - | Kiemelt |
-| `virtual` | boolean | nem | - | Virtuális termék |
-| `downloadable` | boolean | nem | - | Letölthető |
-| `categories` | array | nem | - | Kategória ID-k tömbje |
-| `tags` | array | nem | - | Tag ID-k tömbje |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `name` | string | **yes** | - | Product name |
+| `type` | string | no | `simple` | Type: `simple`, `variable`, `grouped`, `external` |
+| `status` | string | no | `publish` | Status |
+| `description` | string | no | - | Description |
+| `short_description` | string | no | - | Short description |
+| `regular_price` | string | no | - | Regular price |
+| `sale_price` | string | no | - | Sale price |
+| `sku` | string | no | - | SKU |
+| `manage_stock` | boolean | no | - | Stock management |
+| `stock_quantity` | integer | no | - | Stock quantity |
+| `stock_status` | string | no | - | Stock status |
+| `featured` | boolean | no | - | Featured |
+| `virtual` | boolean | no | - | Virtual product |
+| `downloadable` | boolean | no | - | Downloadable |
+| `categories` | array | no | - | Array of category IDs |
+| `tags` | array | no | - | Array of tag IDs |
 
 ### Output
 
@@ -222,7 +222,7 @@ Egyetlen termék részletes lekérése.
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -X POST -u "user:pass" \
@@ -235,21 +235,21 @@ curl -s -X POST -u "user:pass" \
 
 ## wc-update-product
 
-Meglévő termék módosítása.
+Update an existing product.
 
-**Method:** `POST`  
+**Method:** `POST`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/wc-update-product/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `id` | integer | **igen** | - | Product ID |
-| `name` | string | nem | - | Új név |
-| `status` | string | nem | - | Új állapot |
-| `regular_price` | string | nem | - | Új ár |
-| `sale_price` | string | nem | - | Új akciós ár |
-| ... | | | | (minden mező mint create-nél) |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `id` | integer | **yes** | - | Product ID |
+| `name` | string | no | - | New name |
+| `status` | string | no | - | New status |
+| `regular_price` | string | no | - | New price |
+| `sale_price` | string | no | - | New sale price |
+| ... | | | | (all fields same as create) |
 
 ### Output
 
@@ -265,17 +265,17 @@ Meglévő termék módosítása.
 
 ## wc-delete-product
 
-Termék törlése.
+Delete a product.
 
-**Method:** `DELETE`  
+**Method:** `DELETE`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/wc-delete-product/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `id` | integer | **igen** | - | Product ID |
-| `force` | boolean | nem | `false` | Végleges törlés (kukába helyezés helyett) |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `id` | integer | **yes** | - | Product ID |
+| `force` | boolean | no | `false` | Permanent deletion (instead of trash) |
 
 ### Output
 
@@ -293,18 +293,18 @@ Termék törlése.
 
 ## wc-duplicate-product
 
-Termék másolat készítése.
+Create a copy of a product.
 
-**Method:** `POST`  
+**Method:** `POST`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/wc-duplicate-product/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `id` | integer | **igen** | - | Eredeti Product ID |
-| `new_name` | string | nem | - | Új termék neve (ha üres: "Copy of...") |
-| `status` | string | nem | `draft` | Új termék állapota |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `id` | integer | **yes** | - | Original Product ID |
+| `new_name` | string | no | - | New product name (if empty: "Copy of...") |
+| `status` | string | no | `draft` | New product status |
 
 ### Output
 
@@ -321,21 +321,21 @@ Termék másolat készítése.
 
 ## wc-update-stock
 
-Készlet gyors frissítése.
+Quick stock update.
 
-**Method:** `POST`  
+**Method:** `POST`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/wc-update-stock/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `id` | integer | **igen** | - | Product ID |
-| `quantity` | integer | nem | - | Új készlet mennyiség (abszolút) |
-| `adjust` | integer | nem | - | Készlet módosítás (+/- érték) |
-| `stock_status` | string | nem | - | Készlet státusz: `instock`, `outofstock`, `onbackorder` |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `id` | integer | **yes** | - | Product ID |
+| `quantity` | integer | no | - | New stock quantity (absolute) |
+| `adjust` | integer | no | - | Stock adjustment (+/- value) |
+| `stock_status` | string | no | - | Stock status: `instock`, `outofstock`, `onbackorder` |
 
-> **Megjegyzés:** `quantity` vagy `adjust` vagy `stock_status` valamelyikét meg kell adni.
+> **Note:** Either `quantity`, `adjust` or `stock_status` must be provided.
 
 ### Output
 
@@ -352,16 +352,16 @@ Készlet gyors frissítése.
 }
 ```
 
-### Példa
+### Example
 
 ```bash
-# Készlet beállítása 100-ra
+# Set stock to 100
 curl -s -X POST -u "user:pass" \
   'https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/wc-update-stock/run' \
   -H "Content-Type: application/json" \
   -d '{"input": {"id": 101, "quantity": 100}}'
 
-# Készlet csökkentése 5-tel
+# Decrease stock by 5
 curl -s -X POST -u "user:pass" \
   'https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/wc-update-stock/run' \
   -H "Content-Type: application/json" \
@@ -372,22 +372,22 @@ curl -s -X POST -u "user:pass" \
 
 ## wc-list-product-categories
 
-Termék kategóriák listázása.
+List product categories.
 
-**Method:** `GET`  
+**Method:** `GET`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/wc-list-product-categories/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `hide_empty` | boolean | nem | `false` | Üres kategóriák elrejtése |
-| `parent` | integer | nem | - | Szülő kategória ID |
-| `search` | string | nem | - | Keresés névben |
-| `limit` | integer | nem | `100` | Visszaadott elemek |
-| `offset` | integer | nem | `0` | Kihagyott elemek |
-| `orderby` | string | nem | `name` | Rendezés |
-| `order` | string | nem | `ASC` | Irány |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `hide_empty` | boolean | no | `false` | Hide empty categories |
+| `parent` | integer | no | - | Parent category ID |
+| `search` | string | no | - | Search in name |
+| `limit` | integer | no | `100` | Items to return |
+| `offset` | integer | no | `0` | Items to skip |
+| `orderby` | string | no | `name` | Sort field |
+| `order` | string | no | `ASC` | Direction |
 
 ### Output
 
@@ -414,16 +414,16 @@ Termék kategóriák listázása.
 
 ## wc-list-variations
 
-Variábilis termék variációinak listázása.
+List variations of a variable product.
 
-**Method:** `GET`  
+**Method:** `GET`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/wc-list-variations/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `product_id` | integer | **igen** | - | Variábilis termék ID |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `product_id` | integer | **yes** | - | Variable product ID |
 
 ### Output
 
@@ -456,17 +456,17 @@ Variábilis termék variációinak listázása.
 
 ## wc-bulk-products
 
-Tömeges művelet több terméken.
+Bulk operations on multiple products.
 
-**Method:** `POST`  
+**Method:** `POST`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/wc-bulk-products/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `ids` | array | **igen** | - | Product ID-k tömbje |
-| `action` | string | **igen** | - | Művelet: `publish`, `draft`, `trash`, `delete`, `restore` |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `ids` | array | **yes** | - | Array of product IDs |
+| `action` | string | **yes** | - | Action: `publish`, `draft`, `trash`, `delete`, `restore` |
 
 ### Output
 
@@ -486,24 +486,24 @@ Tömeges művelet több terméken.
 
 ## wc-list-orders
 
-Rendelések listázása szűrési és lapozási lehetőségekkel.
+List orders with filtering and pagination options.
 
-**Method:** `GET`  
+**Method:** `GET`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/wc-list-orders/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `status` | string | nem | - | Rendelés státusz |
-| `customer` | integer | nem | - | Vásárló ID |
-| `product` | integer | nem | - | Szűrés termékre |
-| `date_after` | string | nem | - | Dátum után (Y-m-d) |
-| `date_before` | string | nem | - | Dátum előtt (Y-m-d) |
-| `limit` | integer | nem | `20` | Visszaadott elemek (1-100) |
-| `offset` | integer | nem | `0` | Kihagyott elemek |
-| `orderby` | string | nem | `date` | Rendezés |
-| `order` | string | nem | `DESC` | Irány |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `status` | string | no | - | Order status |
+| `customer` | integer | no | - | Customer ID |
+| `product` | integer | no | - | Filter by product |
+| `date_after` | string | no | - | After date (Y-m-d) |
+| `date_before` | string | no | - | Before date (Y-m-d) |
+| `limit` | integer | no | `20` | Items to return (1-100) |
+| `offset` | integer | no | `0` | Items to skip |
+| `orderby` | string | no | `date` | Sort field |
+| `order` | string | no | `DESC` | Direction |
 
 ### Output
 
@@ -548,24 +548,24 @@ Rendelések listázása szűrési és lapozási lehetőségekkel.
 
 ## wc-get-order
 
-Egyetlen rendelés részletes lekérése.
+Get detailed information about a single order.
 
-**Method:** `GET`  
+**Method:** `GET`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/wc-get-order/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `id` | integer | **igen** | - | Order ID |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `id` | integer | **yes** | - | Order ID |
 
 ### Output
 
-A részletes nézet tartalmazza:
-- Teljes számlázási és szállítási cím
-- Line items (tételek)
-- Shipping lines (szállítási módok)
-- Coupon lines (kuponok)
+The detailed view includes:
+- Full billing and shipping address
+- Line items
+- Shipping lines
+- Coupon lines
 - Customer note
 - Refunds total
 
@@ -573,18 +573,18 @@ A részletes nézet tartalmazza:
 
 ## wc-update-order-status
 
-Rendelés státuszának módosítása.
+Update order status.
 
-**Method:** `POST`  
+**Method:** `POST`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/wc-update-order-status/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `id` | integer | **igen** | - | Order ID |
-| `status` | string | **igen** | - | Új státusz (pl. `processing`, `completed`, `on-hold`) |
-| `note` | string | nem | - | Megjegyzés a státuszváltáshoz |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `id` | integer | **yes** | - | Order ID |
+| `status` | string | **yes** | - | New status (e.g., `processing`, `completed`, `on-hold`) |
+| `note` | string | no | - | Note for status change |
 
 ### Output
 
@@ -598,7 +598,7 @@ Rendelés státuszának módosítása.
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -X POST -u "user:pass" \
@@ -611,14 +611,14 @@ curl -s -X POST -u "user:pass" \
 
 ## wc-list-order-statuses
 
-Elérhető rendelési státuszok listázása.
+List available order statuses.
 
-**Method:** `GET`  
+**Method:** `GET`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/wc-list-order-statuses/run`
 
 ### Input
 
-Nincs szükséges input.
+No required input.
 
 ### Output
 
@@ -642,20 +642,20 @@ Nincs szükséges input.
 
 ## wc-create-refund
 
-Visszatérítés létrehozása rendeléshez.
+Create a refund for an order.
 
-**Method:** `POST`  
+**Method:** `POST`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/wc-create-refund/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `order_id` | integer | **igen** | - | Order ID |
-| `amount` | number | nem | - | Visszatérítendő összeg (alapértelmezetten teljes összeg) |
-| `reason` | string | nem | - | Visszatérítés indoka |
-| `restock_items` | boolean | nem | `true` | Készlet visszaállítása |
-| `line_items` | array | nem | - | Részleges visszatérítés tételenként |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `order_id` | integer | **yes** | - | Order ID |
+| `amount` | number | no | - | Amount to refund (defaults to full amount) |
+| `reason` | string | no | - | Refund reason |
+| `restock_items` | boolean | no | `true` | Restock items |
+| `line_items` | array | no | - | Partial refund by line item |
 
 ### Output
 
@@ -674,17 +674,17 @@ Visszatérítés létrehozása rendeléshez.
 
 ## wc-list-order-notes
 
-Rendeléshez tartozó megjegyzések listázása.
+List notes for an order.
 
-**Method:** `GET`  
+**Method:** `GET`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/wc-list-order-notes/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `order_id` | integer | **igen** | - | Order ID |
-| `type` | string | nem | `any` | Típus: `any`, `customer`, `internal` |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `order_id` | integer | **yes** | - | Order ID |
+| `type` | string | no | `any` | Type: `any`, `customer`, `internal` |
 
 ### Output
 
@@ -708,18 +708,18 @@ Rendeléshez tartozó megjegyzések listázása.
 
 ## wc-add-order-note
 
-Megjegyzés hozzáadása rendeléshez.
+Add a note to an order.
 
-**Method:** `POST`  
+**Method:** `POST`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/wc-add-order-note/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `order_id` | integer | **igen** | - | Order ID |
-| `note` | string | **igen** | - | Megjegyzés szövege |
-| `customer_note` | boolean | nem | `false` | Vásárlónak küldés |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `order_id` | integer | **yes** | - | Order ID |
+| `note` | string | **yes** | - | Note content |
+| `customer_note` | boolean | no | `false` | Send to customer |
 
 ### Output
 
@@ -737,18 +737,18 @@ Megjegyzés hozzáadása rendeléshez.
 
 ## wc-bulk-orders
 
-Tömeges státusz módosítás több rendelésen.
+Bulk status update for multiple orders.
 
-**Method:** `POST`  
+**Method:** `POST`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/wc-bulk-orders/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `ids` | array | **igen** | - | Order ID-k tömbje |
-| `status` | string | **igen** | - | Új státusz |
-| `note` | string | nem | - | Megjegyzés mindegyikhez |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `ids` | array | **yes** | - | Array of order IDs |
+| `status` | string | **yes** | - | New status |
+| `note` | string | no | - | Note for all orders |
 
 ### Output
 
@@ -767,18 +767,18 @@ Tömeges státusz módosítás több rendelésen.
 
 ## wc-sales-report
 
-Értékesítési jelentés lekérése időszakra.
+Get sales report for a period.
 
-**Method:** `GET`  
+**Method:** `GET`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/wc-sales-report/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `period` | string | nem | `month` | Előre definiált időszak: `day`, `week`, `month`, `year`, `last_7_days`, `last_30_days` |
-| `date_min` | string | nem | - | Egyedi kezdő dátum (Y-m-d) |
-| `date_max` | string | nem | - | Egyedi záró dátum (Y-m-d) |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `period` | string | no | `month` | Predefined period: `day`, `week`, `month`, `year`, `last_7_days`, `last_30_days` |
+| `date_min` | string | no | - | Custom start date (Y-m-d) |
+| `date_max` | string | no | - | Custom end date (Y-m-d) |
 
 ### Output
 
@@ -805,17 +805,17 @@ Tömeges státusz módosítás több rendelésen.
 
 ## wc-top-sellers
 
-Legnépszerűbb termékek listázása.
+List top-selling products.
 
-**Method:** `GET`  
+**Method:** `GET`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/wc-top-sellers/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `limit` | integer | nem | `10` | Visszaadott elemek (1-100) |
-| `period` | string | nem | `month` | Időszak: `week`, `month`, `year` |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `limit` | integer | no | `10` | Items to return (1-100) |
+| `period` | string | no | `month` | Period: `week`, `month`, `year` |
 
 ### Output
 
@@ -845,14 +845,14 @@ Legnépszerűbb termékek listázása.
 
 ## wc-orders-totals
 
-Rendelések összesítése státuszonként.
+Get order counts by status.
 
-**Method:** `GET`  
+**Method:** `GET`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/wc-orders-totals/run`
 
 ### Input
 
-Nincs szükséges input.
+No required input.
 
 ### Output
 
@@ -874,17 +874,17 @@ Nincs szükséges input.
 
 ## wc-revenue-stats
 
-Bevételi statisztikák időszak összehasonlítással.
+Get revenue statistics with period comparison.
 
-**Method:** `GET`  
+**Method:** `GET`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/wc-revenue-stats/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `period` | string | nem | `last_7_days` | Időszak: `today`, `last_7_days`, `last_30_days`, `this_month`, `this_year` |
-| `compare` | boolean | nem | `false` | Összehasonlítás az előző időszakkal |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `period` | string | no | `last_7_days` | Period: `today`, `last_7_days`, `last_30_days`, `this_month`, `this_year` |
+| `compare` | boolean | no | `false` | Compare with previous period |
 
 ### Output
 
@@ -919,18 +919,18 @@ Bevételi statisztikák időszak összehasonlítással.
 
 ## wc-low-stock-products
 
-Alacsony készletű és elfogyott termékek listázása.
+List low stock and out of stock products.
 
-**Method:** `GET`  
+**Method:** `GET`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/wc-low-stock-products/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `threshold` | integer | nem | - | Egyedi küszöbérték (alapértelmezetten WooCommerce beállítás) |
-| `limit` | integer | nem | `20` | Visszaadott elemek (1-100) |
-| `include_out_of_stock` | boolean | nem | `true` | Elfogyott termékek is |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `threshold` | integer | no | - | Custom threshold (defaults to WooCommerce setting) |
+| `limit` | integer | no | `20` | Items to return (1-100) |
+| `include_out_of_stock` | boolean | no | `true` | Include out of stock products |
 
 ### Output
 
@@ -970,14 +970,14 @@ Alacsony készletű és elfogyott termékek listázása.
 
 ## wc-products-totals
 
-Termékek összesítése státusz és készlet szerint.
+Get product counts by status and stock.
 
-**Method:** `GET`  
+**Method:** `GET`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/wc-products-totals/run`
 
 ### Input
 
-Nincs szükséges input.
+No required input.
 
 ### Output
 

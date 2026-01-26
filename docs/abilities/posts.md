@@ -2,27 +2,27 @@
 
 ## list-posts
 
-Bejegyzések listázása szűrési és lapozási lehetőségekkel.
+List posts with filtering and pagination options.
 
-**Method:** `GET`  
+**Method:** `GET`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/list-posts/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `post_type` | string | nem | `post` | Post típus |
-| `limit` | integer | nem | `20` | Visszaadott elemek (1-100) |
-| `offset` | integer | nem | `0` | Kihagyott elemek |
-| `status` | string | nem | `any` | Állapot: `publish`, `draft`, `pending`, `trash`, `any` |
-| `author` | integer | nem | - | Szerző ID |
-| `category` | string | nem | - | Kategória slug |
-| `tag` | string | nem | - | Tag slug |
-| `search` | string | nem | - | Keresés címben és tartalomban |
-| `date_after` | string | nem | - | Dátum után (Y-m-d) |
-| `date_before` | string | nem | - | Dátum előtt (Y-m-d) |
-| `orderby` | string | nem | `date` | Rendezés mező |
-| `order` | string | nem | `DESC` | Irány: `ASC`, `DESC` |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `post_type` | string | no | `post` | Post type |
+| `limit` | integer | no | `20` | Items to return (1-100) |
+| `offset` | integer | no | `0` | Items to skip |
+| `status` | string | no | `any` | Status: `publish`, `draft`, `pending`, `trash`, `any` |
+| `author` | integer | no | - | Author ID |
+| `category` | string | no | - | Category slug |
+| `tag` | string | no | - | Tag slug |
+| `search` | string | no | - | Search in title and content |
+| `date_after` | string | no | - | After date (Y-m-d) |
+| `date_before` | string | no | - | Before date (Y-m-d) |
+| `orderby` | string | no | `date` | Sort field |
+| `order` | string | no | `DESC` | Direction: `ASC`, `DESC` |
 
 ### Output
 
@@ -31,8 +31,8 @@ Bejegyzések listázása szűrési és lapozási lehetőségekkel.
   "posts": [
     {
       "id": 32,
-      "title": "A Git legfontosabb parancsai",
-      "slug": "a-git-legfontosabb-parancsai",
+      "title": "Essential Git Commands",
+      "slug": "essential-git-commands",
       "status": "publish",
       "type": "post",
       "date": "2026-01-13 06:19:12",
@@ -48,7 +48,7 @@ Bejegyzések listázása szűrési és lapozási lehetőségekkel.
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" \
@@ -59,20 +59,20 @@ curl -s -u "user:pass" \
 
 ## get-post
 
-Egyetlen bejegyzés részletes lekérése.
+Get detailed information about a single post.
 
-**Method:** `GET`  
+**Method:** `GET`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/get-post/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
 | `id` | integer | - | - | Post ID |
 | `slug` | string | - | - | Post slug |
-| `post_type` | string | nem | `post` | Post típus (slug használatakor kötelező) |
+| `post_type` | string | no | `post` | Post type (required when using slug) |
 
-> **Megjegyzés:** `id` vagy `slug` megadása kötelező.
+> **Note:** Either `id` or `slug` is required.
 
 ### Output
 
@@ -81,19 +81,19 @@ Egyetlen bejegyzés részletes lekérése.
   "success": true,
   "post": {
     "id": 32,
-    "title": "A Git legfontosabb parancsai",
-    "slug": "a-git-legfontosabb-parancsai",
+    "title": "Essential Git Commands",
+    "slug": "essential-git-commands",
     "status": "publish",
     "type": "post",
     "date": "2026-01-13 06:19:12",
     "modified": "2026-01-13 06:19:12",
     "author": 2,
-    "content": "<p>Tartalom...</p>",
+    "content": "<p>Content...</p>",
     "excerpt": "",
     "parent": 0,
     "menu_order": 0,
     "guid": "https://example.com/...",
-    "permalink": "https://example.com/a-git-legfontosabb-parancsai/",
+    "permalink": "https://example.com/essential-git-commands/",
     "author_name": "admin",
     "featured_image": {
       "id": 29,
@@ -111,7 +111,7 @@ Egyetlen bejegyzés részletes lekérése.
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" \
@@ -122,29 +122,29 @@ curl -s -u "user:pass" \
 
 ## create-post
 
-Új bejegyzés létrehozása.
+Create a new post.
 
-**Method:** `POST`  
+**Method:** `POST`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/create-post/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `title` | string | **igen** | - | Cím |
-| `content` | string | nem | - | Tartalom (HTML) |
-| `excerpt` | string | nem | - | Kivonat |
-| `status` | string | nem | `draft` | Állapot: `draft`, `publish`, `pending`, `private`, `future` |
-| `post_type` | string | nem | `post` | Post típus |
-| `slug` | string | nem | auto | URL slug |
-| `author` | integer | nem | current | Szerző ID |
-| `parent` | integer | nem | - | Szülő post ID |
-| `menu_order` | integer | nem | - | Menü sorrend |
-| `date` | string | nem | now | Dátum (Y-m-d H:i:s) |
-| `categories` | array | nem | - | Kategória ID-k |
-| `tags` | array | nem | - | Tag nevek, slugok vagy ID-k (vegyes is lehet) |
-| `featured_image` | integer | nem | - | Kiemelt kép attachment ID |
-| `meta` | object | nem | - | Egyedi meta mezők |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `title` | string | **yes** | - | Title |
+| `content` | string | no | - | Content (HTML) |
+| `excerpt` | string | no | - | Excerpt |
+| `status` | string | no | `draft` | Status: `draft`, `publish`, `pending`, `private`, `future` |
+| `post_type` | string | no | `post` | Post type |
+| `slug` | string | no | auto | URL slug |
+| `author` | integer | no | current | Author ID |
+| `parent` | integer | no | - | Parent post ID |
+| `menu_order` | integer | no | - | Menu order |
+| `date` | string | no | now | Date (Y-m-d H:i:s) |
+| `categories` | array | no | - | Category IDs |
+| `tags` | array | no | - | Tag names, slugs or IDs (can be mixed) |
+| `featured_image` | integer | no | - | Featured image attachment ID |
+| `meta` | object | no | - | Custom meta fields |
 
 ### Output
 
@@ -154,18 +154,18 @@ curl -s -u "user:pass" \
   "message": "Post created successfully",
   "post": {
     "id": 33,
-    "title": "Teszt Post",
-    "slug": "teszt-post",
+    "title": "Test Post",
+    "slug": "test-post",
     "status": "publish",
     "type": "post",
     "date": "2026-01-13 06:36:40",
     "modified": "2026-01-13 06:36:40",
     "author": 2,
-    "content": "<p>Tartalom</p>",
+    "content": "<p>Content</p>",
     "excerpt": "",
     "parent": 0,
     "menu_order": 0,
-    "permalink": "https://example.com/teszt-post/",
+    "permalink": "https://example.com/test-post/",
     "featured_image": null,
     "categories": [{"id": 1, "name": "Uncategorized", "slug": "uncategorized"}],
     "tags": []
@@ -174,42 +174,42 @@ curl -s -u "user:pass" \
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" -X POST \
   'https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/create-post/run' \
   -H "Content-Type: application/json" \
-  -d '{"input":{"title":"Új bejegyzés","content":"<p>Tartalom</p>","status":"publish","categories":[1,2]}}'
+  -d '{"input":{"title":"New post","content":"<p>Content</p>","status":"publish","categories":[1,2]}}'
 ```
 
 ---
 
 ## update-post
 
-Meglévő bejegyzés módosítása.
+Update an existing post.
 
-**Method:** `POST`  
+**Method:** `POST`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/update-post/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Leírás |
-|------|-------|----------|--------|
-| `id` | integer | **igen** | Post ID |
-| `title` | string | nem | Új cím |
-| `content` | string | nem | Új tartalom |
-| `excerpt` | string | nem | Új kivonat |
-| `status` | string | nem | Új állapot |
-| `slug` | string | nem | Új slug |
-| `author` | integer | nem | Új szerző |
-| `parent` | integer | nem | Szülő ID |
-| `menu_order` | integer | nem | Menü sorrend |
-| `date` | string | nem | Új dátum |
-| `categories` | array | nem | Kategória ID-k |
-| `tags` | array | nem | Tag nevek, slugok vagy ID-k (vegyes is lehet) |
-| `featured_image` | integer | nem | Kiemelt kép ID |
-| `meta` | object | nem | Meta mezők |
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `id` | integer | **yes** | Post ID |
+| `title` | string | no | New title |
+| `content` | string | no | New content |
+| `excerpt` | string | no | New excerpt |
+| `status` | string | no | New status |
+| `slug` | string | no | New slug |
+| `author` | integer | no | New author |
+| `parent` | integer | no | Parent ID |
+| `menu_order` | integer | no | Menu order |
+| `date` | string | no | New date |
+| `categories` | array | no | Category IDs |
+| `tags` | array | no | Tag names, slugs or IDs (can be mixed) |
+| `featured_image` | integer | no | Featured image ID |
+| `meta` | object | no | Meta fields |
 
 ### Output
 
@@ -219,38 +219,38 @@ Meglévő bejegyzés módosítása.
   "message": "Post updated successfully",
   "post": {
     "id": 33,
-    "title": "Frissített cím",
-    "slug": "teszt-post",
+    "title": "Updated title",
+    "slug": "test-post",
     "status": "publish",
     ...
   }
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" -X POST \
   'https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/update-post/run' \
   -H "Content-Type: application/json" \
-  -d '{"input":{"id":33,"title":"Frissített cím","excerpt":"Új kivonat"}}'
+  -d '{"input":{"id":33,"title":"Updated title","excerpt":"New excerpt"}}'
 ```
 
 ---
 
 ## delete-post
 
-Bejegyzés törlése (kukába vagy véglegesen).
+Delete a post (to trash or permanently).
 
-**Method:** `DELETE`  
+**Method:** `DELETE`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/delete-post/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `id` | integer | **igen** | - | Post ID |
-| `force` | boolean | nem | `false` | Végleges törlés (kuka kihagyása) |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `id` | integer | **yes** | - | Post ID |
+| `force` | boolean | no | `false` | Permanent deletion (skip trash) |
 
 ### Output
 
@@ -263,14 +263,14 @@ Bejegyzés törlése (kukába vagy véglegesen).
 }
 ```
 
-### Példa
+### Example
 
 ```bash
-# Kukába helyezés
+# Move to trash
 curl -s -u "user:pass" -X DELETE \
   'https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/delete-post/run?input%5Bid%5D=33'
 
-# Végleges törlés
+# Permanent deletion
 curl -s -u "user:pass" -X DELETE \
   'https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/delete-post/run?input%5Bid%5D=33&input%5Bforce%5D=true'
 ```
@@ -279,16 +279,16 @@ curl -s -u "user:pass" -X DELETE \
 
 ## restore-post
 
-Bejegyzés visszaállítása kukából.
+Restore a post from trash.
 
-**Method:** `POST`  
+**Method:** `POST`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/restore-post/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Leírás |
-|------|-------|----------|--------|
-| `id` | integer | **igen** | Post ID |
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `id` | integer | **yes** | Post ID |
 
 ### Output
 
@@ -298,15 +298,15 @@ Bejegyzés visszaállítása kukából.
   "message": "Post restored from trash",
   "post": {
     "id": 33,
-    "title": "Visszaállított post",
-    "slug": "teszt-post",
+    "title": "Restored post",
+    "slug": "test-post",
     "status": "draft",
     ...
   }
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" -X POST \
@@ -319,19 +319,19 @@ curl -s -u "user:pass" -X POST \
 
 ## duplicate-post
 
-Bejegyzés másolása.
+Duplicate a post.
 
-**Method:** `POST`  
+**Method:** `POST`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/duplicate-post/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Alapértelmezett | Leírás |
-|------|-------|----------|-----------------|--------|
-| `id` | integer | **igen** | - | Másolandó post ID |
-| `new_title` | string | nem | `"Eredeti (Copy)"` | Új cím |
-| `status` | string | nem | `draft` | Másolat állapota |
-| `copy_meta` | boolean | nem | `true` | Meta mezők másolása |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `id` | integer | **yes** | - | Post ID to duplicate |
+| `new_title` | string | no | `"Original (Copy)"` | New title |
+| `status` | string | no | `draft` | Copy status |
+| `copy_meta` | boolean | no | `true` | Copy meta fields |
 
 ### Output
 
@@ -342,7 +342,7 @@ Bejegyzés másolása.
   "original_id": 33,
   "post": {
     "id": 35,
-    "title": "Post másolat",
+    "title": "Post copy",
     "slug": "",
     "status": "draft",
     ...
@@ -350,30 +350,30 @@ Bejegyzés másolása.
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" -X POST \
   'https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/duplicate-post/run' \
   -H "Content-Type: application/json" \
-  -d '{"input":{"id":33,"new_title":"Másolat"}}'
+  -d '{"input":{"id":33,"new_title":"Copy"}}'
 ```
 
 ---
 
 ## bulk-posts
 
-Tömeges művelet több bejegyzésen.
+Bulk operations on multiple posts.
 
-**Method:** `POST`  
+**Method:** `POST`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/bulk-posts/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Leírás |
-|------|-------|----------|--------|
-| `ids` | array | **igen** | Post ID-k tömbje |
-| `action` | string | **igen** | Művelet: `publish`, `draft`, `trash`, `delete`, `restore` |
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `ids` | array | **yes** | Array of post IDs |
+| `action` | string | **yes** | Action: `publish`, `draft`, `trash`, `delete`, `restore` |
 
 ### Output
 
@@ -390,7 +390,7 @@ Tömeges művelet több bejegyzésen.
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" -X POST \
@@ -403,16 +403,16 @@ curl -s -u "user:pass" -X POST \
 
 ## get-post-types
 
-Elérhető post típusok listázása.
+List available post types.
 
-**Method:** `GET`  
+**Method:** `GET`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/get-post-types/run`
 
 ### Input
 
-| Mező | Típus | Kötelező | Leírás |
-|------|-------|----------|--------|
-| `public` | boolean | nem | Csak publikus típusok |
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `public` | boolean | no | Only public types |
 
 ### Output
 
@@ -446,7 +446,7 @@ Elérhető post típusok listázása.
 }
 ```
 
-### Példa
+### Example
 
 ```bash
 curl -s -u "user:pass" \

@@ -1,32 +1,32 @@
-# Settings (Beállítások)
+# Settings
 
-WordPress beállítások kezelésére szolgáló ability-k.
+Abilities for managing WordPress settings.
 
 ## Abilities
 
 ### General Settings
-| Ability | Leírás | Metódus |
-|---------|--------|---------|
-| get-general-settings | Általános beállítások lekérése | GET |
-| update-general-settings | Általános beállítások frissítése | POST |
+| Ability | Description | Method |
+|---------|-------------|--------|
+| get-general-settings | Get general settings | GET |
+| update-general-settings | Update general settings | POST |
 
 ### Reading Settings
-| Ability | Leírás | Metódus |
-|---------|--------|---------|
-| get-reading-settings | Olvasási beállítások lekérése | GET |
-| update-reading-settings | Olvasási beállítások frissítése | POST |
+| Ability | Description | Method |
+|---------|-------------|--------|
+| get-reading-settings | Get reading settings | GET |
+| update-reading-settings | Update reading settings | POST |
 
 ### Discussion Settings
-| Ability | Leírás | Metódus |
-|---------|--------|---------|
-| get-discussion-settings | Hozzászólás beállítások lekérése | GET |
-| update-discussion-settings | Hozzászólás beállítások frissítése | POST |
+| Ability | Description | Method |
+|---------|-------------|--------|
+| get-discussion-settings | Get discussion settings | GET |
+| update-discussion-settings | Update discussion settings | POST |
 
 ### Permalink Settings
-| Ability | Leírás | Metódus |
-|---------|--------|---------|
-| get-permalink-settings | Közvetlen hivatkozás beállítások lekérése | GET |
-| update-permalink-settings | Közvetlen hivatkozás beállítások frissítése | POST |
+| Ability | Description | Method |
+|---------|-------------|--------|
+| get-permalink-settings | Get permalink settings | GET |
+| update-permalink-settings | Update permalink settings | POST |
 
 ---
 
@@ -34,32 +34,32 @@ WordPress beállítások kezelésére szolgáló ability-k.
 
 ### get-general-settings
 
-Általános WordPress beállítások lekérése (oldal címe, szlogen, email, stb.).
+Get general WordPress settings (site title, tagline, email, etc.).
 
 **Endpoint:** `GET /wp-json/wp-abilities/v1/abilities/site-manager/get-general-settings/run`
 
 #### Output Schema
 
-| Mező | Típus | Leírás |
-|------|-------|--------|
-| success | boolean | Művelet sikeressége |
-| settings | object | Beállítások |
-| settings.blogname | string | Oldal címe |
-| settings.blogdescription | string | Szlogen |
-| settings.siteurl | string | WordPress cím (URL) |
-| settings.home | string | Oldal címe (URL) |
-| settings.admin_email | string | Adminisztrátor email |
-| settings.users_can_register | string | Regisztráció engedélyezése (0/1) |
-| settings.default_role | string | Új felhasználók alapértelmezett szerepe |
-| settings.timezone_string | string | Időzóna (pl. Europe/Budapest) |
-| settings.date_format | string | Dátum formátum |
-| settings.time_format | string | Idő formátum |
-| settings.start_of_week | string | Hét kezdő napja (0=vasárnap, 1=hétfő) |
-| settings.WPLANG | string | Nyelv kód |
-| settings.site_language | string | Aktuális nyelv |
-| settings.available_roles | array | Elérhető szerepek listája |
+| Field | Type | Description |
+|-------|------|-------------|
+| success | boolean | Operation success |
+| settings | object | Settings |
+| settings.blogname | string | Site title |
+| settings.blogdescription | string | Tagline |
+| settings.siteurl | string | WordPress address (URL) |
+| settings.home | string | Site address (URL) |
+| settings.admin_email | string | Administrator email |
+| settings.users_can_register | string | Registration enabled (0/1) |
+| settings.default_role | string | Default role for new users |
+| settings.timezone_string | string | Timezone (e.g., Europe/Budapest) |
+| settings.date_format | string | Date format |
+| settings.time_format | string | Time format |
+| settings.start_of_week | string | Week starts on (0=Sunday, 1=Monday) |
+| settings.WPLANG | string | Language code |
+| settings.site_language | string | Current language |
+| settings.available_roles | array | List of available roles |
 
-#### Példa
+#### Example
 
 **Request:**
 ```bash
@@ -73,7 +73,7 @@ curl -X GET "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/
   "success": true,
   "settings": {
     "blogname": "Stanton Test Site",
-    "blogdescription": "Teszt leírás",
+    "blogdescription": "Test description",
     "siteurl": "https://example.com",
     "home": "https://example.com",
     "admin_email": "admin@example.com",
@@ -100,42 +100,42 @@ curl -X GET "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/
 
 ### update-general-settings
 
-Általános WordPress beállítások frissítése.
+Update general WordPress settings.
 
 **Endpoint:** `POST /wp-json/wp-abilities/v1/abilities/site-manager/update-general-settings/run`
 
 #### Input Schema
 
-| Mező | Típus | Leírás |
-|------|-------|--------|
-| blogname | string | Oldal címe |
-| blogdescription | string | Szlogen |
-| admin_email | string | Adminisztrátor email |
-| users_can_register | boolean | Regisztráció engedélyezése |
-| default_role | string | Új felhasználók alapértelmezett szerepe |
-| timezone_string | string | Időzóna (pl. Europe/Budapest) |
-| date_format | string | Dátum formátum (pl. Y-m-d) |
-| time_format | string | Idő formátum (pl. H:i) |
-| start_of_week | integer | Hét kezdő napja (0-6) |
-| WPLANG | string | Nyelv kód |
+| Field | Type | Description |
+|-------|------|-------------|
+| blogname | string | Site title |
+| blogdescription | string | Tagline |
+| admin_email | string | Administrator email |
+| users_can_register | boolean | Enable registration |
+| default_role | string | Default role for new users |
+| timezone_string | string | Timezone (e.g., Europe/Budapest) |
+| date_format | string | Date format (e.g., Y-m-d) |
+| time_format | string | Time format (e.g., H:i) |
+| start_of_week | integer | Week starts on (0-6) |
+| WPLANG | string | Language code |
 
 #### Output Schema
 
-| Mező | Típus | Leírás |
-|------|-------|--------|
-| success | boolean | Művelet sikeressége |
-| message | string | Státusz üzenet |
-| updated | array | Frissített beállítások listája |
-| failed | array | Sikertelen frissítések |
+| Field | Type | Description |
+|-------|------|-------------|
+| success | boolean | Operation success |
+| message | string | Status message |
+| updated | array | List of updated settings |
+| failed | array | Failed updates |
 
-#### Példa
+#### Example
 
 **Request:**
 ```bash
 curl -X POST "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/update-general-settings/run" \
   -u "user:application_password" \
   -H "Content-Type: application/json" \
-  -d '{"input":{"blogname":"Új oldal cím","blogdescription":"Új szlogen","timezone_string":"Europe/Budapest"}}'
+  -d '{"input":{"blogname":"New site title","blogdescription":"New tagline","timezone_string":"Europe/Budapest"}}'
 ```
 
 **Response:**
@@ -158,27 +158,27 @@ curl -X POST "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager
 
 ### get-reading-settings
 
-Olvasási beállítások lekérése.
+Get reading settings.
 
 **Endpoint:** `GET /wp-json/wp-abilities/v1/abilities/site-manager/get-reading-settings/run`
 
 #### Output Schema
 
-| Mező | Típus | Leírás |
-|------|-------|--------|
-| success | boolean | Művelet sikeressége |
-| settings | object | Beállítások |
-| settings.posts_per_page | string | Bejegyzések száma oldalanként |
-| settings.posts_per_rss | string | RSS elemek száma |
-| settings.rss_use_excerpt | string | RSS kivonat használata (0/1) |
-| settings.show_on_front | string | Kezdőlap megjelenítése (posts/page) |
-| settings.page_on_front | string | Kezdőlap ID |
-| settings.page_for_posts | string | Bejegyzések oldal ID |
-| settings.blog_public | string | Keresőmotor indexelés (0/1) |
-| settings.homepage_title | string | Kezdőlap címe (ha van) |
-| settings.posts_page_title | string | Bejegyzések oldal címe (ha van) |
+| Field | Type | Description |
+|-------|------|-------------|
+| success | boolean | Operation success |
+| settings | object | Settings |
+| settings.posts_per_page | string | Posts per page |
+| settings.posts_per_rss | string | RSS items count |
+| settings.rss_use_excerpt | string | Use RSS excerpt (0/1) |
+| settings.show_on_front | string | Homepage display (posts/page) |
+| settings.page_on_front | string | Homepage ID |
+| settings.page_for_posts | string | Posts page ID |
+| settings.blog_public | string | Search engine indexing (0/1) |
+| settings.homepage_title | string | Homepage title (if set) |
+| settings.posts_page_title | string | Posts page title (if set) |
 
-#### Példa
+#### Example
 
 **Response:**
 ```json
@@ -200,21 +200,21 @@ Olvasási beállítások lekérése.
 
 ### update-reading-settings
 
-Olvasási beállítások frissítése.
+Update reading settings.
 
 **Endpoint:** `POST /wp-json/wp-abilities/v1/abilities/site-manager/update-reading-settings/run`
 
 #### Input Schema
 
-| Mező | Típus | Leírás |
-|------|-------|--------|
-| posts_per_page | integer | Bejegyzések száma oldalanként (1-100) |
-| posts_per_rss | integer | RSS elemek száma (1-100) |
-| rss_use_excerpt | boolean | RSS kivonat használata |
-| show_on_front | string | Kezdőlap megjelenítése ("posts" vagy "page") |
-| page_on_front | integer | Kezdőlap ID |
-| page_for_posts | integer | Bejegyzések oldal ID |
-| blog_public | boolean | Keresőmotor indexelés tiltása |
+| Field | Type | Description |
+|-------|------|-------------|
+| posts_per_page | integer | Posts per page (1-100) |
+| posts_per_rss | integer | RSS items count (1-100) |
+| rss_use_excerpt | boolean | Use RSS excerpt |
+| show_on_front | string | Homepage display ("posts" or "page") |
+| page_on_front | integer | Homepage ID |
+| page_for_posts | integer | Posts page ID |
+| blog_public | boolean | Discourage search engine indexing |
 
 ---
 
@@ -222,40 +222,40 @@ Olvasási beállítások frissítése.
 
 ### get-discussion-settings
 
-Hozzászólás beállítások lekérése.
+Get discussion settings.
 
 **Endpoint:** `GET /wp-json/wp-abilities/v1/abilities/site-manager/get-discussion-settings/run`
 
 #### Output Schema
 
-| Mező | Típus | Leírás |
-|------|-------|--------|
-| success | boolean | Művelet sikeressége |
-| settings | object | Beállítások |
-| settings.default_pingback_flag | string | Pingback engedélyezése |
-| settings.default_ping_status | string | Ping állapot (open/closed) |
-| settings.default_comment_status | string | Hozzászólás állapot (open/closed) |
-| settings.require_name_email | string | Név és email kötelező |
-| settings.comment_registration | string | Regisztráció szükséges hozzászóláshoz |
-| settings.close_comments_for_old_posts | string | Régi bejegyzéseknél bezár |
-| settings.close_comments_days_old | string | Napok száma bezárás előtt |
-| settings.thread_comments | string | Szálazott hozzászólások |
-| settings.thread_comments_depth | string | Szálazás mélysége |
-| settings.page_comments | string | Oldalakra bontás |
-| settings.comments_per_page | string | Hozzászólások oldalanként |
-| settings.default_comments_page | string | Alapértelmezett oldal (newest/oldest) |
-| settings.comment_order | string | Sorrend (asc/desc) |
-| settings.comments_notify | string | Email értesítés |
-| settings.moderation_notify | string | Moderálás értesítés |
-| settings.comment_moderation | string | Kézi jóváhagyás |
-| settings.comment_previously_approved | string | Korábban jóváhagyott szerző |
-| settings.moderation_keys | string | Moderálási kulcsszavak |
-| settings.disallowed_keys | string | Tiltott kulcsszavak |
-| settings.show_avatars | string | Avatarok megjelenítése |
-| settings.avatar_rating | string | Avatar besorolás (G/PG/R/X) |
-| settings.avatar_default | string | Alapértelmezett avatar |
+| Field | Type | Description |
+|-------|------|-------------|
+| success | boolean | Operation success |
+| settings | object | Settings |
+| settings.default_pingback_flag | string | Enable pingback |
+| settings.default_ping_status | string | Ping status (open/closed) |
+| settings.default_comment_status | string | Comment status (open/closed) |
+| settings.require_name_email | string | Require name and email |
+| settings.comment_registration | string | Registration required for comments |
+| settings.close_comments_for_old_posts | string | Close comments on old posts |
+| settings.close_comments_days_old | string | Days before closing comments |
+| settings.thread_comments | string | Threaded comments |
+| settings.thread_comments_depth | string | Threading depth |
+| settings.page_comments | string | Paginate comments |
+| settings.comments_per_page | string | Comments per page |
+| settings.default_comments_page | string | Default page (newest/oldest) |
+| settings.comment_order | string | Order (asc/desc) |
+| settings.comments_notify | string | Email notification |
+| settings.moderation_notify | string | Moderation notification |
+| settings.comment_moderation | string | Manual approval |
+| settings.comment_previously_approved | string | Previously approved author |
+| settings.moderation_keys | string | Moderation keywords |
+| settings.disallowed_keys | string | Disallowed keywords |
+| settings.show_avatars | string | Show avatars |
+| settings.avatar_rating | string | Avatar rating (G/PG/R/X) |
+| settings.avatar_default | string | Default avatar |
 
-#### Példa
+#### Example
 
 **Response:**
 ```json
@@ -292,36 +292,36 @@ Hozzászólás beállítások lekérése.
 
 ### update-discussion-settings
 
-Hozzászólás beállítások frissítése.
+Update discussion settings.
 
 **Endpoint:** `POST /wp-json/wp-abilities/v1/abilities/site-manager/update-discussion-settings/run`
 
 #### Input Schema
 
-| Mező | Típus | Leírás |
-|------|-------|--------|
-| default_pingback_flag | boolean | Pingback engedélyezése |
-| default_ping_status | string | Ping állapot ("open" / "closed") |
-| default_comment_status | string | Hozzászólás állapot ("open" / "closed") |
-| require_name_email | boolean | Név és email kötelező |
-| comment_registration | boolean | Regisztráció szükséges |
-| close_comments_for_old_posts | boolean | Régi bejegyzéseknél bezár |
-| close_comments_days_old | integer | Napok száma |
-| thread_comments | boolean | Szálazott hozzászólások |
-| thread_comments_depth | integer | Szálazás mélysége (1-10) |
-| page_comments | boolean | Oldalakra bontás |
-| comments_per_page | integer | Hozzászólások oldalanként |
-| default_comments_page | string | Alapértelmezett oldal ("newest" / "oldest") |
-| comment_order | string | Sorrend ("asc" / "desc") |
-| comments_notify | boolean | Email értesítés |
-| moderation_notify | boolean | Moderálás értesítés |
-| comment_moderation | boolean | Kézi jóváhagyás |
-| comment_previously_approved | boolean | Korábban jóváhagyott szerző |
-| moderation_keys | string | Moderálási kulcsszavak (soronként egy) |
-| disallowed_keys | string | Tiltott kulcsszavak (soronként egy) |
-| show_avatars | boolean | Avatarok megjelenítése |
-| avatar_rating | string | Avatar besorolás ("G" / "PG" / "R" / "X") |
-| avatar_default | string | Alapértelmezett avatar |
+| Field | Type | Description |
+|-------|------|-------------|
+| default_pingback_flag | boolean | Enable pingback |
+| default_ping_status | string | Ping status ("open" / "closed") |
+| default_comment_status | string | Comment status ("open" / "closed") |
+| require_name_email | boolean | Require name and email |
+| comment_registration | boolean | Registration required |
+| close_comments_for_old_posts | boolean | Close comments on old posts |
+| close_comments_days_old | integer | Days count |
+| thread_comments | boolean | Threaded comments |
+| thread_comments_depth | integer | Threading depth (1-10) |
+| page_comments | boolean | Paginate comments |
+| comments_per_page | integer | Comments per page |
+| default_comments_page | string | Default page ("newest" / "oldest") |
+| comment_order | string | Order ("asc" / "desc") |
+| comments_notify | boolean | Email notification |
+| moderation_notify | boolean | Moderation notification |
+| comment_moderation | boolean | Manual approval |
+| comment_previously_approved | boolean | Previously approved author |
+| moderation_keys | string | Moderation keywords (one per line) |
+| disallowed_keys | string | Disallowed keywords (one per line) |
+| show_avatars | boolean | Show avatars |
+| avatar_rating | string | Avatar rating ("G" / "PG" / "R" / "X") |
+| avatar_default | string | Default avatar |
 
 ---
 
@@ -329,22 +329,22 @@ Hozzászólás beállítások frissítése.
 
 ### get-permalink-settings
 
-Közvetlen hivatkozás beállítások lekérése.
+Get permalink settings.
 
 **Endpoint:** `GET /wp-json/wp-abilities/v1/abilities/site-manager/get-permalink-settings/run`
 
 #### Output Schema
 
-| Mező | Típus | Leírás |
-|------|-------|--------|
-| success | boolean | Művelet sikeressége |
-| settings | object | Beállítások |
-| settings.permalink_structure | string | Permalink struktúra |
-| settings.category_base | string | Kategória alap |
-| settings.tag_base | string | Címke alap |
-| settings.common_structures | object | Gyakori struktúrák |
+| Field | Type | Description |
+|-------|------|-------------|
+| success | boolean | Operation success |
+| settings | object | Settings |
+| settings.permalink_structure | string | Permalink structure |
+| settings.category_base | string | Category base |
+| settings.tag_base | string | Tag base |
+| settings.common_structures | object | Common structures |
 
-#### Példa
+#### Example
 
 **Response:**
 ```json
@@ -369,19 +369,19 @@ Közvetlen hivatkozás beállítások lekérése.
 
 ### update-permalink-settings
 
-Közvetlen hivatkozás beállítások frissítése.
+Update permalink settings.
 
 **Endpoint:** `POST /wp-json/wp-abilities/v1/abilities/site-manager/update-permalink-settings/run`
 
 #### Input Schema
 
-| Mező | Típus | Leírás |
-|------|-------|--------|
-| permalink_structure | string | Permalink struktúra (pl. /%postname%/) |
-| category_base | string | Kategória alap |
-| tag_base | string | Címke alap |
+| Field | Type | Description |
+|-------|------|-------------|
+| permalink_structure | string | Permalink structure (e.g., /%postname%/) |
+| category_base | string | Category base |
+| tag_base | string | Tag base |
 
-#### Példa
+#### Example
 
 **Request:**
 ```bash
@@ -405,9 +405,9 @@ curl -X POST "https://example.com/wp-json/wp-abilities/v1/abilities/site-manager
 
 ---
 
-## Megjegyzések
+## Notes
 
-- A `siteurl` és `home` mezők biztonsági okokból nem módosíthatók az API-n keresztül
-- A permalink struktúra módosítása automatikusan újragenerálja a rewrite szabályokat
-- Az `admin_email` mező validálva van - csak érvényes email cím fogadható el
-- A `default_role` csak létező szerepre állítható
+- The `siteurl` and `home` fields cannot be modified via API for security reasons
+- Modifying permalink structure automatically regenerates rewrite rules
+- The `admin_email` field is validated - only valid email addresses are accepted
+- The `default_role` can only be set to an existing role
