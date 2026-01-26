@@ -114,7 +114,7 @@ class CacheManager extends AbstractService {
         return self::successResponse(
             [ 'flushed' => $flushed ],
             sprintf(
-                __( 'Flushed %d cache(s): %s', 'lw-site-manager' ),
+                __( 'Flushed %1$d cache(s): %2$s', 'lw-site-manager' ),
                 count( $flushed ),
                 implode( ', ', $flushed )
             )

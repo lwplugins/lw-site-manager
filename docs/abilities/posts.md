@@ -141,10 +141,11 @@ Create a new post.
 | `parent` | integer | no | - | Parent post ID |
 | `menu_order` | integer | no | - | Menu order |
 | `date` | string | no | now | Date (Y-m-d H:i:s) |
-| `categories` | array | no | - | Category IDs |
+| `categories` | array | no | - | Category IDs (for `post` type) |
 | `tags` | array | no | - | Tag names, slugs or IDs (can be mixed) |
 | `featured_image` | integer | no | - | Featured image attachment ID |
 | `meta` | object | no | - | Custom meta fields |
+| `taxonomies` | object | no | - | Custom taxonomies: `{"taxonomy_name": [term_ids]}` |
 
 ### Output
 
@@ -206,10 +207,11 @@ Update an existing post.
 | `parent` | integer | no | Parent ID |
 | `menu_order` | integer | no | Menu order |
 | `date` | string | no | New date |
-| `categories` | array | no | Category IDs |
+| `categories` | array | no | Category IDs (for `post` type) |
 | `tags` | array | no | Tag names, slugs or IDs (can be mixed) |
 | `featured_image` | integer | no | Featured image ID |
 | `meta` | object | no | Meta fields |
+| `taxonomies` | object | no | Custom taxonomies: `{"taxonomy_name": [term_ids]}` |
 
 ### Output
 
@@ -451,4 +453,113 @@ List available post types.
 ```bash
 curl -s -u "user:pass" \
   'https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/get-post-types/run?input%5Bpublic%5D=true'
+```
+
+---
+
+## set-post-terms
+
+Set taxonomy terms for a post. Supports custom post types and custom taxonomies.
+
+**Method:** `POST`
+**Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/set-post-terms/run`
+
+### Input
+
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| `id` | integer | **yes** | - | Post ID |
+| `taxonomy` | string | **yes** | - | Taxonomy name (e.g., `category`, `post_tag`, or custom) |
+| `terms` | array | no | `[]` | Array of term IDs |
+| `append` | boolean | no | `false` | Append terms instead of replacing |
+
+### Output
+
+```json
+{
+  "success": true,
+  "message": "Terms updated successfully",
+  "post_id": 14,
+  "taxonomy": "bovitmeny_category",
+  "terms": [
+    {"id": 3, "name": "E-commerce", "slug": "e-commerce"},
+    {"id": 4, "name": "WooCommerce", "slug": "woocommerce"}
+  ]
+}
+```
+
+### Example
+
+```bash
+# Set categories for a custom post type
+curl -s -u "user:pass" -X POST \
+  'https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/set-post-terms/run' \
+  -H "Content-Type: application/json" \
+  -d '{"input":{"id":14,"taxonomy":"bovitmeny_category","terms":[3,4]}}'
+
+# Append terms instead of replacing
+curl -s -u "user:pass" -X POST \
+  'https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/set-post-terms/run' \
+  -H "Content-Type: application/json" \
+  -d '{"input":{"id":14,"taxonomy":"bovitmeny_category","terms":[5],"append":true}}'
+```
+
+---
+
+## get-post-terms
+
+Get taxonomy terms for a post. Returns either terms for a specific taxonomy or all taxonomies.
+
+**Method:** `GET`
+**Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/get-post-terms/run`
+
+### Input
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `id` | integer | **yes** | Post ID |
+| `taxonomy` | string | no | Taxonomy name (returns all if not specified) |
+
+### Output (specific taxonomy)
+
+```json
+{
+  "success": true,
+  "post_id": 14,
+  "taxonomy": "bovitmeny_category",
+  "terms": [
+    {"id": 3, "name": "E-commerce", "slug": "e-commerce", "taxonomy": "bovitmeny_category"},
+    {"id": 4, "name": "WooCommerce", "slug": "woocommerce", "taxonomy": "bovitmeny_category"}
+  ]
+}
+```
+
+### Output (all taxonomies)
+
+```json
+{
+  "success": true,
+  "post_id": 14,
+  "taxonomies": {
+    "bovitmeny_category": [
+      {"id": 3, "name": "E-commerce", "slug": "e-commerce"},
+      {"id": 4, "name": "WooCommerce", "slug": "woocommerce"}
+    ],
+    "bovitmeny_tag": [
+      {"id": 10, "name": "subscription", "slug": "subscription"}
+    ]
+  }
+}
+```
+
+### Example
+
+```bash
+# Get terms for a specific taxonomy
+curl -s -u "user:pass" \
+  'https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/get-post-terms/run?input%5Bid%5D=14&input%5Btaxonomy%5D=bovitmeny_category'
+
+# Get all taxonomy terms
+curl -s -u "user:pass" \
+  'https://example.com/wp-json/wp-abilities/v1/abilities/site-manager/get-post-terms/run?input%5Bid%5D=14'
 ```

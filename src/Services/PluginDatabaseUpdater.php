@@ -181,7 +181,7 @@ class PluginDatabaseUpdater extends AbstractService {
         }
 
         $results['summary'] = sprintf(
-            __( 'Updated: %d, Failed: %d', 'lw-site-manager' ),
+            __( 'Updated: %1$d, Failed: %2$d', 'lw-site-manager' ),
             count( $results['updated'] ),
             count( $results['failed'] )
         );

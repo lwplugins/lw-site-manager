@@ -42,7 +42,7 @@ class DatabaseManager extends AbstractService {
                 'failed'    => $failed,
             ],
             sprintf(
-                __( 'Optimized %d tables, %d failed', 'lw-site-manager' ),
+                __( 'Optimized %1$d tables, %2$d failed', 'lw-site-manager' ),
                 count( $optimized ),
                 count( $failed )
             )
@@ -237,7 +237,7 @@ class DatabaseManager extends AbstractService {
                 'failed'   => $failed,
             ],
             sprintf(
-                __( 'Repaired %d tables, %d failed', 'lw-site-manager' ),
+                __( 'Repaired %1$d tables, %2$d failed', 'lw-site-manager' ),
                 count( $repaired ),
                 count( $failed )
             )

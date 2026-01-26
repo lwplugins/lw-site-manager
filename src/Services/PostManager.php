@@ -47,6 +47,139 @@ class PostManager extends AbstractService {
     }
 
     /**
+     * Set taxonomies for a post
+     *
+     * @param int   $post_id    Post ID
+     * @param array $taxonomies Array of taxonomy => term_ids pairs
+     */
+    private static function set_post_taxonomies( int $post_id, array $taxonomies ): void {
+        foreach ( $taxonomies as $taxonomy => $term_ids ) {
+            if ( ! taxonomy_exists( $taxonomy ) ) {
+                continue;
+            }
+            wp_set_object_terms( $post_id, array_map( 'intval', (array) $term_ids ), $taxonomy );
+        }
+    }
+
+    /**
+     * Set terms for a post (public method for ability)
+     */
+    public static function set_post_terms( array $input ): array|\WP_Error {
+        $error = self::validateId( $input );
+        if ( $error ) {
+            return $error;
+        }
+
+        $post = self::getPostOrError( $input['id'] );
+        if ( is_wp_error( $post ) ) {
+            return $post;
+        }
+
+        if ( empty( $input['taxonomy'] ) ) {
+            return self::errorResponse( 'missing_taxonomy', 'Taxonomy is required', 400 );
+        }
+
+        $taxonomy = $input['taxonomy'];
+        if ( ! taxonomy_exists( $taxonomy ) ) {
+            return self::errorResponse( 'invalid_taxonomy', 'Invalid taxonomy: ' . $taxonomy, 400 );
+        }
+
+        // Check if taxonomy is registered for this post type
+        $post_type_taxonomies = get_object_taxonomies( $post->post_type );
+        if ( ! in_array( $taxonomy, $post_type_taxonomies, true ) ) {
+            return self::errorResponse(
+                'taxonomy_not_registered',
+                "Taxonomy '{$taxonomy}' is not registered for post type '{$post->post_type}'",
+                400
+            );
+        }
+
+        $term_ids = isset( $input['terms'] ) ? array_map( 'intval', (array) $input['terms'] ) : [];
+        $append = $input['append'] ?? false;
+
+        $result = wp_set_object_terms( $input['id'], $term_ids, $taxonomy, $append );
+
+        if ( is_wp_error( $result ) ) {
+            return self::errorResponse( 'set_terms_failed', $result->get_error_message(), 500 );
+        }
+
+        // Get updated terms
+        $terms = wp_get_object_terms( $input['id'], $taxonomy );
+        $formatted_terms = array_map( fn( $term ) => [
+            'id'   => $term->term_id,
+            'name' => $term->name,
+            'slug' => $term->slug,
+        ], $terms );
+
+        return [
+            'success'  => true,
+            'message'  => 'Terms updated successfully',
+            'post_id'  => $input['id'],
+            'taxonomy' => $taxonomy,
+            'terms'    => $formatted_terms,
+        ];
+    }
+
+    /**
+     * Get terms for a post
+     */
+    public static function get_post_terms( array $input ): array|\WP_Error {
+        $error = self::validateId( $input );
+        if ( $error ) {
+            return $error;
+        }
+
+        $post = self::getPostOrError( $input['id'] );
+        if ( is_wp_error( $post ) ) {
+            return $post;
+        }
+
+        $taxonomy = $input['taxonomy'] ?? null;
+
+        if ( $taxonomy ) {
+            if ( ! taxonomy_exists( $taxonomy ) ) {
+                return self::errorResponse( 'invalid_taxonomy', 'Invalid taxonomy: ' . $taxonomy, 400 );
+            }
+
+            $terms = wp_get_object_terms( $input['id'], $taxonomy );
+            $formatted_terms = array_map( fn( $term ) => [
+                'id'       => $term->term_id,
+                'name'     => $term->name,
+                'slug'     => $term->slug,
+                'taxonomy' => $term->taxonomy,
+            ], $terms );
+
+            return [
+                'success'  => true,
+                'post_id'  => $input['id'],
+                'taxonomy' => $taxonomy,
+                'terms'    => $formatted_terms,
+            ];
+        }
+
+        // Get all taxonomies for post type
+        $post_type_taxonomies = get_object_taxonomies( $post->post_type );
+        $all_terms = [];
+
+        foreach ( $post_type_taxonomies as $tax ) {
+            $terms = wp_get_object_terms( $input['id'], $tax );
+            if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
+                $all_terms[ $tax ] = array_map( fn( $term ) => [
+                    'id'   => $term->term_id,
+                    'name' => $term->name,
+                    'slug' => $term->slug,
+                ], $terms );
+            }
+        }
+
+        return [
+            'success'    => true,
+            'post_id'    => $input['id'],
+            'taxonomies' => $all_terms,
+        ];
+    }
+
+    /**
      * List posts
      */
     public static function list_posts( array $input ): array {
@@ -198,6 +331,11 @@ class PostManager extends AbstractService {
             }
         }
 
+        // Custom taxonomies
+        if ( ! empty( $input['taxonomies'] ) && is_array( $input['taxonomies'] ) ) {
+            self::set_post_taxonomies( $post_id, $input['taxonomies'] );
+        }
+
         // Featured image
         if ( ! empty( $input['featured_image'] ) ) {
             set_post_thumbnail( $post_id, $input['featured_image'] );
@@ -274,6 +412,11 @@ class PostManager extends AbstractService {
         if ( isset( $input['tags'] ) ) {
             $tag_ids = self::process_tags( (array) $input['tags'] );
             wp_set_post_tags( $input['id'], $tag_ids );
+        }
+
+        // Custom taxonomies
+        if ( ! empty( $input['taxonomies'] ) && is_array( $input['taxonomies'] ) ) {
+            self::set_post_taxonomies( $input['id'], $input['taxonomies'] );
         }
 
         // Featured image
@@ -544,21 +687,25 @@ class PostManager extends AbstractService {
                 'url' => wp_get_attachment_url( $thumbnail_id ),
             ] : null;
 
-            // Categories (for posts)
-            if ( $post->post_type === 'post' ) {
-                $categories = wp_get_post_categories( $post->ID, [ 'fields' => 'all' ] );
-                $data['categories'] = array_map( fn( $cat ) => [
-                    'id'   => $cat->term_id,
-                    'name' => $cat->name,
-                    'slug' => $cat->slug,
-                ], $categories );
+            // Taxonomies - get all registered taxonomies for this post type
+            $post_taxonomies = get_object_taxonomies( $post->post_type, 'objects' );
+            $data['taxonomies'] = [];
 
-                $tags = wp_get_post_tags( $post->ID );
-                $data['tags'] = array_map( fn( $tag ) => [
-                    'id'   => $tag->term_id,
-                    'name' => $tag->name,
-                    'slug' => $tag->slug,
-                ], $tags );
+            foreach ( $post_taxonomies as $taxonomy ) {
+                $terms = wp_get_object_terms( $post->ID, $taxonomy->name );
+                if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
+                    $data['taxonomies'][ $taxonomy->name ] = array_map( fn( $term ) => [
+                        'id'   => $term->term_id,
+                        'name' => $term->name,
+                        'slug' => $term->slug,
+                    ], $terms );
+                }
+            }
+
+            // Legacy: categories and tags for 'post' type (backwards compatibility)
+            if ( $post->post_type === 'post' ) {
+                $data['categories'] = $data['taxonomies']['category'] ?? [];
+                $data['tags'] = $data['taxonomies']['post_tag'] ?? [];
             }
 
             // Comments count

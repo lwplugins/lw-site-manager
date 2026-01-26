@@ -271,6 +271,11 @@ class PostAbilities {
                     'default'    => [],
                             'description' => 'Custom meta fields',
                         ],
+                        'taxonomies' => [
+                            'type'        => 'object',
+                            'default'     => [],
+                            'description' => 'Custom taxonomies as taxonomy_name => [term_ids] pairs',
+                        ],
                     ],
                     'required' => [ 'title' ],
                 ],
@@ -356,6 +361,11 @@ class PostAbilities {
                             'type'        => 'object',
                     'default'    => [],
                             'description' => 'Custom meta fields',
+                        ],
+                        'taxonomies' => [
+                            'type'        => 'object',
+                            'default'     => [],
+                            'description' => 'Custom taxonomies as taxonomy_name => [term_ids] pairs',
                         ],
                     ],
                     'required' => [ 'id' ],
@@ -504,6 +514,104 @@ class PostAbilities {
                 'execute_callback'    => [ PostManager::class, 'bulk_action' ],
                 'permission_callback' => $permissions->callback( 'can_edit_posts' ),
                 'meta' => self::writeMeta(),
+            ]
+        );
+
+        // Set post terms
+        wp_register_ability(
+            'site-manager/set-post-terms',
+            [
+                'label'       => __( 'Set Post Terms', 'lw-site-manager' ),
+                'description' => __( 'Set taxonomy terms for a post (supports custom post types and taxonomies)', 'lw-site-manager' ),
+                'category'    => 'content',
+                'input_schema' => [
+                    'type'       => 'object',
+                    'default'    => [],
+                    'properties' => [
+                        'id' => [
+                            'type'        => 'integer',
+                            'description' => 'Post ID',
+                        ],
+                        'taxonomy' => [
+                            'type'        => 'string',
+                            'description' => 'Taxonomy name (e.g., category, post_tag, or custom taxonomy)',
+                        ],
+                        'terms' => [
+                            'type'        => 'array',
+                            'items'       => [ 'type' => 'integer' ],
+                            'description' => 'Array of term IDs',
+                        ],
+                        'append' => [
+                            'type'        => 'boolean',
+                            'default'     => false,
+                            'description' => 'Append terms instead of replacing',
+                        ],
+                    ],
+                    'required' => [ 'id', 'taxonomy' ],
+                ],
+                'output_schema' => [
+                    'type'       => 'object',
+                    'default'    => [],
+                    'properties' => [
+                        'success'  => [ 'type' => 'boolean' ],
+                        'message'  => [ 'type' => 'string' ],
+                        'post_id'  => [ 'type' => 'integer' ],
+                        'taxonomy' => [ 'type' => 'string' ],
+                        'terms'    => [
+                            'type'  => 'array',
+                            'items' => [
+                                'type'       => 'object',
+                                'properties' => [
+                                    'id'   => [ 'type' => 'integer' ],
+                                    'name' => [ 'type' => 'string' ],
+                                    'slug' => [ 'type' => 'string' ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                'execute_callback'    => [ PostManager::class, 'set_post_terms' ],
+                'permission_callback' => $permissions->callback( 'can_edit_posts' ),
+                'meta' => self::writeMeta(),
+            ]
+        );
+
+        // Get post terms
+        wp_register_ability(
+            'site-manager/get-post-terms',
+            [
+                'label'       => __( 'Get Post Terms', 'lw-site-manager' ),
+                'description' => __( 'Get taxonomy terms for a post (supports custom post types and taxonomies)', 'lw-site-manager' ),
+                'category'    => 'content',
+                'input_schema' => [
+                    'type'       => 'object',
+                    'default'    => [],
+                    'properties' => [
+                        'id' => [
+                            'type'        => 'integer',
+                            'description' => 'Post ID',
+                        ],
+                        'taxonomy' => [
+                            'type'        => 'string',
+                            'description' => 'Taxonomy name (optional, returns all if not specified)',
+                        ],
+                    ],
+                    'required' => [ 'id' ],
+                ],
+                'output_schema' => [
+                    'type'       => 'object',
+                    'default'    => [],
+                    'properties' => [
+                        'success'    => [ 'type' => 'boolean' ],
+                        'post_id'    => [ 'type' => 'integer' ],
+                        'taxonomy'   => [ 'type' => 'string' ],
+                        'terms'      => [ 'type' => 'array' ],
+                        'taxonomies' => [ 'type' => 'object' ],
+                    ],
+                ],
+                'execute_callback'    => [ PostManager::class, 'get_post_terms' ],
+                'permission_callback' => $permissions->callback( 'can_edit_posts' ),
+                'meta' => self::readOnlyMeta(),
             ]
         );
     }

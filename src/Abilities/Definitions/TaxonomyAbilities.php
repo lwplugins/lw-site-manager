@@ -28,7 +28,6 @@ class TaxonomyAbilities {
                 'input_schema' => [
                     'type'       => 'object',
                     'default'    => [],
-                    'default'    => [],
                     'properties' => [
                         'limit' => [
                             'type'    => 'integer',

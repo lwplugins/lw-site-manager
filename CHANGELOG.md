@@ -5,7 +5,34 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.1.0] - 2025-01-26
+## [1.1.3] - 2026-01-26
+
+### Added
+- Custom taxonomy support in `create-post` and `update-post` via `taxonomies` parameter
+- New `set-post-terms` ability for setting taxonomy terms on any post type
+- New `get-post-terms` ability for retrieving taxonomy terms (single or all)
+- All taxonomies now returned in post responses with backwards compatibility for `categories` and `tags`
+- PHPCS configuration with WordPress coding standards (PSR-4 compatible)
+
+### Fixed
+- Duplicate array key in TaxonomyAbilities
+- Auto-fixed placeholder ordering in i18n strings
+
+### Changed
+- Improved `.gitignore` configuration
+- Removed `composer.lock` from version control
+
+## [1.1.2] - 2026-01-26
+
+### Changed
+- Documentation translated to English (all 14 ability documentation files)
+
+## [1.1.1] - 2026-01-26
+
+### Changed
+- Version bump for documentation updates
+
+## [1.1.0] - 2026-01-26
 
 ### Changed
 - Renamed plugin from WP Site Manager to LW Site Manager
@@ -13,7 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated namespace from `WPSiteManager` to `LightweightPlugins\SiteManager`
 - Updated constants prefix from `WPSM_` to `LW_SITE_MANAGER_`
 - Updated text-domain from `wp-site-manager` to `lw-site-manager`
-- Requires PHP 8.2+ (was 8.0+)
+- Requires PHP 8.1+ (was 8.0+)
 - Added LW Plugins unified admin menu integration
 
 ## [1.0.6] - 2025-01-19

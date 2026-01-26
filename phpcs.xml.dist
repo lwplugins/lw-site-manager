@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+<ruleset name="LW Site Manager">
+	<description>WordPress Coding Standards for LW Site Manager (PSR-4 compatible)</description>
+
+	<!-- Scan these files -->
+	<file>./src</file>
+	<file>./lw-site-manager.php</file>
+
+	<!-- Exclude vendor -->
+	<exclude-pattern>./vendor/*</exclude-pattern>
+	<exclude-pattern>./node_modules/*</exclude-pattern>
+
+	<!-- Use WordPress Coding Standards -->
+	<rule ref="WordPress">
+		<!-- PSR-4 autoloading: use PascalCase filenames -->
+		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
+
+		<!-- Allow modern PHP style (spaces, short arrays, double quotes) -->
+		<exclude name="Generic.WhiteSpace.DisallowSpaceIndent"/>
+		<exclude name="Generic.Formatting.MultipleStatementAlignment"/>
+		<exclude name="WordPress.Arrays.ArrayDeclarationSpacing"/>
+		<exclude name="WordPress.Arrays.ArrayKeySpacingRestrictions"/>
+		<exclude name="WordPress.Arrays.MultipleStatementAlignment"/>
+		<exclude name="WordPress.WhiteSpace.OperatorSpacing"/>
+		<exclude name="Squiz.Strings.DoubleQuoteUsage"/>
+		<exclude name="Squiz.Strings.DoubleQuoteUsage.NotRequired"/>
+
+		<!-- Allow short array syntax -->
+		<exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
+		<exclude name="Generic.Arrays.DisallowShortArraySyntax.Found"/>
+		<exclude name="Universal.Arrays.DisallowShortArraySyntax"/>
+		<exclude name="Universal.Arrays.DisallowShortArraySyntax.Found"/>
+
+		<!-- Allow PSR-style array/function spacing -->
+		<exclude name="NormalizedArrays.Arrays.ArrayBraceSpacing"/>
+		<exclude name="Squiz.Functions.FunctionDeclarationArgumentSpacing"/>
+		<exclude name="Squiz.Functions.MultiLineFunctionDeclaration"/>
+		<exclude name="PEAR.Functions.FunctionCallSignature"/>
+		<exclude name="WordPress.WhiteSpace.ControlStructureSpacing"/>
+		<exclude name="WordPress.Arrays.ArrayIndentation"/>
+		<exclude name="Generic.WhiteSpace.ScopeIndent"/>
+
+		<!-- Allow non-Yoda conditions (modern PHP style) -->
+		<exclude name="WordPress.PHP.YodaConditions"/>
+
+		<!-- Allow PSR-style camelCase naming -->
+		<exclude name="WordPress.NamingConventions.ValidFunctionName"/>
+		<exclude name="WordPress.NamingConventions.ValidVariableName"/>
+		<exclude name="WordPress.NamingConventions.ValidHookName"/>
+		<exclude name="Universal.NamingConventions.NoReservedKeywordParameterNames"/>
+
+		<!-- Allow modern PHP operators -->
+		<exclude name="Universal.Operators.DisallowStandalonePostIncrementDecrement"/>
+
+		<!-- Site manager needs meta queries and direct DB access -->
+		<exclude name="WordPress.DB.SlowDBQuery"/>
+		<exclude name="WordPress.DB.DirectDatabaseQuery"/>
+		<exclude name="WordPress.DB.PreparedSQL"/>
+
+		<!-- Site manager needs direct file operations for backups -->
+		<exclude name="WordPress.WP.AlternativeFunctions"/>
+
+		<!-- Error handler needs these functions -->
+		<exclude name="WordPress.PHP.DevelopmentFunctions"/>
+
+		<!-- Allow unused parameters (for interface compliance) -->
+		<exclude name="Generic.CodeAnalysis.UnusedFunctionParameter"/>
+
+		<!-- Allow date() for non-timezone-critical operations -->
+		<exclude name="WordPress.DateTime.RestrictedFunctions"/>
+
+		<!-- Allow short ternary for concise code -->
+		<exclude name="Universal.Operators.DisallowShortTernary"/>
+
+		<!-- Allow loose comparisons where appropriate -->
+		<exclude name="Universal.Operators.StrictComparisons"/>
+
+		<!-- Allow silencing errors for optional functions -->
+		<exclude name="WordPress.PHP.NoSilencedErrors"/>
+
+		<!-- Allow code-like comments -->
+		<exclude name="Squiz.PHP.CommentedOutCode"/>
+
+		<!-- $_SERVER access is validated at API level -->
+		<exclude name="WordPress.Security.ValidatedSanitizedInput"/>
+
+		<!-- Translators comments are optional for simple placeholders -->
+		<exclude name="WordPress.WP.I18n.MissingTranslatorsComment"/>
+
+		<!-- base64 functions used for media upload -->
+		<exclude name="WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode"/>
+
+		<!-- Skip documentation requirements -->
+		<exclude name="Squiz.Commenting.FileComment"/>
+		<exclude name="Squiz.Commenting.ClassComment"/>
+		<exclude name="Squiz.Commenting.FunctionComment"/>
+		<exclude name="Squiz.Commenting.VariableComment"/>
+		<exclude name="Squiz.Commenting.InlineComment"/>
+	</rule>
+
+	<!-- PHP 8.1+ -->
+	<config name="testVersion" value="8.1-"/>
+
+	<!-- Text domain -->
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="lw-site-manager"/>
+			</property>
+		</properties>
+	</rule>
+
+	<!-- Minimum WP version -->
+	<config name="minimum_wp_version" value="6.9"/>
+
+	<!-- Show colors and progress -->
+	<arg name="colors"/>
+	<arg value="sp"/>
+</ruleset>

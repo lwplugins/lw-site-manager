@@ -3,7 +3,7 @@
  * Plugin Name: Lightweight Site Manager
  * Plugin URI: https://github.com/lwplugins/lw-site-manager
  * Description: WordPress Site Manager using Abilities API - Full site maintenance via AI/REST
- * Version: 1.1.2
+ * Version: 1.1.3
  * Requires at least: 6.9
  * Requires PHP: 8.1
  * Author: LW Plugins
@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Plugin constants.
-define( 'LW_SITE_MANAGER_VERSION', '1.1.2' );
+define( 'LW_SITE_MANAGER_VERSION', '1.1.3' );
 define( 'LW_SITE_MANAGER_FILE', __FILE__ );
 define( 'LW_SITE_MANAGER_DIR', plugin_dir_path( __FILE__ ) );
 define( 'LW_SITE_MANAGER_URL', plugin_dir_url( __FILE__ ) );

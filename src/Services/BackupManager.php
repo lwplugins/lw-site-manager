@@ -396,7 +396,7 @@ class BackupManager extends AbstractService {
 
         // Restore WordPress files
         if ( $restore_files && ! empty( $backup['manifest']['includes']['wordpress'] ) ) {
-            self::extract_directory_from_zip( $zip, 'wordpress', ABSPATH );
+            self::extract_directory_from_zip( $zip, 'WordPress', ABSPATH );
             $restored['wordpress'] = true;
         }
 

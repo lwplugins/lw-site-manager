@@ -155,7 +155,7 @@ class UpdateManager extends AbstractService {
             ! $has_fatal,
             $has_fatal
                 ? __( 'Plugin updated but PHP errors detected', 'lw-site-manager' )
-                : sprintf( __( 'Plugin updated successfully: %s → %s', 'lw-site-manager' ), $old_version, $new_version ),
+                : sprintf( __( 'Plugin updated successfully: %1$s → %2$s', 'lw-site-manager' ), $old_version, $new_version ),
             $old_version,
             $new_version,
             $php_errors
@@ -222,7 +222,7 @@ class UpdateManager extends AbstractService {
             ! $has_fatal,
             $has_fatal
                 ? __( 'Theme updated but PHP errors detected', 'lw-site-manager' )
-                : sprintf( __( 'Theme updated successfully: %s → %s', 'lw-site-manager' ), $old_version, $new_version ),
+                : sprintf( __( 'Theme updated successfully: %1$s → %2$s', 'lw-site-manager' ), $old_version, $new_version ),
             $old_version,
             $new_version,
             $php_errors
@@ -295,7 +295,7 @@ class UpdateManager extends AbstractService {
             ! $has_fatal,
             $has_fatal
                 ? __( 'Core updated but PHP errors detected', 'lw-site-manager' )
-                : sprintf( __( 'WordPress updated: %s → %s', 'lw-site-manager' ), $old_version, $new_version ),
+                : sprintf( __( 'WordPress updated: %1$s → %2$s', 'lw-site-manager' ), $old_version, $new_version ),
             $old_version,
             $new_version,
             $php_errors
@@ -452,7 +452,7 @@ class UpdateManager extends AbstractService {
 
         // Build summary
         $result['summary'] = sprintf(
-            __( 'Updated: %d, Failed: %d, PHP Errors: %d', 'lw-site-manager' ),
+            __( 'Updated: %1$d, Failed: %2$d, PHP Errors: %3$d', 'lw-site-manager' ),
             $total_updated,
             $total_failed,
             count( $result['php_errors'] )
@@ -790,7 +790,7 @@ class UpdateManager extends AbstractService {
             'success'    => ! $has_fatal,
             'message'    => $has_fatal
                 ? __( 'Plugin installed but PHP errors detected', 'lw-site-manager' )
-                : sprintf( __( 'Plugin "%s" installed successfully (v%s)', 'lw-site-manager' ), $api->name, $api->version ),
+                : sprintf( __( 'Plugin "%1$s" installed successfully (v%2$s)', 'lw-site-manager' ), $api->name, $api->version ),
             'plugin'     => $plugin_file,
             'name'       => $api->name,
             'version'    => $api->version,
@@ -881,7 +881,7 @@ class UpdateManager extends AbstractService {
             'success'    => ! $has_fatal,
             'message'    => $has_fatal
                 ? __( 'Theme installed but PHP errors detected', 'lw-site-manager' )
-                : sprintf( __( 'Theme "%s" installed successfully (v%s)', 'lw-site-manager' ), $theme->get( 'Name' ), $theme->get( 'Version' ) ),
+                : sprintf( __( 'Theme "%1$s" installed successfully (v%2$s)', 'lw-site-manager' ), $theme->get( 'Name' ), $theme->get( 'Version' ) ),
             'theme'      => $slug,
             'name'       => $theme->get( 'Name' ),
             'version'    => $theme->get( 'Version' ),
