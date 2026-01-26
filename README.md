@@ -1,4 +1,4 @@
-# LW Site Manager
+# Lightweight Site Manager
 
 WordPress Site Manager using the Abilities API - A native, AI-ready alternative to MainWP.
 
