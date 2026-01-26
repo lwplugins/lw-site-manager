@@ -137,6 +137,7 @@ class MediaManager extends AbstractService {
         $file_array = [
             'name'     => $filename,
             'tmp_name' => $tmp,
+            'type'     => self::get_mime_type_for_file( $filename, $tmp ),
         ];
 
         // Upload to media library
@@ -180,6 +181,7 @@ class MediaManager extends AbstractService {
         $file_array = [
             'name'     => $filename,
             'tmp_name' => $tmp,
+            'type'     => self::get_mime_type_for_file( $filename, $tmp ),
         ];
 
         // Upload to media library
@@ -195,6 +197,56 @@ class MediaManager extends AbstractService {
         }
 
         return $attachment_id;
+    }
+
+    /**
+     * Get MIME type for a file based on extension and content
+     *
+     * @param string $filename The filename with extension.
+     * @param string $filepath The path to the file.
+     * @return string The MIME type.
+     */
+    private static function get_mime_type_for_file( string $filename, string $filepath ): string {
+        $ext = strtolower( pathinfo( $filename, PATHINFO_EXTENSION ) );
+
+        // Check allowed mimes first (respects plugins that add custom types)
+        $allowed_mimes = get_allowed_mime_types();
+
+        // Direct extension match
+        if ( isset( $allowed_mimes[ $ext ] ) ) {
+            return $allowed_mimes[ $ext ];
+        }
+
+        // Check for extension in combined keys (e.g., 'jpg|jpeg|jpe' => 'image/jpeg')
+        foreach ( $allowed_mimes as $exts => $mime ) {
+            $ext_list = explode( '|', $exts );
+            if ( in_array( $ext, $ext_list, true ) ) {
+                return $mime;
+            }
+        }
+
+        // SVG special handling
+        if ( 'svg' === $ext || 'svgz' === $ext ) {
+            return 'image/svg+xml';
+        }
+
+        // Fallback to WordPress mime type detection
+        $filetype = wp_check_filetype( $filename );
+        if ( ! empty( $filetype['type'] ) ) {
+            return $filetype['type'];
+        }
+
+        // Last resort: try finfo if available
+        if ( function_exists( 'finfo_open' ) && file_exists( $filepath ) ) {
+            $finfo = finfo_open( FILEINFO_MIME_TYPE );
+            $mime  = finfo_file( $finfo, $filepath );
+            finfo_close( $finfo );
+            if ( $mime ) {
+                return $mime;
+            }
+        }
+
+        return 'application/octet-stream';
     }
 
     /**

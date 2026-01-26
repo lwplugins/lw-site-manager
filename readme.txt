@@ -4,7 +4,7 @@ Tags: site-manager, maintenance, ai, rest-api, abilities
 Requires at least: 6.9
 Tested up to: 6.9
 Requires PHP: 8.1
-Stable tag: 1.1.4
+Stable tag: 1.1.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,6 +85,10 @@ Yes, LW Site Manager provides similar functionality to MainWP but uses the nativ
 3. Backup creation options
 
 == Changelog ==
+
+= 1.1.5 =
+* Fixed: SVG upload support via Abilities API when SVG plugins (Allow SVG, Safe SVG) are active
+* Added: MIME type detection in media upload that respects third-party plugin filters
 
 = 1.1.4 =
 * Added: Custom taxonomy support in category and tag abilities via taxonomy parameter
