@@ -5,10 +5,10 @@
 
 declare(strict_types=1);
 
-namespace WPSiteManager\Abilities\Definitions;
+namespace LightweightPlugins\SiteManager\Abilities\Definitions;
 
-use WPSiteManager\Abilities\PermissionManager;
-use WPSiteManager\Services\CommentManager;
+use LightweightPlugins\SiteManager\Abilities\PermissionManager;
+use LightweightPlugins\SiteManager\Services\CommentManager;
 
 class CommentAbilities {
 
@@ -32,8 +32,8 @@ class CommentAbilities {
         wp_register_ability(
             'site-manager/list-comments',
             [
-                'label'       => __( 'List Comments', 'wp-site-manager' ),
-                'description' => __( 'List comments with filtering options', 'wp-site-manager' ),
+                'label'       => __( 'List Comments', 'lw-site-manager' ),
+                'description' => __( 'List comments with filtering options', 'lw-site-manager' ),
                 'category'    => 'comments',
                 'input_schema' => [
                     'type'       => 'object',
@@ -94,8 +94,8 @@ class CommentAbilities {
         wp_register_ability(
             'site-manager/get-comment',
             [
-                'label'       => __( 'Get Comment', 'wp-site-manager' ),
-                'description' => __( 'Get detailed information about a comment', 'wp-site-manager' ),
+                'label'       => __( 'Get Comment', 'lw-site-manager' ),
+                'description' => __( 'Get detailed information about a comment', 'lw-site-manager' ),
                 'category'    => 'comments',
                 'input_schema' => [
                     'type'       => 'object',
@@ -119,8 +119,8 @@ class CommentAbilities {
         wp_register_ability(
             'site-manager/comment-counts',
             [
-                'label'       => __( 'Get Comment Counts', 'wp-site-manager' ),
-                'description' => __( 'Get comment counts by status', 'wp-site-manager' ),
+                'label'       => __( 'Get Comment Counts', 'lw-site-manager' ),
+                'description' => __( 'Get comment counts by status', 'lw-site-manager' ),
                 'category'    => 'comments',
                 'input_schema' => [
                     'type'       => 'object',
@@ -160,8 +160,8 @@ class CommentAbilities {
         wp_register_ability(
             'site-manager/create-comment',
             [
-                'label'       => __( 'Create Comment', 'wp-site-manager' ),
-                'description' => __( 'Create a new comment', 'wp-site-manager' ),
+                'label'       => __( 'Create Comment', 'lw-site-manager' ),
+                'description' => __( 'Create a new comment', 'lw-site-manager' ),
                 'category'    => 'comments',
                 'input_schema' => [
                     'type'       => 'object',
@@ -214,8 +214,8 @@ class CommentAbilities {
         wp_register_ability(
             'site-manager/update-comment',
             [
-                'label'       => __( 'Update Comment', 'wp-site-manager' ),
-                'description' => __( 'Update an existing comment', 'wp-site-manager' ),
+                'label'       => __( 'Update Comment', 'lw-site-manager' ),
+                'description' => __( 'Update an existing comment', 'lw-site-manager' ),
                 'category'    => 'comments',
                 'input_schema' => [
                     'type'       => 'object',
@@ -260,8 +260,8 @@ class CommentAbilities {
         wp_register_ability(
             'site-manager/delete-comment',
             [
-                'label'       => __( 'Delete Comment', 'wp-site-manager' ),
-                'description' => __( 'Delete a comment', 'wp-site-manager' ),
+                'label'       => __( 'Delete Comment', 'lw-site-manager' ),
+                'description' => __( 'Delete a comment', 'lw-site-manager' ),
                 'category'    => 'comments',
                 'input_schema' => [
                     'type'       => 'object',
@@ -305,8 +305,8 @@ class CommentAbilities {
         wp_register_ability(
             'site-manager/approve-comment',
             [
-                'label'       => __( 'Approve Comment', 'wp-site-manager' ),
-                'description' => __( 'Approve a pending comment', 'wp-site-manager' ),
+                'label'       => __( 'Approve Comment', 'lw-site-manager' ),
+                'description' => __( 'Approve a pending comment', 'lw-site-manager' ),
                 'category'    => 'comments',
                 'input_schema' => [
                     'type'       => 'object',
@@ -330,8 +330,8 @@ class CommentAbilities {
         wp_register_ability(
             'site-manager/spam-comment',
             [
-                'label'       => __( 'Mark Comment as Spam', 'wp-site-manager' ),
-                'description' => __( 'Mark a comment as spam', 'wp-site-manager' ),
+                'label'       => __( 'Mark Comment as Spam', 'lw-site-manager' ),
+                'description' => __( 'Mark a comment as spam', 'lw-site-manager' ),
                 'category'    => 'comments',
                 'input_schema' => [
                     'type'       => 'object',
@@ -355,8 +355,8 @@ class CommentAbilities {
         wp_register_ability(
             'site-manager/bulk-comments',
             [
-                'label'       => __( 'Bulk Comment Action', 'wp-site-manager' ),
-                'description' => __( 'Perform bulk actions on multiple comments', 'wp-site-manager' ),
+                'label'       => __( 'Bulk Comment Action', 'lw-site-manager' ),
+                'description' => __( 'Perform bulk actions on multiple comments', 'lw-site-manager' ),
                 'category'    => 'comments',
                 'input_schema' => [
                     'type'       => 'object',

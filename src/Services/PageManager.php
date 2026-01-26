@@ -8,7 +8,7 @@
 
 declare(strict_types=1);
 
-namespace WPSiteManager\Services;
+namespace LightweightPlugins\SiteManager\Services;
 
 class PageManager extends AbstractService {
 

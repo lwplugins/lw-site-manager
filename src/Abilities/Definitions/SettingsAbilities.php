@@ -5,10 +5,10 @@
 
 declare(strict_types=1);
 
-namespace WPSiteManager\Abilities\Definitions;
+namespace LightweightPlugins\SiteManager\Abilities\Definitions;
 
-use WPSiteManager\Abilities\PermissionManager;
-use WPSiteManager\Services\SettingsManager;
+use LightweightPlugins\SiteManager\Abilities\PermissionManager;
+use LightweightPlugins\SiteManager\Services\SettingsManager;
 
 class SettingsAbilities {
 
@@ -24,8 +24,8 @@ class SettingsAbilities {
         wp_register_ability(
             'site-manager/get-general-settings',
             [
-                'label'       => __( 'Get General Settings', 'wp-site-manager' ),
-                'description' => __( 'Get WordPress general settings (site title, tagline, email, etc.)', 'wp-site-manager' ),
+                'label'       => __( 'Get General Settings', 'lw-site-manager' ),
+                'description' => __( 'Get WordPress general settings (site title, tagline, email, etc.)', 'lw-site-manager' ),
                 'category'    => 'settings',
                 'input_schema' => [
                     'type'       => 'object',
@@ -72,8 +72,8 @@ class SettingsAbilities {
         wp_register_ability(
             'site-manager/update-general-settings',
             [
-                'label'       => __( 'Update General Settings', 'wp-site-manager' ),
-                'description' => __( 'Update WordPress general settings', 'wp-site-manager' ),
+                'label'       => __( 'Update General Settings', 'lw-site-manager' ),
+                'description' => __( 'Update WordPress general settings', 'lw-site-manager' ),
                 'category'    => 'settings',
                 'input_schema' => [
                     'type'       => 'object',
@@ -136,8 +136,8 @@ class SettingsAbilities {
         wp_register_ability(
             'site-manager/get-reading-settings',
             [
-                'label'       => __( 'Get Reading Settings', 'wp-site-manager' ),
-                'description' => __( 'Get WordPress reading settings', 'wp-site-manager' ),
+                'label'       => __( 'Get Reading Settings', 'lw-site-manager' ),
+                'description' => __( 'Get WordPress reading settings', 'lw-site-manager' ),
                 'category'    => 'settings',
                 'input_schema' => [
                     'type'       => 'object',
@@ -176,8 +176,8 @@ class SettingsAbilities {
         wp_register_ability(
             'site-manager/update-reading-settings',
             [
-                'label'       => __( 'Update Reading Settings', 'wp-site-manager' ),
-                'description' => __( 'Update WordPress reading settings', 'wp-site-manager' ),
+                'label'       => __( 'Update Reading Settings', 'lw-site-manager' ),
+                'description' => __( 'Update WordPress reading settings', 'lw-site-manager' ),
                 'category'    => 'settings',
                 'input_schema' => [
                     'type'       => 'object',
@@ -231,8 +231,8 @@ class SettingsAbilities {
         wp_register_ability(
             'site-manager/get-discussion-settings',
             [
-                'label'       => __( 'Get Discussion Settings', 'wp-site-manager' ),
-                'description' => __( 'Get WordPress discussion/comment settings', 'wp-site-manager' ),
+                'label'       => __( 'Get Discussion Settings', 'lw-site-manager' ),
+                'description' => __( 'Get WordPress discussion/comment settings', 'lw-site-manager' ),
                 'category'    => 'settings',
                 'input_schema' => [
                     'type'       => 'object',
@@ -261,8 +261,8 @@ class SettingsAbilities {
         wp_register_ability(
             'site-manager/update-discussion-settings',
             [
-                'label'       => __( 'Update Discussion Settings', 'wp-site-manager' ),
-                'description' => __( 'Update WordPress discussion/comment settings', 'wp-site-manager' ),
+                'label'       => __( 'Update Discussion Settings', 'lw-site-manager' ),
+                'description' => __( 'Update WordPress discussion/comment settings', 'lw-site-manager' ),
                 'category'    => 'settings',
                 'input_schema' => [
                     'type'       => 'object',
@@ -370,8 +370,8 @@ class SettingsAbilities {
         wp_register_ability(
             'site-manager/get-permalink-settings',
             [
-                'label'       => __( 'Get Permalink Settings', 'wp-site-manager' ),
-                'description' => __( 'Get WordPress permalink settings', 'wp-site-manager' ),
+                'label'       => __( 'Get Permalink Settings', 'lw-site-manager' ),
+                'description' => __( 'Get WordPress permalink settings', 'lw-site-manager' ),
                 'category'    => 'settings',
                 'input_schema' => [
                     'type'       => 'object',
@@ -409,8 +409,8 @@ class SettingsAbilities {
         wp_register_ability(
             'site-manager/update-permalink-settings',
             [
-                'label'       => __( 'Update Permalink Settings', 'wp-site-manager' ),
-                'description' => __( 'Update WordPress permalink settings', 'wp-site-manager' ),
+                'label'       => __( 'Update Permalink Settings', 'lw-site-manager' ),
+                'description' => __( 'Update WordPress permalink settings', 'lw-site-manager' ),
                 'category'    => 'settings',
                 'input_schema' => [
                     'type'       => 'object',

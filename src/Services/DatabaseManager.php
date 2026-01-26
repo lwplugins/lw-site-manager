@@ -5,7 +5,7 @@
 
 declare(strict_types=1);
 
-namespace WPSiteManager\Services;
+namespace LightweightPlugins\SiteManager\Services;
 
 class DatabaseManager extends AbstractService {
 
@@ -42,7 +42,7 @@ class DatabaseManager extends AbstractService {
                 'failed'    => $failed,
             ],
             sprintf(
-                __( 'Optimized %d tables, %d failed', 'wp-site-manager' ),
+                __( 'Optimized %d tables, %d failed', 'lw-site-manager' ),
                 count( $optimized ),
                 count( $failed )
             )
@@ -160,7 +160,7 @@ class DatabaseManager extends AbstractService {
                 'total'   => $total_deleted,
             ],
             sprintf(
-                __( 'Cleaned up %d items from database', 'wp-site-manager' ),
+                __( 'Cleaned up %d items from database', 'lw-site-manager' ),
                 $total_deleted
             )
         );
@@ -237,7 +237,7 @@ class DatabaseManager extends AbstractService {
                 'failed'   => $failed,
             ],
             sprintf(
-                __( 'Repaired %d tables, %d failed', 'wp-site-manager' ),
+                __( 'Repaired %d tables, %d failed', 'lw-site-manager' ),
                 count( $repaired ),
                 count( $failed )
             )

@@ -5,7 +5,7 @@
 
 declare(strict_types=1);
 
-namespace WPSiteManager\Handlers;
+namespace LightweightPlugins\SiteManager\Handlers;
 
 class ErrorHandler {
 

@@ -5,12 +5,12 @@
 
 declare(strict_types=1);
 
-namespace WPSiteManager\Abilities\Definitions;
+namespace LightweightPlugins\SiteManager\Abilities\Definitions;
 
-use WPSiteManager\Abilities\PermissionManager;
-use WPSiteManager\Services\WooCommerce\ProductManager;
-use WPSiteManager\Services\WooCommerce\OrderManager;
-use WPSiteManager\Services\WooCommerce\ReportManager;
+use LightweightPlugins\SiteManager\Abilities\PermissionManager;
+use LightweightPlugins\SiteManager\Services\WooCommerce\ProductManager;
+use LightweightPlugins\SiteManager\Services\WooCommerce\OrderManager;
+use LightweightPlugins\SiteManager\Services\WooCommerce\ReportManager;
 
 class WooCommerceAbilities {
 
@@ -37,8 +37,8 @@ class WooCommerceAbilities {
         wp_register_ability(
             'site-manager/wc-list-products',
             [
-                'label'       => __( 'List Products', 'wp-site-manager' ),
-                'description' => __( 'List WooCommerce products with filtering options', 'wp-site-manager' ),
+                'label'       => __( 'List Products', 'lw-site-manager' ),
+                'description' => __( 'List WooCommerce products with filtering options', 'lw-site-manager' ),
                 'category'    => 'wc-products',
                 'input_schema' => [
                     'type'       => 'object',
@@ -102,8 +102,8 @@ class WooCommerceAbilities {
         wp_register_ability(
             'site-manager/wc-get-product',
             [
-                'label'       => __( 'Get Product', 'wp-site-manager' ),
-                'description' => __( 'Get detailed information about a WooCommerce product', 'wp-site-manager' ),
+                'label'       => __( 'Get Product', 'lw-site-manager' ),
+                'description' => __( 'Get detailed information about a WooCommerce product', 'lw-site-manager' ),
                 'category'    => 'wc-products',
                 'input_schema' => [
                     'type'       => 'object',
@@ -134,8 +134,8 @@ class WooCommerceAbilities {
         wp_register_ability(
             'site-manager/wc-create-product',
             [
-                'label'       => __( 'Create Product', 'wp-site-manager' ),
-                'description' => __( 'Create a new WooCommerce product', 'wp-site-manager' ),
+                'label'       => __( 'Create Product', 'lw-site-manager' ),
+                'description' => __( 'Create a new WooCommerce product', 'lw-site-manager' ),
                 'category'    => 'wc-products',
                 'input_schema' => [
                     'type'       => 'object',
@@ -154,8 +154,8 @@ class WooCommerceAbilities {
         wp_register_ability(
             'site-manager/wc-update-product',
             [
-                'label'       => __( 'Update Product', 'wp-site-manager' ),
-                'description' => __( 'Update an existing WooCommerce product', 'wp-site-manager' ),
+                'label'       => __( 'Update Product', 'lw-site-manager' ),
+                'description' => __( 'Update an existing WooCommerce product', 'lw-site-manager' ),
                 'category'    => 'wc-products',
                 'input_schema' => [
                     'type'       => 'object',
@@ -177,8 +177,8 @@ class WooCommerceAbilities {
         wp_register_ability(
             'site-manager/wc-delete-product',
             [
-                'label'       => __( 'Delete Product', 'wp-site-manager' ),
-                'description' => __( 'Delete a WooCommerce product', 'wp-site-manager' ),
+                'label'       => __( 'Delete Product', 'lw-site-manager' ),
+                'description' => __( 'Delete a WooCommerce product', 'lw-site-manager' ),
                 'category'    => 'wc-products',
                 'input_schema' => [
                     'type'       => 'object',
@@ -207,8 +207,8 @@ class WooCommerceAbilities {
         wp_register_ability(
             'site-manager/wc-duplicate-product',
             [
-                'label'       => __( 'Duplicate Product', 'wp-site-manager' ),
-                'description' => __( 'Create a copy of a WooCommerce product', 'wp-site-manager' ),
+                'label'       => __( 'Duplicate Product', 'lw-site-manager' ),
+                'description' => __( 'Create a copy of a WooCommerce product', 'lw-site-manager' ),
                 'category'    => 'wc-products',
                 'input_schema' => [
                     'type'       => 'object',
@@ -240,8 +240,8 @@ class WooCommerceAbilities {
         wp_register_ability(
             'site-manager/wc-update-stock',
             [
-                'label'       => __( 'Update Stock', 'wp-site-manager' ),
-                'description' => __( 'Update product stock quantity or status', 'wp-site-manager' ),
+                'label'       => __( 'Update Stock', 'lw-site-manager' ),
+                'description' => __( 'Update product stock quantity or status', 'lw-site-manager' ),
                 'category'    => 'wc-products',
                 'input_schema' => [
                     'type'       => 'object',
@@ -290,8 +290,8 @@ class WooCommerceAbilities {
         wp_register_ability(
             'site-manager/wc-list-product-categories',
             [
-                'label'       => __( 'List Product Categories', 'wp-site-manager' ),
-                'description' => __( 'List WooCommerce product categories', 'wp-site-manager' ),
+                'label'       => __( 'List Product Categories', 'lw-site-manager' ),
+                'description' => __( 'List WooCommerce product categories', 'lw-site-manager' ),
                 'category'    => 'wc-products',
                 'input_schema' => [
                     'type'       => 'object',
@@ -361,8 +361,8 @@ class WooCommerceAbilities {
         wp_register_ability(
             'site-manager/wc-list-variations',
             [
-                'label'       => __( 'List Product Variations', 'wp-site-manager' ),
-                'description' => __( 'List variations of a variable product', 'wp-site-manager' ),
+                'label'       => __( 'List Product Variations', 'lw-site-manager' ),
+                'description' => __( 'List variations of a variable product', 'lw-site-manager' ),
                 'category'    => 'wc-products',
                 'input_schema' => [
                     'type'       => 'object',
@@ -413,8 +413,8 @@ class WooCommerceAbilities {
         wp_register_ability(
             'site-manager/wc-bulk-products',
             [
-                'label'       => __( 'Bulk Product Action', 'wp-site-manager' ),
-                'description' => __( 'Perform bulk actions on multiple products', 'wp-site-manager' ),
+                'label'       => __( 'Bulk Product Action', 'lw-site-manager' ),
+                'description' => __( 'Perform bulk actions on multiple products', 'lw-site-manager' ),
                 'category'    => 'wc-products',
                 'input_schema' => [
                     'type'       => 'object',
@@ -448,8 +448,8 @@ class WooCommerceAbilities {
         wp_register_ability(
             'site-manager/wc-list-orders',
             [
-                'label'       => __( 'List Orders', 'wp-site-manager' ),
-                'description' => __( 'List WooCommerce orders with filtering options', 'wp-site-manager' ),
+                'label'       => __( 'List Orders', 'lw-site-manager' ),
+                'description' => __( 'List WooCommerce orders with filtering options', 'lw-site-manager' ),
                 'category'    => 'wc-orders',
                 'input_schema' => [
                     'type'       => 'object',
@@ -506,8 +506,8 @@ class WooCommerceAbilities {
         wp_register_ability(
             'site-manager/wc-get-order',
             [
-                'label'       => __( 'Get Order', 'wp-site-manager' ),
-                'description' => __( 'Get detailed information about a WooCommerce order', 'wp-site-manager' ),
+                'label'       => __( 'Get Order', 'lw-site-manager' ),
+                'description' => __( 'Get detailed information about a WooCommerce order', 'lw-site-manager' ),
                 'category'    => 'wc-orders',
                 'input_schema' => [
                     'type'       => 'object',
@@ -531,8 +531,8 @@ class WooCommerceAbilities {
         wp_register_ability(
             'site-manager/wc-update-order-status',
             [
-                'label'       => __( 'Update Order Status', 'wp-site-manager' ),
-                'description' => __( 'Change the status of an order', 'wp-site-manager' ),
+                'label'       => __( 'Update Order Status', 'lw-site-manager' ),
+                'description' => __( 'Change the status of an order', 'lw-site-manager' ),
                 'category'    => 'wc-orders',
                 'input_schema' => [
                     'type'       => 'object',
@@ -574,8 +574,8 @@ class WooCommerceAbilities {
         wp_register_ability(
             'site-manager/wc-list-order-statuses',
             [
-                'label'       => __( 'List Order Statuses', 'wp-site-manager' ),
-                'description' => __( 'List available WooCommerce order statuses', 'wp-site-manager' ),
+                'label'       => __( 'List Order Statuses', 'lw-site-manager' ),
+                'description' => __( 'List available WooCommerce order statuses', 'lw-site-manager' ),
                 'category'    => 'wc-orders',
                 'input_schema' => [
                     'type'       => 'object',
@@ -610,8 +610,8 @@ class WooCommerceAbilities {
         wp_register_ability(
             'site-manager/wc-create-refund',
             [
-                'label'       => __( 'Create Refund', 'wp-site-manager' ),
-                'description' => __( 'Create a refund for an order', 'wp-site-manager' ),
+                'label'       => __( 'Create Refund', 'lw-site-manager' ),
+                'description' => __( 'Create a refund for an order', 'lw-site-manager' ),
                 'category'    => 'wc-orders',
                 'input_schema' => [
                     'type'       => 'object',
@@ -670,8 +670,8 @@ class WooCommerceAbilities {
         wp_register_ability(
             'site-manager/wc-list-order-notes',
             [
-                'label'       => __( 'List Order Notes', 'wp-site-manager' ),
-                'description' => __( 'List notes for an order', 'wp-site-manager' ),
+                'label'       => __( 'List Order Notes', 'lw-site-manager' ),
+                'description' => __( 'List notes for an order', 'lw-site-manager' ),
                 'category'    => 'wc-orders',
                 'input_schema' => [
                     'type'       => 'object',
@@ -721,8 +721,8 @@ class WooCommerceAbilities {
         wp_register_ability(
             'site-manager/wc-add-order-note',
             [
-                'label'       => __( 'Add Order Note', 'wp-site-manager' ),
-                'description' => __( 'Add a note to an order', 'wp-site-manager' ),
+                'label'       => __( 'Add Order Note', 'lw-site-manager' ),
+                'description' => __( 'Add a note to an order', 'lw-site-manager' ),
                 'category'    => 'wc-orders',
                 'input_schema' => [
                     'type'       => 'object',
@@ -765,8 +765,8 @@ class WooCommerceAbilities {
         wp_register_ability(
             'site-manager/wc-bulk-orders',
             [
-                'label'       => __( 'Bulk Order Action', 'wp-site-manager' ),
-                'description' => __( 'Update status for multiple orders', 'wp-site-manager' ),
+                'label'       => __( 'Bulk Order Action', 'lw-site-manager' ),
+                'description' => __( 'Update status for multiple orders', 'lw-site-manager' ),
                 'category'    => 'wc-orders',
                 'input_schema' => [
                     'type'       => 'object',
@@ -803,8 +803,8 @@ class WooCommerceAbilities {
         wp_register_ability(
             'site-manager/wc-sales-report',
             [
-                'label'       => __( 'Sales Report', 'wp-site-manager' ),
-                'description' => __( 'Get WooCommerce sales summary', 'wp-site-manager' ),
+                'label'       => __( 'Sales Report', 'lw-site-manager' ),
+                'description' => __( 'Get WooCommerce sales summary', 'lw-site-manager' ),
                 'category'    => 'wc-reports',
                 'input_schema' => [
                     'type'       => 'object',
@@ -855,8 +855,8 @@ class WooCommerceAbilities {
         wp_register_ability(
             'site-manager/wc-top-sellers',
             [
-                'label'       => __( 'Top Selling Products', 'wp-site-manager' ),
-                'description' => __( 'Get top selling WooCommerce products', 'wp-site-manager' ),
+                'label'       => __( 'Top Selling Products', 'lw-site-manager' ),
+                'description' => __( 'Get top selling WooCommerce products', 'lw-site-manager' ),
                 'category'    => 'wc-reports',
                 'input_schema' => [
                     'type'       => 'object',
@@ -913,8 +913,8 @@ class WooCommerceAbilities {
         wp_register_ability(
             'site-manager/wc-orders-totals',
             [
-                'label'       => __( 'Orders Totals', 'wp-site-manager' ),
-                'description' => __( 'Get order counts by status', 'wp-site-manager' ),
+                'label'       => __( 'Orders Totals', 'lw-site-manager' ),
+                'description' => __( 'Get order counts by status', 'lw-site-manager' ),
                 'category'    => 'wc-reports',
                 'input_schema' => [
                     'type'       => 'object',
@@ -951,8 +951,8 @@ class WooCommerceAbilities {
         wp_register_ability(
             'site-manager/wc-revenue-stats',
             [
-                'label'       => __( 'Revenue Stats', 'wp-site-manager' ),
-                'description' => __( 'Get revenue statistics with period comparison', 'wp-site-manager' ),
+                'label'       => __( 'Revenue Stats', 'lw-site-manager' ),
+                'description' => __( 'Get revenue statistics with period comparison', 'lw-site-manager' ),
                 'category'    => 'wc-reports',
                 'input_schema' => [
                     'type'       => 'object',
@@ -1020,8 +1020,8 @@ class WooCommerceAbilities {
         wp_register_ability(
             'site-manager/wc-low-stock-products',
             [
-                'label'       => __( 'Low Stock Products', 'wp-site-manager' ),
-                'description' => __( 'Get products with low or no stock', 'wp-site-manager' ),
+                'label'       => __( 'Low Stock Products', 'lw-site-manager' ),
+                'description' => __( 'Get products with low or no stock', 'lw-site-manager' ),
                 'category'    => 'wc-reports',
                 'input_schema' => [
                     'type'       => 'object',
@@ -1080,8 +1080,8 @@ class WooCommerceAbilities {
         wp_register_ability(
             'site-manager/wc-products-totals',
             [
-                'label'       => __( 'Products Totals', 'wp-site-manager' ),
-                'description' => __( 'Get product counts by status and stock', 'wp-site-manager' ),
+                'label'       => __( 'Products Totals', 'lw-site-manager' ),
+                'description' => __( 'Get product counts by status and stock', 'lw-site-manager' ),
                 'category'    => 'wc-reports',
                 'input_schema' => [
                     'type'       => 'object',

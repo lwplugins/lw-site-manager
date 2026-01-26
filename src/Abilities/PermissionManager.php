@@ -5,7 +5,7 @@
 
 declare(strict_types=1);
 
-namespace WPSiteManager\Abilities;
+namespace LightweightPlugins\SiteManager\Abilities;
 
 class PermissionManager {
 

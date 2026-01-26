@@ -5,9 +5,9 @@
 
 declare(strict_types=1);
 
-namespace WPSiteManager\Abilities\Registrars;
+namespace LightweightPlugins\SiteManager\Abilities\Registrars;
 
-use WPSiteManager\Services\UserManager;
+use LightweightPlugins\SiteManager\Services\UserManager;
 
 class UserAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
 
@@ -26,8 +26,8 @@ class UserAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
         wp_register_ability(
             'site-manager/list-users',
             [
-                'label'       => __( 'List Users', 'wp-site-manager' ),
-                'description' => __( 'List all users with optional filtering', 'wp-site-manager' ),
+                'label'       => __( 'List Users', 'lw-site-manager' ),
+                'description' => __( 'List all users with optional filtering', 'lw-site-manager' ),
                 'category'    => 'users',
                 'input_schema' => [
                     'type'       => 'object',
@@ -58,8 +58,8 @@ class UserAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
         wp_register_ability(
             'site-manager/get-user',
             [
-                'label'       => __( 'Get User', 'wp-site-manager' ),
-                'description' => __( 'Get detailed information about a user', 'wp-site-manager' ),
+                'label'       => __( 'Get User', 'lw-site-manager' ),
+                'description' => __( 'Get detailed information about a user', 'lw-site-manager' ),
                 'category'    => 'users',
                 'input_schema' => [
                     'type'       => 'object',
@@ -96,8 +96,8 @@ class UserAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
         wp_register_ability(
             'site-manager/create-user',
             [
-                'label'       => __( 'Create User', 'wp-site-manager' ),
-                'description' => __( 'Create a new user account', 'wp-site-manager' ),
+                'label'       => __( 'Create User', 'lw-site-manager' ),
+                'description' => __( 'Create a new user account', 'lw-site-manager' ),
                 'category'    => 'users',
                 'input_schema' => [
                     'type'       => 'object',
@@ -168,8 +168,8 @@ class UserAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
         wp_register_ability(
             'site-manager/update-user',
             [
-                'label'       => __( 'Update User', 'wp-site-manager' ),
-                'description' => __( 'Update an existing user', 'wp-site-manager' ),
+                'label'       => __( 'Update User', 'lw-site-manager' ),
+                'description' => __( 'Update an existing user', 'lw-site-manager' ),
                 'category'    => 'users',
                 'input_schema' => [
                     'type'       => 'object',
@@ -221,8 +221,8 @@ class UserAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
         wp_register_ability(
             'site-manager/delete-user',
             [
-                'label'       => __( 'Delete User', 'wp-site-manager' ),
-                'description' => __( 'Delete a user account', 'wp-site-manager' ),
+                'label'       => __( 'Delete User', 'lw-site-manager' ),
+                'description' => __( 'Delete a user account', 'lw-site-manager' ),
                 'category'    => 'users',
                 'input_schema' => [
                     'type'       => 'object',
@@ -260,8 +260,8 @@ class UserAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
         wp_register_ability(
             'site-manager/reset-password',
             [
-                'label'       => __( 'Reset Password', 'wp-site-manager' ),
-                'description' => __( 'Reset a user password', 'wp-site-manager' ),
+                'label'       => __( 'Reset Password', 'lw-site-manager' ),
+                'description' => __( 'Reset a user password', 'lw-site-manager' ),
                 'category'    => 'users',
                 'input_schema' => [
                     'type'       => 'object',
@@ -314,8 +314,8 @@ class UserAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
         wp_register_ability(
             'site-manager/get-roles',
             [
-                'label'       => __( 'Get Roles', 'wp-site-manager' ),
-                'description' => __( 'List all available user roles', 'wp-site-manager' ),
+                'label'       => __( 'Get Roles', 'lw-site-manager' ),
+                'description' => __( 'List all available user roles', 'lw-site-manager' ),
                 'category'    => 'users',
                 'input_schema' => [
                     'type'       => 'object',

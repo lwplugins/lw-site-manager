@@ -8,12 +8,12 @@
 
 declare(strict_types=1);
 
-namespace WPSiteManager\Abilities;
+namespace LightweightPlugins\SiteManager\Abilities;
 
-use WPSiteManager\Abilities\Registrars\UpdateAbilitiesRegistrar;
-use WPSiteManager\Abilities\Registrars\MaintenanceAbilitiesRegistrar;
-use WPSiteManager\Abilities\Registrars\UserAbilitiesRegistrar;
-use WPSiteManager\Abilities\Registrars\ContentAbilitiesRegistrar;
+use LightweightPlugins\SiteManager\Abilities\Registrars\UpdateAbilitiesRegistrar;
+use LightweightPlugins\SiteManager\Abilities\Registrars\MaintenanceAbilitiesRegistrar;
+use LightweightPlugins\SiteManager\Abilities\Registrars\UserAbilitiesRegistrar;
+use LightweightPlugins\SiteManager\Abilities\Registrars\ContentAbilitiesRegistrar;
 
 class Registrar {
 

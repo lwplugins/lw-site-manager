@@ -5,10 +5,10 @@
 
 declare(strict_types=1);
 
-namespace WPSiteManager\Abilities\Definitions;
+namespace LightweightPlugins\SiteManager\Abilities\Definitions;
 
-use WPSiteManager\Abilities\PermissionManager;
-use WPSiteManager\Services\PostManager;
+use LightweightPlugins\SiteManager\Abilities\PermissionManager;
+use LightweightPlugins\SiteManager\Services\PostManager;
 
 class PostAbilities {
 
@@ -32,8 +32,8 @@ class PostAbilities {
         wp_register_ability(
             'site-manager/list-posts',
             [
-                'label'       => __( 'List Posts', 'wp-site-manager' ),
-                'description' => __( 'List posts with filtering options', 'wp-site-manager' ),
+                'label'       => __( 'List Posts', 'lw-site-manager' ),
+                'description' => __( 'List posts with filtering options', 'lw-site-manager' ),
                 'category'    => 'content',
                 'input_schema' => [
                     'type'       => 'object',
@@ -114,8 +114,8 @@ class PostAbilities {
         wp_register_ability(
             'site-manager/get-post',
             [
-                'label'       => __( 'Get Post', 'wp-site-manager' ),
-                'description' => __( 'Get detailed information about a post', 'wp-site-manager' ),
+                'label'       => __( 'Get Post', 'lw-site-manager' ),
+                'description' => __( 'Get detailed information about a post', 'lw-site-manager' ),
                 'category'    => 'content',
                 'input_schema' => [
                     'type'       => 'object',
@@ -147,8 +147,8 @@ class PostAbilities {
         wp_register_ability(
             'site-manager/get-post-types',
             [
-                'label'       => __( 'Get Post Types', 'wp-site-manager' ),
-                'description' => __( 'List available post types', 'wp-site-manager' ),
+                'label'       => __( 'Get Post Types', 'lw-site-manager' ),
+                'description' => __( 'List available post types', 'lw-site-manager' ),
                 'category'    => 'content',
                 'input_schema' => [
                     'type'       => 'object',
@@ -197,8 +197,8 @@ class PostAbilities {
         wp_register_ability(
             'site-manager/create-post',
             [
-                'label'       => __( 'Create Post', 'wp-site-manager' ),
-                'description' => __( 'Create a new post', 'wp-site-manager' ),
+                'label'       => __( 'Create Post', 'lw-site-manager' ),
+                'description' => __( 'Create a new post', 'lw-site-manager' ),
                 'category'    => 'content',
                 'input_schema' => [
                     'type'       => 'object',
@@ -285,8 +285,8 @@ class PostAbilities {
         wp_register_ability(
             'site-manager/update-post',
             [
-                'label'       => __( 'Update Post', 'wp-site-manager' ),
-                'description' => __( 'Update an existing post', 'wp-site-manager' ),
+                'label'       => __( 'Update Post', 'lw-site-manager' ),
+                'description' => __( 'Update an existing post', 'lw-site-manager' ),
                 'category'    => 'content',
                 'input_schema' => [
                     'type'       => 'object',
@@ -371,8 +371,8 @@ class PostAbilities {
         wp_register_ability(
             'site-manager/delete-post',
             [
-                'label'       => __( 'Delete Post', 'wp-site-manager' ),
-                'description' => __( 'Delete a post', 'wp-site-manager' ),
+                'label'       => __( 'Delete Post', 'lw-site-manager' ),
+                'description' => __( 'Delete a post', 'lw-site-manager' ),
                 'category'    => 'content',
                 'input_schema' => [
                     'type'       => 'object',
@@ -410,8 +410,8 @@ class PostAbilities {
         wp_register_ability(
             'site-manager/restore-post',
             [
-                'label'       => __( 'Restore Post', 'wp-site-manager' ),
-                'description' => __( 'Restore a post from trash', 'wp-site-manager' ),
+                'label'       => __( 'Restore Post', 'lw-site-manager' ),
+                'description' => __( 'Restore a post from trash', 'lw-site-manager' ),
                 'category'    => 'content',
                 'input_schema' => [
                     'type'       => 'object',
@@ -441,8 +441,8 @@ class PostAbilities {
         wp_register_ability(
             'site-manager/duplicate-post',
             [
-                'label'       => __( 'Duplicate Post', 'wp-site-manager' ),
-                'description' => __( 'Create a copy of a post', 'wp-site-manager' ),
+                'label'       => __( 'Duplicate Post', 'lw-site-manager' ),
+                'description' => __( 'Create a copy of a post', 'lw-site-manager' ),
                 'category'    => 'content',
                 'input_schema' => [
                     'type'       => 'object',
@@ -480,8 +480,8 @@ class PostAbilities {
         wp_register_ability(
             'site-manager/bulk-posts',
             [
-                'label'       => __( 'Bulk Post Action', 'wp-site-manager' ),
-                'description' => __( 'Perform bulk actions on multiple posts', 'wp-site-manager' ),
+                'label'       => __( 'Bulk Post Action', 'lw-site-manager' ),
+                'description' => __( 'Perform bulk actions on multiple posts', 'lw-site-manager' ),
                 'category'    => 'content',
                 'input_schema' => [
                     'type'       => 'object',

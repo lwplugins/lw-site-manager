@@ -5,7 +5,7 @@
 
 declare(strict_types=1);
 
-namespace WPSiteManager\Helpers;
+namespace LightweightPlugins\SiteManager\Helpers;
 
 class ResponseFormatter {
 

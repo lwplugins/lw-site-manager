@@ -5,10 +5,10 @@
 
 declare(strict_types=1);
 
-namespace WPSiteManager\Abilities\Definitions;
+namespace LightweightPlugins\SiteManager\Abilities\Definitions;
 
-use WPSiteManager\Abilities\PermissionManager;
-use WPSiteManager\Services\MediaManager;
+use LightweightPlugins\SiteManager\Abilities\PermissionManager;
+use LightweightPlugins\SiteManager\Services\MediaManager;
 
 class MediaAbilities {
 
@@ -17,8 +17,8 @@ class MediaAbilities {
         wp_register_ability(
             'site-manager/list-media',
             [
-                'label'       => __( 'List Media', 'wp-site-manager' ),
-                'description' => __( 'List media library items', 'wp-site-manager' ),
+                'label'       => __( 'List Media', 'lw-site-manager' ),
+                'description' => __( 'List media library items', 'lw-site-manager' ),
                 'category'    => 'media',
                 'input_schema' => [
                     'type'       => 'object',
@@ -63,8 +63,8 @@ class MediaAbilities {
         wp_register_ability(
             'site-manager/get-media',
             [
-                'label'       => __( 'Get Media', 'wp-site-manager' ),
-                'description' => __( 'Get detailed information about a media item', 'wp-site-manager' ),
+                'label'       => __( 'Get Media', 'lw-site-manager' ),
+                'description' => __( 'Get detailed information about a media item', 'lw-site-manager' ),
                 'category'    => 'media',
                 'input_schema' => [
                     'type'       => 'object',
@@ -88,8 +88,8 @@ class MediaAbilities {
         wp_register_ability(
             'site-manager/upload-media',
             [
-                'label'       => __( 'Upload Media', 'wp-site-manager' ),
-                'description' => __( 'Upload media from URL or base64 encoded data', 'wp-site-manager' ),
+                'label'       => __( 'Upload Media', 'lw-site-manager' ),
+                'description' => __( 'Upload media from URL or base64 encoded data', 'lw-site-manager' ),
                 'category'    => 'media',
                 'input_schema' => [
                     'type'       => 'object',
@@ -136,8 +136,8 @@ class MediaAbilities {
         wp_register_ability(
             'site-manager/update-media',
             [
-                'label'       => __( 'Update Media', 'wp-site-manager' ),
-                'description' => __( 'Update media item metadata', 'wp-site-manager' ),
+                'label'       => __( 'Update Media', 'lw-site-manager' ),
+                'description' => __( 'Update media item metadata', 'lw-site-manager' ),
                 'category'    => 'media',
                 'input_schema' => [
                     'type'       => 'object',
@@ -177,8 +177,8 @@ class MediaAbilities {
         wp_register_ability(
             'site-manager/delete-media',
             [
-                'label'       => __( 'Delete Media', 'wp-site-manager' ),
-                'description' => __( 'Delete a media item', 'wp-site-manager' ),
+                'label'       => __( 'Delete Media', 'lw-site-manager' ),
+                'description' => __( 'Delete a media item', 'lw-site-manager' ),
                 'category'    => 'media',
                 'input_schema' => [
                     'type'       => 'object',

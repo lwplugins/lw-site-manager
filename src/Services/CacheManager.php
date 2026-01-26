@@ -5,7 +5,7 @@
 
 declare(strict_types=1);
 
-namespace WPSiteManager\Services;
+namespace LightweightPlugins\SiteManager\Services;
 
 class CacheManager extends AbstractService {
 
@@ -114,7 +114,7 @@ class CacheManager extends AbstractService {
         return self::successResponse(
             [ 'flushed' => $flushed ],
             sprintf(
-                __( 'Flushed %d cache(s): %s', 'wp-site-manager' ),
+                __( 'Flushed %d cache(s): %s', 'lw-site-manager' ),
                 count( $flushed ),
                 implode( ', ', $flushed )
             )
@@ -256,14 +256,14 @@ class CacheManager extends AbstractService {
         if ( empty( $preloaded ) ) {
             return self::successResponse(
                 [ 'preloaded' => [] ],
-                __( 'No compatible caching plugin found for preloading', 'wp-site-manager' )
+                __( 'No compatible caching plugin found for preloading', 'lw-site-manager' )
             );
         }
 
         return self::successResponse(
             [ 'preloaded' => $preloaded ],
             sprintf(
-                __( 'Started preloading for: %s', 'wp-site-manager' ),
+                __( 'Started preloading for: %s', 'lw-site-manager' ),
                 implode( ', ', $preloaded )
             )
         );

@@ -5,10 +5,10 @@
 
 declare(strict_types=1);
 
-namespace WPSiteManager\Abilities\Registrars;
+namespace LightweightPlugins\SiteManager\Abilities\Registrars;
 
-use WPSiteManager\Services\UpdateManager;
-use WPSiteManager\Services\PluginDatabaseUpdater;
+use LightweightPlugins\SiteManager\Services\UpdateManager;
+use LightweightPlugins\SiteManager\Services\PluginDatabaseUpdater;
 
 class UpdateAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
 
@@ -28,8 +28,8 @@ class UpdateAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
         wp_register_ability(
             'site-manager/check-updates',
             [
-                'label'       => __( 'Check Updates', 'wp-site-manager' ),
-                'description' => __( 'Check for available WordPress core, plugin, and theme updates', 'wp-site-manager' ),
+                'label'       => __( 'Check Updates', 'lw-site-manager' ),
+                'description' => __( 'Check for available WordPress core, plugin, and theme updates', 'lw-site-manager' ),
                 'category'    => 'maintenance',
                 'input_schema' => [
                     'type'       => 'object',
@@ -106,8 +106,8 @@ class UpdateAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
         wp_register_ability(
             'site-manager/update-plugin',
             [
-                'label'       => __( 'Update Plugin', 'wp-site-manager' ),
-                'description' => __( 'Update a specific plugin to latest version', 'wp-site-manager' ),
+                'label'       => __( 'Update Plugin', 'lw-site-manager' ),
+                'description' => __( 'Update a specific plugin to latest version', 'lw-site-manager' ),
                 'category'    => 'maintenance',
                 'input_schema' => [
                     'type'       => 'object',
@@ -131,8 +131,8 @@ class UpdateAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
         wp_register_ability(
             'site-manager/update-theme',
             [
-                'label'       => __( 'Update Theme', 'wp-site-manager' ),
-                'description' => __( 'Update a specific theme to latest version', 'wp-site-manager' ),
+                'label'       => __( 'Update Theme', 'lw-site-manager' ),
+                'description' => __( 'Update a specific theme to latest version', 'lw-site-manager' ),
                 'category'    => 'maintenance',
                 'input_schema' => [
                     'type'       => 'object',
@@ -156,8 +156,8 @@ class UpdateAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
         wp_register_ability(
             'site-manager/update-core',
             [
-                'label'       => __( 'Update WordPress Core', 'wp-site-manager' ),
-                'description' => __( 'Update WordPress core to latest version', 'wp-site-manager' ),
+                'label'       => __( 'Update WordPress Core', 'lw-site-manager' ),
+                'description' => __( 'Update WordPress core to latest version', 'lw-site-manager' ),
                 'category'    => 'maintenance',
                 'input_schema' => [
                     'type'       => 'object',
@@ -185,8 +185,8 @@ class UpdateAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
         wp_register_ability(
             'site-manager/update-all',
             [
-                'label'       => __( 'Update Everything', 'wp-site-manager' ),
-                'description' => __( 'Update all plugins, themes, and optionally WordPress core', 'wp-site-manager' ),
+                'label'       => __( 'Update Everything', 'lw-site-manager' ),
+                'description' => __( 'Update all plugins, themes, and optionally WordPress core', 'lw-site-manager' ),
                 'category'    => 'maintenance',
                 'input_schema' => [
                     'type'       => 'object',
@@ -250,8 +250,8 @@ class UpdateAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
         wp_register_ability(
             'site-manager/list-plugins',
             [
-                'label'       => __( 'List Plugins', 'wp-site-manager' ),
-                'description' => __( 'List all installed plugins with status', 'wp-site-manager' ),
+                'label'       => __( 'List Plugins', 'lw-site-manager' ),
+                'description' => __( 'List all installed plugins with status', 'lw-site-manager' ),
                 'category'    => 'plugins',
                 'input_schema' => [
                     'type'       => 'object',
@@ -298,8 +298,8 @@ class UpdateAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
         wp_register_ability(
             'site-manager/activate-plugin',
             [
-                'label'       => __( 'Activate Plugin', 'wp-site-manager' ),
-                'description' => __( 'Activate a specific plugin', 'wp-site-manager' ),
+                'label'       => __( 'Activate Plugin', 'lw-site-manager' ),
+                'description' => __( 'Activate a specific plugin', 'lw-site-manager' ),
                 'category'    => 'plugins',
                 'input_schema' => [
                     'type'       => 'object',
@@ -331,8 +331,8 @@ class UpdateAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
         wp_register_ability(
             'site-manager/deactivate-plugin',
             [
-                'label'       => __( 'Deactivate Plugin', 'wp-site-manager' ),
-                'description' => __( 'Deactivate a specific plugin', 'wp-site-manager' ),
+                'label'       => __( 'Deactivate Plugin', 'lw-site-manager' ),
+                'description' => __( 'Deactivate a specific plugin', 'lw-site-manager' ),
                 'category'    => 'plugins',
                 'input_schema' => [
                     'type'       => 'object',
@@ -360,8 +360,8 @@ class UpdateAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
         wp_register_ability(
             'site-manager/install-plugin',
             [
-                'label'       => __( 'Install Plugin', 'wp-site-manager' ),
-                'description' => __( 'Install a plugin from WordPress.org repository', 'wp-site-manager' ),
+                'label'       => __( 'Install Plugin', 'lw-site-manager' ),
+                'description' => __( 'Install a plugin from WordPress.org repository', 'lw-site-manager' ),
                 'category'    => 'plugins',
                 'input_schema' => [
                     'type'       => 'object',
@@ -405,8 +405,8 @@ class UpdateAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
         wp_register_ability(
             'site-manager/delete-plugin',
             [
-                'label'       => __( 'Delete Plugin', 'wp-site-manager' ),
-                'description' => __( 'Delete a plugin from the site', 'wp-site-manager' ),
+                'label'       => __( 'Delete Plugin', 'lw-site-manager' ),
+                'description' => __( 'Delete a plugin from the site', 'lw-site-manager' ),
                 'category'    => 'plugins',
                 'input_schema' => [
                     'type'       => 'object',
@@ -443,8 +443,8 @@ class UpdateAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
         wp_register_ability(
             'site-manager/list-themes',
             [
-                'label'       => __( 'List Themes', 'wp-site-manager' ),
-                'description' => __( 'List all installed themes', 'wp-site-manager' ),
+                'label'       => __( 'List Themes', 'lw-site-manager' ),
+                'description' => __( 'List all installed themes', 'lw-site-manager' ),
                 'category'    => 'themes',
                 'input_schema' => [
                     'type'       => 'object',
@@ -484,8 +484,8 @@ class UpdateAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
         wp_register_ability(
             'site-manager/activate-theme',
             [
-                'label'       => __( 'Activate Theme', 'wp-site-manager' ),
-                'description' => __( 'Switch to a different theme', 'wp-site-manager' ),
+                'label'       => __( 'Activate Theme', 'lw-site-manager' ),
+                'description' => __( 'Switch to a different theme', 'lw-site-manager' ),
                 'category'    => 'themes',
                 'input_schema' => [
                     'type'       => 'object',
@@ -513,8 +513,8 @@ class UpdateAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
         wp_register_ability(
             'site-manager/install-theme',
             [
-                'label'       => __( 'Install Theme', 'wp-site-manager' ),
-                'description' => __( 'Install a theme from WordPress.org repository', 'wp-site-manager' ),
+                'label'       => __( 'Install Theme', 'lw-site-manager' ),
+                'description' => __( 'Install a theme from WordPress.org repository', 'lw-site-manager' ),
                 'category'    => 'themes',
                 'input_schema' => [
                     'type'       => 'object',
@@ -558,8 +558,8 @@ class UpdateAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
         wp_register_ability(
             'site-manager/delete-theme',
             [
-                'label'       => __( 'Delete Theme', 'wp-site-manager' ),
-                'description' => __( 'Delete a theme from the site', 'wp-site-manager' ),
+                'label'       => __( 'Delete Theme', 'lw-site-manager' ),
+                'description' => __( 'Delete a theme from the site', 'lw-site-manager' ),
                 'category'    => 'themes',
                 'input_schema' => [
                     'type'       => 'object',
@@ -596,8 +596,8 @@ class UpdateAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
         wp_register_ability(
             'site-manager/check-plugin-db-updates',
             [
-                'label'       => __( 'Check Plugin Database Updates', 'wp-site-manager' ),
-                'description' => __( 'Check for pending database updates for WooCommerce, Elementor, etc.', 'wp-site-manager' ),
+                'label'       => __( 'Check Plugin Database Updates', 'lw-site-manager' ),
+                'description' => __( 'Check for pending database updates for WooCommerce, Elementor, etc.', 'lw-site-manager' ),
                 'category'    => 'maintenance',
                 'input_schema' => [
                     'type'       => 'object',
@@ -630,8 +630,8 @@ class UpdateAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
         wp_register_ability(
             'site-manager/update-plugin-db',
             [
-                'label'       => __( 'Update Plugin Database', 'wp-site-manager' ),
-                'description' => __( 'Run database update for a specific plugin (WooCommerce, Elementor)', 'wp-site-manager' ),
+                'label'       => __( 'Update Plugin Database', 'lw-site-manager' ),
+                'description' => __( 'Run database update for a specific plugin (WooCommerce, Elementor)', 'lw-site-manager' ),
                 'category'    => 'maintenance',
                 'input_schema' => [
                     'type'       => 'object',
@@ -660,8 +660,8 @@ class UpdateAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
         wp_register_ability(
             'site-manager/update-all-plugin-dbs',
             [
-                'label'       => __( 'Update All Plugin Databases', 'wp-site-manager' ),
-                'description' => __( 'Run all pending database updates for supported plugins', 'wp-site-manager' ),
+                'label'       => __( 'Update All Plugin Databases', 'lw-site-manager' ),
+                'description' => __( 'Run all pending database updates for supported plugins', 'lw-site-manager' ),
                 'category'    => 'maintenance',
                 'input_schema' => [
                     'type'       => 'object',
@@ -696,8 +696,8 @@ class UpdateAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
         wp_register_ability(
             'site-manager/get-supported-db-plugins',
             [
-                'label'       => __( 'Get Supported DB Update Plugins', 'wp-site-manager' ),
-                'description' => __( 'List plugins that support database updates', 'wp-site-manager' ),
+                'label'       => __( 'Get Supported DB Update Plugins', 'lw-site-manager' ),
+                'description' => __( 'List plugins that support database updates', 'lw-site-manager' ),
                 'category'    => 'maintenance',
                 'input_schema' => [
                     'type'       => 'object',

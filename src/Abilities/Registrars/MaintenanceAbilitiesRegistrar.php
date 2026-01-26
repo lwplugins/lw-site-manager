@@ -5,12 +5,12 @@
 
 declare(strict_types=1);
 
-namespace WPSiteManager\Abilities\Registrars;
+namespace LightweightPlugins\SiteManager\Abilities\Registrars;
 
-use WPSiteManager\Services\BackupManager;
-use WPSiteManager\Services\HealthCheck;
-use WPSiteManager\Services\DatabaseManager;
-use WPSiteManager\Services\CacheManager;
+use LightweightPlugins\SiteManager\Services\BackupManager;
+use LightweightPlugins\SiteManager\Services\HealthCheck;
+use LightweightPlugins\SiteManager\Services\DatabaseManager;
+use LightweightPlugins\SiteManager\Services\CacheManager;
 
 class MaintenanceAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
 
@@ -30,8 +30,8 @@ class MaintenanceAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
         wp_register_ability(
             'site-manager/create-backup',
             [
-                'label'       => __( 'Create Backup', 'wp-site-manager' ),
-                'description' => __( 'Start a backup job. Returns immediately with job ID. Use backup-status to monitor progress.', 'wp-site-manager' ),
+                'label'       => __( 'Create Backup', 'lw-site-manager' ),
+                'description' => __( 'Start a backup job. Returns immediately with job ID. Use backup-status to monitor progress.', 'lw-site-manager' ),
                 'category'    => 'maintenance',
                 'input_schema' => [
                     'type'       => 'object',
@@ -73,8 +73,8 @@ class MaintenanceAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
         wp_register_ability(
             'site-manager/backup-status',
             [
-                'label'       => __( 'Get Backup Status', 'wp-site-manager' ),
-                'description' => __( 'Get the status and progress of a backup job', 'wp-site-manager' ),
+                'label'       => __( 'Get Backup Status', 'lw-site-manager' ),
+                'description' => __( 'Get the status and progress of a backup job', 'lw-site-manager' ),
                 'category'    => 'maintenance',
                 'input_schema' => [
                     'type'       => 'object',
@@ -120,8 +120,8 @@ class MaintenanceAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
         wp_register_ability(
             'site-manager/cancel-backup',
             [
-                'label'       => __( 'Cancel Backup', 'wp-site-manager' ),
-                'description' => __( 'Cancel a running backup job', 'wp-site-manager' ),
+                'label'       => __( 'Cancel Backup', 'lw-site-manager' ),
+                'description' => __( 'Cancel a running backup job', 'lw-site-manager' ),
                 'category'    => 'maintenance',
                 'input_schema' => [
                     'type'       => 'object',
@@ -153,8 +153,8 @@ class MaintenanceAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
         wp_register_ability(
             'site-manager/list-backups',
             [
-                'label'       => __( 'List Backups', 'wp-site-manager' ),
-                'description' => __( 'List all available backups', 'wp-site-manager' ),
+                'label'       => __( 'List Backups', 'lw-site-manager' ),
+                'description' => __( 'List all available backups', 'lw-site-manager' ),
                 'category'    => 'maintenance',
                 'input_schema' => [
                     'type'       => 'object',
@@ -205,8 +205,8 @@ class MaintenanceAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
         wp_register_ability(
             'site-manager/restore-backup',
             [
-                'label'       => __( 'Restore Backup', 'wp-site-manager' ),
-                'description' => __( 'Restore site from a backup', 'wp-site-manager' ),
+                'label'       => __( 'Restore Backup', 'lw-site-manager' ),
+                'description' => __( 'Restore site from a backup', 'lw-site-manager' ),
                 'category'    => 'maintenance',
                 'input_schema' => [
                     'type'       => 'object',
@@ -250,8 +250,8 @@ class MaintenanceAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
         wp_register_ability(
             'site-manager/delete-backup',
             [
-                'label'       => __( 'Delete Backup', 'wp-site-manager' ),
-                'description' => __( 'Delete a backup file', 'wp-site-manager' ),
+                'label'       => __( 'Delete Backup', 'lw-site-manager' ),
+                'description' => __( 'Delete a backup file', 'lw-site-manager' ),
                 'category'    => 'maintenance',
                 'input_schema' => [
                     'type'       => 'object',
@@ -289,8 +289,8 @@ class MaintenanceAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
         wp_register_ability(
             'site-manager/health-check',
             [
-                'label'       => __( 'Health Check', 'wp-site-manager' ),
-                'description' => __( 'Run comprehensive site health check', 'wp-site-manager' ),
+                'label'       => __( 'Health Check', 'lw-site-manager' ),
+                'description' => __( 'Run comprehensive site health check', 'lw-site-manager' ),
                 'category'    => 'diagnostics',
                 'input_schema' => [
                     'type'       => 'object',
@@ -386,8 +386,8 @@ class MaintenanceAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
         wp_register_ability(
             'site-manager/error-log',
             [
-                'label'       => __( 'Get Error Log', 'wp-site-manager' ),
-                'description' => __( 'Retrieve recent PHP errors from log', 'wp-site-manager' ),
+                'label'       => __( 'Get Error Log', 'lw-site-manager' ),
+                'description' => __( 'Retrieve recent PHP errors from log', 'lw-site-manager' ),
                 'category'    => 'diagnostics',
                 'input_schema' => [
                     'type'       => 'object',
@@ -439,8 +439,8 @@ class MaintenanceAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
         wp_register_ability(
             'site-manager/optimize-database',
             [
-                'label'       => __( 'Optimize Database', 'wp-site-manager' ),
-                'description' => __( 'Optimize database tables', 'wp-site-manager' ),
+                'label'       => __( 'Optimize Database', 'lw-site-manager' ),
+                'description' => __( 'Optimize database tables', 'lw-site-manager' ),
                 'category'    => 'maintenance',
                 'input_schema' => [
                     'type'       => 'object',
@@ -485,8 +485,8 @@ class MaintenanceAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
         wp_register_ability(
             'site-manager/cleanup-database',
             [
-                'label'       => __( 'Cleanup Database', 'wp-site-manager' ),
-                'description' => __( 'Remove revisions, transients, spam, trash', 'wp-site-manager' ),
+                'label'       => __( 'Cleanup Database', 'lw-site-manager' ),
+                'description' => __( 'Remove revisions, transients, spam, trash', 'lw-site-manager' ),
                 'category'    => 'maintenance',
                 'input_schema' => [
                     'type'       => 'object',
@@ -567,8 +567,8 @@ class MaintenanceAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
         wp_register_ability(
             'site-manager/flush-cache',
             [
-                'label'       => __( 'Flush Cache', 'wp-site-manager' ),
-                'description' => __( 'Clear all caches (object cache, page cache, etc.)', 'wp-site-manager' ),
+                'label'       => __( 'Flush Cache', 'lw-site-manager' ),
+                'description' => __( 'Clear all caches (object cache, page cache, etc.)', 'lw-site-manager' ),
                 'category'    => 'maintenance',
                 'input_schema' => [
                     'type'       => 'object',

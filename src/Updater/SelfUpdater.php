@@ -5,7 +5,7 @@
 
 declare(strict_types=1);
 
-namespace WPSiteManager\Updater;
+namespace LightweightPlugins\SiteManager\Updater;
 
 class SelfUpdater {
 
@@ -19,7 +19,7 @@ class SelfUpdater {
     public function __construct() {
         $this->plugin_slug = "wp-site-manager";
         $this->plugin_basename = "wp-site-manager/wp-site-manager.php";
-        $this->current_version = WPSM_VERSION;
+        $this->current_version = LW_SITE_MANAGER_VERSION;
     }
 
     public function init(): void {

@@ -5,10 +5,10 @@
 
 declare(strict_types=1);
 
-namespace WPSiteManager\Abilities\Definitions;
+namespace LightweightPlugins\SiteManager\Abilities\Definitions;
 
-use WPSiteManager\Abilities\PermissionManager;
-use WPSiteManager\Services\MetaManager;
+use LightweightPlugins\SiteManager\Abilities\PermissionManager;
+use LightweightPlugins\SiteManager\Services\MetaManager;
 
 class MetaAbilities {
 
@@ -23,8 +23,8 @@ class MetaAbilities {
         wp_register_ability(
             'site-manager/get-post-meta',
             [
-                'label'       => __( 'Get Post Meta', 'wp-site-manager' ),
-                'description' => __( 'Get meta data for a post or page', 'wp-site-manager' ),
+                'label'       => __( 'Get Post Meta', 'lw-site-manager' ),
+                'description' => __( 'Get meta data for a post or page', 'lw-site-manager' ),
                 'category'    => 'meta',
                 'input_schema' => [
                     'type'       => 'object',
@@ -71,8 +71,8 @@ class MetaAbilities {
         wp_register_ability(
             'site-manager/set-post-meta',
             [
-                'label'       => __( 'Set Post Meta', 'wp-site-manager' ),
-                'description' => __( 'Set meta data for a post or page', 'wp-site-manager' ),
+                'label'       => __( 'Set Post Meta', 'lw-site-manager' ),
+                'description' => __( 'Set meta data for a post or page', 'lw-site-manager' ),
                 'category'    => 'meta',
                 'input_schema' => [
                     'type'       => 'object',
@@ -113,8 +113,8 @@ class MetaAbilities {
         wp_register_ability(
             'site-manager/delete-post-meta',
             [
-                'label'       => __( 'Delete Post Meta', 'wp-site-manager' ),
-                'description' => __( 'Delete meta data from a post or page', 'wp-site-manager' ),
+                'label'       => __( 'Delete Post Meta', 'lw-site-manager' ),
+                'description' => __( 'Delete meta data from a post or page', 'lw-site-manager' ),
                 'category'    => 'meta',
                 'input_schema' => [
                     'type'       => 'object',
@@ -152,8 +152,8 @@ class MetaAbilities {
         wp_register_ability(
             'site-manager/get-user-meta',
             [
-                'label'       => __( 'Get User Meta', 'wp-site-manager' ),
-                'description' => __( 'Get meta data for a user', 'wp-site-manager' ),
+                'label'       => __( 'Get User Meta', 'lw-site-manager' ),
+                'description' => __( 'Get meta data for a user', 'lw-site-manager' ),
                 'category'    => 'meta',
                 'input_schema' => [
                     'type'       => 'object',
@@ -200,8 +200,8 @@ class MetaAbilities {
         wp_register_ability(
             'site-manager/set-user-meta',
             [
-                'label'       => __( 'Set User Meta', 'wp-site-manager' ),
-                'description' => __( 'Set meta data for a user', 'wp-site-manager' ),
+                'label'       => __( 'Set User Meta', 'lw-site-manager' ),
+                'description' => __( 'Set meta data for a user', 'lw-site-manager' ),
                 'category'    => 'meta',
                 'input_schema' => [
                     'type'       => 'object',
@@ -242,8 +242,8 @@ class MetaAbilities {
         wp_register_ability(
             'site-manager/delete-user-meta',
             [
-                'label'       => __( 'Delete User Meta', 'wp-site-manager' ),
-                'description' => __( 'Delete meta data from a user', 'wp-site-manager' ),
+                'label'       => __( 'Delete User Meta', 'lw-site-manager' ),
+                'description' => __( 'Delete meta data from a user', 'lw-site-manager' ),
                 'category'    => 'meta',
                 'input_schema' => [
                     'type'       => 'object',
@@ -281,8 +281,8 @@ class MetaAbilities {
         wp_register_ability(
             'site-manager/get-term-meta',
             [
-                'label'       => __( 'Get Term Meta', 'wp-site-manager' ),
-                'description' => __( 'Get meta data for a term (category/tag)', 'wp-site-manager' ),
+                'label'       => __( 'Get Term Meta', 'lw-site-manager' ),
+                'description' => __( 'Get meta data for a term (category/tag)', 'lw-site-manager' ),
                 'category'    => 'meta',
                 'input_schema' => [
                     'type'       => 'object',
@@ -324,8 +324,8 @@ class MetaAbilities {
         wp_register_ability(
             'site-manager/set-term-meta',
             [
-                'label'       => __( 'Set Term Meta', 'wp-site-manager' ),
-                'description' => __( 'Set meta data for a term (category/tag)', 'wp-site-manager' ),
+                'label'       => __( 'Set Term Meta', 'lw-site-manager' ),
+                'description' => __( 'Set meta data for a term (category/tag)', 'lw-site-manager' ),
                 'category'    => 'meta',
                 'input_schema' => [
                     'type'       => 'object',
@@ -366,8 +366,8 @@ class MetaAbilities {
         wp_register_ability(
             'site-manager/delete-term-meta',
             [
-                'label'       => __( 'Delete Term Meta', 'wp-site-manager' ),
-                'description' => __( 'Delete meta data from a term (category/tag)', 'wp-site-manager' ),
+                'label'       => __( 'Delete Term Meta', 'lw-site-manager' ),
+                'description' => __( 'Delete meta data from a term (category/tag)', 'lw-site-manager' ),
                 'category'    => 'meta',
                 'input_schema' => [
                     'type'       => 'object',

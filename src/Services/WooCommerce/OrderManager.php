@@ -5,9 +5,9 @@
 
 declare(strict_types=1);
 
-namespace WPSiteManager\Services\WooCommerce;
+namespace LightweightPlugins\SiteManager\Services\WooCommerce;
 
-use WPSiteManager\Services\AbstractService;
+use LightweightPlugins\SiteManager\Services\AbstractService;
 
 class OrderManager extends AbstractService {
 

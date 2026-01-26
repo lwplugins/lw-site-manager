@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-namespace WPSiteManager\Services;
+namespace LightweightPlugins\SiteManager\Services;
 
 use ZipArchive;
 
@@ -50,7 +50,7 @@ class BackupManager extends AbstractService {
         // Create backup directory
         $backup_dir = self::get_backup_dir();
         if ( ! wp_mkdir_p( $backup_dir ) ) {
-            return self::errorResponse( 'backup_dir_failed', __( 'Could not create backup directory', 'wp-site-manager' ), 500 );
+            return self::errorResponse( 'backup_dir_failed', __( 'Could not create backup directory', 'lw-site-manager' ), 500 );
         }
 
         // Protect backup directory
@@ -114,7 +114,7 @@ class BackupManager extends AbstractService {
 
         return [
             'success'       => true,
-            'message'       => __( 'Backup job started', 'wp-site-manager' ),
+            'message'       => __( 'Backup job started', 'lw-site-manager' ),
             'backup_id'     => $backup_id,
             'status'        => 'pending',
             'total_files'   => count( $file_list ),
@@ -137,7 +137,7 @@ class BackupManager extends AbstractService {
         $job = get_option( 'wpsm_backup_job_' . $backup_id );
 
         if ( ! $job ) {
-            return self::errorResponse( 'job_not_found', __( 'Backup job not found', 'wp-site-manager' ), 404 );
+            return self::errorResponse( 'job_not_found', __( 'Backup job not found', 'lw-site-manager' ), 404 );
         }
 
         $progress = 0;
@@ -296,11 +296,11 @@ class BackupManager extends AbstractService {
         $job = get_option( 'wpsm_backup_job_' . $backup_id );
 
         if ( ! $job ) {
-            return self::errorResponse( 'job_not_found', __( 'Backup job not found', 'wp-site-manager' ), 404 );
+            return self::errorResponse( 'job_not_found', __( 'Backup job not found', 'lw-site-manager' ), 404 );
         }
 
         if ( $job['status'] === 'completed' ) {
-            return self::errorResponse( 'already_completed', __( 'Backup is already completed', 'wp-site-manager' ), 400 );
+            return self::errorResponse( 'already_completed', __( 'Backup is already completed', 'lw-site-manager' ), 400 );
         }
 
         // Unschedule cron
@@ -318,7 +318,7 @@ class BackupManager extends AbstractService {
 
         return self::successResponse(
             [ 'backup_id' => $backup_id ],
-            __( 'Backup cancelled', 'wp-site-manager' )
+            __( 'Backup cancelled', 'lw-site-manager' )
         );
     }
 
@@ -371,16 +371,16 @@ class BackupManager extends AbstractService {
         }
 
         if ( ! $backup ) {
-            return self::errorResponse( 'backup_not_found', __( 'Backup not found', 'wp-site-manager' ), 404 );
+            return self::errorResponse( 'backup_not_found', __( 'Backup not found', 'lw-site-manager' ), 404 );
         }
 
         if ( ! file_exists( $backup['file_path'] ) ) {
-            return self::errorResponse( 'backup_file_missing', __( 'Backup file not found on disk', 'wp-site-manager' ), 404 );
+            return self::errorResponse( 'backup_file_missing', __( 'Backup file not found on disk', 'lw-site-manager' ), 404 );
         }
 
         $zip = new ZipArchive();
         if ( $zip->open( $backup['file_path'] ) !== true ) {
-            return self::errorResponse( 'backup_open_failed', __( 'Could not open backup file', 'wp-site-manager' ), 500 );
+            return self::errorResponse( 'backup_open_failed', __( 'Could not open backup file', 'lw-site-manager' ), 500 );
         }
 
         $restored = [];
@@ -421,7 +421,7 @@ class BackupManager extends AbstractService {
 
         return self::successResponse(
             [ 'restored' => $restored ],
-            __( 'Backup restored successfully', 'wp-site-manager' )
+            __( 'Backup restored successfully', 'lw-site-manager' )
         );
     }
 
@@ -450,7 +450,7 @@ class BackupManager extends AbstractService {
         }
 
         if ( ! $found ) {
-            return self::errorResponse( 'backup_not_found', __( 'Backup not found', 'wp-site-manager' ), 404 );
+            return self::errorResponse( 'backup_not_found', __( 'Backup not found', 'lw-site-manager' ), 404 );
         }
 
         update_option( 'wpsm_backups', array_values( $backups ) );
@@ -460,7 +460,7 @@ class BackupManager extends AbstractService {
 
         return self::successResponse(
             [ 'deleted_id' => $backup_id ],
-            __( 'Backup deleted successfully', 'wp-site-manager' )
+            __( 'Backup deleted successfully', 'lw-site-manager' )
         );
     }
 

@@ -5,9 +5,9 @@
 
 declare(strict_types=1);
 
-namespace WPSiteManager\Services;
+namespace LightweightPlugins\SiteManager\Services;
 
-use WPSiteManager\Handlers\ErrorHandler;
+use LightweightPlugins\SiteManager\Handlers\ErrorHandler;
 
 class UpdateManager extends AbstractService {
 
@@ -136,7 +136,7 @@ class UpdateManager extends AbstractService {
         if ( $result === false ) {
             return self::updateResultResponse(
                 false,
-                __( 'Plugin update failed or no update available', 'wp-site-manager' ),
+                __( 'Plugin update failed or no update available', 'lw-site-manager' ),
                 $old_version,
                 $old_version,
                 $php_errors
@@ -154,8 +154,8 @@ class UpdateManager extends AbstractService {
         return self::updateResultResponse(
             ! $has_fatal,
             $has_fatal
-                ? __( 'Plugin updated but PHP errors detected', 'wp-site-manager' )
-                : sprintf( __( 'Plugin updated successfully: %s → %s', 'wp-site-manager' ), $old_version, $new_version ),
+                ? __( 'Plugin updated but PHP errors detected', 'lw-site-manager' )
+                : sprintf( __( 'Plugin updated successfully: %s → %s', 'lw-site-manager' ), $old_version, $new_version ),
             $old_version,
             $new_version,
             $php_errors
@@ -204,7 +204,7 @@ class UpdateManager extends AbstractService {
         if ( $result === false ) {
             return self::updateResultResponse(
                 false,
-                __( 'Theme update failed or no update available', 'wp-site-manager' ),
+                __( 'Theme update failed or no update available', 'lw-site-manager' ),
                 $old_version,
                 $old_version,
                 $php_errors
@@ -221,8 +221,8 @@ class UpdateManager extends AbstractService {
         return self::updateResultResponse(
             ! $has_fatal,
             $has_fatal
-                ? __( 'Theme updated but PHP errors detected', 'wp-site-manager' )
-                : sprintf( __( 'Theme updated successfully: %s → %s', 'wp-site-manager' ), $old_version, $new_version ),
+                ? __( 'Theme updated but PHP errors detected', 'lw-site-manager' )
+                : sprintf( __( 'Theme updated successfully: %s → %s', 'lw-site-manager' ), $old_version, $new_version ),
             $old_version,
             $new_version,
             $php_errors
@@ -245,7 +245,7 @@ class UpdateManager extends AbstractService {
         if ( empty( $updates ) || $updates[0]->response !== 'upgrade' ) {
             return self::updateResultResponse(
                 true,
-                __( 'WordPress is already up to date', 'wp-site-manager' ),
+                __( 'WordPress is already up to date', 'lw-site-manager' ),
                 $old_version,
                 $old_version,
                 []
@@ -263,7 +263,7 @@ class UpdateManager extends AbstractService {
                 return self::updateResultResponse(
                     false,
                     sprintf(
-                        __( 'Major update available (%s) but minor_only is enabled', 'wp-site-manager' ),
+                        __( 'Major update available (%s) but minor_only is enabled', 'lw-site-manager' ),
                         $update->version
                     ),
                     $old_version,
@@ -294,8 +294,8 @@ class UpdateManager extends AbstractService {
         return self::updateResultResponse(
             ! $has_fatal,
             $has_fatal
-                ? __( 'Core updated but PHP errors detected', 'wp-site-manager' )
-                : sprintf( __( 'WordPress updated: %s → %s', 'wp-site-manager' ), $old_version, $new_version ),
+                ? __( 'Core updated but PHP errors detected', 'lw-site-manager' )
+                : sprintf( __( 'WordPress updated: %s → %s', 'lw-site-manager' ), $old_version, $new_version ),
             $old_version,
             $new_version,
             $php_errors
@@ -452,14 +452,14 @@ class UpdateManager extends AbstractService {
 
         // Build summary
         $result['summary'] = sprintf(
-            __( 'Updated: %d, Failed: %d, PHP Errors: %d', 'wp-site-manager' ),
+            __( 'Updated: %d, Failed: %d, PHP Errors: %d', 'lw-site-manager' ),
             $total_updated,
             $total_failed,
             count( $result['php_errors'] )
         );
 
         if ( $result['stopped_early'] ) {
-            $result['summary'] .= ' ' . __( '(Stopped early due to PHP errors)', 'wp-site-manager' );
+            $result['summary'] .= ' ' . __( '(Stopped early due to PHP errors)', 'lw-site-manager' );
         }
 
         $result['success'] = $total_failed === 0 && empty( $result['php_errors'] );
@@ -542,8 +542,8 @@ class UpdateManager extends AbstractService {
         return [
             'success'    => ! $has_fatal,
             'message'    => $has_fatal
-                ? __( 'Plugin activated but PHP errors detected', 'wp-site-manager' )
-                : __( 'Plugin activated successfully', 'wp-site-manager' ),
+                ? __( 'Plugin activated but PHP errors detected', 'lw-site-manager' )
+                : __( 'Plugin activated successfully', 'lw-site-manager' ),
             'php_errors' => $php_errors,
         ];
     }
@@ -563,7 +563,7 @@ class UpdateManager extends AbstractService {
 
         deactivate_plugins( $plugin );
 
-        return self::successResponse( [], __( 'Plugin deactivated successfully', 'wp-site-manager' ) );
+        return self::successResponse( [], __( 'Plugin deactivated successfully', 'lw-site-manager' ) );
     }
 
     /**
@@ -583,7 +583,7 @@ class UpdateManager extends AbstractService {
         // Check if plugin exists
         $all_plugins = get_plugins();
         if ( ! isset( $all_plugins[ $plugin ] ) ) {
-            return self::errorResponse( 'plugin_not_found', __( 'Plugin not found', 'wp-site-manager' ), 404 );
+            return self::errorResponse( 'plugin_not_found', __( 'Plugin not found', 'lw-site-manager' ), 404 );
         }
 
         // Deactivate first if active
@@ -598,7 +598,7 @@ class UpdateManager extends AbstractService {
             return self::errorResponse( 'delete_failed', $result->get_error_message(), 500 );
         }
 
-        return self::successResponse( [], __( 'Plugin deleted successfully', 'wp-site-manager' ) );
+        return self::successResponse( [], __( 'Plugin deleted successfully', 'lw-site-manager' ) );
     }
 
     /**
@@ -641,7 +641,7 @@ class UpdateManager extends AbstractService {
 
         $theme = wp_get_theme( $theme_slug );
         if ( ! $theme->exists() ) {
-            return self::errorResponse( 'theme_not_found', __( 'Theme not found', 'wp-site-manager' ), 404 );
+            return self::errorResponse( 'theme_not_found', __( 'Theme not found', 'lw-site-manager' ), 404 );
         }
 
         // Start error monitoring
@@ -656,8 +656,8 @@ class UpdateManager extends AbstractService {
         return [
             'success'    => ! $has_fatal,
             'message'    => $has_fatal
-                ? __( 'Theme activated but PHP errors detected', 'wp-site-manager' )
-                : __( 'Theme activated successfully', 'wp-site-manager' ),
+                ? __( 'Theme activated but PHP errors detected', 'lw-site-manager' )
+                : __( 'Theme activated successfully', 'lw-site-manager' ),
             'php_errors' => $php_errors,
         ];
     }
@@ -679,12 +679,12 @@ class UpdateManager extends AbstractService {
         // Check if theme exists
         $theme = wp_get_theme( $theme_slug );
         if ( ! $theme->exists() ) {
-            return self::errorResponse( 'theme_not_found', __( 'Theme not found', 'wp-site-manager' ), 404 );
+            return self::errorResponse( 'theme_not_found', __( 'Theme not found', 'lw-site-manager' ), 404 );
         }
 
         // Cannot delete active theme
         if ( get_stylesheet() === $theme_slug || get_template() === $theme_slug ) {
-            return self::errorResponse( 'cannot_delete_active', __( 'Cannot delete the active theme', 'wp-site-manager' ), 400 );
+            return self::errorResponse( 'cannot_delete_active', __( 'Cannot delete the active theme', 'lw-site-manager' ), 400 );
         }
 
         // Delete the theme
@@ -694,7 +694,7 @@ class UpdateManager extends AbstractService {
             return self::errorResponse( 'delete_failed', $result->get_error_message(), 500 );
         }
 
-        return self::successResponse( [], __( 'Theme deleted successfully', 'wp-site-manager' ) );
+        return self::successResponse( [], __( 'Theme deleted successfully', 'lw-site-manager' ) );
     }
 
     /**
@@ -720,7 +720,7 @@ class UpdateManager extends AbstractService {
             if ( strpos( $plugin_file, $slug . '/' ) === 0 || $plugin_file === $slug . '.php' ) {
                 return self::errorResponse(
                     'plugin_exists',
-                    sprintf( __( 'Plugin "%s" is already installed', 'wp-site-manager' ), $slug ),
+                    sprintf( __( 'Plugin "%s" is already installed', 'lw-site-manager' ), $slug ),
                     400
                 );
             }
@@ -760,7 +760,7 @@ class UpdateManager extends AbstractService {
         if ( $result === false ) {
             return [
                 'success'    => false,
-                'message'    => __( 'Plugin installation failed', 'wp-site-manager' ),
+                'message'    => __( 'Plugin installation failed', 'lw-site-manager' ),
                 'php_errors' => $php_errors,
             ];
         }
@@ -789,8 +789,8 @@ class UpdateManager extends AbstractService {
         return [
             'success'    => ! $has_fatal,
             'message'    => $has_fatal
-                ? __( 'Plugin installed but PHP errors detected', 'wp-site-manager' )
-                : sprintf( __( 'Plugin "%s" installed successfully (v%s)', 'wp-site-manager' ), $api->name, $api->version ),
+                ? __( 'Plugin installed but PHP errors detected', 'lw-site-manager' )
+                : sprintf( __( 'Plugin "%s" installed successfully (v%s)', 'lw-site-manager' ), $api->name, $api->version ),
             'plugin'     => $plugin_file,
             'name'       => $api->name,
             'version'    => $api->version,
@@ -820,7 +820,7 @@ class UpdateManager extends AbstractService {
         if ( $theme->exists() ) {
             return self::errorResponse(
                 'theme_exists',
-                sprintf( __( 'Theme "%s" is already installed', 'wp-site-manager' ), $slug ),
+                sprintf( __( 'Theme "%s" is already installed', 'lw-site-manager' ), $slug ),
                 400
             );
         }
@@ -859,7 +859,7 @@ class UpdateManager extends AbstractService {
         if ( $result === false ) {
             return [
                 'success'    => false,
-                'message'    => __( 'Theme installation failed', 'wp-site-manager' ),
+                'message'    => __( 'Theme installation failed', 'lw-site-manager' ),
                 'php_errors' => $php_errors,
             ];
         }
@@ -880,8 +880,8 @@ class UpdateManager extends AbstractService {
         return [
             'success'    => ! $has_fatal,
             'message'    => $has_fatal
-                ? __( 'Theme installed but PHP errors detected', 'wp-site-manager' )
-                : sprintf( __( 'Theme "%s" installed successfully (v%s)', 'wp-site-manager' ), $theme->get( 'Name' ), $theme->get( 'Version' ) ),
+                ? __( 'Theme installed but PHP errors detected', 'lw-site-manager' )
+                : sprintf( __( 'Theme "%s" installed successfully (v%s)', 'lw-site-manager' ), $theme->get( 'Name' ), $theme->get( 'Version' ) ),
             'theme'      => $slug,
             'name'       => $theme->get( 'Name' ),
             'version'    => $theme->get( 'Version' ),

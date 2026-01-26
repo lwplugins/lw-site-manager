@@ -1,19 +1,27 @@
-# WP Site Manager
+# LW Site Manager
 
 WordPress Site Manager using the Abilities API - A native, AI-ready alternative to MainWP.
 
-**Author:** [trueqap](https://github.com/trueqap)
+**Part of [LW Plugins](https://lwplugins.com) - Lightweight plugins for WordPress.**
 
 ## Requirements
 
-- PHP 8.0+
+- PHP 8.2+
 - WordPress 6.9+
-- WordPress Abilities API plugin
+- WordPress Abilities API
 
 ## Installation
 
+### Via Composer
+
 ```bash
-cd wp-content/plugins/wp-site-manager
+composer require lwplugins/lw-site-manager
+```
+
+### Manual
+
+```bash
+cd wp-content/plugins/lw-site-manager
 composer install
 ```
 
@@ -189,6 +197,12 @@ AI Agent:
 6. If success: calls site-manager/health-check again
 7. Returns summary to user
 ```
+
+## Links
+
+- [GitHub](https://github.com/lwplugins/lw-site-manager)
+- [LW Plugins](https://lwplugins.com)
+- [All LW Plugins](https://github.com/lwplugins)
 
 ## License
 

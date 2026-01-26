@@ -8,16 +8,16 @@
 
 declare(strict_types=1);
 
-namespace WPSiteManager\Abilities\Registrars;
+namespace LightweightPlugins\SiteManager\Abilities\Registrars;
 
-use WPSiteManager\Abilities\Definitions\PostAbilities;
-use WPSiteManager\Abilities\Definitions\PageAbilities;
-use WPSiteManager\Abilities\Definitions\CommentAbilities;
-use WPSiteManager\Abilities\Definitions\MediaAbilities;
-use WPSiteManager\Abilities\Definitions\TaxonomyAbilities;
-use WPSiteManager\Abilities\Definitions\MetaAbilities;
-use WPSiteManager\Abilities\Definitions\SettingsAbilities;
-use WPSiteManager\Abilities\Definitions\WooCommerceAbilities;
+use LightweightPlugins\SiteManager\Abilities\Definitions\PostAbilities;
+use LightweightPlugins\SiteManager\Abilities\Definitions\PageAbilities;
+use LightweightPlugins\SiteManager\Abilities\Definitions\CommentAbilities;
+use LightweightPlugins\SiteManager\Abilities\Definitions\MediaAbilities;
+use LightweightPlugins\SiteManager\Abilities\Definitions\TaxonomyAbilities;
+use LightweightPlugins\SiteManager\Abilities\Definitions\MetaAbilities;
+use LightweightPlugins\SiteManager\Abilities\Definitions\SettingsAbilities;
+use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerceAbilities;
 
 class ContentAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
 

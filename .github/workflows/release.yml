@@ -1,0 +1,36 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create release ZIP
+        run: |
+          mkdir -p build
+          zip -r build/lw-disable-comments.zip . \
+            -x ".git/*" \
+            -x ".github/*" \
+            -x "build/*" \
+            -x ".gitignore" \
+            -x "composer.lock" \
+            -x "phpcs.xml.dist" \
+            -x "vendor/*"
+
+      - name: Upload Release Asset
+        uses: softprops/action-gh-release@v1
+        with:
+          files: build/lw-disable-comments.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

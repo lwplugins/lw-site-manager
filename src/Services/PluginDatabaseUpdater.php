@@ -8,9 +8,9 @@
 
 declare(strict_types=1);
 
-namespace WPSiteManager\Services;
+namespace LightweightPlugins\SiteManager\Services;
 
-use WPSiteManager\Handlers\ErrorHandler;
+use LightweightPlugins\SiteManager\Handlers\ErrorHandler;
 
 class PluginDatabaseUpdater extends AbstractService {
 
@@ -80,7 +80,7 @@ class PluginDatabaseUpdater extends AbstractService {
         if ( ! isset( self::SUPPORTED_PLUGINS[ $plugin_slug ] ) ) {
             return self::errorResponse(
                 'unsupported_plugin',
-                sprintf( __( 'Plugin %s is not supported for DB updates', 'wp-site-manager' ), $plugin_slug ),
+                sprintf( __( 'Plugin %s is not supported for DB updates', 'lw-site-manager' ), $plugin_slug ),
                 400
             );
         }
@@ -91,7 +91,7 @@ class PluginDatabaseUpdater extends AbstractService {
         if ( ! is_plugin_active( $plugin_slug ) ) {
             return self::errorResponse(
                 'plugin_inactive',
-                sprintf( __( 'Plugin %s is not active', 'wp-site-manager' ), $config['name'] ),
+                sprintf( __( 'Plugin %s is not active', 'lw-site-manager' ), $config['name'] ),
                 400
             );
         }
@@ -181,7 +181,7 @@ class PluginDatabaseUpdater extends AbstractService {
         }
 
         $results['summary'] = sprintf(
-            __( 'Updated: %d, Failed: %d', 'wp-site-manager' ),
+            __( 'Updated: %d, Failed: %d', 'lw-site-manager' ),
             count( $results['updated'] ),
             count( $results['failed'] )
         );
@@ -259,7 +259,7 @@ class PluginDatabaseUpdater extends AbstractService {
 
             return [
                 'success' => true,
-                'message' => __( 'WooCommerce database updated successfully', 'wp-site-manager' ),
+                'message' => __( 'WooCommerce database updated successfully', 'lw-site-manager' ),
             ];
 
         } catch ( \Exception $e ) {
@@ -342,7 +342,7 @@ class PluginDatabaseUpdater extends AbstractService {
 
             return [
                 'success' => true,
-                'message' => __( 'Elementor database updated successfully', 'wp-site-manager' ),
+                'message' => __( 'Elementor database updated successfully', 'lw-site-manager' ),
             ];
 
         } catch ( \Exception $e ) {
@@ -408,7 +408,7 @@ class PluginDatabaseUpdater extends AbstractService {
 
             return [
                 'success' => true,
-                'message' => __( 'Elementor Pro database updated successfully', 'wp-site-manager' ),
+                'message' => __( 'Elementor Pro database updated successfully', 'lw-site-manager' ),
             ];
 
         } catch ( \Exception $e ) {

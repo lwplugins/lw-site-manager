@@ -5,10 +5,10 @@
 
 declare(strict_types=1);
 
-namespace WPSiteManager\Abilities\Registrars;
+namespace LightweightPlugins\SiteManager\Abilities\Registrars;
 
-use WPSiteManager\Abilities\PermissionManager;
-use WPSiteManager\Helpers\PaginationHelper;
+use LightweightPlugins\SiteManager\Abilities\PermissionManager;
+use LightweightPlugins\SiteManager\Helpers\PaginationHelper;
 
 abstract class AbstractAbilitiesRegistrar {
 

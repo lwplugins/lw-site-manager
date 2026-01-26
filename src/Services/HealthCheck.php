@@ -5,9 +5,9 @@
 
 declare(strict_types=1);
 
-namespace WPSiteManager\Services;
+namespace LightweightPlugins\SiteManager\Services;
 
-use WPSiteManager\Handlers\ErrorHandler;
+use LightweightPlugins\SiteManager\Handlers\ErrorHandler;
 
 class HealthCheck extends AbstractService {
 

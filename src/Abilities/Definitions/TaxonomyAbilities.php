@@ -5,10 +5,10 @@
 
 declare(strict_types=1);
 
-namespace WPSiteManager\Abilities\Definitions;
+namespace LightweightPlugins\SiteManager\Abilities\Definitions;
 
-use WPSiteManager\Abilities\PermissionManager;
-use WPSiteManager\Services\TaxonomyManager;
+use LightweightPlugins\SiteManager\Abilities\PermissionManager;
+use LightweightPlugins\SiteManager\Services\TaxonomyManager;
 
 class TaxonomyAbilities {
 
@@ -22,8 +22,8 @@ class TaxonomyAbilities {
         wp_register_ability(
             'site-manager/list-categories',
             [
-                'label'       => __( 'List Categories', 'wp-site-manager' ),
-                'description' => __( 'List all categories', 'wp-site-manager' ),
+                'label'       => __( 'List Categories', 'lw-site-manager' ),
+                'description' => __( 'List all categories', 'lw-site-manager' ),
                 'category'    => 'taxonomy',
                 'input_schema' => [
                     'type'       => 'object',
@@ -76,8 +76,8 @@ class TaxonomyAbilities {
         wp_register_ability(
             'site-manager/get-category',
             [
-                'label'       => __( 'Get Category', 'wp-site-manager' ),
-                'description' => __( 'Get detailed information about a category', 'wp-site-manager' ),
+                'label'       => __( 'Get Category', 'lw-site-manager' ),
+                'description' => __( 'Get detailed information about a category', 'lw-site-manager' ),
                 'category'    => 'taxonomy',
                 'input_schema' => [
                     'type'       => 'object',
@@ -104,8 +104,8 @@ class TaxonomyAbilities {
         wp_register_ability(
             'site-manager/create-category',
             [
-                'label'       => __( 'Create Category', 'wp-site-manager' ),
-                'description' => __( 'Create a new category', 'wp-site-manager' ),
+                'label'       => __( 'Create Category', 'lw-site-manager' ),
+                'description' => __( 'Create a new category', 'lw-site-manager' ),
                 'category'    => 'taxonomy',
                 'input_schema' => [
                     'type'       => 'object',
@@ -144,8 +144,8 @@ class TaxonomyAbilities {
         wp_register_ability(
             'site-manager/update-category',
             [
-                'label'       => __( 'Update Category', 'wp-site-manager' ),
-                'description' => __( 'Update an existing category', 'wp-site-manager' ),
+                'label'       => __( 'Update Category', 'lw-site-manager' ),
+                'description' => __( 'Update an existing category', 'lw-site-manager' ),
                 'category'    => 'taxonomy',
                 'input_schema' => [
                     'type'       => 'object',
@@ -188,8 +188,8 @@ class TaxonomyAbilities {
         wp_register_ability(
             'site-manager/delete-category',
             [
-                'label'       => __( 'Delete Category', 'wp-site-manager' ),
-                'description' => __( 'Delete a category', 'wp-site-manager' ),
+                'label'       => __( 'Delete Category', 'lw-site-manager' ),
+                'description' => __( 'Delete a category', 'lw-site-manager' ),
                 'category'    => 'taxonomy',
                 'input_schema' => [
                     'type'       => 'object',
@@ -226,8 +226,8 @@ class TaxonomyAbilities {
         wp_register_ability(
             'site-manager/list-tags',
             [
-                'label'       => __( 'List Tags', 'wp-site-manager' ),
-                'description' => __( 'List all tags', 'wp-site-manager' ),
+                'label'       => __( 'List Tags', 'lw-site-manager' ),
+                'description' => __( 'List all tags', 'lw-site-manager' ),
                 'category'    => 'taxonomy',
                 'input_schema' => [
                     'type'       => 'object',
@@ -275,8 +275,8 @@ class TaxonomyAbilities {
         wp_register_ability(
             'site-manager/get-tag',
             [
-                'label'       => __( 'Get Tag', 'wp-site-manager' ),
-                'description' => __( 'Get detailed information about a tag', 'wp-site-manager' ),
+                'label'       => __( 'Get Tag', 'lw-site-manager' ),
+                'description' => __( 'Get detailed information about a tag', 'lw-site-manager' ),
                 'category'    => 'taxonomy',
                 'input_schema' => [
                     'type'       => 'object',
@@ -303,8 +303,8 @@ class TaxonomyAbilities {
         wp_register_ability(
             'site-manager/create-tag',
             [
-                'label'       => __( 'Create Tag', 'wp-site-manager' ),
-                'description' => __( 'Create a new tag', 'wp-site-manager' ),
+                'label'       => __( 'Create Tag', 'lw-site-manager' ),
+                'description' => __( 'Create a new tag', 'lw-site-manager' ),
                 'category'    => 'taxonomy',
                 'input_schema' => [
                     'type'       => 'object',
@@ -339,8 +339,8 @@ class TaxonomyAbilities {
         wp_register_ability(
             'site-manager/update-tag',
             [
-                'label'       => __( 'Update Tag', 'wp-site-manager' ),
-                'description' => __( 'Update an existing tag', 'wp-site-manager' ),
+                'label'       => __( 'Update Tag', 'lw-site-manager' ),
+                'description' => __( 'Update an existing tag', 'lw-site-manager' ),
                 'category'    => 'taxonomy',
                 'input_schema' => [
                     'type'       => 'object',
@@ -379,8 +379,8 @@ class TaxonomyAbilities {
         wp_register_ability(
             'site-manager/delete-tag',
             [
-                'label'       => __( 'Delete Tag', 'wp-site-manager' ),
-                'description' => __( 'Delete a tag', 'wp-site-manager' ),
+                'label'       => __( 'Delete Tag', 'lw-site-manager' ),
+                'description' => __( 'Delete a tag', 'lw-site-manager' ),
                 'category'    => 'taxonomy',
                 'input_schema' => [
                     'type'       => 'object',

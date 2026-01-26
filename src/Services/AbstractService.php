@@ -8,11 +8,11 @@
 
 declare(strict_types=1);
 
-namespace WPSiteManager\Services;
+namespace LightweightPlugins\SiteManager\Services;
 
-use WPSiteManager\Helpers\InputValidator;
-use WPSiteManager\Helpers\PaginationHelper;
-use WPSiteManager\Helpers\ResponseFormatter;
+use LightweightPlugins\SiteManager\Helpers\InputValidator;
+use LightweightPlugins\SiteManager\Helpers\PaginationHelper;
+use LightweightPlugins\SiteManager\Helpers\ResponseFormatter;
 
 abstract class AbstractService {
 

@@ -5,10 +5,10 @@
 
 declare(strict_types=1);
 
-namespace WPSiteManager\Abilities\Definitions;
+namespace LightweightPlugins\SiteManager\Abilities\Definitions;
 
-use WPSiteManager\Abilities\PermissionManager;
-use WPSiteManager\Services\PageManager;
+use LightweightPlugins\SiteManager\Abilities\PermissionManager;
+use LightweightPlugins\SiteManager\Services\PageManager;
 
 class PageAbilities {
 
@@ -33,8 +33,8 @@ class PageAbilities {
         wp_register_ability(
             'site-manager/list-pages',
             [
-                'label'       => __( 'List Pages', 'wp-site-manager' ),
-                'description' => __( 'List pages with filtering options', 'wp-site-manager' ),
+                'label'       => __( 'List Pages', 'lw-site-manager' ),
+                'description' => __( 'List pages with filtering options', 'lw-site-manager' ),
                 'category'    => 'content',
                 'input_schema' => [
                     'type'       => 'object',
@@ -90,8 +90,8 @@ class PageAbilities {
         wp_register_ability(
             'site-manager/get-page',
             [
-                'label'       => __( 'Get Page', 'wp-site-manager' ),
-                'description' => __( 'Get detailed information about a page', 'wp-site-manager' ),
+                'label'       => __( 'Get Page', 'lw-site-manager' ),
+                'description' => __( 'Get detailed information about a page', 'lw-site-manager' ),
                 'category'    => 'content',
                 'input_schema' => [
                     'type'       => 'object',
@@ -124,8 +124,8 @@ class PageAbilities {
         wp_register_ability(
             'site-manager/create-page',
             [
-                'label'       => __( 'Create Page', 'wp-site-manager' ),
-                'description' => __( 'Create a new page', 'wp-site-manager' ),
+                'label'       => __( 'Create Page', 'lw-site-manager' ),
+                'description' => __( 'Create a new page', 'lw-site-manager' ),
                 'category'    => 'content',
                 'input_schema' => [
                     'type'       => 'object',
@@ -192,8 +192,8 @@ class PageAbilities {
         wp_register_ability(
             'site-manager/update-page',
             [
-                'label'       => __( 'Update Page', 'wp-site-manager' ),
-                'description' => __( 'Update an existing page', 'wp-site-manager' ),
+                'label'       => __( 'Update Page', 'lw-site-manager' ),
+                'description' => __( 'Update an existing page', 'lw-site-manager' ),
                 'category'    => 'content',
                 'input_schema' => [
                     'type'       => 'object',
@@ -251,8 +251,8 @@ class PageAbilities {
         wp_register_ability(
             'site-manager/delete-page',
             [
-                'label'       => __( 'Delete Page', 'wp-site-manager' ),
-                'description' => __( 'Delete a page', 'wp-site-manager' ),
+                'label'       => __( 'Delete Page', 'lw-site-manager' ),
+                'description' => __( 'Delete a page', 'lw-site-manager' ),
                 'category'    => 'content',
                 'input_schema' => [
                     'type'       => 'object',
@@ -290,8 +290,8 @@ class PageAbilities {
         wp_register_ability(
             'site-manager/restore-page',
             [
-                'label'       => __( 'Restore Page', 'wp-site-manager' ),
-                'description' => __( 'Restore a page from trash', 'wp-site-manager' ),
+                'label'       => __( 'Restore Page', 'lw-site-manager' ),
+                'description' => __( 'Restore a page from trash', 'lw-site-manager' ),
                 'category'    => 'content',
                 'input_schema' => [
                     'type'       => 'object',
@@ -315,8 +315,8 @@ class PageAbilities {
         wp_register_ability(
             'site-manager/duplicate-page',
             [
-                'label'       => __( 'Duplicate Page', 'wp-site-manager' ),
-                'description' => __( 'Create a copy of a page', 'wp-site-manager' ),
+                'label'       => __( 'Duplicate Page', 'lw-site-manager' ),
+                'description' => __( 'Create a copy of a page', 'lw-site-manager' ),
                 'category'    => 'content',
                 'input_schema' => [
                     'type'       => 'object',
@@ -360,8 +360,8 @@ class PageAbilities {
         wp_register_ability(
             'site-manager/page-hierarchy',
             [
-                'label'       => __( 'Get Page Hierarchy', 'wp-site-manager' ),
-                'description' => __( 'Get hierarchical page tree structure', 'wp-site-manager' ),
+                'label'       => __( 'Get Page Hierarchy', 'lw-site-manager' ),
+                'description' => __( 'Get hierarchical page tree structure', 'lw-site-manager' ),
                 'category'    => 'content',
                 'input_schema' => [
                     'type'       => 'object',
@@ -396,8 +396,8 @@ class PageAbilities {
         wp_register_ability(
             'site-manager/reorder-pages',
             [
-                'label'       => __( 'Reorder Pages', 'wp-site-manager' ),
-                'description' => __( 'Update page order (menu_order)', 'wp-site-manager' ),
+                'label'       => __( 'Reorder Pages', 'lw-site-manager' ),
+                'description' => __( 'Update page order (menu_order)', 'lw-site-manager' ),
                 'category'    => 'content',
                 'input_schema' => [
                     'type'       => 'object',
@@ -436,8 +436,8 @@ class PageAbilities {
         wp_register_ability(
             'site-manager/set-homepage',
             [
-                'label'       => __( 'Set Homepage', 'wp-site-manager' ),
-                'description' => __( 'Set a page as the site homepage', 'wp-site-manager' ),
+                'label'       => __( 'Set Homepage', 'lw-site-manager' ),
+                'description' => __( 'Set a page as the site homepage', 'lw-site-manager' ),
                 'category'    => 'content',
                 'input_schema' => [
                     'type'       => 'object',
@@ -470,8 +470,8 @@ class PageAbilities {
         wp_register_ability(
             'site-manager/set-posts-page',
             [
-                'label'       => __( 'Set Posts Page', 'wp-site-manager' ),
-                'description' => __( 'Set a page as the blog/posts page', 'wp-site-manager' ),
+                'label'       => __( 'Set Posts Page', 'lw-site-manager' ),
+                'description' => __( 'Set a page as the blog/posts page', 'lw-site-manager' ),
                 'category'    => 'content',
                 'input_schema' => [
                     'type'       => 'object',
@@ -504,8 +504,8 @@ class PageAbilities {
         wp_register_ability(
             'site-manager/front-page-settings',
             [
-                'label'       => __( 'Get Front Page Settings', 'wp-site-manager' ),
-                'description' => __( 'Get current homepage and posts page settings', 'wp-site-manager' ),
+                'label'       => __( 'Get Front Page Settings', 'lw-site-manager' ),
+                'description' => __( 'Get current homepage and posts page settings', 'lw-site-manager' ),
                 'category'    => 'content',
                 'input_schema' => [
                     'type'       => 'object',
@@ -547,8 +547,8 @@ class PageAbilities {
         wp_register_ability(
             'site-manager/page-templates',
             [
-                'label'       => __( 'Get Page Templates', 'wp-site-manager' ),
-                'description' => __( 'List available page templates', 'wp-site-manager' ),
+                'label'       => __( 'Get Page Templates', 'lw-site-manager' ),
+                'description' => __( 'List available page templates', 'lw-site-manager' ),
                 'category'    => 'content',
                 'input_schema' => [
                     'type'       => 'object',
@@ -584,8 +584,8 @@ class PageAbilities {
         wp_register_ability(
             'site-manager/set-page-template',
             [
-                'label'       => __( 'Set Page Template', 'wp-site-manager' ),
-                'description' => __( 'Assign a template to a page', 'wp-site-manager' ),
+                'label'       => __( 'Set Page Template', 'lw-site-manager' ),
+                'description' => __( 'Assign a template to a page', 'lw-site-manager' ),
                 'category'    => 'content',
                 'input_schema' => [
                     'type'       => 'object',
