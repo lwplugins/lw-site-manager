@@ -1,6 +1,6 @@
 # Tags
 
-Abilities for managing tags.
+Abilities for managing tags. Supports custom taxonomies (e.g., `product_tag`).
 
 ## Abilities
 
@@ -24,6 +24,7 @@ List tags with filtering and sorting options.
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
+| taxonomy | string | "post_tag" | Taxonomy name (e.g., `post_tag`, `product_tag`) |
 | limit | integer | 20 | Number of items to return |
 | offset | integer | 0 | Number of items to skip |
 | hide_empty | boolean | false | Hide empty tags |
@@ -97,9 +98,10 @@ Get detailed information about a tag.
 
 ### Input Schema
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| id | integer | yes | Tag ID |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| id | integer | yes | - | Tag ID |
+| taxonomy | string | no | "post_tag" | Taxonomy name (e.g., `post_tag`, `bovitmeny_tag`) |
 
 ### Output Schema
 
@@ -151,11 +153,12 @@ Create a new tag.
 
 ### Input Schema
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| name | string | yes | Tag name |
-| slug | string | no | Tag slug (auto-generated if not provided) |
-| description | string | no | Tag description |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| name | string | yes | - | Tag name |
+| slug | string | no | - | Tag slug (auto-generated if not provided) |
+| description | string | no | - | Tag description |
+| taxonomy | string | no | "post_tag" | Taxonomy name (e.g., `post_tag`, `bovitmeny_tag`) |
 
 ### Output Schema
 
@@ -209,12 +212,13 @@ Update an existing tag.
 
 ### Input Schema
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| id | integer | yes | Tag ID |
-| name | string | no | New name |
-| slug | string | no | New slug |
-| description | string | no | New description |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| id | integer | yes | - | Tag ID |
+| name | string | no | - | New name |
+| slug | string | no | - | New slug |
+| description | string | no | - | New description |
+| taxonomy | string | no | "post_tag" | Taxonomy name (e.g., `post_tag`, `bovitmeny_tag`) |
 
 ### Output Schema
 
@@ -268,9 +272,10 @@ Delete a tag.
 
 ### Input Schema
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| id | integer | yes | Tag ID to delete |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| id | integer | yes | - | Tag ID to delete |
+| taxonomy | string | no | "post_tag" | Taxonomy name (e.g., `post_tag`, `bovitmeny_tag`) |
 
 ### Output Schema
 

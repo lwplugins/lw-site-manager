@@ -4,7 +4,7 @@ Tags: site-manager, maintenance, ai, rest-api, abilities
 Requires at least: 6.9
 Tested up to: 6.9
 Requires PHP: 8.1
-Stable tag: 1.1.3
+Stable tag: 1.1.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,6 +85,10 @@ Yes, LW Site Manager provides similar functionality to MainWP but uses the nativ
 3. Backup creation options
 
 == Changelog ==
+
+= 1.1.4 =
+* Added: Custom taxonomy support in category and tag abilities via taxonomy parameter
+* Added: All category/tag abilities now support any taxonomy (not just category/post_tag)
 
 = 1.1.3 =
 * Added: Custom taxonomy support in create-post and update-post

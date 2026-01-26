@@ -29,6 +29,11 @@ class TaxonomyAbilities {
                     'type'       => 'object',
                     'default'    => [],
                     'properties' => [
+                        'taxonomy' => [
+                            'type'        => 'string',
+                            'default'     => 'category',
+                            'description' => 'Taxonomy name (default: category)',
+                        ],
                         'limit' => [
                             'type'    => 'integer',
                             'default' => 20,
@@ -63,7 +68,7 @@ class TaxonomyAbilities {
                 ],
                 'output_schema' => self::getListOutputSchema(),
                 'execute_callback'    => function( array $input ) {
-                    $input['taxonomy'] = 'category';
+                    $input['taxonomy'] = $input['taxonomy'] ?? 'category';
                     return TaxonomyManager::list_terms( $input );
                 },
                 'permission_callback' => $permissions->callback( 'can_manage_categories' ),
@@ -86,12 +91,17 @@ class TaxonomyAbilities {
                             'type'        => 'integer',
                             'description' => 'Category ID',
                         ],
+                        'taxonomy' => [
+                            'type'        => 'string',
+                            'default'     => 'category',
+                            'description' => 'Taxonomy name (default: category)',
+                        ],
                     ],
                     'required' => [ 'id' ],
                 ],
                 'output_schema' => self::getEntityOutputSchema(),
                 'execute_callback'    => function( array $input ) {
-                    $input['taxonomy'] = 'category';
+                    $input['taxonomy'] = $input['taxonomy'] ?? 'category';
                     return TaxonomyManager::get_term( $input );
                 },
                 'permission_callback' => $permissions->callback( 'can_manage_categories' ),
@@ -126,12 +136,17 @@ class TaxonomyAbilities {
                             'type'        => 'integer',
                             'description' => 'Parent category ID',
                         ],
+                        'taxonomy' => [
+                            'type'        => 'string',
+                            'default'     => 'category',
+                            'description' => 'Taxonomy name (default: category)',
+                        ],
                     ],
                     'required' => [ 'name' ],
                 ],
                 'output_schema' => self::getEntityOutputSchema(),
                 'execute_callback'    => function( array $input ) {
-                    $input['taxonomy'] = 'category';
+                    $input['taxonomy'] = $input['taxonomy'] ?? 'category';
                     return TaxonomyManager::create_term( $input );
                 },
                 'permission_callback' => $permissions->callback( 'can_manage_categories' ),
@@ -170,12 +185,17 @@ class TaxonomyAbilities {
                             'type'        => 'integer',
                             'description' => 'Parent category ID',
                         ],
+                        'taxonomy' => [
+                            'type'        => 'string',
+                            'default'     => 'category',
+                            'description' => 'Taxonomy name (default: category)',
+                        ],
                     ],
                     'required' => [ 'id' ],
                 ],
                 'output_schema' => self::getEntityOutputSchema(),
                 'execute_callback'    => function( array $input ) {
-                    $input['taxonomy'] = 'category';
+                    $input['taxonomy'] = $input['taxonomy'] ?? 'category';
                     return TaxonomyManager::update_term( $input );
                 },
                 'permission_callback' => $permissions->callback( 'can_manage_categories' ),
@@ -198,6 +218,11 @@ class TaxonomyAbilities {
                             'type'        => 'integer',
                             'description' => 'Category ID',
                         ],
+                        'taxonomy' => [
+                            'type'        => 'string',
+                            'default'     => 'category',
+                            'description' => 'Taxonomy name (default: category)',
+                        ],
                     ],
                     'required' => [ 'id' ],
                 ],
@@ -211,7 +236,7 @@ class TaxonomyAbilities {
                     ],
                 ],
                 'execute_callback'    => function( array $input ) {
-                    $input['taxonomy'] = 'category';
+                    $input['taxonomy'] = $input['taxonomy'] ?? 'category';
                     return TaxonomyManager::delete_term( $input );
                 },
                 'permission_callback' => $permissions->callback( 'can_manage_categories' ),
@@ -232,6 +257,11 @@ class TaxonomyAbilities {
                     'type'       => 'object',
                     'default'    => [],
                     'properties' => [
+                        'taxonomy' => [
+                            'type'        => 'string',
+                            'default'     => 'post_tag',
+                            'description' => 'Taxonomy name (default: post_tag)',
+                        ],
                         'limit' => [
                             'type'    => 'integer',
                             'default' => 20,
@@ -262,7 +292,7 @@ class TaxonomyAbilities {
                 ],
                 'output_schema' => self::getListOutputSchema(),
                 'execute_callback'    => function( array $input ) {
-                    $input['taxonomy'] = 'post_tag';
+                    $input['taxonomy'] = $input['taxonomy'] ?? 'post_tag';
                     return TaxonomyManager::list_terms( $input );
                 },
                 'permission_callback' => $permissions->callback( 'can_manage_tags' ),
@@ -285,12 +315,17 @@ class TaxonomyAbilities {
                             'type'        => 'integer',
                             'description' => 'Tag ID',
                         ],
+                        'taxonomy' => [
+                            'type'        => 'string',
+                            'default'     => 'post_tag',
+                            'description' => 'Taxonomy name (default: post_tag)',
+                        ],
                     ],
                     'required' => [ 'id' ],
                 ],
                 'output_schema' => self::getEntityOutputSchema(),
                 'execute_callback'    => function( array $input ) {
-                    $input['taxonomy'] = 'post_tag';
+                    $input['taxonomy'] = $input['taxonomy'] ?? 'post_tag';
                     return TaxonomyManager::get_term( $input );
                 },
                 'permission_callback' => $permissions->callback( 'can_manage_tags' ),
@@ -321,12 +356,17 @@ class TaxonomyAbilities {
                             'type'        => 'string',
                             'description' => 'Tag description',
                         ],
+                        'taxonomy' => [
+                            'type'        => 'string',
+                            'default'     => 'post_tag',
+                            'description' => 'Taxonomy name (default: post_tag)',
+                        ],
                     ],
                     'required' => [ 'name' ],
                 ],
                 'output_schema' => self::getEntityOutputSchema(),
                 'execute_callback'    => function( array $input ) {
-                    $input['taxonomy'] = 'post_tag';
+                    $input['taxonomy'] = $input['taxonomy'] ?? 'post_tag';
                     return TaxonomyManager::create_term( $input );
                 },
                 'permission_callback' => $permissions->callback( 'can_manage_tags' ),
@@ -361,12 +401,17 @@ class TaxonomyAbilities {
                             'type'        => 'string',
                             'description' => 'Tag description',
                         ],
+                        'taxonomy' => [
+                            'type'        => 'string',
+                            'default'     => 'post_tag',
+                            'description' => 'Taxonomy name (default: post_tag)',
+                        ],
                     ],
                     'required' => [ 'id' ],
                 ],
                 'output_schema' => self::getEntityOutputSchema(),
                 'execute_callback'    => function( array $input ) {
-                    $input['taxonomy'] = 'post_tag';
+                    $input['taxonomy'] = $input['taxonomy'] ?? 'post_tag';
                     return TaxonomyManager::update_term( $input );
                 },
                 'permission_callback' => $permissions->callback( 'can_manage_tags' ),
@@ -389,6 +434,11 @@ class TaxonomyAbilities {
                             'type'        => 'integer',
                             'description' => 'Tag ID',
                         ],
+                        'taxonomy' => [
+                            'type'        => 'string',
+                            'default'     => 'post_tag',
+                            'description' => 'Taxonomy name (default: post_tag)',
+                        ],
                     ],
                     'required' => [ 'id' ],
                 ],
@@ -402,7 +452,7 @@ class TaxonomyAbilities {
                     ],
                 ],
                 'execute_callback'    => function( array $input ) {
-                    $input['taxonomy'] = 'post_tag';
+                    $input['taxonomy'] = $input['taxonomy'] ?? 'post_tag';
                     return TaxonomyManager::delete_term( $input );
                 },
                 'permission_callback' => $permissions->callback( 'can_manage_tags' ),

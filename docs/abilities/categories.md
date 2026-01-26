@@ -1,6 +1,6 @@
 # Categories
 
-Abilities for managing categories.
+Abilities for managing categories. Supports custom taxonomies (e.g., `product_category`).
 
 ## Abilities
 
@@ -24,6 +24,7 @@ List categories with filtering and sorting options.
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
+| taxonomy | string | "category" | Taxonomy name (e.g., `category`, `product_category`) |
 | limit | integer | 20 | Number of items to return |
 | offset | integer | 0 | Number of items to skip |
 | hide_empty | boolean | false | Hide empty categories |
@@ -98,9 +99,10 @@ Get detailed information about a category.
 
 ### Input Schema
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| id | integer | yes | Category ID |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| id | integer | yes | - | Category ID |
+| taxonomy | string | no | "category" | Taxonomy name (e.g., `category`, `bovitmeny_category`) |
 
 ### Output Schema
 
@@ -152,12 +154,13 @@ Create a new category.
 
 ### Input Schema
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| name | string | yes | Category name |
-| slug | string | no | Category slug (auto-generated if not provided) |
-| description | string | no | Category description |
-| parent | integer | no | Parent category ID |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| name | string | yes | - | Category name |
+| slug | string | no | - | Category slug (auto-generated if not provided) |
+| description | string | no | - | Category description |
+| parent | integer | no | - | Parent category ID |
+| taxonomy | string | no | "category" | Taxonomy name (e.g., `category`, `bovitmeny_category`) |
 
 ### Output Schema
 
@@ -211,13 +214,14 @@ Update an existing category.
 
 ### Input Schema
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| id | integer | yes | Category ID |
-| name | string | no | New name |
-| slug | string | no | New slug |
-| description | string | no | New description |
-| parent | integer | no | New parent category ID |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| id | integer | yes | - | Category ID |
+| name | string | no | - | New name |
+| slug | string | no | - | New slug |
+| description | string | no | - | New description |
+| parent | integer | no | - | New parent category ID |
+| taxonomy | string | no | "category" | Taxonomy name (e.g., `category`, `bovitmeny_category`) |
 
 ### Output Schema
 
@@ -271,9 +275,10 @@ Delete a category.
 
 ### Input Schema
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| id | integer | yes | Category ID to delete |
+| Field | Type | Required | Default | Description |
+|-------|------|----------|---------|-------------|
+| id | integer | yes | - | Category ID to delete |
+| taxonomy | string | no | "category" | Taxonomy name (e.g., `category`, `bovitmeny_category`) |
 
 ### Output Schema
 
