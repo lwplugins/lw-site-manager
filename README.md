@@ -82,9 +82,15 @@ composer require lwplugins/lw-site-manager
 | Ability | Description |
 |---------|-------------|
 | `site-manager/list-categories` | List categories |
+| `site-manager/get-category` | Get a single category |
 | `site-manager/create-category` | Create a category |
+| `site-manager/update-category` | Update a category |
+| `site-manager/delete-category` | Delete a category |
 | `site-manager/list-tags` | List tags |
+| `site-manager/get-tag` | Get a single tag |
 | `site-manager/create-tag` | Create a tag |
+| `site-manager/update-tag` | Update a tag |
+| `site-manager/delete-tag` | Delete a tag |
 
 ### User Management
 
