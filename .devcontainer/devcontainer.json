@@ -1,0 +1,38 @@
+{
+	"name": "LW Site Manager - Test Environment",
+	"dockerComposeFile": "docker-compose.yml",
+	"service": "php",
+	"workspaceFolder": "/workspace",
+
+	"features": {
+		"ghcr.io/devcontainers/features/git:1": {}
+	},
+
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"bmewburn.vscode-intelephense-client",
+				"xdebug.php-debug",
+				"neilbrayfield.php-docblocker",
+				"wongjn.php-sniffer",
+				"ryannaddy.laravel-artisan",
+				"hbenl.vscode-test-explorer",
+				"recca0120.vscode-phpunit"
+			],
+			"settings": {
+				"php.validate.executablePath": "/usr/local/bin/php",
+				"phpunit.phpunit": "./vendor/bin/phpunit",
+				"phpunit.args": ["--colors=always"]
+			}
+		}
+	},
+
+	"postCreateCommand": "bash .devcontainer/setup.sh",
+
+	"forwardPorts": [8080, 3306],
+
+	"remoteEnv": {
+		"WP_TESTS_DIR": "/tmp/wordpress-tests-lib",
+		"WP_CORE_DIR": "/tmp/wordpress"
+	}
+}

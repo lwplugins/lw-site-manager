@@ -142,6 +142,9 @@ class PostManager extends AbstractService {
             }
 
             $terms = wp_get_object_terms( $input['id'], $taxonomy );
+            if ( is_wp_error( $terms ) ) {
+                return self::errorResponse( 'terms_error', $terms->get_error_message(), 500 );
+            }
             $formatted_terms = array_map( fn( $term ) => [
                 'id'       => $term->term_id,
                 'name'     => $term->name,
@@ -660,15 +663,18 @@ class PostManager extends AbstractService {
      * Format post for output
      */
     private static function format_post( \WP_Post $post, bool $detailed = false ): array {
+        $thumbnail_id = get_post_thumbnail_id( $post->ID );
+
         $data = [
-            'id'        => $post->ID,
-            'title'     => $post->post_title,
-            'slug'      => $post->post_name,
-            'status'    => $post->post_status,
-            'type'      => $post->post_type,
-            'date'      => $post->post_date,
-            'modified'  => $post->post_modified,
-            'author'    => (int) $post->post_author,
+            'id'                => $post->ID,
+            'title'             => $post->post_title,
+            'slug'              => $post->post_name,
+            'status'            => $post->post_status,
+            'type'              => $post->post_type,
+            'date'              => $post->post_date,
+            'modified'          => $post->post_modified,
+            'author'            => (int) $post->post_author,
+            'featured_image_id' => $thumbnail_id ? $thumbnail_id : null,
         ];
 
         if ( $detailed ) {
@@ -680,8 +686,7 @@ class PostManager extends AbstractService {
             $data['permalink'] = get_permalink( $post );
             $data['author_name'] = get_the_author_meta( 'display_name', $post->post_author );
 
-            // Featured image
-            $thumbnail_id = get_post_thumbnail_id( $post->ID );
+            // Featured image (full details - $thumbnail_id already set above)
             $data['featured_image'] = $thumbnail_id ? [
                 'id'  => $thumbnail_id,
                 'url' => wp_get_attachment_url( $thumbnail_id ),

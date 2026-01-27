@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Integration tests configuration.
+    Requires WordPress test environment.
+
+    Setup:
+        bash bin/install-wp-tests.sh <db-name> <db-user> <db-pass> [db-host] [wp-version]
+
+    Run:
+        ./vendor/bin/phpunit -c phpunit-integration.xml.dist
+-->
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.6/phpunit.xsd"
+    bootstrap="tests/bootstrap.php"
+    colors="true"
+    executionOrder="depends,defects"
+    cacheResultFile=".phpunit.cache/test-results"
+    beStrictAboutOutputDuringTests="false"
+    failOnRisky="false"
+    failOnWarning="false"
+>
+    <php>
+        <env name="RUN_WP_TESTS" value="1"/>
+    </php>
+
+    <testsuites>
+        <!-- Integration tests require WordPress -->
+        <testsuite name="integration">
+            <directory>tests/Integration</directory>
+        </testsuite>
+    </testsuites>
+
+    <coverage>
+        <include>
+            <directory suffix=".php">src</directory>
+        </include>
+    </coverage>
+</phpunit>

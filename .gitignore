@@ -25,6 +25,7 @@ Thumbs.db
 
 # Testing
 /coverage/
+.phpunit.cache/
 .phpunit.result.cache
 
 # Environment

@@ -4,7 +4,7 @@ Tags: site-manager, maintenance, ai, rest-api, abilities
 Requires at least: 6.9
 Tested up to: 6.9
 Requires PHP: 8.1
-Stable tag: 1.1.5
+Stable tag: 1.1.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,6 +85,13 @@ Yes, LW Site Manager provides similar functionality to MainWP but uses the nativ
 3. Backup creation options
 
 == Changelog ==
+
+= 1.1.6 =
+* Added: `featured_image_id` field to list-posts response (fixes #1)
+* Added: PHPUnit testing infrastructure with unit and integration tests
+* Added: Docker devcontainer for testing environment
+* Removed: Self-updater functionality (unnecessary for GitHub releases)
+* Fixed: Deprecated `finfo_close()` call for PHP 8.1+ compatibility
 
 = 1.1.5 =
 * Fixed: SVG upload support via Abilities API when SVG plugins (Allow SVG, Safe SVG) are active

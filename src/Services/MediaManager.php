@@ -236,11 +236,10 @@ class MediaManager extends AbstractService {
             return $filetype['type'];
         }
 
-        // Last resort: try finfo if available
+        // Last resort: try finfo if available (PHP 8.1+ auto-closes finfo objects)
         if ( function_exists( 'finfo_open' ) && file_exists( $filepath ) ) {
             $finfo = finfo_open( FILEINFO_MIME_TYPE );
             $mime  = finfo_file( $finfo, $filepath );
-            finfo_close( $finfo );
             if ( $mime ) {
                 return $mime;
             }

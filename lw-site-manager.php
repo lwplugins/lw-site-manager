@@ -3,7 +3,7 @@
  * Plugin Name: Lightweight Site Manager
  * Plugin URI: https://github.com/lwplugins/lw-site-manager
  * Description: WordPress Site Manager using Abilities API - Full site maintenance via AI/REST
- * Version: 1.1.5
+ * Version: 1.1.6
  * Requires at least: 6.9
  * Requires PHP: 8.1
  * Author: LW Plugins
@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Plugin constants.
-define( 'LW_SITE_MANAGER_VERSION', '1.1.5' );
+define( 'LW_SITE_MANAGER_VERSION', '1.1.6' );
 define( 'LW_SITE_MANAGER_FILE', __FILE__ );
 define( 'LW_SITE_MANAGER_DIR', plugin_dir_path( __FILE__ ) );
 define( 'LW_SITE_MANAGER_URL', plugin_dir_url( __FILE__ ) );
@@ -85,19 +85,6 @@ final class Plugin {
 
 		// Initialize backup cron hooks.
 		add_action( 'init', [ $this, 'init_backup_system' ] );
-
-		// Initialize self-updater.
-		add_action( 'init', [ $this, 'init_updater' ] );
-	}
-
-	/**
-	 * Initialize updater.
-	 *
-	 * @return void
-	 */
-	public function init_updater(): void {
-		$updater = new Updater\SelfUpdater();
-		$updater->init();
 	}
 
 	/**
