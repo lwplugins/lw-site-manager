@@ -155,6 +155,7 @@ class UpdateManager extends AbstractService {
             ! $has_fatal,
             $has_fatal
                 ? __( 'Plugin updated but PHP errors detected', 'lw-site-manager' )
+                /* translators: %1$s: old version, %2$s: new version */
                 : sprintf( __( 'Plugin updated successfully: %1$s → %2$s', 'lw-site-manager' ), $old_version, $new_version ),
             $old_version,
             $new_version,
@@ -222,6 +223,7 @@ class UpdateManager extends AbstractService {
             ! $has_fatal,
             $has_fatal
                 ? __( 'Theme updated but PHP errors detected', 'lw-site-manager' )
+                /* translators: %1$s: old version, %2$s: new version */
                 : sprintf( __( 'Theme updated successfully: %1$s → %2$s', 'lw-site-manager' ), $old_version, $new_version ),
             $old_version,
             $new_version,
@@ -263,6 +265,7 @@ class UpdateManager extends AbstractService {
                 return self::updateResultResponse(
                     false,
                     sprintf(
+                        /* translators: %s: available version number */
                         __( 'Major update available (%s) but minor_only is enabled', 'lw-site-manager' ),
                         $update->version
                     ),
@@ -295,6 +298,7 @@ class UpdateManager extends AbstractService {
             ! $has_fatal,
             $has_fatal
                 ? __( 'Core updated but PHP errors detected', 'lw-site-manager' )
+                /* translators: %1$s: old version, %2$s: new version */
                 : sprintf( __( 'WordPress updated: %1$s → %2$s', 'lw-site-manager' ), $old_version, $new_version ),
             $old_version,
             $new_version,
@@ -451,6 +455,7 @@ class UpdateManager extends AbstractService {
         }
 
         // Build summary
+        /* translators: %1$d: number of updated items, %2$d: number of failed items, %3$d: number of PHP errors */
         $result['summary'] = sprintf(
             __( 'Updated: %1$d, Failed: %2$d, PHP Errors: %3$d', 'lw-site-manager' ),
             $total_updated,
@@ -720,6 +725,7 @@ class UpdateManager extends AbstractService {
             if ( strpos( $plugin_file, $slug . '/' ) === 0 || $plugin_file === $slug . '.php' ) {
                 return self::errorResponse(
                     'plugin_exists',
+                    /* translators: %s: plugin slug */
                     sprintf( __( 'Plugin "%s" is already installed', 'lw-site-manager' ), $slug ),
                     400
                 );
@@ -790,6 +796,7 @@ class UpdateManager extends AbstractService {
             'success'    => ! $has_fatal,
             'message'    => $has_fatal
                 ? __( 'Plugin installed but PHP errors detected', 'lw-site-manager' )
+                /* translators: %1$s: plugin name, %2$s: version number */
                 : sprintf( __( 'Plugin "%1$s" installed successfully (v%2$s)', 'lw-site-manager' ), $api->name, $api->version ),
             'plugin'     => $plugin_file,
             'name'       => $api->name,
@@ -820,6 +827,7 @@ class UpdateManager extends AbstractService {
         if ( $theme->exists() ) {
             return self::errorResponse(
                 'theme_exists',
+                /* translators: %s: theme slug */
                 sprintf( __( 'Theme "%s" is already installed', 'lw-site-manager' ), $slug ),
                 400
             );
@@ -881,6 +889,7 @@ class UpdateManager extends AbstractService {
             'success'    => ! $has_fatal,
             'message'    => $has_fatal
                 ? __( 'Theme installed but PHP errors detected', 'lw-site-manager' )
+                /* translators: %1$s: theme name, %2$s: version number */
                 : sprintf( __( 'Theme "%1$s" installed successfully (v%2$s)', 'lw-site-manager' ), $theme->get( 'Name' ), $theme->get( 'Version' ) ),
             'theme'      => $slug,
             'name'       => $theme->get( 'Name' ),

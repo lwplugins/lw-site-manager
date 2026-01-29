@@ -80,6 +80,7 @@ class PluginDatabaseUpdater extends AbstractService {
         if ( ! isset( self::SUPPORTED_PLUGINS[ $plugin_slug ] ) ) {
             return self::errorResponse(
                 'unsupported_plugin',
+                /* translators: %s: plugin slug */
                 sprintf( __( 'Plugin %s is not supported for DB updates', 'lw-site-manager' ), $plugin_slug ),
                 400
             );
@@ -91,6 +92,7 @@ class PluginDatabaseUpdater extends AbstractService {
         if ( ! is_plugin_active( $plugin_slug ) ) {
             return self::errorResponse(
                 'plugin_inactive',
+                /* translators: %s: plugin name */
                 sprintf( __( 'Plugin %s is not active', 'lw-site-manager' ), $config['name'] ),
                 400
             );
@@ -180,6 +182,7 @@ class PluginDatabaseUpdater extends AbstractService {
             }
         }
 
+        /* translators: %1$d: number of updated items, %2$d: number of failed items */
         $results['summary'] = sprintf(
             __( 'Updated: %1$d, Failed: %2$d', 'lw-site-manager' ),
             count( $results['updated'] ),

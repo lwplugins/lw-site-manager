@@ -42,6 +42,7 @@ class DatabaseManager extends AbstractService {
                 'failed'    => $failed,
             ],
             sprintf(
+                /* translators: %1$d: number of optimized tables, %2$d: number of failed tables */
                 __( 'Optimized %1$d tables, %2$d failed', 'lw-site-manager' ),
                 count( $optimized ),
                 count( $failed )
@@ -160,6 +161,7 @@ class DatabaseManager extends AbstractService {
                 'total'   => $total_deleted,
             ],
             sprintf(
+                /* translators: %d: number of deleted items */
                 __( 'Cleaned up %d items from database', 'lw-site-manager' ),
                 $total_deleted
             )
@@ -237,6 +239,7 @@ class DatabaseManager extends AbstractService {
                 'failed'   => $failed,
             ],
             sprintf(
+                /* translators: %1$d: number of repaired tables, %2$d: number of failed tables */
                 __( 'Repaired %1$d tables, %2$d failed', 'lw-site-manager' ),
                 count( $repaired ),
                 count( $failed )

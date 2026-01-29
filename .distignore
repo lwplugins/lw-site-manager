@@ -1,0 +1,39 @@
+# Ignore these files/folders when creating a WordPress.org distribution ZIP
+
+# Development files
+.git
+.github
+.devcontainer
+.phpcs.cache
+.phpunit.cache
+.phpunit.result.cache
+
+# Config files
+.distignore
+.gitignore
+.editorconfig
+phpcs.xml.dist
+phpunit.xml.dist
+phpunit-integration.xml.dist
+composer.json
+composer.lock
+
+# Documentation
+docs
+CLAUDE.md
+CHANGELOG.md
+.claude
+
+# Tests
+tests
+bin
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.idea
+.vscode
+*.sublime-project
+*.sublime-workspace

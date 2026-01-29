@@ -114,6 +114,7 @@ class CacheManager extends AbstractService {
         return self::successResponse(
             [ 'flushed' => $flushed ],
             sprintf(
+                /* translators: %1$d: number of flushed caches, %2$s: list of cache names */
                 __( 'Flushed %1$d cache(s): %2$s', 'lw-site-manager' ),
                 count( $flushed ),
                 implode( ', ', $flushed )
@@ -263,6 +264,7 @@ class CacheManager extends AbstractService {
         return self::successResponse(
             [ 'preloaded' => $preloaded ],
             sprintf(
+                /* translators: %s: list of preloaded items */
                 __( 'Started preloading for: %s', 'lw-site-manager' ),
                 implode( ', ', $preloaded )
             )
