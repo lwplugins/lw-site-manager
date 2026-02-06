@@ -20,33 +20,65 @@ final class ParentPage {
 	public const SLUG = 'lw-plugins';
 
 	/**
-	 * Get all LW plugins registry.
+	 * Remote registry URL (raw GitHub).
+	 */
+	private const REGISTRY_URL = 'https://raw.githubusercontent.com/lwplugins/registry/main/plugins.json';
+
+	/**
+	 * Transient cache key and TTL.
+	 */
+	private const CACHE_KEY = 'lw_plugins_registry';
+	private const CACHE_TTL = 43200; // 12 hours in seconds.
+
+	/**
+	 * Get all LW plugins registry (remote with local fallback).
 	 *
-	 * @return array<string, array{name: string, description: string, icon: string, icon_color: string, constant: string, settings_page: string, github: string}>
+	 * @return array<string, array<string, string>>
 	 */
 	public static function get_plugins_registry(): array {
+		$cached = get_transient( self::CACHE_KEY );
+
+		if ( is_array( $cached ) && ! empty( $cached ) ) {
+			return $cached;
+		}
+
+		$remote = self::fetch_remote_registry();
+
+		if ( $remote ) {
+			set_transient( self::CACHE_KEY, $remote, self::CACHE_TTL );
+			return $remote;
+		}
+
+		return self::get_local_fallback();
+	}
+
+	/**
+	 * Fetch plugin registry from GitHub.
+	 *
+	 * @return array<string, array<string, string>>|null
+	 */
+	private static function fetch_remote_registry(): ?array {
+		$response = wp_remote_get( self::REGISTRY_URL, [ 'timeout' => 5 ] );
+
+		if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
+			return null;
+		}
+
+		$data = json_decode( wp_remote_retrieve_body( $response ), true );
+
+		return is_array( $data ) && ! empty( $data ) ? $data : null;
+	}
+
+	/**
+	 * Local fallback when remote is unavailable.
+	 *
+	 * @return array<string, array<string, string>>
+	 */
+	private static function get_local_fallback(): array {
 		return [
-			'lw-seo'          => [
-				'name'          => 'LW SEO',
-				'description'   => __( 'Essential SEO features without the bloat. Meta tags, sitemaps, schema, and more.', 'lw-site-manager' ),
-				'icon'          => 'dashicons-search',
-				'icon_color'    => '#2271b1',
-				'constant'      => 'LW_SEO_VERSION',
-				'settings_page' => 'lw-seo',
-				'github'        => 'https://github.com/lwplugins/lw-seo',
-			],
-			'lw-disable'      => [
-				'name'          => 'LW Disable',
-				'description'   => __( 'Disable WordPress features like comments and admin commands.', 'lw-site-manager' ),
-				'icon'          => 'dashicons-dismiss',
-				'icon_color'    => '#d63638',
-				'constant'      => 'LW_DISABLE_VERSION',
-				'settings_page' => 'lw-disable',
-				'github'        => 'https://github.com/lwplugins/lw-disable',
-			],
 			'lw-site-manager' => [
 				'name'          => 'LW Site Manager',
-				'description'   => __( 'Site maintenance via AI/REST using Abilities API.', 'lw-site-manager' ),
+				'description'   => 'Site maintenance via AI/REST using Abilities API.',
 				'icon'          => 'dashicons-admin-tools',
 				'icon_color'    => '#135e96',
 				'constant'      => 'LW_SITE_MANAGER_VERSION',
@@ -133,8 +165,8 @@ final class ParentPage {
 	/**
 	 * Render a single plugin card.
 	 *
-	 * @param string $slug   Plugin slug.
-	 * @param array  $plugin Plugin data.
+	 * @param string                                                                                                                              $slug   Plugin slug.
+	 * @param array{name: string, description: string, icon: string, icon_color: string, constant: string, settings_page: string, github: string} $plugin Plugin data.
 	 * @return void
 	 */
 	private static function render_plugin_card( string $slug, array $plugin ): void {
