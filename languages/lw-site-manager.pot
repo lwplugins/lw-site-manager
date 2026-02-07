@@ -1,0 +1,1447 @@
+# Copyright (C) 2026 LW Plugins
+# This file is distributed under the GPL-2.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Lightweight Site Manager 1.1.7\n"
+"Report-Msgid-Bugs-To: https://github.com/lwplugins/lw-site-manager/issues\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LW Plugins <info@lwplugins.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-02-07T08:43:29+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: lw-site-manager\n"
+
+#. Plugin Name of the plugin
+#: lw-site-manager.php
+msgid "Lightweight Site Manager"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: lw-site-manager.php
+msgid "https://github.com/lwplugins/lw-site-manager"
+msgstr ""
+
+#. Description of the plugin
+#: lw-site-manager.php
+msgid "WordPress Site Manager using Abilities API - Full site maintenance via AI/REST"
+msgstr ""
+
+#. Author of the plugin
+#: lw-site-manager.php
+#: includes/Admin/ParentPage.php:104
+#: includes/Admin/ParentPage.php:105
+#: includes/Admin/ParentPage.php:126
+msgid "LW Plugins"
+msgstr ""
+
+#. Author URI of the plugin
+#: lw-site-manager.php
+msgid "https://lwplugins.com"
+msgstr ""
+
+#: includes/Admin/ParentPage.php:127
+msgid "Lightweight plugins for WordPress - minimal footprint, maximum impact."
+msgstr ""
+
+#: includes/Admin/ParentPage.php:180
+msgid "Active"
+msgstr ""
+
+#: includes/Admin/ParentPage.php:187
+#: lw-site-manager.php:208
+msgid "Settings"
+msgstr ""
+
+#: includes/Admin/ParentPage.php:191
+msgid "Get Plugin"
+msgstr ""
+
+#: lw-site-manager.php:101
+msgid "LW Site Manager requires WordPress 6.9 or higher (Abilities API)."
+msgstr ""
+
+#: lw-site-manager.php:118
+msgid "Maintenance"
+msgstr ""
+
+#: lw-site-manager.php:119
+msgid "Site maintenance abilities including updates, backups, and optimization"
+msgstr ""
+
+#: lw-site-manager.php:127
+msgid "Diagnostics"
+msgstr ""
+
+#: lw-site-manager.php:128
+msgid "Site health and diagnostic abilities"
+msgstr ""
+
+#: lw-site-manager.php:136
+msgid "Plugins"
+msgstr ""
+
+#: lw-site-manager.php:137
+msgid "Plugin management abilities"
+msgstr ""
+
+#: lw-site-manager.php:145
+msgid "Themes"
+msgstr ""
+
+#: lw-site-manager.php:146
+msgid "Theme management abilities"
+msgstr ""
+
+#: lw-site-manager.php:154
+msgid "Users"
+msgstr ""
+
+#: lw-site-manager.php:155
+msgid "User management abilities"
+msgstr ""
+
+#: lw-site-manager.php:163
+msgid "Comments"
+msgstr ""
+
+#: lw-site-manager.php:164
+msgid "Comment management abilities"
+msgstr ""
+
+#: lw-site-manager.php:172
+msgid "Content"
+msgstr ""
+
+#: lw-site-manager.php:173
+msgid "Posts and pages management abilities"
+msgstr ""
+
+#: lw-site-manager.php:181
+msgid "Media"
+msgstr ""
+
+#: lw-site-manager.php:182
+msgid "Media library management abilities"
+msgstr ""
+
+#: lw-site-manager.php:190
+msgid "Taxonomy"
+msgstr ""
+
+#: lw-site-manager.php:191
+msgid "Category and tag management abilities"
+msgstr ""
+
+#: lw-site-manager.php:199
+msgid "Meta"
+msgstr ""
+
+#: lw-site-manager.php:200
+msgid "Post, user, and term meta management abilities"
+msgstr ""
+
+#: lw-site-manager.php:209
+msgid "WordPress settings management abilities"
+msgstr ""
+
+#: lw-site-manager.php:228
+msgid "WooCommerce Products"
+msgstr ""
+
+#: lw-site-manager.php:229
+msgid "WooCommerce product management abilities"
+msgstr ""
+
+#: lw-site-manager.php:236
+msgid "WooCommerce Orders"
+msgstr ""
+
+#: lw-site-manager.php:237
+msgid "WooCommerce order management abilities"
+msgstr ""
+
+#: lw-site-manager.php:244
+msgid "WooCommerce Customers"
+msgstr ""
+
+#: lw-site-manager.php:245
+msgid "WooCommerce customer management abilities"
+msgstr ""
+
+#: lw-site-manager.php:252
+msgid "WooCommerce Coupons"
+msgstr ""
+
+#: lw-site-manager.php:253
+msgid "WooCommerce coupon management abilities"
+msgstr ""
+
+#: lw-site-manager.php:260
+msgid "WooCommerce Settings"
+msgstr ""
+
+#: lw-site-manager.php:261
+msgid "WooCommerce settings management abilities"
+msgstr ""
+
+#: lw-site-manager.php:268
+msgid "WooCommerce Reports"
+msgstr ""
+
+#: lw-site-manager.php:269
+msgid "WooCommerce reports and analytics abilities"
+msgstr ""
+
+#: src/Abilities/Definitions/CommentAbilities.php:35
+msgid "List Comments"
+msgstr ""
+
+#: src/Abilities/Definitions/CommentAbilities.php:36
+msgid "List comments with filtering options"
+msgstr ""
+
+#: src/Abilities/Definitions/CommentAbilities.php:97
+msgid "Get Comment"
+msgstr ""
+
+#: src/Abilities/Definitions/CommentAbilities.php:98
+msgid "Get detailed information about a comment"
+msgstr ""
+
+#: src/Abilities/Definitions/CommentAbilities.php:122
+msgid "Get Comment Counts"
+msgstr ""
+
+#: src/Abilities/Definitions/CommentAbilities.php:123
+msgid "Get comment counts by status"
+msgstr ""
+
+#: src/Abilities/Definitions/CommentAbilities.php:163
+msgid "Create Comment"
+msgstr ""
+
+#: src/Abilities/Definitions/CommentAbilities.php:164
+msgid "Create a new comment"
+msgstr ""
+
+#: src/Abilities/Definitions/CommentAbilities.php:217
+msgid "Update Comment"
+msgstr ""
+
+#: src/Abilities/Definitions/CommentAbilities.php:218
+msgid "Update an existing comment"
+msgstr ""
+
+#: src/Abilities/Definitions/CommentAbilities.php:263
+msgid "Delete Comment"
+msgstr ""
+
+#: src/Abilities/Definitions/CommentAbilities.php:264
+msgid "Delete a comment"
+msgstr ""
+
+#: src/Abilities/Definitions/CommentAbilities.php:308
+msgid "Approve Comment"
+msgstr ""
+
+#: src/Abilities/Definitions/CommentAbilities.php:309
+msgid "Approve a pending comment"
+msgstr ""
+
+#: src/Abilities/Definitions/CommentAbilities.php:333
+msgid "Mark Comment as Spam"
+msgstr ""
+
+#: src/Abilities/Definitions/CommentAbilities.php:334
+msgid "Mark a comment as spam"
+msgstr ""
+
+#: src/Abilities/Definitions/CommentAbilities.php:358
+msgid "Bulk Comment Action"
+msgstr ""
+
+#: src/Abilities/Definitions/CommentAbilities.php:359
+msgid "Perform bulk actions on multiple comments"
+msgstr ""
+
+#: src/Abilities/Definitions/MediaAbilities.php:20
+msgid "List Media"
+msgstr ""
+
+#: src/Abilities/Definitions/MediaAbilities.php:21
+msgid "List media library items"
+msgstr ""
+
+#: src/Abilities/Definitions/MediaAbilities.php:66
+msgid "Get Media"
+msgstr ""
+
+#: src/Abilities/Definitions/MediaAbilities.php:67
+msgid "Get detailed information about a media item"
+msgstr ""
+
+#: src/Abilities/Definitions/MediaAbilities.php:91
+msgid "Upload Media"
+msgstr ""
+
+#: src/Abilities/Definitions/MediaAbilities.php:92
+msgid "Upload media from URL or base64 encoded data"
+msgstr ""
+
+#: src/Abilities/Definitions/MediaAbilities.php:139
+msgid "Update Media"
+msgstr ""
+
+#: src/Abilities/Definitions/MediaAbilities.php:140
+msgid "Update media item metadata"
+msgstr ""
+
+#: src/Abilities/Definitions/MediaAbilities.php:180
+msgid "Delete Media"
+msgstr ""
+
+#: src/Abilities/Definitions/MediaAbilities.php:181
+msgid "Delete a media item"
+msgstr ""
+
+#: src/Abilities/Definitions/MetaAbilities.php:26
+msgid "Get Post Meta"
+msgstr ""
+
+#: src/Abilities/Definitions/MetaAbilities.php:27
+msgid "Get meta data for a post or page"
+msgstr ""
+
+#: src/Abilities/Definitions/MetaAbilities.php:74
+msgid "Set Post Meta"
+msgstr ""
+
+#: src/Abilities/Definitions/MetaAbilities.php:75
+msgid "Set meta data for a post or page"
+msgstr ""
+
+#: src/Abilities/Definitions/MetaAbilities.php:116
+msgid "Delete Post Meta"
+msgstr ""
+
+#: src/Abilities/Definitions/MetaAbilities.php:117
+msgid "Delete meta data from a post or page"
+msgstr ""
+
+#: src/Abilities/Definitions/MetaAbilities.php:155
+msgid "Get User Meta"
+msgstr ""
+
+#: src/Abilities/Definitions/MetaAbilities.php:156
+msgid "Get meta data for a user"
+msgstr ""
+
+#: src/Abilities/Definitions/MetaAbilities.php:203
+msgid "Set User Meta"
+msgstr ""
+
+#: src/Abilities/Definitions/MetaAbilities.php:204
+msgid "Set meta data for a user"
+msgstr ""
+
+#: src/Abilities/Definitions/MetaAbilities.php:245
+msgid "Delete User Meta"
+msgstr ""
+
+#: src/Abilities/Definitions/MetaAbilities.php:246
+msgid "Delete meta data from a user"
+msgstr ""
+
+#: src/Abilities/Definitions/MetaAbilities.php:284
+msgid "Get Term Meta"
+msgstr ""
+
+#: src/Abilities/Definitions/MetaAbilities.php:285
+msgid "Get meta data for a term (category/tag)"
+msgstr ""
+
+#: src/Abilities/Definitions/MetaAbilities.php:327
+msgid "Set Term Meta"
+msgstr ""
+
+#: src/Abilities/Definitions/MetaAbilities.php:328
+msgid "Set meta data for a term (category/tag)"
+msgstr ""
+
+#: src/Abilities/Definitions/MetaAbilities.php:369
+msgid "Delete Term Meta"
+msgstr ""
+
+#: src/Abilities/Definitions/MetaAbilities.php:370
+msgid "Delete meta data from a term (category/tag)"
+msgstr ""
+
+#: src/Abilities/Definitions/PageAbilities.php:36
+msgid "List Pages"
+msgstr ""
+
+#: src/Abilities/Definitions/PageAbilities.php:37
+msgid "List pages with filtering options"
+msgstr ""
+
+#: src/Abilities/Definitions/PageAbilities.php:93
+msgid "Get Page"
+msgstr ""
+
+#: src/Abilities/Definitions/PageAbilities.php:94
+msgid "Get detailed information about a page"
+msgstr ""
+
+#: src/Abilities/Definitions/PageAbilities.php:127
+msgid "Create Page"
+msgstr ""
+
+#: src/Abilities/Definitions/PageAbilities.php:128
+msgid "Create a new page"
+msgstr ""
+
+#: src/Abilities/Definitions/PageAbilities.php:195
+msgid "Update Page"
+msgstr ""
+
+#: src/Abilities/Definitions/PageAbilities.php:196
+msgid "Update an existing page"
+msgstr ""
+
+#: src/Abilities/Definitions/PageAbilities.php:254
+msgid "Delete Page"
+msgstr ""
+
+#: src/Abilities/Definitions/PageAbilities.php:255
+msgid "Delete a page"
+msgstr ""
+
+#: src/Abilities/Definitions/PageAbilities.php:293
+msgid "Restore Page"
+msgstr ""
+
+#: src/Abilities/Definitions/PageAbilities.php:294
+msgid "Restore a page from trash"
+msgstr ""
+
+#: src/Abilities/Definitions/PageAbilities.php:318
+msgid "Duplicate Page"
+msgstr ""
+
+#: src/Abilities/Definitions/PageAbilities.php:319
+msgid "Create a copy of a page"
+msgstr ""
+
+#: src/Abilities/Definitions/PageAbilities.php:363
+msgid "Get Page Hierarchy"
+msgstr ""
+
+#: src/Abilities/Definitions/PageAbilities.php:364
+msgid "Get hierarchical page tree structure"
+msgstr ""
+
+#: src/Abilities/Definitions/PageAbilities.php:399
+msgid "Reorder Pages"
+msgstr ""
+
+#: src/Abilities/Definitions/PageAbilities.php:400
+msgid "Update page order (menu_order)"
+msgstr ""
+
+#: src/Abilities/Definitions/PageAbilities.php:439
+msgid "Set Homepage"
+msgstr ""
+
+#: src/Abilities/Definitions/PageAbilities.php:440
+msgid "Set a page as the site homepage"
+msgstr ""
+
+#: src/Abilities/Definitions/PageAbilities.php:473
+msgid "Set Posts Page"
+msgstr ""
+
+#: src/Abilities/Definitions/PageAbilities.php:474
+msgid "Set a page as the blog/posts page"
+msgstr ""
+
+#: src/Abilities/Definitions/PageAbilities.php:507
+msgid "Get Front Page Settings"
+msgstr ""
+
+#: src/Abilities/Definitions/PageAbilities.php:508
+msgid "Get current homepage and posts page settings"
+msgstr ""
+
+#: src/Abilities/Definitions/PageAbilities.php:550
+msgid "Get Page Templates"
+msgstr ""
+
+#: src/Abilities/Definitions/PageAbilities.php:551
+msgid "List available page templates"
+msgstr ""
+
+#: src/Abilities/Definitions/PageAbilities.php:587
+msgid "Set Page Template"
+msgstr ""
+
+#: src/Abilities/Definitions/PageAbilities.php:588
+msgid "Assign a template to a page"
+msgstr ""
+
+#: src/Abilities/Definitions/PostAbilities.php:35
+msgid "List Posts"
+msgstr ""
+
+#: src/Abilities/Definitions/PostAbilities.php:36
+msgid "List posts with filtering options"
+msgstr ""
+
+#: src/Abilities/Definitions/PostAbilities.php:117
+msgid "Get Post"
+msgstr ""
+
+#: src/Abilities/Definitions/PostAbilities.php:118
+msgid "Get detailed information about a post"
+msgstr ""
+
+#: src/Abilities/Definitions/PostAbilities.php:150
+msgid "Get Post Types"
+msgstr ""
+
+#: src/Abilities/Definitions/PostAbilities.php:151
+msgid "List available post types"
+msgstr ""
+
+#: src/Abilities/Definitions/PostAbilities.php:200
+msgid "Create Post"
+msgstr ""
+
+#: src/Abilities/Definitions/PostAbilities.php:201
+msgid "Create a new post"
+msgstr ""
+
+#: src/Abilities/Definitions/PostAbilities.php:293
+msgid "Update Post"
+msgstr ""
+
+#: src/Abilities/Definitions/PostAbilities.php:294
+msgid "Update an existing post"
+msgstr ""
+
+#: src/Abilities/Definitions/PostAbilities.php:384
+msgid "Delete Post"
+msgstr ""
+
+#: src/Abilities/Definitions/PostAbilities.php:385
+msgid "Delete a post"
+msgstr ""
+
+#: src/Abilities/Definitions/PostAbilities.php:423
+msgid "Restore Post"
+msgstr ""
+
+#: src/Abilities/Definitions/PostAbilities.php:424
+msgid "Restore a post from trash"
+msgstr ""
+
+#: src/Abilities/Definitions/PostAbilities.php:454
+msgid "Duplicate Post"
+msgstr ""
+
+#: src/Abilities/Definitions/PostAbilities.php:455
+msgid "Create a copy of a post"
+msgstr ""
+
+#: src/Abilities/Definitions/PostAbilities.php:493
+msgid "Bulk Post Action"
+msgstr ""
+
+#: src/Abilities/Definitions/PostAbilities.php:494
+msgid "Perform bulk actions on multiple posts"
+msgstr ""
+
+#: src/Abilities/Definitions/PostAbilities.php:524
+msgid "Set Post Terms"
+msgstr ""
+
+#: src/Abilities/Definitions/PostAbilities.php:525
+msgid "Set taxonomy terms for a post (supports custom post types and taxonomies)"
+msgstr ""
+
+#: src/Abilities/Definitions/PostAbilities.php:583
+msgid "Get Post Terms"
+msgstr ""
+
+#: src/Abilities/Definitions/PostAbilities.php:584
+msgid "Get taxonomy terms for a post (supports custom post types and taxonomies)"
+msgstr ""
+
+#: src/Abilities/Definitions/SettingsAbilities.php:27
+msgid "Get General Settings"
+msgstr ""
+
+#: src/Abilities/Definitions/SettingsAbilities.php:28
+msgid "Get WordPress general settings (site title, tagline, email, etc.)"
+msgstr ""
+
+#: src/Abilities/Definitions/SettingsAbilities.php:75
+msgid "Update General Settings"
+msgstr ""
+
+#: src/Abilities/Definitions/SettingsAbilities.php:76
+msgid "Update WordPress general settings"
+msgstr ""
+
+#: src/Abilities/Definitions/SettingsAbilities.php:139
+msgid "Get Reading Settings"
+msgstr ""
+
+#: src/Abilities/Definitions/SettingsAbilities.php:140
+msgid "Get WordPress reading settings"
+msgstr ""
+
+#: src/Abilities/Definitions/SettingsAbilities.php:179
+msgid "Update Reading Settings"
+msgstr ""
+
+#: src/Abilities/Definitions/SettingsAbilities.php:180
+msgid "Update WordPress reading settings"
+msgstr ""
+
+#: src/Abilities/Definitions/SettingsAbilities.php:234
+msgid "Get Discussion Settings"
+msgstr ""
+
+#: src/Abilities/Definitions/SettingsAbilities.php:235
+msgid "Get WordPress discussion/comment settings"
+msgstr ""
+
+#: src/Abilities/Definitions/SettingsAbilities.php:264
+msgid "Update Discussion Settings"
+msgstr ""
+
+#: src/Abilities/Definitions/SettingsAbilities.php:265
+msgid "Update WordPress discussion/comment settings"
+msgstr ""
+
+#: src/Abilities/Definitions/SettingsAbilities.php:373
+msgid "Get Permalink Settings"
+msgstr ""
+
+#: src/Abilities/Definitions/SettingsAbilities.php:374
+msgid "Get WordPress permalink settings"
+msgstr ""
+
+#: src/Abilities/Definitions/SettingsAbilities.php:412
+msgid "Update Permalink Settings"
+msgstr ""
+
+#: src/Abilities/Definitions/SettingsAbilities.php:413
+msgid "Update WordPress permalink settings"
+msgstr ""
+
+#: src/Abilities/Definitions/TaxonomyAbilities.php:25
+msgid "List Categories"
+msgstr ""
+
+#: src/Abilities/Definitions/TaxonomyAbilities.php:26
+msgid "List all categories"
+msgstr ""
+
+#: src/Abilities/Definitions/TaxonomyAbilities.php:83
+msgid "Get Category"
+msgstr ""
+
+#: src/Abilities/Definitions/TaxonomyAbilities.php:84
+msgid "Get detailed information about a category"
+msgstr ""
+
+#: src/Abilities/Definitions/TaxonomyAbilities.php:116
+msgid "Create Category"
+msgstr ""
+
+#: src/Abilities/Definitions/TaxonomyAbilities.php:117
+msgid "Create a new category"
+msgstr ""
+
+#: src/Abilities/Definitions/TaxonomyAbilities.php:161
+msgid "Update Category"
+msgstr ""
+
+#: src/Abilities/Definitions/TaxonomyAbilities.php:162
+msgid "Update an existing category"
+msgstr ""
+
+#: src/Abilities/Definitions/TaxonomyAbilities.php:210
+msgid "Delete Category"
+msgstr ""
+
+#: src/Abilities/Definitions/TaxonomyAbilities.php:211
+msgid "Delete a category"
+msgstr ""
+
+#: src/Abilities/Definitions/TaxonomyAbilities.php:253
+msgid "List Tags"
+msgstr ""
+
+#: src/Abilities/Definitions/TaxonomyAbilities.php:254
+msgid "List all tags"
+msgstr ""
+
+#: src/Abilities/Definitions/TaxonomyAbilities.php:307
+msgid "Get Tag"
+msgstr ""
+
+#: src/Abilities/Definitions/TaxonomyAbilities.php:308
+msgid "Get detailed information about a tag"
+msgstr ""
+
+#: src/Abilities/Definitions/TaxonomyAbilities.php:340
+msgid "Create Tag"
+msgstr ""
+
+#: src/Abilities/Definitions/TaxonomyAbilities.php:341
+msgid "Create a new tag"
+msgstr ""
+
+#: src/Abilities/Definitions/TaxonomyAbilities.php:381
+msgid "Update Tag"
+msgstr ""
+
+#: src/Abilities/Definitions/TaxonomyAbilities.php:382
+msgid "Update an existing tag"
+msgstr ""
+
+#: src/Abilities/Definitions/TaxonomyAbilities.php:426
+msgid "Delete Tag"
+msgstr ""
+
+#: src/Abilities/Definitions/TaxonomyAbilities.php:427
+msgid "Delete a tag"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:40
+msgid "List Products"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:41
+msgid "List WooCommerce products with filtering options"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:105
+msgid "Get Product"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:106
+msgid "Get detailed information about a WooCommerce product"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:137
+msgid "Create Product"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:138
+msgid "Create a new WooCommerce product"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:157
+msgid "Update Product"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:158
+msgid "Update an existing WooCommerce product"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:180
+msgid "Delete Product"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:181
+msgid "Delete a WooCommerce product"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:210
+msgid "Duplicate Product"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:211
+msgid "Create a copy of a WooCommerce product"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:243
+msgid "Update Stock"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:244
+msgid "Update product stock quantity or status"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:293
+msgid "List Product Categories"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:294
+msgid "List WooCommerce product categories"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:364
+msgid "List Product Variations"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:365
+msgid "List variations of a variable product"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:416
+msgid "Bulk Product Action"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:417
+msgid "Perform bulk actions on multiple products"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:451
+msgid "List Orders"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:452
+msgid "List WooCommerce orders with filtering options"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:509
+msgid "Get Order"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:510
+msgid "Get detailed information about a WooCommerce order"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:534
+msgid "Update Order Status"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:535
+msgid "Change the status of an order"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:577
+msgid "List Order Statuses"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:578
+msgid "List available WooCommerce order statuses"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:613
+msgid "Create Refund"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:614
+msgid "Create a refund for an order"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:673
+msgid "List Order Notes"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:674
+msgid "List notes for an order"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:724
+msgid "Add Order Note"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:725
+msgid "Add a note to an order"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:768
+msgid "Bulk Order Action"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:769
+msgid "Update status for multiple orders"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:806
+msgid "Sales Report"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:807
+msgid "Get WooCommerce sales summary"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:858
+msgid "Top Selling Products"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:859
+msgid "Get top selling WooCommerce products"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:916
+msgid "Orders Totals"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:917
+msgid "Get order counts by status"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:954
+msgid "Revenue Stats"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:955
+msgid "Get revenue statistics with period comparison"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:1023
+msgid "Low Stock Products"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:1024
+msgid "Get products with low or no stock"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:1083
+msgid "Products Totals"
+msgstr ""
+
+#: src/Abilities/Definitions/WooCommerceAbilities.php:1084
+msgid "Get product counts by status and stock"
+msgstr ""
+
+#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:33
+msgid "Create Backup"
+msgstr ""
+
+#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:34
+msgid "Start a backup job. Returns immediately with job ID. Use backup-status to monitor progress."
+msgstr ""
+
+#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:76
+msgid "Get Backup Status"
+msgstr ""
+
+#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:77
+msgid "Get the status and progress of a backup job"
+msgstr ""
+
+#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:123
+msgid "Cancel Backup"
+msgstr ""
+
+#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:124
+msgid "Cancel a running backup job"
+msgstr ""
+
+#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:156
+msgid "List Backups"
+msgstr ""
+
+#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:157
+msgid "List all available backups"
+msgstr ""
+
+#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:208
+msgid "Restore Backup"
+msgstr ""
+
+#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:209
+msgid "Restore site from a backup"
+msgstr ""
+
+#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:253
+msgid "Delete Backup"
+msgstr ""
+
+#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:254
+msgid "Delete a backup file"
+msgstr ""
+
+#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:292
+msgid "Health Check"
+msgstr ""
+
+#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:293
+msgid "Run comprehensive site health check"
+msgstr ""
+
+#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:389
+msgid "Get Error Log"
+msgstr ""
+
+#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:390
+msgid "Retrieve recent PHP errors from log"
+msgstr ""
+
+#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:442
+msgid "Optimize Database"
+msgstr ""
+
+#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:443
+msgid "Optimize database tables"
+msgstr ""
+
+#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:488
+msgid "Cleanup Database"
+msgstr ""
+
+#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:489
+msgid "Remove revisions, transients, spam, trash"
+msgstr ""
+
+#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:570
+msgid "Flush Cache"
+msgstr ""
+
+#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:571
+msgid "Clear all caches (object cache, page cache, etc.)"
+msgstr ""
+
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:31
+msgid "Check Updates"
+msgstr ""
+
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:32
+msgid "Check for available WordPress core, plugin, and theme updates"
+msgstr ""
+
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:109
+msgid "Update Plugin"
+msgstr ""
+
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:110
+msgid "Update a specific plugin to latest version"
+msgstr ""
+
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:134
+msgid "Update Theme"
+msgstr ""
+
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:135
+msgid "Update a specific theme to latest version"
+msgstr ""
+
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:159
+msgid "Update WordPress Core"
+msgstr ""
+
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:160
+msgid "Update WordPress core to latest version"
+msgstr ""
+
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:188
+msgid "Update Everything"
+msgstr ""
+
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:189
+msgid "Update all plugins, themes, and optionally WordPress core"
+msgstr ""
+
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:253
+msgid "List Plugins"
+msgstr ""
+
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:254
+msgid "List all installed plugins with status"
+msgstr ""
+
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:301
+msgid "Activate Plugin"
+msgstr ""
+
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:302
+msgid "Activate a specific plugin"
+msgstr ""
+
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:334
+msgid "Deactivate Plugin"
+msgstr ""
+
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:335
+msgid "Deactivate a specific plugin"
+msgstr ""
+
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:363
+msgid "Install Plugin"
+msgstr ""
+
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:364
+msgid "Install a plugin from WordPress.org repository"
+msgstr ""
+
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:408
+msgid "Delete Plugin"
+msgstr ""
+
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:409
+msgid "Delete a plugin from the site"
+msgstr ""
+
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:446
+msgid "List Themes"
+msgstr ""
+
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:447
+msgid "List all installed themes"
+msgstr ""
+
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:487
+msgid "Activate Theme"
+msgstr ""
+
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:488
+msgid "Switch to a different theme"
+msgstr ""
+
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:516
+msgid "Install Theme"
+msgstr ""
+
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:517
+msgid "Install a theme from WordPress.org repository"
+msgstr ""
+
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:561
+msgid "Delete Theme"
+msgstr ""
+
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:562
+msgid "Delete a theme from the site"
+msgstr ""
+
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:599
+msgid "Check Plugin Database Updates"
+msgstr ""
+
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:600
+msgid "Check for pending database updates for WooCommerce, Elementor, etc."
+msgstr ""
+
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:633
+msgid "Update Plugin Database"
+msgstr ""
+
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:634
+msgid "Run database update for a specific plugin (WooCommerce, Elementor)"
+msgstr ""
+
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:663
+msgid "Update All Plugin Databases"
+msgstr ""
+
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:664
+msgid "Run all pending database updates for supported plugins"
+msgstr ""
+
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:699
+msgid "Get Supported DB Update Plugins"
+msgstr ""
+
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:700
+msgid "List plugins that support database updates"
+msgstr ""
+
+#: src/Abilities/Registrars/UserAbilitiesRegistrar.php:29
+msgid "List Users"
+msgstr ""
+
+#: src/Abilities/Registrars/UserAbilitiesRegistrar.php:30
+msgid "List all users with optional filtering"
+msgstr ""
+
+#: src/Abilities/Registrars/UserAbilitiesRegistrar.php:61
+msgid "Get User"
+msgstr ""
+
+#: src/Abilities/Registrars/UserAbilitiesRegistrar.php:62
+msgid "Get detailed information about a user"
+msgstr ""
+
+#: src/Abilities/Registrars/UserAbilitiesRegistrar.php:99
+msgid "Create User"
+msgstr ""
+
+#: src/Abilities/Registrars/UserAbilitiesRegistrar.php:100
+msgid "Create a new user account"
+msgstr ""
+
+#: src/Abilities/Registrars/UserAbilitiesRegistrar.php:171
+msgid "Update User"
+msgstr ""
+
+#: src/Abilities/Registrars/UserAbilitiesRegistrar.php:172
+msgid "Update an existing user"
+msgstr ""
+
+#: src/Abilities/Registrars/UserAbilitiesRegistrar.php:224
+msgid "Delete User"
+msgstr ""
+
+#: src/Abilities/Registrars/UserAbilitiesRegistrar.php:225
+msgid "Delete a user account"
+msgstr ""
+
+#: src/Abilities/Registrars/UserAbilitiesRegistrar.php:263
+msgid "Reset Password"
+msgstr ""
+
+#: src/Abilities/Registrars/UserAbilitiesRegistrar.php:264
+msgid "Reset a user password"
+msgstr ""
+
+#: src/Abilities/Registrars/UserAbilitiesRegistrar.php:317
+msgid "Get Roles"
+msgstr ""
+
+#: src/Abilities/Registrars/UserAbilitiesRegistrar.php:318
+msgid "List all available user roles"
+msgstr ""
+
+#: src/Services/BackupManager.php:53
+msgid "Could not create backup directory"
+msgstr ""
+
+#: src/Services/BackupManager.php:117
+msgid "Backup job started"
+msgstr ""
+
+#: src/Services/BackupManager.php:140
+#: src/Services/BackupManager.php:299
+msgid "Backup job not found"
+msgstr ""
+
+#: src/Services/BackupManager.php:303
+msgid "Backup is already completed"
+msgstr ""
+
+#: src/Services/BackupManager.php:321
+msgid "Backup cancelled"
+msgstr ""
+
+#: src/Services/BackupManager.php:374
+#: src/Services/BackupManager.php:453
+msgid "Backup not found"
+msgstr ""
+
+#: src/Services/BackupManager.php:378
+msgid "Backup file not found on disk"
+msgstr ""
+
+#: src/Services/BackupManager.php:383
+msgid "Could not open backup file"
+msgstr ""
+
+#: src/Services/BackupManager.php:424
+msgid "Backup restored successfully"
+msgstr ""
+
+#: src/Services/BackupManager.php:463
+msgid "Backup deleted successfully"
+msgstr ""
+
+#. translators: %1$d: number of flushed caches, %2$s: list of cache names
+#: src/Services/CacheManager.php:118
+#, php-format
+msgid "Flushed %1$d cache(s): %2$s"
+msgstr ""
+
+#: src/Services/CacheManager.php:260
+msgid "No compatible caching plugin found for preloading"
+msgstr ""
+
+#. translators: %s: list of preloaded items
+#: src/Services/CacheManager.php:268
+#, php-format
+msgid "Started preloading for: %s"
+msgstr ""
+
+#. translators: %1$d: number of optimized tables, %2$d: number of failed tables
+#: src/Services/DatabaseManager.php:46
+#, php-format
+msgid "Optimized %1$d tables, %2$d failed"
+msgstr ""
+
+#. translators: %d: number of deleted items
+#: src/Services/DatabaseManager.php:165
+#, php-format
+msgid "Cleaned up %d items from database"
+msgstr ""
+
+#. translators: %1$d: number of repaired tables, %2$d: number of failed tables
+#: src/Services/DatabaseManager.php:243
+#, php-format
+msgid "Repaired %1$d tables, %2$d failed"
+msgstr ""
+
+#. translators: %s: plugin slug
+#: src/Services/PluginDatabaseUpdater.php:84
+#, php-format
+msgid "Plugin %s is not supported for DB updates"
+msgstr ""
+
+#. translators: %s: plugin name
+#: src/Services/PluginDatabaseUpdater.php:96
+#, php-format
+msgid "Plugin %s is not active"
+msgstr ""
+
+#: src/Services/PluginDatabaseUpdater.php:187
+#, php-format
+msgid "Updated: %1$d, Failed: %2$d"
+msgstr ""
+
+#: src/Services/PluginDatabaseUpdater.php:265
+msgid "WooCommerce database updated successfully"
+msgstr ""
+
+#: src/Services/PluginDatabaseUpdater.php:348
+msgid "Elementor database updated successfully"
+msgstr ""
+
+#: src/Services/PluginDatabaseUpdater.php:414
+msgid "Elementor Pro database updated successfully"
+msgstr ""
+
+#: src/Services/UpdateManager.php:139
+msgid "Plugin update failed or no update available"
+msgstr ""
+
+#: src/Services/UpdateManager.php:157
+msgid "Plugin updated but PHP errors detected"
+msgstr ""
+
+#. translators: %1$s: old version, %2$s: new version
+#: src/Services/UpdateManager.php:159
+#, php-format
+msgid "Plugin updated successfully: %1$s → %2$s"
+msgstr ""
+
+#: src/Services/UpdateManager.php:208
+msgid "Theme update failed or no update available"
+msgstr ""
+
+#: src/Services/UpdateManager.php:225
+msgid "Theme updated but PHP errors detected"
+msgstr ""
+
+#. translators: %1$s: old version, %2$s: new version
+#: src/Services/UpdateManager.php:227
+#, php-format
+msgid "Theme updated successfully: %1$s → %2$s"
+msgstr ""
+
+#: src/Services/UpdateManager.php:250
+msgid "WordPress is already up to date"
+msgstr ""
+
+#. translators: %s: available version number
+#: src/Services/UpdateManager.php:269
+#, php-format
+msgid "Major update available (%s) but minor_only is enabled"
+msgstr ""
+
+#: src/Services/UpdateManager.php:300
+msgid "Core updated but PHP errors detected"
+msgstr ""
+
+#. translators: %1$s: old version, %2$s: new version
+#: src/Services/UpdateManager.php:302
+#, php-format
+msgid "WordPress updated: %1$s → %2$s"
+msgstr ""
+
+#: src/Services/UpdateManager.php:460
+#, php-format
+msgid "Updated: %1$d, Failed: %2$d, PHP Errors: %3$d"
+msgstr ""
+
+#: src/Services/UpdateManager.php:467
+msgid "(Stopped early due to PHP errors)"
+msgstr ""
+
+#: src/Services/UpdateManager.php:550
+msgid "Plugin activated but PHP errors detected"
+msgstr ""
+
+#: src/Services/UpdateManager.php:551
+msgid "Plugin activated successfully"
+msgstr ""
+
+#: src/Services/UpdateManager.php:571
+msgid "Plugin deactivated successfully"
+msgstr ""
+
+#: src/Services/UpdateManager.php:591
+msgid "Plugin not found"
+msgstr ""
+
+#: src/Services/UpdateManager.php:606
+msgid "Plugin deleted successfully"
+msgstr ""
+
+#: src/Services/UpdateManager.php:649
+#: src/Services/UpdateManager.php:687
+msgid "Theme not found"
+msgstr ""
+
+#: src/Services/UpdateManager.php:664
+msgid "Theme activated but PHP errors detected"
+msgstr ""
+
+#: src/Services/UpdateManager.php:665
+msgid "Theme activated successfully"
+msgstr ""
+
+#: src/Services/UpdateManager.php:692
+msgid "Cannot delete the active theme"
+msgstr ""
+
+#: src/Services/UpdateManager.php:702
+msgid "Theme deleted successfully"
+msgstr ""
+
+#. translators: %s: plugin slug
+#: src/Services/UpdateManager.php:729
+#, php-format
+msgid "Plugin \"%s\" is already installed"
+msgstr ""
+
+#: src/Services/UpdateManager.php:769
+msgid "Plugin installation failed"
+msgstr ""
+
+#: src/Services/UpdateManager.php:798
+msgid "Plugin installed but PHP errors detected"
+msgstr ""
+
+#. translators: %1$s: plugin name, %2$s: version number
+#: src/Services/UpdateManager.php:800
+#, php-format
+msgid "Plugin \"%1$s\" installed successfully (v%2$s)"
+msgstr ""
+
+#. translators: %s: theme slug
+#: src/Services/UpdateManager.php:831
+#, php-format
+msgid "Theme \"%s\" is already installed"
+msgstr ""
+
+#: src/Services/UpdateManager.php:870
+msgid "Theme installation failed"
+msgstr ""
+
+#: src/Services/UpdateManager.php:891
+msgid "Theme installed but PHP errors detected"
+msgstr ""
+
+#. translators: %1$s: theme name, %2$s: version number
+#: src/Services/UpdateManager.php:893
+#, php-format
+msgid "Theme \"%1$s\" installed successfully (v%2$s)"
+msgstr ""
