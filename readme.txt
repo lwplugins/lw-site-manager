@@ -4,7 +4,7 @@ Tags: site-manager, maintenance, ai, rest-api, abilities
 Requires at least: 6.9
 Tested up to: 6.9
 Requires PHP: 8.1
-Stable tag: 1.1.10
+Stable tag: 1.1.11
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,6 +85,9 @@ Yes, LW Site Manager provides similar functionality to MainWP but uses the nativ
 3. Backup creation options
 
 == Changelog ==
+
+= 1.1.11 =
+* Minor fix
 
 = 1.1.10 =
 * Fix admin notice isolation for notices relocated by WordPress core JS
