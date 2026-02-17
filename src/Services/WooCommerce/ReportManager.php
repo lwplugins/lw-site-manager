@@ -53,53 +53,24 @@ class ReportManager extends AbstractService {
             }
         }
 
-        // Build query args
-        $args = [
-            'status'       => [ 'completed', 'processing', 'on-hold' ],
-            'date_created' => $date_min . '...' . $date_max,
-            'limit'        => -1,
-            'return'       => 'ids',
-        ];
-
-        $order_ids = wc_get_orders( $args );
-
-        // Calculate totals
-        $total_sales = 0;
-        $total_orders = count( $order_ids );
-        $total_items = 0;
-        $total_shipping = 0;
-        $total_tax = 0;
-        $total_refunds = 0;
-        $total_discounts = 0;
-
-        foreach ( $order_ids as $order_id ) {
-            $order = wc_get_order( $order_id );
-            if ( $order ) {
-                $total_sales += (float) $order->get_total();
-                $total_items += $order->get_item_count();
-                $total_shipping += (float) $order->get_shipping_total();
-                $total_tax += (float) $order->get_total_tax();
-                $total_refunds += (float) $order->get_total_refunded();
-                $total_discounts += (float) $order->get_discount_total();
-            }
-        }
-
-        $net_sales = $total_sales - $total_refunds;
-        $average_order = $total_orders > 0 ? $net_sales / $total_orders : 0;
+        // SQL aggregation instead of per-order iteration (fixes timeout on large stores).
+        $stats         = ReportAggregator::aggregate( $date_min, $date_max );
+        $net_sales     = $stats['total_sales'] - $stats['total_refunds'];
+        $average_order = $stats['total_orders'] > 0 ? $net_sales / $stats['total_orders'] : 0;
 
         return [
             'success'          => true,
             'period'           => $period,
             'date_min'         => $date_min,
             'date_max'         => $date_max,
-            'total_sales'      => round( $total_sales, 2 ),
+            'total_sales'      => $stats['total_sales'],
             'net_sales'        => round( $net_sales, 2 ),
-            'total_orders'     => $total_orders,
-            'total_items'      => $total_items,
-            'total_shipping'   => round( $total_shipping, 2 ),
-            'total_tax'        => round( $total_tax, 2 ),
-            'total_refunds'    => round( $total_refunds, 2 ),
-            'total_discounts'  => round( $total_discounts, 2 ),
+            'total_orders'     => $stats['total_orders'],
+            'total_items'      => $stats['total_items'],
+            'total_shipping'   => $stats['total_shipping'],
+            'total_tax'        => $stats['total_tax'],
+            'total_refunds'    => $stats['total_refunds'],
+            'total_discounts'  => $stats['total_discounts'],
             'average_order'    => round( $average_order, 2 ),
             'currency'         => get_woocommerce_currency(),
         ];
@@ -133,37 +104,10 @@ class ReportManager extends AbstractService {
                 $date_from = gmdate( 'Y-m-d', strtotime( '-30 days' ) );
         }
 
-        // Query for top selling products
-        // phpcs:ignore WordPress.DB.DirectDatabaseQuery
-        $results = $wpdb->get_results(
-            $wpdb->prepare(
-                "SELECT
-                    order_item_meta.meta_value as product_id,
-                    SUM(order_item_meta_qty.meta_value) as quantity,
-                    SUM(order_item_meta_total.meta_value) as total
-                FROM {$wpdb->prefix}woocommerce_order_items as order_items
-                LEFT JOIN {$wpdb->prefix}woocommerce_order_itemmeta as order_item_meta
-                    ON order_items.order_item_id = order_item_meta.order_item_id
-                LEFT JOIN {$wpdb->prefix}woocommerce_order_itemmeta as order_item_meta_qty
-                    ON order_items.order_item_id = order_item_meta_qty.order_item_id
-                LEFT JOIN {$wpdb->prefix}woocommerce_order_itemmeta as order_item_meta_total
-                    ON order_items.order_item_id = order_item_meta_total.order_item_id
-                LEFT JOIN {$wpdb->posts} as posts
-                    ON order_items.order_id = posts.ID
-                WHERE posts.post_type = 'shop_order'
-                    AND posts.post_status IN ('wc-completed', 'wc-processing', 'wc-on-hold')
-                    AND posts.post_date >= %s
-                    AND order_item_meta.meta_key = '_product_id'
-                    AND order_item_meta_qty.meta_key = '_qty'
-                    AND order_item_meta_total.meta_key = '_line_total'
-                    AND order_items.order_item_type = 'line_item'
-                GROUP BY order_item_meta.meta_value
-                ORDER BY quantity DESC
-                LIMIT %d",
-                $date_from,
-                $limit
-            )
-        );
+        // Query for top selling products (HPOS-compatible).
+        $results = ReportAggregator::is_hpos_enabled()
+            ? self::top_sellers_hpos( $wpdb, $date_from, $limit )
+            : self::top_sellers_legacy( $wpdb, $date_from, $limit );
 
         $products = [];
         foreach ( $results as $row ) {
@@ -175,7 +119,7 @@ class ReportManager extends AbstractService {
                     'sku'           => $product->get_sku(),
                     'quantity_sold' => (int) $row->quantity,
                     'total_sales'   => round( (float) $row->total, 2 ),
-                    'price'         => $product->get_price(),
+                    'price'         => (string) ( $product->get_price() ?? '' ),
                     'stock_status'  => $product->get_stock_status(),
                     'stock_quantity' => $product->get_stock_quantity(),
                     'image'         => wp_get_attachment_url( $product->get_image_id() ),
@@ -284,52 +228,55 @@ class ReportManager extends AbstractService {
             return [ 'success' => false, 'totals' => [] ];
         }
 
+        global $wpdb;
+
         $counts = wp_count_posts( 'product' );
 
-        // Count by stock status
-        $in_stock = 0;
+        // Count by stock status using SQL instead of loading every product object.
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+        $stock_rows = $wpdb->get_results(
+            "SELECT pm.meta_value AS stock_status, COUNT(*) AS cnt
+            FROM {$wpdb->postmeta} pm
+            INNER JOIN {$wpdb->posts} p ON p.ID = pm.post_id
+            WHERE p.post_type = 'product'
+              AND p.post_status = 'publish'
+              AND pm.meta_key = '_stock_status'
+            GROUP BY pm.meta_value"
+        );
+
+        $in_stock     = 0;
         $out_of_stock = 0;
         $on_backorder = 0;
-        $low_stock = 0;
 
-        $args = [
-            'post_type'      => 'product',
-            'posts_per_page' => -1,
-            'post_status'    => 'publish',
-            'fields'         => 'ids',
-        ];
+        foreach ( $stock_rows as $row ) {
+            match ( $row->stock_status ) {
+                'instock'     => $in_stock = (int) $row->cnt,
+                'outofstock'  => $out_of_stock = (int) $row->cnt,
+                'onbackorder' => $on_backorder = (int) $row->cnt,
+                default       => null,
+            };
+        }
 
-        $product_ids = get_posts( $args );
+        // Count low stock products via SQL.
         $low_stock_threshold = (int) get_option( 'woocommerce_notify_low_stock_amount', 2 );
 
-        foreach ( $product_ids as $product_id ) {
-            $product = wc_get_product( $product_id );
-            if ( ! $product ) {
-                continue;
-            }
-
-            $stock_status = $product->get_stock_status();
-
-            switch ( $stock_status ) {
-                case 'instock':
-                    $in_stock++;
-                    break;
-                case 'outofstock':
-                    $out_of_stock++;
-                    break;
-                case 'onbackorder':
-                    $on_backorder++;
-                    break;
-            }
-
-            // Check low stock
-            if ( $product->get_manage_stock() ) {
-                $stock_qty = $product->get_stock_quantity();
-                if ( $stock_qty !== null && $stock_qty <= $low_stock_threshold && $stock_qty > 0 ) {
-                    $low_stock++;
-                }
-            }
-        }
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+        $low_stock = (int) $wpdb->get_var(
+            $wpdb->prepare(
+                "SELECT COUNT(*)
+                FROM {$wpdb->postmeta} pm_manage
+                INNER JOIN {$wpdb->posts} p ON p.ID = pm_manage.post_id
+                INNER JOIN {$wpdb->postmeta} pm_stock
+                    ON p.ID = pm_stock.post_id AND pm_stock.meta_key = '_stock'
+                WHERE p.post_type = 'product'
+                  AND p.post_status = 'publish'
+                  AND pm_manage.meta_key = '_manage_stock'
+                  AND pm_manage.meta_value = 'yes'
+                  AND CAST(pm_stock.meta_value AS SIGNED) > 0
+                  AND CAST(pm_stock.meta_value AS SIGNED) <= %d",
+                $low_stock_threshold
+            )
+        );
 
         return [
             'success'       => true,
@@ -466,17 +413,50 @@ class ReportManager extends AbstractService {
         $limit = min( (int) ( $input['limit'] ?? 20 ), 100 );
         $include_out_of_stock = (bool) ( $input['include_out_of_stock'] ?? true );
 
-        $args = [
-            'post_type'      => 'product',
-            'posts_per_page' => -1,
-            'post_status'    => 'publish',
-            'meta_query'     => [
+        // Push filtering into the database query instead of loading all products.
+        $meta_query = [
+            'relation' => 'AND',
+            [
+                'key'     => '_manage_stock',
+                'value'   => 'yes',
+                'compare' => '=',
+            ],
+        ];
+
+        if ( $include_out_of_stock ) {
+            // Low stock (0 < qty <= threshold) OR out of stock.
+            $meta_query[] = [
+                'relation' => 'OR',
                 [
-                    'key'     => '_manage_stock',
-                    'value'   => 'yes',
+                    'key'     => '_stock',
+                    'value'   => [ 0, $threshold ],
+                    'compare' => 'BETWEEN',
+                    'type'    => 'NUMERIC',
+                ],
+                [
+                    'key'     => '_stock_status',
+                    'value'   => 'outofstock',
                     'compare' => '=',
                 ],
-            ],
+            ];
+        } else {
+            // Only low stock (0 < qty <= threshold), exclude out of stock.
+            $meta_query[] = [
+                'key'     => '_stock',
+                'value'   => [ 1, $threshold ],
+                'compare' => 'BETWEEN',
+                'type'    => 'NUMERIC',
+            ];
+        }
+
+        $args = [
+            'post_type'      => 'product',
+            'posts_per_page' => $limit,
+            'post_status'    => 'publish',
+            'meta_query'     => $meta_query, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+            'meta_key'       => '_stock', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+            'orderby'        => 'meta_value_num',
+            'order'          => 'ASC',
         ];
 
         $query = new \WP_Query( $args );
@@ -488,37 +468,18 @@ class ReportManager extends AbstractService {
                 continue;
             }
 
-            $stock_qty = $product->get_stock_quantity();
-            $stock_status = $product->get_stock_status();
-
-            // Check if low stock or out of stock
-            $is_low = $stock_qty !== null && $stock_qty <= $threshold && $stock_qty > 0;
-            $is_out = $stock_status === 'outofstock';
-
-            if ( $is_low || ( $include_out_of_stock && $is_out ) ) {
-                $low_stock_products[] = [
-                    'id'             => $product->get_id(),
-                    'name'           => $product->get_name(),
-                    'sku'            => $product->get_sku(),
-                    'stock_quantity' => $stock_qty,
-                    'stock_status'   => $stock_status,
-                    'price'          => $product->get_price(),
-                    'type'           => $product->get_type(),
-                    'permalink'      => $product->get_permalink(),
-                    'image'          => wp_get_attachment_url( $product->get_image_id() ),
-                ];
-            }
+            $low_stock_products[] = [
+                'id'             => $product->get_id(),
+                'name'           => $product->get_name(),
+                'sku'            => $product->get_sku(),
+                'stock_quantity' => $product->get_stock_quantity(),
+                'stock_status'   => $product->get_stock_status(),
+                'price'          => (string) ( $product->get_price() ?? '' ),
+                'type'           => $product->get_type(),
+                'permalink'      => $product->get_permalink(),
+                'image'          => wp_get_attachment_url( $product->get_image_id() ),
+            ];
         }
-
-        // Sort by stock quantity (lowest first)
-        usort( $low_stock_products, function ( $a, $b ) {
-            $a_qty = $a['stock_quantity'] ?? PHP_INT_MAX;
-            $b_qty = $b['stock_quantity'] ?? PHP_INT_MAX;
-            return $a_qty <=> $b_qty;
-        } );
-
-        // Apply limit
-        $low_stock_products = array_slice( $low_stock_products, 0, $limit );
 
         return [
             'success'   => true,
@@ -532,30 +493,12 @@ class ReportManager extends AbstractService {
      * Get stats for a specific period
      */
     private static function get_period_stats( string $date_start, string $date_end ): array {
-        $args = [
-            'status'       => [ 'completed', 'processing', 'on-hold' ],
-            'date_created' => $date_start . '...' . $date_end,
-            'limit'        => -1,
-            'return'       => 'ids',
-        ];
-
-        $order_ids = wc_get_orders( $args );
-
-        $revenue = 0;
-        $items_sold = 0;
-
-        foreach ( $order_ids as $order_id ) {
-            $order = wc_get_order( $order_id );
-            if ( $order ) {
-                $revenue += (float) $order->get_total() - (float) $order->get_total_refunded();
-                $items_sold += $order->get_item_count();
-            }
-        }
+        $stats = ReportAggregator::aggregate( $date_start, $date_end );
 
         return [
-            'revenue'    => round( $revenue, 2 ),
-            'orders'     => count( $order_ids ),
-            'items_sold' => $items_sold,
+            'revenue'    => round( $stats['total_sales'] - $stats['total_refunds'], 2 ),
+            'orders'     => $stats['total_orders'],
+            'items_sold' => $stats['total_items'],
         ];
     }
 
@@ -574,5 +517,79 @@ class ReportManager extends AbstractService {
             'percentage' => round( $percentage, 2 ),
             'trend'      => $percentage > 0 ? 'up' : ( $percentage < 0 ? 'down' : 'stable' ),
         ];
+    }
+
+    /**
+     * Top sellers query for HPOS-enabled stores (wc_orders table).
+     */
+    private static function top_sellers_hpos( \wpdb $wpdb, string $date_from, int $limit ): array {
+        $orders_table = $wpdb->prefix . 'wc_orders';
+        $items_table  = $wpdb->prefix . 'woocommerce_order_items';
+        $meta_table   = $wpdb->prefix . 'woocommerce_order_itemmeta';
+
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+        return $wpdb->get_results(
+            // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+            $wpdb->prepare(
+                "SELECT
+                    pid.meta_value as product_id,
+                    SUM(qty.meta_value) as quantity,
+                    SUM(total.meta_value) as total
+                FROM {$items_table} oi
+                INNER JOIN {$meta_table} pid
+                    ON oi.order_item_id = pid.order_item_id AND pid.meta_key = '_product_id'
+                INNER JOIN {$meta_table} qty
+                    ON oi.order_item_id = qty.order_item_id AND qty.meta_key = '_qty'
+                INNER JOIN {$meta_table} total
+                    ON oi.order_item_id = total.order_item_id AND total.meta_key = '_line_total'
+                INNER JOIN {$orders_table} o
+                    ON oi.order_id = o.id
+                WHERE o.type = 'shop_order'
+                    AND o.status IN ('wc-completed', 'wc-processing', 'wc-on-hold')
+                    AND o.date_created_gmt >= %s
+                    AND oi.order_item_type = 'line_item'
+                GROUP BY pid.meta_value
+                ORDER BY quantity DESC
+                LIMIT %d",
+                $date_from,
+                $limit
+            )
+        );
+    }
+
+    /**
+     * Top sellers query for legacy stores (wp_posts table).
+     */
+    private static function top_sellers_legacy( \wpdb $wpdb, string $date_from, int $limit ): array {
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+        return $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT
+                    order_item_meta.meta_value as product_id,
+                    SUM(order_item_meta_qty.meta_value) as quantity,
+                    SUM(order_item_meta_total.meta_value) as total
+                FROM {$wpdb->prefix}woocommerce_order_items as order_items
+                LEFT JOIN {$wpdb->prefix}woocommerce_order_itemmeta as order_item_meta
+                    ON order_items.order_item_id = order_item_meta.order_item_id
+                LEFT JOIN {$wpdb->prefix}woocommerce_order_itemmeta as order_item_meta_qty
+                    ON order_items.order_item_id = order_item_meta_qty.order_item_id
+                LEFT JOIN {$wpdb->prefix}woocommerce_order_itemmeta as order_item_meta_total
+                    ON order_items.order_item_id = order_item_meta_total.order_item_id
+                LEFT JOIN {$wpdb->posts} as posts
+                    ON order_items.order_id = posts.ID
+                WHERE posts.post_type = 'shop_order'
+                    AND posts.post_status IN ('wc-completed', 'wc-processing', 'wc-on-hold')
+                    AND posts.post_date >= %s
+                    AND order_item_meta.meta_key = '_product_id'
+                    AND order_item_meta_qty.meta_key = '_qty'
+                    AND order_item_meta_total.meta_key = '_line_total'
+                    AND order_items.order_item_type = 'line_item'
+                GROUP BY order_item_meta.meta_value
+                ORDER BY quantity DESC
+                LIMIT %d",
+                $date_from,
+                $limit
+            )
+        );
     }
 }

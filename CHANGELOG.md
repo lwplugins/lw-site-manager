@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.16] - 2026-02-17
+
+### Fixed
+- wc-products-totals: Replaced per-product iteration with SQL aggregation for stock status counts (#7)
+- wc-low-stock-products: Push filtering into WP_Query meta_query instead of loading all products and filtering in PHP (#8)
+
+## [1.1.15] - 2026-02-17
+
+### Fixed
+- wc-sales-report: PHP timeout on stores with large order count — replaced per-order iteration with SQL aggregation (#2)
+- wc-revenue-stats: PHP timeout on stores with large order count — replaced per-order iteration with SQL aggregation (#3)
+- wc-top-sellers: Returns 0 results when HPOS is enabled — added HPOS-compatible SQL query (#4)
+- wc-low-stock-products: Output validation fails when product price is null — cast to string (#5)
+- wc-list-orders: date_after and date_before filters can now be used together — WooCommerce range syntax (#6)
+
+### Added
+- ReportAggregator service class for SQL-based report aggregation with HPOS + legacy support
+
 ## [1.1.5] - 2026-01-26
 
 ### Fixed

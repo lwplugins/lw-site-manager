@@ -37,12 +37,12 @@ class OrderManager extends AbstractService {
             $args['customer_id'] = (int) $input['customer'];
         }
 
-        // Date filters
-        if ( ! empty( $input['date_after'] ) ) {
+        // Date filters (use WooCommerce range syntax when both are provided).
+        if ( ! empty( $input['date_after'] ) && ! empty( $input['date_before'] ) ) {
+            $args['date_created'] = strtotime( $input['date_after'] ) . '...' . strtotime( $input['date_before'] );
+        } elseif ( ! empty( $input['date_after'] ) ) {
             $args['date_created'] = '>=' . strtotime( $input['date_after'] );
-        }
-
-        if ( ! empty( $input['date_before'] ) ) {
+        } elseif ( ! empty( $input['date_before'] ) ) {
             $args['date_created'] = '<=' . strtotime( $input['date_before'] );
         }
 
