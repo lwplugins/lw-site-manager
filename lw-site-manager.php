@@ -3,7 +3,7 @@
  * Plugin Name: LW Site Manager
  * Plugin URI: https://github.com/lwplugins/lw-site-manager
  * Description: Lightweight site manager — full site maintenance via AI/REST using Abilities API.
- * Version: 1.1.18
+ * Version: 1.1.19
  * Requires at least: 6.9
  * Requires PHP: 8.2
  * Author: LW Plugins
@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Plugin constants.
-define( 'LW_SITE_MANAGER_VERSION', '1.1.18' );
+define( 'LW_SITE_MANAGER_VERSION', '1.1.19' );
 define( 'LW_SITE_MANAGER_FILE', __FILE__ );
 define( 'LW_SITE_MANAGER_DIR', plugin_dir_path( __FILE__ ) );
 define( 'LW_SITE_MANAGER_URL', plugin_dir_url( __FILE__ ) );
@@ -32,6 +32,17 @@ define( 'LW_SITE_MANAGER_URL', plugin_dir_url( __FILE__ ) );
 // Composer autoloader.
 if ( file_exists( LW_SITE_MANAGER_DIR . 'vendor/autoload.php' ) ) {
 	require_once LW_SITE_MANAGER_DIR . 'vendor/autoload.php';
+} else {
+	add_action(
+		'admin_notices',
+		static function (): void {
+			printf(
+				'<div class="notice notice-error"><p><strong>LW Site Manager:</strong> %s</p></div>',
+				esc_html__( 'Autoloader not found. Please run "composer install" in the plugin directory, or re-install the plugin from a release ZIP.', 'lw-site-manager' )
+			);
+		}
+	);
+	return;
 }
 
 /**
