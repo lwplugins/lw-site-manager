@@ -19,9 +19,14 @@ class ProductManager extends AbstractService {
             return self::errorResponse( 'woocommerce_not_active', 'WooCommerce is not active', 400 );
         }
 
+        $status = $input['status'] ?? 'any';
+        if ( 'any' === $status ) {
+            $status = [ 'publish', 'draft', 'pending', 'private', 'future' ];
+        }
+
         $args = [
             'post_type'      => 'product',
-            'post_status'    => $input['status'] ?? 'any',
+            'post_status'    => $status,
             'posts_per_page' => min( (int) ( $input['limit'] ?? 20 ), 100 ),
             'offset'         => (int) ( $input['offset'] ?? 0 ),
             'orderby'        => $input['orderby'] ?? 'date',
