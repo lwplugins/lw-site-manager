@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.19] - 2026-03-22
+
+### Fixed
+- Graceful error when autoloader is missing (admin notice instead of fatal error)
+
 ## [1.1.18] - 2026-03-17
 
 ### Fixed
@@ -41,6 +46,59 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - `get_mime_type_for_file()` helper method that respects third-party plugin MIME type filters
+
+## [1.1.14]
+
+### Fixed
+- Minor fix
+
+## [1.1.13]
+
+### Changed
+- Updated ParentPage with SVG icon support from registry
+
+## [1.1.12]
+
+### Fixed
+- Minor fix
+
+## [1.1.11]
+
+### Fixed
+- Minor fix
+
+## [1.1.10]
+
+### Fixed
+- Admin notice isolation for notices relocated by WordPress core JS
+
+## [1.1.9]
+
+### Changed
+- Isolate third-party admin notices on LW plugin pages
+
+## [1.1.8]
+
+### Added
+- Fresh POT file and Hungarian (hu_HU) translation
+
+## [1.1.7]
+
+### Added
+- Central plugin registry from GitHub JSON
+
+## [1.1.6]
+
+### Added
+- `featured_image_id` field to `list-posts` response (fixes #1)
+- PHPUnit testing infrastructure with unit and integration tests
+- Docker devcontainer for testing environment
+
+### Fixed
+- Deprecated `finfo_close()` call for PHP 8.1+ compatibility
+
+### Removed
+- Self-updater functionality (unnecessary for GitHub releases)
 
 ## [1.1.4] - 2026-01-26
 
