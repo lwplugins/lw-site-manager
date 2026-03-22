@@ -3,7 +3,7 @@
  * Plugin Name: LW Site Manager
  * Plugin URI: https://github.com/lwplugins/lw-site-manager
  * Description: Lightweight site manager — full site maintenance via AI/REST using Abilities API.
- * Version: 1.1.20
+ * Version: 1.1.21
  * Requires at least: 6.9
  * Requires PHP: 8.2
  * Author: LW Plugins
@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Plugin constants.
-define( 'LW_SITE_MANAGER_VERSION', '1.1.20' );
+define( 'LW_SITE_MANAGER_VERSION', '1.1.21' );
 define( 'LW_SITE_MANAGER_FILE', __FILE__ );
 define( 'LW_SITE_MANAGER_DIR', plugin_dir_path( __FILE__ ) );
 define( 'LW_SITE_MANAGER_URL', plugin_dir_url( __FILE__ ) );
@@ -225,6 +225,11 @@ final class Plugin {
 		if ( class_exists( 'WooCommerce' ) || class_exists( '\WooCommerce' ) || in_array( 'woocommerce/woocommerce.php', (array) get_option( 'active_plugins', [] ), true ) ) {
 			$this->register_woocommerce_categories();
 		}
+
+		/**
+		 * Allow external plugins to register their own ability categories.
+		 */
+		do_action( 'lw_site_manager_register_categories' );
 	}
 
 	/**

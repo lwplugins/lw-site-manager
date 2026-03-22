@@ -252,6 +252,11 @@ AI Agent:
 
 ## Changelog
 
+### 1.1.21
+- New: Extensibility hooks for external plugins to register abilities
+- New: `lw_site_manager_register_abilities` action - plugins can register their own abilities
+- New: `lw_site_manager_register_categories` action - plugins can register ability categories
+
 ### 1.1.20
 - Fix: Smarter autoloader fallback - supports root Composer dependency installs
 

@@ -39,6 +39,13 @@ class Registrar {
         foreach ( $registrars as $registrar ) {
             $registrar->register();
         }
+
+        /**
+         * Allow external plugins to register their own abilities.
+         *
+         * @param PermissionManager $permissions Permission manager instance.
+         */
+        do_action( 'lw_site_manager_register_abilities', $this->permissions );
     }
 
     /**
