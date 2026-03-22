@@ -250,6 +250,11 @@ AI Agent:
 - [LW Plugins](https://lwplugins.com)
 - [All LW Plugins](https://github.com/lwplugins)
 
+## Changelog
+
+### 1.1.20
+- Fix: Smarter autoloader fallback - supports root Composer dependency installs
+
 ## License
 
 GPL-2.0-or-later
