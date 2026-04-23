@@ -4,7 +4,7 @@ Tags: site-manager, maintenance, ai, rest-api, abilities
 Requires at least: 6.9
 Tested up to: 6.9
 Requires PHP: 8.2
-Stable tag: 1.1.21
+Stable tag: 1.1.22
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,6 +85,9 @@ Yes, LW Site Manager provides similar functionality to MainWP but uses the nativ
 3. Backup creation options
 
 == Changelog ==
+
+= 1.1.22 =
+* Fixed: upload-media ability no longer returns stale attachment IDs / URLs on rapid consecutive uploads (#11) — the post + post_meta object caches are now flushed before reading the new attachment back, and a hard error is returned if the uploaded file is missing from disk
 
 = 1.1.19 =
 * Fix: Graceful error when autoloader is missing (admin notice instead of fatal error)

@@ -111,9 +111,40 @@ class MediaManager extends AbstractService {
             ] );
         }
 
+        // Invalidate the post + meta object caches before reading back.
+        // Rapid consecutive uploads can leave stale entries (filename
+        // collisions reuse IDs that were already cleaned up), so
+        // get_post() / wp_get_attachment_url() would otherwise return
+        // a phantom record / URL that no longer maps to a real file.
+        // See: https://github.com/lwplugins/lw-site-manager/issues/11
+        self::flush_attachment_cache( $attachment_id );
         $attachment = get_post( $attachment_id );
 
+        if ( ! $attachment || 'attachment' !== $attachment->post_type ) {
+            return self::errorResponse( 'attachment_missing', 'Uploaded attachment could not be read back.', 500 );
+        }
+
+        $attached_file = get_attached_file( $attachment_id );
+        if ( ! $attached_file || ! file_exists( $attached_file ) ) {
+            return self::errorResponse( 'attachment_file_missing', 'Uploaded attachment file is not present on disk.', 500 );
+        }
+
         return self::entityResponse( 'media', self::format_media( $attachment, true ) );
+    }
+
+    /**
+     * Invalidate the object cache entries for an attachment.
+     *
+     * Clears both the `posts` and `post_meta` cache groups so the next
+     * get_post() / wp_get_attachment_url() / get_post_meta() call reads
+     * fresh data from the database.
+     *
+     * @param int $attachment_id Attachment post ID.
+     * @return void
+     */
+    private static function flush_attachment_cache( int $attachment_id ): void {
+        clean_post_cache( $attachment_id );
+        wp_cache_delete( $attachment_id, 'post_meta' );
     }
 
     /**

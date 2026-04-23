@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.22] - 2026-04-23
+
+### Fixed
+- `upload-media` ability no longer returns stale attachment IDs and URLs on rapid consecutive uploads ([#11](https://github.com/lwplugins/lw-site-manager/issues/11))
+- Post + `post_meta` object caches are now flushed before `get_post()` / `wp_get_attachment_url()` reads the newly-uploaded attachment back, so filename-collision retries don't leak a phantom ID
+- Added a post-upload sanity check: if the attachment record or the file on disk is missing, the ability returns a 500 with a clear error code (`attachment_missing` / `attachment_file_missing`) instead of serialising stale data
+
 ## [1.1.19] - 2026-03-22
 
 ### Fixed
