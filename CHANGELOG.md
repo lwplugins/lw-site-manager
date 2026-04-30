@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.23] - 2026-04-30
+
+### Added
+- `wc-create-order` ability — create WooCommerce orders on behalf of any customer via the Abilities API (`customer_id` + `line_items` with `product_id` / `quantity`, billing/shipping addresses, payment method, status, customer + internal notes)
+- `wc-update-order` ability — update billing/shipping address and customer note on existing orders
+- `wc-delete-order` ability — trash an order, or permanently delete with `force=true`
+- Internal `addressSchema()` helper in `WooCommerceAbilities` to keep billing/shipping input schemas DRY
+
 ## [1.1.22] - 2026-04-23
 
 ### Fixed

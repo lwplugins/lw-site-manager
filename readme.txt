@@ -4,7 +4,7 @@ Tags: site-manager, maintenance, ai, rest-api, abilities
 Requires at least: 6.9
 Tested up to: 6.9
 Requires PHP: 8.2
-Stable tag: 1.1.22
+Stable tag: 1.1.23
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,6 +85,11 @@ Yes, LW Site Manager provides similar functionality to MainWP but uses the nativ
 3. Backup creation options
 
 == Changelog ==
+
+= 1.1.23 =
+* New: `wc-create-order` ability — create WooCommerce orders on behalf of any customer (customer_id + line_items with product_id/quantity, billing/shipping, payment method, status, notes)
+* New: `wc-update-order` ability — update billing/shipping address and customer note on existing orders
+* New: `wc-delete-order` ability — trash or permanently delete (force=true) orders via the Abilities API
 
 = 1.1.22 =
 * Fixed: upload-media ability no longer returns stale attachment IDs / URLs on rapid consecutive uploads (#11) — the post + post_meta object caches are now flushed before reading the new attachment back, and a hard error is returned if the uploaded file is missing from disk

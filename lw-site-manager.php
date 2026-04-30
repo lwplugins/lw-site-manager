@@ -3,7 +3,7 @@
  * Plugin Name: LW Site Manager
  * Plugin URI: https://github.com/lwplugins/lw-site-manager
  * Description: Lightweight site manager — full site maintenance via AI/REST using Abilities API.
- * Version: 1.1.22
+ * Version: 1.1.23
  * Requires at least: 6.9
  * Requires PHP: 8.2
  * Author: LW Plugins
@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Plugin constants.
-define( 'LW_SITE_MANAGER_VERSION', '1.1.22' );
+define( 'LW_SITE_MANAGER_VERSION', '1.1.23' );
 define( 'LW_SITE_MANAGER_FILE', __FILE__ );
 define( 'LW_SITE_MANAGER_DIR', plugin_dir_path( __FILE__ ) );
 define( 'LW_SITE_MANAGER_URL', plugin_dir_url( __FILE__ ) );

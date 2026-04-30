@@ -792,6 +792,131 @@ class WooCommerceAbilities {
                 'meta' => self::writeMeta(),
             ]
         );
+
+        // Create order
+        wp_register_ability(
+            'site-manager/wc-create-order',
+            [
+                'label'       => __( 'Create Order', 'lw-site-manager' ),
+                'description' => __( 'Create a new WooCommerce order, optionally on behalf of a customer with line items', 'lw-site-manager' ),
+                'category'    => 'wc-orders',
+                'input_schema' => [
+                    'type'       => 'object',
+                    'default'    => [],
+                    'properties' => [
+                        'customer_id' => [
+                            'type'        => 'integer',
+                            'description' => 'User ID to assign the order to (0 = guest)',
+                        ],
+                        'line_items' => [
+                            'type'        => 'array',
+                            'description' => 'Products to add to the order',
+                            'items'       => [
+                                'type'       => 'object',
+                                'default'    => [],
+                                'properties' => [
+                                    'product_id' => [ 'type' => 'integer' ],
+                                    'quantity'   => [ 'type' => 'integer', 'default' => 1 ],
+                                    'subtotal'   => [ 'type' => 'string' ],
+                                    'total'      => [ 'type' => 'string' ],
+                                ],
+                            ],
+                        ],
+                        'billing'              => self::addressSchema( true ),
+                        'shipping'             => self::addressSchema( false ),
+                        'payment_method'       => [ 'type' => 'string' ],
+                        'payment_method_title' => [ 'type' => 'string' ],
+                        'currency'             => [ 'type' => 'string' ],
+                        'status'               => [
+                            'type'        => 'string',
+                            'default'     => 'pending',
+                            'description' => 'Order status (e.g., pending, processing, completed, on-hold)',
+                        ],
+                        'customer_note' => [ 'type' => 'string' ],
+                        'note'          => [
+                            'type'        => 'string',
+                            'description' => 'Internal order note added after creation',
+                        ],
+                    ],
+                ],
+                'output_schema' => self::entityOutputSchema( 'order', self::orderSchema( true ), true ),
+                'execute_callback'    => [ OrderManager::class, 'create_order' ],
+                'permission_callback' => $permissions->callback( 'can_edit_posts' ),
+                'meta' => self::writeMeta(),
+            ]
+        );
+
+        // Update order
+        wp_register_ability(
+            'site-manager/wc-update-order',
+            [
+                'label'       => __( 'Update Order', 'lw-site-manager' ),
+                'description' => __( 'Update billing/shipping details or customer note on an existing order', 'lw-site-manager' ),
+                'category'    => 'wc-orders',
+                'input_schema' => [
+                    'type'       => 'object',
+                    'default'    => [],
+                    'properties' => [
+                        'id' => [
+                            'type'        => 'integer',
+                            'description' => 'Order ID',
+                        ],
+                        'billing'       => self::addressSchema( true ),
+                        'shipping'      => self::addressSchema( false ),
+                        'customer_note' => [ 'type' => 'string' ],
+                        'note'          => [
+                            'type'        => 'string',
+                            'description' => 'Internal order note added after update',
+                        ],
+                    ],
+                    'required' => [ 'id' ],
+                ],
+                'output_schema' => self::entityOutputSchema( 'order', self::orderSchema( true ) ),
+                'execute_callback'    => [ OrderManager::class, 'update_order' ],
+                'permission_callback' => $permissions->callback( 'can_edit_posts' ),
+                'meta' => self::writeMeta(),
+            ]
+        );
+
+        // Delete order
+        wp_register_ability(
+            'site-manager/wc-delete-order',
+            [
+                'label'       => __( 'Delete Order', 'lw-site-manager' ),
+                'description' => __( 'Move an order to trash, or permanently delete with force=true', 'lw-site-manager' ),
+                'category'    => 'wc-orders',
+                'input_schema' => [
+                    'type'       => 'object',
+                    'default'    => [],
+                    'properties' => [
+                        'id' => [
+                            'type'        => 'integer',
+                            'description' => 'Order ID',
+                        ],
+                        'force' => [
+                            'type'        => 'boolean',
+                            'default'     => false,
+                            'description' => 'Permanently delete instead of trashing',
+                        ],
+                    ],
+                    'required' => [ 'id' ],
+                ],
+                'output_schema' => [
+                    'type'       => 'object',
+                    'default'    => [],
+                    'properties' => [
+                        'success'      => [ 'type' => 'boolean' ],
+                        'message'      => [ 'type' => 'string' ],
+                        'id'           => [ 'type' => 'integer' ],
+                        'order_number' => [ 'type' => 'string' ],
+                        'trashed'      => [ 'type' => 'boolean' ],
+                    ],
+                ],
+                'execute_callback'    => [ OrderManager::class, 'delete_order' ],
+                'permission_callback' => $permissions->callback( 'can_edit_posts' ),
+                'meta' => self::destructiveMeta( false ),
+            ]
+        );
     }
 
     // =========================================================================
@@ -1340,6 +1465,31 @@ class WooCommerceAbilities {
         }
 
         return $schema;
+    }
+
+    private static function addressSchema( bool $with_contact ): array {
+        $properties = [
+            'first_name' => [ 'type' => 'string' ],
+            'last_name'  => [ 'type' => 'string' ],
+            'company'    => [ 'type' => 'string' ],
+            'address_1'  => [ 'type' => 'string' ],
+            'address_2'  => [ 'type' => 'string' ],
+            'city'       => [ 'type' => 'string' ],
+            'state'      => [ 'type' => 'string' ],
+            'postcode'   => [ 'type' => 'string' ],
+            'country'    => [ 'type' => 'string' ],
+        ];
+
+        if ( $with_contact ) {
+            $properties['email'] = [ 'type' => 'string' ];
+            $properties['phone'] = [ 'type' => 'string' ];
+        }
+
+        return [
+            'type'       => 'object',
+            'default'    => [],
+            'properties' => $properties,
+        ];
     }
 
     private static function listOutputSchema( string $key, array $itemSchema ): array {
