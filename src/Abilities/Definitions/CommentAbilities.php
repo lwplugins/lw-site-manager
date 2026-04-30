@@ -134,7 +134,6 @@ class CommentAbilities {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'total'           => [ 'type' => 'integer' ],
                         'approved'        => [ 'type' => 'integer' ],
@@ -281,7 +280,6 @@ class CommentAbilities {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'success' => [ 'type' => 'boolean' ],
                         'message' => [ 'type' => 'string' ],
@@ -427,7 +425,6 @@ class CommentAbilities {
     private static function getCommentSchema(): array {
         return [
             'type'       => 'object',
-                    'default'    => [],
             'properties' => [
                 'id'           => [ 'type' => 'integer' ],
                 'post_id'      => [ 'type' => 'integer' ],
@@ -451,7 +448,6 @@ class CommentAbilities {
     private static function getListOutputSchema(): array {
         return [
             'type'       => 'object',
-                    'default'    => [],
             'properties' => [
                 'comments'    => [
                     'type'  => 'array',
@@ -479,7 +475,6 @@ class CommentAbilities {
 
         return [
             'type'       => 'object',
-                    'default'    => [],
             'properties' => $properties,
         ];
     }
@@ -487,7 +482,6 @@ class CommentAbilities {
     private static function getModerationOutputSchema(): array {
         return [
             'type'       => 'object',
-                    'default'    => [],
             'properties' => [
                 'success'         => [ 'type' => 'boolean' ],
                 'message'         => [ 'type' => 'string' ],
@@ -501,7 +495,6 @@ class CommentAbilities {
     private static function getBulkOutputSchema(): array {
         return [
             'type'       => 'object',
-            'default'    => [],
             'properties' => [
                 'success'     => [ 'type' => 'boolean' ],
                 'action'      => [ 'type' => 'string' ],

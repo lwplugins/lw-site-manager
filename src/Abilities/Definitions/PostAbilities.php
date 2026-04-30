@@ -162,13 +162,11 @@ class PostAbilities {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'post_types' => [
                             'type'  => 'array',
                             'items' => [
                                 'type'       => 'object',
-                    'default'    => [],
                                 'properties' => [
                                     'slug'        => [ 'type' => 'string' ],
                                     'name'        => [ 'type' => 'string' ],
@@ -268,12 +266,10 @@ class PostAbilities {
                         ],
                         'meta' => [
                             'type'        => 'object',
-                    'default'    => [],
                             'description' => 'Custom meta fields',
                         ],
                         'taxonomies' => [
                             'type'        => 'object',
-                            'default'     => [],
                             'description' => 'Custom taxonomies as taxonomy_name => [term_ids] pairs',
                         ],
                     ],
@@ -359,12 +355,10 @@ class PostAbilities {
                         ],
                         'meta' => [
                             'type'        => 'object',
-                    'default'    => [],
                             'description' => 'Custom meta fields',
                         ],
                         'taxonomies' => [
                             'type'        => 'object',
-                            'default'     => [],
                             'description' => 'Custom taxonomies as taxonomy_name => [term_ids] pairs',
                         ],
                     ],
@@ -402,7 +396,6 @@ class PostAbilities {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'success' => [ 'type' => 'boolean' ],
                         'message' => [ 'type' => 'string' ],
@@ -551,7 +544,6 @@ class PostAbilities {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'success'  => [ 'type' => 'boolean' ],
                         'message'  => [ 'type' => 'string' ],
@@ -600,7 +592,6 @@ class PostAbilities {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'success'    => [ 'type' => 'boolean' ],
                         'post_id'    => [ 'type' => 'integer' ],
@@ -660,7 +651,6 @@ class PostAbilities {
     private static function getPostSchema(): array {
         return [
             'type'       => 'object',
-                    'default'    => [],
             'properties' => [
                 'id'             => [ 'type' => 'integer' ],
                 'title'          => [ 'type' => 'string' ],
@@ -689,7 +679,6 @@ class PostAbilities {
                     'type'  => 'array',
                     'items' => [
                         'type'       => 'object',
-                    'default'    => [],
                         'properties' => [
                             'id'   => [ 'type' => 'integer' ],
                             'name' => [ 'type' => 'string' ],
@@ -701,7 +690,6 @@ class PostAbilities {
                     'type'  => 'array',
                     'items' => [
                         'type'       => 'object',
-                    'default'    => [],
                         'properties' => [
                             'id'   => [ 'type' => 'integer' ],
                             'name' => [ 'type' => 'string' ],
@@ -716,7 +704,6 @@ class PostAbilities {
     private static function getListOutputSchema(): array {
         return [
             'type'       => 'object',
-                    'default'    => [],
             'properties' => [
                 'posts'       => [
                     'type'  => 'array',
@@ -744,7 +731,6 @@ class PostAbilities {
 
         return [
             'type'       => 'object',
-                    'default'    => [],
             'properties' => $properties,
         ];
     }
@@ -752,7 +738,6 @@ class PostAbilities {
     private static function getBulkOutputSchema(): array {
         return [
             'type'       => 'object',
-                    'default'    => [],
             'properties' => [
                 'success'     => [ 'type' => 'boolean' ],
                 'action'      => [ 'type' => 'string' ],

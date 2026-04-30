@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.1.24] - 2026-04-30
+
+### Changed
+- Cleaned up redundant `'default' => []` entries in ability schemas — kept them only at top-level `input_schema` blocks where the Abilities API normalizer actually uses them; removed from `output_schema` blocks and nested object properties where they were semantically meaningless
+
 ## [1.1.23] - 2026-04-30
 
 ### Added

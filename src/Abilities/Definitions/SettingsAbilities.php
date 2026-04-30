@@ -34,12 +34,10 @@ class SettingsAbilities {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'success'  => [ 'type' => 'boolean' ],
                         'settings' => [
                             'type'       => 'object',
-                            'default'    => [],
                             'properties' => [
                                 'blogname'           => [ 'type' => 'string' ],
                                 'blogdescription'    => [ 'type' => 'string' ],
@@ -146,12 +144,10 @@ class SettingsAbilities {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'success'  => [ 'type' => 'boolean' ],
                         'settings' => [
                             'type'       => 'object',
-                            'default'    => [],
                             'properties' => [
                                 'posts_per_page'    => [ 'type' => 'string' ],
                                 'posts_per_rss'     => [ 'type' => 'string' ],
@@ -241,12 +237,10 @@ class SettingsAbilities {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'success'  => [ 'type' => 'boolean' ],
                         'settings' => [
                             'type'                 => 'object',
-                            'default'              => [],
                             'additionalProperties' => true,
                         ],
                     ],
@@ -380,19 +374,16 @@ class SettingsAbilities {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'success'  => [ 'type' => 'boolean' ],
                         'settings' => [
                             'type'       => 'object',
-                            'default'    => [],
                             'properties' => [
                                 'permalink_structure' => [ 'type' => 'string' ],
                                 'category_base'       => [ 'type' => 'string' ],
                                 'tag_base'            => [ 'type' => 'string' ],
                                 'common_structures'   => [
                                     'type'                 => 'object',
-                                    'default'              => [],
                                     'additionalProperties' => [ 'type' => 'string' ],
                                 ],
                             ],
@@ -463,7 +454,6 @@ class SettingsAbilities {
     private static function updateOutputSchema(): array {
         return [
             'type'       => 'object',
-            'default'    => [],
             'properties' => [
                 'success' => [ 'type' => 'boolean' ],
                 'message' => [ 'type' => 'string' ],
@@ -475,7 +465,6 @@ class SettingsAbilities {
                     'type'  => 'array',
                     'items' => [
                         'type'       => 'object',
-                        'default'    => [],
                         'properties' => [
                             'key'     => [ 'type' => 'string' ],
                             'message' => [ 'type' => 'string' ],

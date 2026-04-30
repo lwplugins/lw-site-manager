@@ -268,7 +268,6 @@ class WooCommerceAbilities {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'success'      => [ 'type' => 'boolean' ],
                         'message'      => [ 'type' => 'string' ],
@@ -328,13 +327,11 @@ class WooCommerceAbilities {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'categories' => [
                             'type'  => 'array',
                             'items' => [
                                 'type'       => 'object',
-                                'default'    => [],
                                 'properties' => [
                                     'id'          => [ 'type' => 'integer' ],
                                     'name'        => [ 'type' => 'string' ],
@@ -377,7 +374,6 @@ class WooCommerceAbilities {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'product_id'   => [ 'type' => 'integer' ],
                         'product_name' => [ 'type' => 'string' ],
@@ -385,7 +381,6 @@ class WooCommerceAbilities {
                             'type'  => 'array',
                             'items' => [
                                 'type'       => 'object',
-                                'default'    => [],
                                 'properties' => [
                                     'id'             => [ 'type' => 'integer' ],
                                     'sku'            => [ 'type' => 'string' ],
@@ -394,7 +389,7 @@ class WooCommerceAbilities {
                                     'sale_price'     => [ 'type' => 'string' ],
                                     'stock_quantity' => [ 'type' => [ 'integer', 'null' ] ],
                                     'stock_status'   => [ 'type' => 'string' ],
-                                    'attributes'     => [ 'type' => 'object', 'default' => [] ],
+                                    'attributes'     => [ 'type' => 'object' ],
                                     'image'          => [ 'type' => [ 'string', 'null' ] ],
                                     'status'         => [ 'type' => 'string' ],
                                 ],
@@ -555,7 +550,6 @@ class WooCommerceAbilities {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'success'    => [ 'type' => 'boolean' ],
                         'message'    => [ 'type' => 'string' ],
@@ -584,13 +578,11 @@ class WooCommerceAbilities {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'statuses' => [
                             'type'  => 'array',
                             'items' => [
                                 'type'       => 'object',
-                                'default'    => [],
                                 'properties' => [
                                     'slug'  => [ 'type' => 'string' ],
                                     'label' => [ 'type' => 'string' ],
@@ -637,7 +629,6 @@ class WooCommerceAbilities {
                             'type'  => 'array',
                             'items' => [
                                 'type'       => 'object',
-                                'default'    => [],
                                 'properties' => [
                                     'id'       => [ 'type' => 'integer' ],
                                     'quantity' => [ 'type' => 'integer' ],
@@ -650,7 +641,6 @@ class WooCommerceAbilities {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'success'   => [ 'type' => 'boolean' ],
                         'message'   => [ 'type' => 'string' ],
@@ -691,14 +681,12 @@ class WooCommerceAbilities {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'order_id' => [ 'type' => 'integer' ],
                         'notes'    => [
                             'type'  => 'array',
                             'items' => [
                                 'type'       => 'object',
-                                'default'    => [],
                                 'properties' => [
                                     'id'            => [ 'type' => 'integer' ],
                                     'content'       => [ 'type' => 'string' ],
@@ -746,7 +734,6 @@ class WooCommerceAbilities {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'success'       => [ 'type' => 'boolean' ],
                         'message'       => [ 'type' => 'string' ],
@@ -813,7 +800,6 @@ class WooCommerceAbilities {
                             'description' => 'Products to add to the order',
                             'items'       => [
                                 'type'       => 'object',
-                                'default'    => [],
                                 'properties' => [
                                     'product_id' => [ 'type' => 'integer' ],
                                     'quantity'   => [ 'type' => 'integer', 'default' => 1 ],
@@ -903,7 +889,6 @@ class WooCommerceAbilities {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'success'      => [ 'type' => 'boolean' ],
                         'message'      => [ 'type' => 'string' ],
@@ -952,7 +937,6 @@ class WooCommerceAbilities {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'success'         => [ 'type' => 'boolean' ],
                         'period'          => [ 'type' => 'string' ],
@@ -1002,7 +986,6 @@ class WooCommerceAbilities {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'success'   => [ 'type' => 'boolean' ],
                         'period'    => [ 'type' => 'string' ],
@@ -1011,7 +994,6 @@ class WooCommerceAbilities {
                             'type'  => 'array',
                             'items' => [
                                 'type'       => 'object',
-                                'default'    => [],
                                 'properties' => [
                                     'id'             => [ 'type' => 'integer' ],
                                     'name'           => [ 'type' => 'string' ],
@@ -1048,14 +1030,12 @@ class WooCommerceAbilities {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'success'     => [ 'type' => 'boolean' ],
                         'totals'      => [
                             'type'  => 'array',
                             'items' => [
                                 'type'       => 'object',
-                                'default'    => [],
                                 'properties' => [
                                     'status' => [ 'type' => 'string' ],
                                     'label'  => [ 'type' => 'string' ],
@@ -1097,13 +1077,11 @@ class WooCommerceAbilities {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'success'  => [ 'type' => 'boolean' ],
                         'period'   => [ 'type' => 'string' ],
                         'current'  => [
                             'type'       => 'object',
-                            'default'    => [],
                             'properties' => [
                                 'date_start' => [ 'type' => 'string' ],
                                 'date_end'   => [ 'type' => 'string' ],
@@ -1114,7 +1092,6 @@ class WooCommerceAbilities {
                         ],
                         'previous' => [
                             'type'       => 'object',
-                            'default'    => [],
                             'properties' => [
                                 'date_start' => [ 'type' => 'string' ],
                                 'date_end'   => [ 'type' => 'string' ],
@@ -1125,11 +1102,10 @@ class WooCommerceAbilities {
                         ],
                         'changes'  => [
                             'type'       => 'object',
-                            'default'    => [],
                             'properties' => [
-                                'revenue'    => [ 'type' => 'object', 'default' => [] ],
-                                'orders'     => [ 'type' => 'object', 'default' => [] ],
-                                'items_sold' => [ 'type' => 'object', 'default' => [] ],
+                                'revenue'    => [ 'type' => 'object' ],
+                                'orders'     => [ 'type' => 'object' ],
+                                'items_sold' => [ 'type' => 'object' ],
                             ],
                         ],
                         'currency' => [ 'type' => 'string' ],
@@ -1170,7 +1146,6 @@ class WooCommerceAbilities {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'success'   => [ 'type' => 'boolean' ],
                         'threshold' => [ 'type' => 'integer' ],
@@ -1178,7 +1153,6 @@ class WooCommerceAbilities {
                             'type'  => 'array',
                             'items' => [
                                 'type'       => 'object',
-                                'default'    => [],
                                 'properties' => [
                                     'id'             => [ 'type' => 'integer' ],
                                     'name'           => [ 'type' => 'string' ],
@@ -1215,7 +1189,6 @@ class WooCommerceAbilities {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'success'      => [ 'type' => 'boolean' ],
                         'published'    => [ 'type' => 'integer' ],
@@ -1280,7 +1253,6 @@ class WooCommerceAbilities {
     private static function productSchema( bool $detailed = false ): array {
         $schema = [
             'type'       => 'object',
-            'default'    => [],
             'properties' => [
                 'id'             => [ 'type' => 'integer' ],
                 'name'           => [ 'type' => 'string' ],
@@ -1424,7 +1396,6 @@ class WooCommerceAbilities {
             ],
             'meta' => [
                 'type'    => 'object',
-                'default' => [],
             ],
         ];
     }
@@ -1432,7 +1403,6 @@ class WooCommerceAbilities {
     private static function orderSchema( bool $detailed = false ): array {
         $schema = [
             'type'       => 'object',
-            'default'    => [],
             'properties' => [
                 'id'                   => [ 'type' => 'integer' ],
                 'order_number'         => [ 'type' => 'string' ],
@@ -1449,12 +1419,12 @@ class WooCommerceAbilities {
                 'payment_method'       => [ 'type' => 'string' ],
                 'payment_method_title' => [ 'type' => 'string' ],
                 'items_count'          => [ 'type' => 'integer' ],
-                'billing'              => [ 'type' => 'object', 'default' => [] ],
+                'billing'              => [ 'type' => 'object' ],
             ],
         ];
 
         if ( $detailed ) {
-            $schema['properties']['shipping'] = [ 'type' => 'object', 'default' => [] ];
+            $schema['properties']['shipping'] = [ 'type' => 'object' ];
             $schema['properties']['line_items'] = [ 'type' => 'array' ];
             $schema['properties']['shipping_lines'] = [ 'type' => 'array' ];
             $schema['properties']['coupon_lines'] = [ 'type' => 'array' ];
@@ -1487,7 +1457,6 @@ class WooCommerceAbilities {
 
         return [
             'type'       => 'object',
-            'default'    => [],
             'properties' => $properties,
         ];
     }
@@ -1495,7 +1464,6 @@ class WooCommerceAbilities {
     private static function listOutputSchema( string $key, array $itemSchema ): array {
         return [
             'type'       => 'object',
-            'default'    => [],
             'properties' => [
                 $key          => [ 'type' => 'array', 'items' => $itemSchema ],
                 'total'       => [ 'type' => 'integer' ],
@@ -1520,7 +1488,6 @@ class WooCommerceAbilities {
 
         return [
             'type'       => 'object',
-            'default'    => [],
             'properties' => $properties,
         ];
     }
@@ -1528,7 +1495,6 @@ class WooCommerceAbilities {
     private static function deleteOutputSchema(): array {
         return [
             'type'       => 'object',
-            'default'    => [],
             'properties' => [
                 'success' => [ 'type' => 'boolean' ],
                 'message' => [ 'type' => 'string' ],
@@ -1542,7 +1508,6 @@ class WooCommerceAbilities {
     private static function bulkOutputSchema(): array {
         return [
             'type'       => 'object',
-            'default'    => [],
             'properties' => [
                 'success'     => [ 'type' => 'boolean' ],
                 'action'      => [ 'type' => 'string' ],

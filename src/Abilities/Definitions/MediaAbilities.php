@@ -198,7 +198,6 @@ class MediaAbilities {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'success' => [ 'type' => 'boolean' ],
                         'message' => [ 'type' => 'string' ],
@@ -248,7 +247,6 @@ class MediaAbilities {
     private static function getListOutputSchema(): array {
         return [
             'type'       => 'object',
-                    'default'    => [],
             'properties' => [
                 'media' => [
                     'type'  => 'array',
@@ -265,7 +263,6 @@ class MediaAbilities {
     private static function getEntityOutputSchema(): array {
         return [
             'type'       => 'object',
-                    'default'    => [],
             'properties' => [
                 'success' => [ 'type' => 'boolean' ],
                 'media'   => self::getMediaSchema( true ),
@@ -276,7 +273,6 @@ class MediaAbilities {
     private static function getMediaSchema( bool $detailed = false ): array {
         $schema = [
             'type'       => 'object',
-                    'default'    => [],
             'properties' => [
                 'id'        => [ 'type' => 'integer' ],
                 'title'     => [ 'type' => 'string' ],
@@ -298,7 +294,6 @@ class MediaAbilities {
                 'type' => 'object',
                 'additionalProperties' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'url'    => [ 'type' => 'string' ],
                         'width'  => [ 'type' => 'integer' ],

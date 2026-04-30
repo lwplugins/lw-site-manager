@@ -200,7 +200,6 @@ abstract class AbstractAbilitiesRegistrar {
     protected function successOutputSchema( array $additionalProperties = [] ): array {
         return [
             'type'       => 'object',
-                    'default'    => [],
             'properties' => array_merge(
                 [
                     'success' => [ 'type' => 'boolean' ],
@@ -221,7 +220,6 @@ abstract class AbstractAbilitiesRegistrar {
     protected function listOutputSchema( string $key, array $itemSchema ): array {
         return [
             'type'       => 'object',
-                    'default'    => [],
             'properties' => [
                 $key => [
                     'type'  => 'array',
@@ -246,7 +244,6 @@ abstract class AbstractAbilitiesRegistrar {
     protected function entityOutputSchema( string $key, array $entitySchema ): array {
         return [
             'type'       => 'object',
-                    'default'    => [],
             'properties' => [
                 'success' => [ 'type' => 'boolean' ],
                 'message' => [ 'type' => 'string' ],
@@ -263,7 +260,6 @@ abstract class AbstractAbilitiesRegistrar {
     protected function updateResultSchema(): array {
         return [
             'type'       => 'object',
-                    'default'    => [],
             'properties' => [
                 'success'     => [ 'type' => 'boolean' ],
                 'message'     => [ 'type' => 'string' ],
@@ -285,7 +281,6 @@ abstract class AbstractAbilitiesRegistrar {
     protected function bulkResultSchema(): array {
         return [
             'type'       => 'object',
-                    'default'    => [],
             'properties' => [
                 'success'     => [ 'type' => 'boolean' ],
                 'action'      => [ 'type' => 'string' ],

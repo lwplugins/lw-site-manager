@@ -175,7 +175,6 @@ class PageAbilities {
                         ],
                         'meta' => [
                             'type'        => 'object',
-                    'default'    => [],
                             'description' => 'Custom meta fields',
                         ],
                     ],
@@ -272,7 +271,6 @@ class PageAbilities {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'success' => [ 'type' => 'boolean' ],
                         'message' => [ 'type' => 'string' ],
@@ -376,7 +374,6 @@ class PageAbilities {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'pages' => [
                             'type'        => 'array',
@@ -413,7 +410,6 @@ class PageAbilities {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'success'  => [ 'type' => 'boolean' ],
                         'message'  => [ 'type' => 'string' ],
@@ -452,7 +448,6 @@ class PageAbilities {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'success'      => [ 'type' => 'boolean' ],
                         'message'      => [ 'type' => 'string' ],
@@ -486,7 +481,6 @@ class PageAbilities {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'success'     => [ 'type' => 'boolean' ],
                         'message'     => [ 'type' => 'string' ],
@@ -514,12 +508,10 @@ class PageAbilities {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'display_mode'  => [ 'type' => 'string' ],
                         'homepage'       => [
                             'type' => 'object',
-                            'default' => [],
                             'properties' => [
                                 'id'    => [ 'type' => 'integer' ],
                                 'title' => [ 'type' => 'string' ],
@@ -528,7 +520,6 @@ class PageAbilities {
                         ],
                         'posts_page'     => [
                             'type' => 'object',
-                            'default' => [],
                             'properties' => [
                                 'id'    => [ 'type' => 'integer' ],
                                 'title' => [ 'type' => 'string' ],
@@ -557,13 +548,11 @@ class PageAbilities {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'templates' => [
                             'type'  => 'array',
                             'items' => [
                                 'type'       => 'object',
-                    'default'    => [],
                                 'properties' => [
                                     'slug'  => [ 'type' => 'string' ],
                                     'name'  => [ 'type' => 'string' ],
@@ -604,7 +593,6 @@ class PageAbilities {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'success'           => [ 'type' => 'boolean' ],
                         'message'           => [ 'type' => 'string' ],
@@ -664,7 +652,6 @@ class PageAbilities {
     private static function getPageSchema(): array {
         return [
             'type'       => 'object',
-                    'default'    => [],
             'properties' => [
                 'id'             => [ 'type' => 'integer' ],
                 'title'          => [ 'type' => 'string' ],
@@ -694,7 +681,6 @@ class PageAbilities {
     private static function getPageTreeSchema(): array {
         return [
             'type'       => 'object',
-                    'default'    => [],
             'properties' => [
                 'id'         => [ 'type' => 'integer' ],
                 'title'      => [ 'type' => 'string' ],
@@ -713,7 +699,6 @@ class PageAbilities {
     private static function getListOutputSchema(): array {
         return [
             'type'       => 'object',
-                    'default'    => [],
             'properties' => [
                 'pages'       => [
                     'type'  => 'array',
@@ -741,7 +726,6 @@ class PageAbilities {
 
         return [
             'type'       => 'object',
-                    'default'    => [],
             'properties' => $properties,
         ];
     }

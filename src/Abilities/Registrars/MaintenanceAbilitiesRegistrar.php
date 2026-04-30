@@ -51,7 +51,6 @@ class MaintenanceAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'success'          => [ 'type' => 'boolean' ],
                         'message'          => [ 'type' => 'string' ],
@@ -89,7 +88,6 @@ class MaintenanceAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'backup_id'       => [ 'type' => 'string' ],
                         'status'          => [ 'type' => 'string' ],
@@ -136,7 +134,6 @@ class MaintenanceAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'success'   => [ 'type' => 'boolean' ],
                         'message'   => [ 'type' => 'string' ],
@@ -166,13 +163,11 @@ class MaintenanceAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'backups' => [
                             'type'  => 'array',
                             'items' => [
                                 'type'       => 'object',
-                    'default'    => [],
                                 'properties' => [
                                     'id'        => [ 'type' => 'string' ],
                                     'file_path' => [ 'type' => 'string' ],
@@ -180,7 +175,6 @@ class MaintenanceAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
                                     'timestamp' => [ 'type' => 'string' ],
                                     'includes'  => [
                                         'type'       => 'object',
-                    'default'    => [],
                                         'properties' => [
                                             'database' => [ 'type' => 'boolean' ],
                                             'uploads'  => [ 'type' => 'boolean' ],
@@ -233,7 +227,6 @@ class MaintenanceAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
                     'backup_id' => [ 'type' => 'string' ],
                     'restored'  => [
                         'type'       => 'object',
-                    'default'    => [],
                         'properties' => [
                             'database' => [ 'type' => 'boolean' ],
                             'files'    => [ 'type' => 'boolean' ],
@@ -266,7 +259,6 @@ class MaintenanceAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'success'    => [ 'type' => 'boolean' ],
                         'message'    => [ 'type' => 'string' ],
@@ -305,7 +297,6 @@ class MaintenanceAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'status'      => [ 'type' => 'string' ],
                         'score'       => [ 'type' => 'integer' ],
@@ -313,7 +304,6 @@ class MaintenanceAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
                             'type'  => 'array',
                             'items' => [
                                 'type'       => 'object',
-                    'default'    => [],
                                 'properties' => [
                                     'type'     => [ 'type' => 'string' ],
                                     'message'  => [ 'type' => 'string' ],
@@ -325,7 +315,6 @@ class MaintenanceAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
                         'wp_version'  => [ 'type' => 'string' ],
                         'disk_usage'  => [
                             'type'       => 'object',
-                    'default'    => [],
                             'properties' => [
                                 'total'        => [ 'type' => 'number' ],
                                 'total_human'  => [ 'type' => 'string' ],
@@ -336,7 +325,6 @@ class MaintenanceAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
                                 'percent_used' => [ 'type' => 'number' ],
                                 'wordpress'    => [
                                     'type'       => 'object',
-                    'default'    => [],
                                     'properties' => [
                                         'total'   => [ 'type' => 'string' ],
                                         'uploads' => [ 'type' => 'string' ],
@@ -348,7 +336,6 @@ class MaintenanceAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
                         ],
                         'memory' => [
                             'type'       => 'object',
-                    'default'    => [],
                             'properties' => [
                                 'limit'   => [ 'type' => 'string' ],
                                 'usage'   => [ 'type' => 'string' ],
@@ -357,7 +344,6 @@ class MaintenanceAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
                         ],
                         'server' => [
                             'type'       => 'object',
-                    'default'    => [],
                             'properties' => [
                                 'software' => [ 'type' => 'string' ],
                                 'hostname' => [ 'type' => 'string' ],
@@ -365,7 +351,6 @@ class MaintenanceAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
                         ],
                         'paths' => [
                             'type'       => 'object',
-                    'default'    => [],
                             'properties' => [
                                 'wordpress'  => [ 'type' => 'string' ],
                                 'wp_content' => [ 'type' => 'string' ],
@@ -414,7 +399,6 @@ class MaintenanceAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'errors' => [
                             'type'  => 'array',
@@ -455,7 +439,6 @@ class MaintenanceAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'success' => [ 'type' => 'boolean' ],
                         'message' => [ 'type' => 'string' ],
@@ -463,7 +446,6 @@ class MaintenanceAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
                             'type'  => 'array',
                             'items' => [
                                 'type'       => 'object',
-                    'default'    => [],
                                 'properties' => [
                                     'name'       => [ 'type' => 'string' ],
                                     'status'     => [ 'type' => 'string' ],
@@ -531,13 +513,11 @@ class MaintenanceAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'success' => [ 'type' => 'boolean' ],
                         'message' => [ 'type' => 'string' ],
                         'deleted' => [
                             'type'       => 'object',
-                    'default'    => [],
                             'properties' => [
                                 'revisions'          => [ 'type' => 'integer' ],
                                 'auto_drafts'        => [ 'type' => 'integer' ],
@@ -598,13 +578,11 @@ class MaintenanceAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'success' => [ 'type' => 'boolean' ],
                         'message' => [ 'type' => 'string' ],
                         'flushed' => [
                             'type'       => 'object',
-                    'default'    => [],
                             'properties' => [
                                 'object_cache'  => [ 'type' => 'boolean' ],
                                 'page_cache'    => [ 'type' => 'boolean' ],

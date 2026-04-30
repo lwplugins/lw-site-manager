@@ -146,7 +146,6 @@ class UserAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'success'  => [ 'type' => 'boolean' ],
                         'message'  => [ 'type' => 'string' ],
@@ -292,7 +291,6 @@ class UserAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'success'           => [ 'type' => 'boolean' ],
                         'message'           => [ 'type' => 'string' ],
@@ -324,13 +322,11 @@ class UserAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'roles' => [
                             'type'  => 'array',
                             'items' => [
                                 'type'       => 'object',
-                    'default'    => [],
                                 'properties' => [
                                     'slug'         => [ 'type' => 'string' ],
                                     'name'         => [ 'type' => 'string' ],
@@ -364,7 +360,6 @@ class UserAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
     private function getUserSchema(): array {
         return [
             'type'       => 'object',
-                    'default'    => [],
             'properties' => [
                 'id'           => [ 'type' => 'integer' ],
                 'username'     => [ 'type' => 'string' ],

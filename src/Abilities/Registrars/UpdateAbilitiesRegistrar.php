@@ -50,11 +50,9 @@ class UpdateAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'core' => [
                             'type'       => 'object',
-                            'default'    => [],
                             'properties' => [
                                 'current'    => [ 'type' => 'string' ],
                                 'available'  => [ 'type' => 'string' ],
@@ -65,7 +63,6 @@ class UpdateAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
                             'type'  => 'array',
                             'items' => [
                                 'type'       => 'object',
-                    'default'    => [],
                                 'properties' => [
                                     'slug'      => [ 'type' => 'string' ],
                                     'name'      => [ 'type' => 'string' ],
@@ -78,7 +75,6 @@ class UpdateAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
                             'type'  => 'array',
                             'items' => [
                                 'type'       => 'object',
-                    'default'    => [],
                                 'properties' => [
                                     'slug'      => [ 'type' => 'string' ],
                                     'name'      => [ 'type' => 'string' ],
@@ -216,13 +212,11 @@ class UpdateAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'success' => [ 'type' => 'boolean' ],
                         'summary' => [ 'type' => 'string' ],
                         'updated' => [
                             'type'       => 'object',
-                    'default'    => [],
                             'properties' => [
                                 'core'    => [ 'type' => 'boolean' ],
                                 'plugins' => [ 'type' => 'array' ],
@@ -266,13 +260,11 @@ class UpdateAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'plugins' => [
                             'type'  => 'array',
                             'items' => [
                                 'type'       => 'object',
-                    'default'    => [],
                                 'properties' => [
                                     'slug'             => [ 'type' => 'string' ],
                                     'name'             => [ 'type' => 'string' ],
@@ -381,7 +373,6 @@ class UpdateAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'success'    => [ 'type' => 'boolean' ],
                         'message'    => [ 'type' => 'string' ],
@@ -421,7 +412,6 @@ class UpdateAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'success' => [ 'type' => 'boolean' ],
                         'message' => [ 'type' => 'string' ],
@@ -453,13 +443,11 @@ class UpdateAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'themes' => [
                             'type'  => 'array',
                             'items' => [
                                 'type'       => 'object',
-                    'default'    => [],
                                 'properties' => [
                                     'slug'             => [ 'type' => 'string' ],
                                     'name'             => [ 'type' => 'string' ],
@@ -534,7 +522,6 @@ class UpdateAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'success'    => [ 'type' => 'boolean' ],
                         'message'    => [ 'type' => 'string' ],
@@ -574,7 +561,6 @@ class UpdateAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'success' => [ 'type' => 'boolean' ],
                         'message' => [ 'type' => 'string' ],
@@ -606,11 +592,9 @@ class UpdateAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'updates' => [
                             'type'        => 'object',
-                    'default'    => [],
                             'description' => 'Pending DB updates by plugin slug',
                         ],
                         'total_updates' => [ 'type' => 'integer' ],
@@ -676,7 +660,6 @@ class UpdateAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'success'       => [ 'type' => 'boolean' ],
                         'summary'       => [ 'type' => 'string' ],
@@ -706,13 +689,11 @@ class UpdateAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'plugins' => [
                             'type'  => 'array',
                             'items' => [
                                 'type'       => 'object',
-                    'default'    => [],
                                 'properties' => [
                                     'slug'      => [ 'type' => 'string' ],
                                     'name'      => [ 'type' => 'string' ],

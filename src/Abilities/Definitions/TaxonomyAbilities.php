@@ -228,7 +228,6 @@ class TaxonomyAbilities {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'success' => [ 'type' => 'boolean' ],
                         'message' => [ 'type' => 'string' ],
@@ -444,7 +443,6 @@ class TaxonomyAbilities {
                 ],
                 'output_schema' => [
                     'type'       => 'object',
-                    'default'    => [],
                     'properties' => [
                         'success' => [ 'type' => 'boolean' ],
                         'message' => [ 'type' => 'string' ],
@@ -497,7 +495,6 @@ class TaxonomyAbilities {
     private static function getListOutputSchema(): array {
         return [
             'type'       => 'object',
-                    'default'    => [],
             'properties' => [
                 'terms' => [
                     'type'  => 'array',
@@ -514,7 +511,6 @@ class TaxonomyAbilities {
     private static function getEntityOutputSchema(): array {
         return [
             'type'       => 'object',
-                    'default'    => [],
             'properties' => [
                 'success' => [ 'type' => 'boolean' ],
                 'term'    => self::getTermSchema( true ),
@@ -525,7 +521,6 @@ class TaxonomyAbilities {
     private static function getTermSchema( bool $detailed = false ): array {
         $schema = [
             'type'       => 'object',
-                    'default'    => [],
             'properties' => [
                 'id'       => [ 'type' => 'integer' ],
                 'name'     => [ 'type' => 'string' ],
