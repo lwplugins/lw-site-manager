@@ -29,7 +29,19 @@ LW Site Manager is a comprehensive WordPress site management plugin built on the
 * **Database Maintenance** - Optimize, cleanup, and repair database
 * **Cache Management** - Flush object cache, page cache, and OPcache
 * **Settings Management** - Read and update WordPress options
-* **WooCommerce Integration** - Manage products, orders, and reports (if WooCommerce is active)
+* **WooCommerce Integration** - Comprehensive store management when WooCommerce is active (see below)
+
+= WooCommerce Abilities (when WooCommerce is active) =
+
+* **Products** - List, get, create, update, delete, duplicate; stock updates; variations; product categories; bulk actions
+* **Orders (CRUD)** - List, get, create, update, delete; status changes; order notes; refunds; bulk actions
+* **Order line items** - Add, update quantity/price, or remove products on existing orders
+* **Order coupons & fees** - Apply / remove coupons; add / remove custom fees
+* **Order shipping** - Set or replace shipping line; remove shipping; force totals recalculation
+* **Order payment workflow** - Mark orders paid (with optional silent flag), re-send order emails (6 templates), generate pay-for-order URL
+* **Reports** - Sales, top sellers, order totals, revenue stats with period comparison, low stock products
+
+All order modification abilities reject `cancelled` / `refunded` / `failed` orders with HTTP 409, and support `recalculate=false` for chained operations.
 
 = AI Integration =
 
@@ -57,8 +69,9 @@ LW Site Manager is part of the [LW Plugins](https://lwplugins.com) family - ligh
 
 = Requirements =
 
-* PHP 8.1 or higher
+* PHP 8.2 or higher
 * WordPress 6.9 or higher (requires Abilities API)
+* WooCommerce 7.0 or higher (only if you use the WooCommerce abilities)
 
 == Frequently Asked Questions ==
 
@@ -72,7 +85,7 @@ Use WordPress Application Passwords. Go to Users → Your Profile → Applicatio
 
 = Does this work with WooCommerce? =
 
-Yes! When WooCommerce is active, additional abilities for managing products, orders, customers, and reports become available.
+Yes — and the WooCommerce coverage is comprehensive. Beyond product and order CRUD, you can edit existing orders end-to-end: add or remove line items, apply or remove coupons, add custom fees, change shipping, recalculate totals, mark orders paid, re-send order emails, and generate pay-for-order URLs. Requires WooCommerce 7.0 or higher.
 
 = Is this a MainWP alternative? =
 
