@@ -92,6 +92,21 @@ class PermissionManager {
     }
 
     // =========================================================================
+    // WooCommerce Permissions
+    // =========================================================================
+
+    /**
+     * Check if user can manage WooCommerce orders.
+     *
+     * Falls back to manage_woocommerce when edit_shop_orders is unavailable
+     * (e.g., on stores where the WC capability mapping is overridden).
+     */
+    public function can_manage_orders(): bool {
+        return current_user_can( 'edit_shop_orders' )
+            || current_user_can( 'manage_woocommerce' );
+    }
+
+    // =========================================================================
     // User Management Permissions
     // =========================================================================
 

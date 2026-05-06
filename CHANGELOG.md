@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.1.25] - Unreleased
+
+### Added
+- **Order line item management** — `wc-add-order-item`, `wc-update-order-item`, `wc-remove-order-item` for adding products, changing quantities, and removing items on existing orders. Each takes a `recalculate` flag (default `true`) so chained operations can defer total recalculation.
+- **Order coupons & fees** — `wc-apply-order-coupon`, `wc-remove-order-coupon`, `wc-add-order-fee`, `wc-remove-order-fee` for adjusting promotions and ad-hoc charges on existing orders.
+- **Order shipping** — `wc-set-order-shipping` (with `replace_existing` flag), `wc-remove-order-shipping`.
+- **Order recalculation** — `wc-recalculate-order` to force a `calculate_totals()` pass without other modifications.
+- **Order payment workflow** — `wc-mark-order-paid` (drives `payment_complete()`, with `silent: true` flag to suppress customer emails), `wc-send-order-email` (whitelisted: `new_order`, `customer_invoice`, `customer_processing_order`, `customer_completed_order`, `customer_on_hold_order`, `customer_refunded_order`), `wc-get-payment-url` (returns the customer-facing pay-for-order URL).
+- New `PermissionManager::can_manage_orders()` helper backed by the `edit_shop_orders` capability — applied to all newly added order abilities.
+- Order modification abilities reject `cancelled` / `refunded` / `failed` orders with HTTP 409 (`order_locked`).
+- Minimum WooCommerce version guard (7.0+) on the new abilities; below that they short-circuit with a clear error.
+
+### Changed
+- Split the monolithic `WooCommerceAbilities.php` (1523 lines) into focused classes under `src/Abilities/Definitions/WooCommerce/` — product CRUD/extras, order CRUD/extras, reports, and dedicated schema helpers (`ProductSchema`, `OrderSchema`, `ResponseSchema`, `AbilityMeta`). The public registration entry point (`WooCommerceAbilities::register()`) is unchanged.
+- New service classes under `src/Services/WooCommerce/`: `OrderItemManager`, `OrderModificationManager`, `OrderPaymentManager`. The original `OrderManager` keeps the CRUD/notes/refund/bulk surface unchanged.
+
 ## [1.1.24] - 2026-04-30
 
 ### Changed

@@ -621,7 +621,7 @@ class OrderManager extends AbstractService {
     /**
      * Format order data for response
      */
-    private static function format_order( \WC_Order $order, bool $detailed = false ): array {
+    public static function format_order( \WC_Order $order, bool $detailed = false ): array {
         $data = [
             'id'               => $order->get_id(),
             'order_number'     => $order->get_order_number(),
