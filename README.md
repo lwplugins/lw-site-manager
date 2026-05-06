@@ -157,14 +157,25 @@ composer require lwplugins/lw-site-manager
 | `site-manager/update-option` | Update a WordPress option |
 | `site-manager/list-options` | List options with filtering |
 
-### WooCommerce (if active)
+### WooCommerce (if active, requires WooCommerce 7.0+)
 
-| Ability | Description |
-|---------|-------------|
-| `site-manager/wc-list-products` | List WooCommerce products |
-| `site-manager/wc-list-orders` | List WooCommerce orders |
-| `site-manager/wc-order-stats` | Get order statistics |
-| `site-manager/wc-revenue-report` | Get revenue reports |
+**Products** — `wc-list-products`, `wc-get-product`, `wc-create-product`, `wc-update-product`, `wc-delete-product`, `wc-duplicate-product`, `wc-update-stock`, `wc-list-product-categories`, `wc-list-variations`, `wc-bulk-products`
+
+**Orders (CRUD)** — `wc-list-orders`, `wc-get-order`, `wc-create-order`, `wc-update-order`, `wc-delete-order`, `wc-update-order-status`
+
+**Order extras** — `wc-list-order-statuses`, `wc-create-refund`, `wc-list-order-notes`, `wc-add-order-note`, `wc-bulk-orders`
+
+**Order line items** — `wc-add-order-item`, `wc-update-order-item`, `wc-remove-order-item`
+
+**Order coupons & fees** — `wc-apply-order-coupon`, `wc-remove-order-coupon`, `wc-add-order-fee`, `wc-remove-order-fee`
+
+**Order shipping & recalc** — `wc-set-order-shipping`, `wc-remove-order-shipping`, `wc-recalculate-order`
+
+**Order payment workflow** — `wc-mark-order-paid` (with `silent` flag), `wc-send-order-email` (6-template whitelist), `wc-get-payment-url`
+
+**Reports** — `wc-sales-report`, `wc-top-sellers`, `wc-orders-totals`, `wc-revenue-stats`, `wc-low-stock-products`, `wc-products-totals`
+
+All order modification abilities reject `cancelled` / `refunded` / `failed` orders with HTTP 409 (`order_locked`), and support a `recalculate=false` flag for chained operations followed by a single `wc-recalculate-order` call.
 
 ## Documentation
 
@@ -252,13 +263,9 @@ AI Agent:
 
 ## Changelog
 
-### 1.1.21
-- New: Extensibility hooks for external plugins to register abilities
-- New: `lw_site_manager_register_abilities` action - plugins can register their own abilities
-- New: `lw_site_manager_register_categories` action - plugins can register ability categories
+See [CHANGELOG.md](CHANGELOG.md) for the full version history.
 
-### 1.1.20
-- Fix: Smarter autoloader fallback - supports root Composer dependency installs
+Most recent: **1.1.25** — split monolithic `WooCommerceAbilities.php` into focused classes and added 13 new order management abilities (line items, coupons, fees, shipping, payment workflow).
 
 ## License
 
