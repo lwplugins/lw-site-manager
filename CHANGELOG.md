@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.1.25] - Unreleased
+## [1.1.25] - 2026-05-06
 
 ### Added
 - **Order line item management** — `wc-add-order-item`, `wc-update-order-item`, `wc-remove-order-item` for adding products, changing quantities, and removing items on existing orders. Each takes a `recalculate` flag (default `true`) so chained operations can defer total recalculation.

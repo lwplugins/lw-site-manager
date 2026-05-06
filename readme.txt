@@ -4,7 +4,7 @@ Tags: site-manager, maintenance, ai, rest-api, abilities
 Requires at least: 6.9
 Tested up to: 6.9
 Requires PHP: 8.2
-Stable tag: 1.1.24
+Stable tag: 1.1.25
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,6 +85,19 @@ Yes, LW Site Manager provides similar functionality to MainWP but uses the nativ
 3. Backup creation options
 
 == Changelog ==
+
+= 1.1.25 =
+* New: Order line item management — `wc-add-order-item`, `wc-update-order-item`, `wc-remove-order-item` for editing existing orders
+* New: Order coupons & fees — `wc-apply-order-coupon`, `wc-remove-order-coupon`, `wc-add-order-fee`, `wc-remove-order-fee`
+* New: Order shipping & recalculation — `wc-set-order-shipping`, `wc-remove-order-shipping`, `wc-recalculate-order`
+* New: Order payment workflow — `wc-mark-order-paid` (with `silent` flag), `wc-send-order-email` (6-type whitelist), `wc-get-payment-url`
+* New: `PermissionManager::can_manage_orders()` capability check (`edit_shop_orders`) for the new abilities
+* New: Order modification guard rejects `cancelled` / `refunded` / `failed` orders with HTTP 409
+* Update: All mutations support `recalculate=false` for chained operations
+* Update: Split monolithic `WooCommerceAbilities.php` (1523 lines) into focused classes under `WooCommerce/`
+
+= 1.1.24 =
+* Update: Cleaned up redundant `'default' => []` entries in ability schemas
 
 = 1.1.23 =
 * New: `wc-create-order` ability — create WooCommerce orders on behalf of any customer (customer_id + line_items with product_id/quantity, billing/shipping, payment method, status, notes)
