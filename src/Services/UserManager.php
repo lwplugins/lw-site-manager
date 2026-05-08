@@ -121,6 +121,13 @@ class UserManager extends AbstractService {
             wp_new_user_notification( $user_id, null, 'user' );
         }
 
+        // Apply inline meta map
+        if ( ! empty( $input['meta'] ) && is_array( $input['meta'] ) ) {
+            foreach ( $input['meta'] as $key => $value ) {
+                update_user_meta( $user_id, (string) $key, $value );
+            }
+        }
+
         $user = get_user_by( 'id', $user_id );
 
         $response = self::createdResponse( 'user', self::format_user( $user ), $user_id );
@@ -189,6 +196,13 @@ class UserManager extends AbstractService {
                 return $error;
             }
             $user->set_role( $input['role'] );
+        }
+
+        // Apply inline meta map
+        if ( ! empty( $input['meta'] ) && is_array( $input['meta'] ) ) {
+            foreach ( $input['meta'] as $key => $value ) {
+                update_user_meta( (int) $input['id'], (string) $key, $value );
+            }
         }
 
         $updated_user = get_user_by( 'id', $input['id'] );

@@ -61,6 +61,10 @@ final class OrderItemAbilities {
                         'quantity'    => [ 'type' => 'integer', 'minimum' => 1 ],
                         'subtotal'    => [ 'type' => 'string' ],
                         'total'       => [ 'type' => 'string' ],
+                        'meta'        => [
+                            'type'        => 'object',
+                            'description' => 'Map of meta_key => value applied to the line item before save (HPOS-aware via WC_Data API)',
+                        ],
                         'recalculate' => [ 'type' => 'boolean', 'default' => true ],
                     ],
                     'required'   => [ 'order_id', 'item_id' ],

@@ -26,156 +26,154 @@ composer require lwplugins/lw-site-manager
 
 ## Available Abilities
 
-### Updates
+The plugin currently registers **167 abilities**. All slugs use the `site-manager/` namespace and are grouped below by their ability category.
 
-| Ability | Description |
-|---------|-------------|
-| `site-manager/check-updates` | Check for core, plugin, and theme updates |
-| `site-manager/update-plugin` | Update a specific plugin |
-| `site-manager/update-theme` | Update a specific theme |
-| `site-manager/update-core` | Update WordPress core |
-| `site-manager/update-all` | Update everything (with PHP error detection) |
+### Core abilities
 
-### Plugin Management
+#### Updates (5)
 
-| Ability | Description |
-|---------|-------------|
-| `site-manager/list-plugins` | List all installed plugins |
-| `site-manager/install-plugin` | Install a plugin from WordPress.org |
-| `site-manager/activate-plugin` | Activate a plugin |
-| `site-manager/deactivate-plugin` | Deactivate a plugin |
-| `site-manager/delete-plugin` | Delete a plugin |
+`check-updates`, `update-core`, `update-plugin`, `update-theme`, `update-all` (with PHP error detection)
 
-### Theme Management
+#### Plugins (5)
 
-| Ability | Description |
-|---------|-------------|
-| `site-manager/list-themes` | List all installed themes |
-| `site-manager/install-theme` | Install a theme from WordPress.org |
-| `site-manager/activate-theme` | Switch to a different theme |
-| `site-manager/delete-theme` | Delete a theme |
+`list-plugins`, `install-plugin`, `activate-plugin`, `deactivate-plugin`, `delete-plugin`
 
-### Content Management
+#### Themes (4)
 
-| Ability | Description |
-|---------|-------------|
-| `site-manager/list-posts` | List posts with filtering |
-| `site-manager/get-post` | Get a single post |
-| `site-manager/create-post` | Create a new post |
-| `site-manager/update-post` | Update an existing post |
-| `site-manager/delete-post` | Delete a post |
-| `site-manager/set-post-terms` | Set taxonomy terms for a post |
-| `site-manager/get-post-terms` | Get taxonomy terms for a post |
+`list-themes`, `install-theme`, `activate-theme`, `delete-theme`
 
-### Page Management
+#### Posts (8)
 
-| Ability | Description |
-|---------|-------------|
-| `site-manager/list-pages` | List pages |
-| `site-manager/get-page` | Get a single page |
-| `site-manager/create-page` | Create a new page |
-| `site-manager/update-page` | Update an existing page |
-| `site-manager/delete-page` | Delete a page |
+`list-posts`, `get-post`, `create-post`, `update-post`, `delete-post`, `restore-post`, `duplicate-post`, `bulk-posts`
 
-### Taxonomy Management
+> Plus `get-post-types`, `get-post-terms`, `set-post-terms` (3) for taxonomy/post-type metadata.
 
-| Ability | Description |
-|---------|-------------|
-| `site-manager/list-categories` | List categories |
-| `site-manager/get-category` | Get a single category |
-| `site-manager/create-category` | Create a category |
-| `site-manager/update-category` | Update a category |
-| `site-manager/delete-category` | Delete a category |
-| `site-manager/list-tags` | List tags |
-| `site-manager/get-tag` | Get a single tag |
-| `site-manager/create-tag` | Create a tag |
-| `site-manager/update-tag` | Update a tag |
-| `site-manager/delete-tag` | Delete a tag |
+#### Pages (10)
 
-### User Management
+`list-pages`, `get-page`, `create-page`, `update-page`, `delete-page`, `restore-page`, `duplicate-page`, `page-hierarchy`, `page-templates`, `set-page-template`, `reorder-pages`
 
-| Ability | Description |
-|---------|-------------|
-| `site-manager/list-users` | List users |
-| `site-manager/get-user` | Get user details |
-| `site-manager/create-user` | Create a new user |
-| `site-manager/update-user` | Update a user |
-| `site-manager/delete-user` | Delete a user |
+#### Taxonomy (10)
 
-### Media Management
+Categories: `list-categories`, `get-category`, `create-category`, `update-category`, `delete-category`
+Tags: `list-tags`, `get-tag`, `create-tag`, `update-tag`, `delete-tag`
 
-| Ability | Description |
-|---------|-------------|
-| `site-manager/list-media` | List media files |
-| `site-manager/upload-media` | Upload a media file |
-| `site-manager/delete-media` | Delete a media file |
+> Both groups accept a `taxonomy` parameter so they also work on any custom taxonomy.
 
-### Comments
+#### Users (7)
 
-| Ability | Description |
-|---------|-------------|
-| `site-manager/list-comments` | List comments |
-| `site-manager/approve-comment` | Approve a comment |
-| `site-manager/spam-comment` | Mark comment as spam |
-| `site-manager/delete-comment` | Delete a comment |
+`list-users`, `get-user`, `create-user`, `update-user`, `delete-user`, `get-roles`, `reset-password`
 
-### Backup
+#### Comments (9)
 
-| Ability | Description |
-|---------|-------------|
-| `site-manager/create-backup` | Create a full or partial site backup |
-| `site-manager/list-backups` | List all available backups |
-| `site-manager/restore-backup` | Restore site from a backup |
-| `site-manager/delete-backup` | Delete a backup |
+`list-comments`, `get-comment`, `create-comment`, `update-comment`, `delete-comment`, `approve-comment`, `spam-comment`, `bulk-comments`, `comment-counts`
 
-### Health & Diagnostics
+#### Media (5)
 
-| Ability | Description |
-|---------|-------------|
-| `site-manager/health-check` | Run comprehensive site health check |
-| `site-manager/error-log` | Retrieve recent PHP errors |
+`list-media`, `get-media`, `upload-media`, `update-media`, `delete-media`
 
-### Database
+#### Settings (10)
 
-| Ability | Description |
-|---------|-------------|
-| `site-manager/optimize-database` | Optimize database tables |
-| `site-manager/cleanup-database` | Remove revisions, transients, spam, etc. |
-| `site-manager/repair-database` | Repair database tables |
+`get-general-settings`, `update-general-settings`, `get-reading-settings`, `update-reading-settings`, `get-discussion-settings`, `update-discussion-settings`, `get-permalink-settings`, `update-permalink-settings`, `front-page-settings`, `set-homepage`, `set-posts-page`
 
-### Cache
+#### Meta (12)
 
-| Ability | Description |
-|---------|-------------|
-| `site-manager/flush-cache` | Clear all caches (object, page, opcache) |
+| Entity | Get | Set | Delete |
+|--------|-----|-----|--------|
+| Posts | `get-post-meta` | `set-post-meta` | `delete-post-meta` |
+| Users | `get-user-meta` | `set-user-meta` | `delete-user-meta` |
+| Terms | `get-term-meta` | `set-term-meta` | `delete-term-meta` |
+| Comments | `get-comment-meta` | `set-comment-meta` | `delete-comment-meta` |
 
-### Settings
+> Inline `meta` fields are also accepted by all `create-*` / `update-*` abilities for posts, pages, users, terms, comments, and the WooCommerce equivalents below.
 
-| Ability | Description |
-|---------|-------------|
-| `site-manager/get-option` | Get a WordPress option |
-| `site-manager/update-option` | Update a WordPress option |
-| `site-manager/list-options` | List options with filtering |
+#### Backup (6)
 
-### WooCommerce (if active, requires WooCommerce 7.0+)
+`create-backup`, `list-backups`, `backup-status`, `cancel-backup`, `restore-backup`, `delete-backup`
 
-**Products** — `wc-list-products`, `wc-get-product`, `wc-create-product`, `wc-update-product`, `wc-delete-product`, `wc-duplicate-product`, `wc-update-stock`, `wc-list-product-categories`, `wc-list-variations`, `wc-bulk-products`
+> Backups are processed in chunks via WP-Cron — `create-backup` returns immediately and `backup-status` polls progress.
 
-**Orders (CRUD)** — `wc-list-orders`, `wc-get-order`, `wc-create-order`, `wc-update-order`, `wc-delete-order`, `wc-update-order-status`
+#### Database (2)
 
-**Order extras** — `wc-list-order-statuses`, `wc-create-refund`, `wc-list-order-notes`, `wc-add-order-note`, `wc-bulk-orders`
+`optimize-database`, `cleanup-database`
 
-**Order line items** — `wc-add-order-item`, `wc-update-order-item`, `wc-remove-order-item`
+#### Cache (1)
 
-**Order coupons & fees** — `wc-apply-order-coupon`, `wc-remove-order-coupon`, `wc-add-order-fee`, `wc-remove-order-fee`
+`flush-cache` — covers WP object cache, OPcache, and the major page-cache plugins (WP Rocket, W3TC, WP Super Cache, LiteSpeed, WP Fastest Cache, Cache Enabler, Autoptimize, Kinsta, SG Optimizer, Cloudflare WP plugin, Redis, Varnish).
 
-**Order shipping & recalc** — `wc-set-order-shipping`, `wc-remove-order-shipping`, `wc-recalculate-order`
+#### Health & diagnostics (2)
 
-**Order payment workflow** — `wc-mark-order-paid` (with `silent` flag), `wc-send-order-email` (6-template whitelist), `wc-get-payment-url`
+`health-check`, `error-log`
 
-**Reports** — `wc-sales-report`, `wc-top-sellers`, `wc-orders-totals`, `wc-revenue-stats`, `wc-low-stock-products`, `wc-products-totals`
+#### Plugin database updates (4)
 
-All order modification abilities reject `cancelled` / `refunded` / `failed` orders with HTTP 409 (`order_locked`), and support a `recalculate=false` flag for chained operations followed by a single `wc-recalculate-order` call.
+`check-plugin-db-updates`, `get-supported-db-plugins`, `update-plugin-db`, `update-all-plugin-dbs`
+
+### WooCommerce abilities (requires WooCommerce 7.0+)
+
+#### Products (10)
+
+`wc-list-products`, `wc-get-product`, `wc-create-product`, `wc-update-product`, `wc-delete-product`, `wc-duplicate-product`, `wc-update-stock`, `wc-list-product-categories`, `wc-list-variations`, `wc-bulk-products`
+
+#### Orders — CRUD (6)
+
+`wc-list-orders`, `wc-get-order`, `wc-create-order`, `wc-update-order`, `wc-delete-order`, `wc-update-order-status`
+
+#### Orders — extras (5)
+
+`wc-list-order-statuses`, `wc-create-refund`, `wc-list-order-notes`, `wc-add-order-note`, `wc-bulk-orders`
+
+#### Order line items (3)
+
+`wc-add-order-item`, `wc-update-order-item`, `wc-remove-order-item`
+
+#### Order coupons & fees (4)
+
+`wc-apply-order-coupon`, `wc-remove-order-coupon`, `wc-add-order-fee`, `wc-remove-order-fee`
+
+#### Order shipping & recalc (3)
+
+`wc-set-order-shipping`, `wc-remove-order-shipping`, `wc-recalculate-order`
+
+#### Order payment workflow (3)
+
+`wc-mark-order-paid` (with `silent` flag), `wc-send-order-email` (6-template whitelist), `wc-get-payment-url`
+
+#### Reports (6)
+
+`wc-sales-report`, `wc-top-sellers`, `wc-orders-totals`, `wc-revenue-stats`, `wc-low-stock-products`, `wc-products-totals`
+
+#### Global attributes (5)
+
+`wc-list-attributes`, `wc-get-attribute`, `wc-create-attribute`, `wc-update-attribute`, `wc-delete-attribute`
+
+#### Attribute terms (4)
+
+`wc-list-attribute-terms`, `wc-create-attribute-term`, `wc-update-attribute-term`, `wc-delete-attribute-term`
+
+#### Product-attribute bindings (3)
+
+`wc-set-product-attributes` (full replace), `wc-add-product-attribute`, `wc-remove-product-attribute`
+
+> Supports both global (`pa_*`) and custom per-product attributes.
+
+#### Variations (4)
+
+`wc-generate-variations` (cartesian auto-fill of variation-flagged attributes), `wc-create-variation`, `wc-update-variation`, `wc-delete-variation`
+
+#### WooCommerce meta (6)
+
+| Entity | Get | Set | Delete |
+|--------|-----|-----|--------|
+| Products / variations | `wc-get-product-meta` | `wc-set-product-meta` | `wc-delete-product-meta` |
+| Orders | `wc-get-order-meta` | `wc-set-order-meta` | `wc-delete-order-meta` |
+
+> All HPOS-aware via `WC_Data` API. Inline `meta` is also accepted by `wc-create-product` / `wc-update-product`, `wc-create-order` / `wc-update-order`, `wc-create-variation` / `wc-update-variation`, `wc-add-order-item` / `wc-update-order-item`.
+
+### Behavioral notes
+
+- **Order locking** — every order modification ability rejects `cancelled` / `refunded` / `failed` orders with HTTP 409 (`order_locked`).
+- **Deferred recalculation** — order item/coupon/fee/shipping mutations support `recalculate=false`; chain several mutations and finish with a single `wc-recalculate-order` call.
+- **Email opt-out** — `wc-mark-order-paid` accepts `silent: true` to suppress the customer notification.
 
 ## Documentation
 
@@ -265,7 +263,7 @@ AI Agent:
 
 See [CHANGELOG.md](CHANGELOG.md) for the full version history.
 
-Most recent: **1.1.25** — split monolithic `WooCommerceAbilities.php` into focused classes and added 13 new order management abilities (line items, coupons, fees, shipping, payment workflow).
+Most recent: **1.1.26** — split `WooCommerceAbilities.php` into focused classes and added 38 new abilities: order management (line items, coupons, fees, shipping, payment workflow), full attribute / variation CRUD, HPOS-aware meta on every entity, plus inline `meta` on every create/update.
 
 ## License
 

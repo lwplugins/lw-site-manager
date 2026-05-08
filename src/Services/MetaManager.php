@@ -331,4 +331,110 @@ class MetaManager extends AbstractService {
             'key'     => $input['key'],
         ];
     }
+
+    /**
+     * Get comment meta
+     */
+    public static function get_comment_meta( array $input ): array|\WP_Error {
+        if ( empty( $input['comment_id'] ) ) {
+            return self::errorResponse( 'missing_comment_id', 'Comment ID is required', 400 );
+        }
+
+        $comment_id = (int) $input['comment_id'];
+        $comment    = get_comment( $comment_id );
+
+        if ( ! $comment ) {
+            return self::errorResponse( 'not_found', 'Comment not found', 404 );
+        }
+
+        if ( ! empty( $input['key'] ) ) {
+            $value = get_comment_meta( $comment_id, $input['key'], true );
+            return [
+                'success'    => true,
+                'comment_id' => $comment_id,
+                'key'        => $input['key'],
+                'value'      => $value,
+            ];
+        }
+
+        $all_meta = get_comment_meta( $comment_id );
+        $meta     = [];
+
+        foreach ( $all_meta as $key => $values ) {
+            if ( ! ( $input['include_private'] ?? false ) && strpos( $key, '_' ) === 0 ) {
+                continue;
+            }
+            $meta[ $key ] = count( $values ) === 1 ? $values[0] : $values;
+        }
+
+        return [
+            'success'    => true,
+            'comment_id' => $comment_id,
+            'meta'       => $meta,
+        ];
+    }
+
+    /**
+     * Set comment meta
+     */
+    public static function set_comment_meta( array $input ): array|\WP_Error {
+        if ( empty( $input['comment_id'] ) ) {
+            return self::errorResponse( 'missing_comment_id', 'Comment ID is required', 400 );
+        }
+        if ( empty( $input['key'] ) ) {
+            return self::errorResponse( 'missing_key', 'Meta key is required', 400 );
+        }
+        if ( ! isset( $input['value'] ) ) {
+            return self::errorResponse( 'missing_value', 'Meta value is required', 400 );
+        }
+
+        $comment_id = (int) $input['comment_id'];
+        $comment    = get_comment( $comment_id );
+
+        if ( ! $comment ) {
+            return self::errorResponse( 'not_found', 'Comment not found', 404 );
+        }
+
+        $result = update_comment_meta( $comment_id, $input['key'], $input['value'] );
+
+        if ( false === $result ) {
+            return self::errorResponse( 'update_failed', 'Failed to update meta', 500 );
+        }
+
+        return [
+            'success'    => true,
+            'message'    => 'Meta updated successfully',
+            'comment_id' => $comment_id,
+            'key'        => $input['key'],
+            'value'      => $input['value'],
+        ];
+    }
+
+    /**
+     * Delete comment meta
+     */
+    public static function delete_comment_meta( array $input ): array|\WP_Error {
+        if ( empty( $input['comment_id'] ) ) {
+            return self::errorResponse( 'missing_comment_id', 'Comment ID is required', 400 );
+        }
+        if ( empty( $input['key'] ) ) {
+            return self::errorResponse( 'missing_key', 'Meta key is required', 400 );
+        }
+
+        $comment_id = (int) $input['comment_id'];
+        $comment    = get_comment( $comment_id );
+
+        if ( ! $comment ) {
+            return self::errorResponse( 'not_found', 'Comment not found', 404 );
+        }
+
+        $result = delete_comment_meta( $comment_id, $input['key'] );
+
+        return [
+            'success'    => $result,
+            'message'    => $result ? 'Meta deleted successfully' : 'Meta not found or already deleted',
+            'comment_id' => $comment_id,
+            'key'        => $input['key'],
+        ];
+    }
 }

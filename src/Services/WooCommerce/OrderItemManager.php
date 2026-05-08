@@ -149,6 +149,13 @@ class OrderItemManager extends AbstractService {
             $line_item->set_total( (string) $input['total'] );
         }
 
+        // Apply inline meta map on the line item
+        if ( ! empty( $input['meta'] ) && is_array( $input['meta'] ) ) {
+            foreach ( $input['meta'] as $meta_key => $meta_value ) {
+                $line_item->update_meta_data( (string) $meta_key, $meta_value );
+            }
+        }
+
         $line_item->save();
 
         if ( $input['recalculate'] ?? true ) {

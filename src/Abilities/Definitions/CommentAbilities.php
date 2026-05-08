@@ -199,6 +199,10 @@ class CommentAbilities {
                             'default'     => true,
                             'description' => 'Whether comment is approved',
                         ],
+                        'meta' => [
+                            'type'        => 'object',
+                            'description' => 'Map of meta_key => value applied via update_comment_meta() after the comment is created',
+                        ],
                     ],
                     'required' => [ 'post_id', 'content' ],
                 ],
@@ -244,6 +248,10 @@ class CommentAbilities {
                             'type'        => 'string',
                             'enum'        => [ 'approve', 'hold', 'spam', 'trash' ],
                             'description' => 'Comment status',
+                        ],
+                        'meta' => [
+                            'type'        => 'object',
+                            'description' => 'Map of meta_key => value applied via update_comment_meta()',
                         ],
                     ],
                     'required' => [ 'id' ],

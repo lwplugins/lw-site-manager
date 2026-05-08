@@ -141,6 +141,10 @@ class TaxonomyAbilities {
                             'default'     => 'category',
                             'description' => 'Taxonomy name (default: category)',
                         ],
+                        'meta' => [
+                            'type'        => 'object',
+                            'description' => 'Map of meta_key => value applied via update_term_meta() after the term is created',
+                        ],
                     ],
                     'required' => [ 'name' ],
                 ],
@@ -189,6 +193,10 @@ class TaxonomyAbilities {
                             'type'        => 'string',
                             'default'     => 'category',
                             'description' => 'Taxonomy name (default: category)',
+                        ],
+                        'meta' => [
+                            'type'        => 'object',
+                            'description' => 'Map of meta_key => value applied via update_term_meta()',
                         ],
                     ],
                     'required' => [ 'id' ],
@@ -360,6 +368,10 @@ class TaxonomyAbilities {
                             'default'     => 'post_tag',
                             'description' => 'Taxonomy name (default: post_tag)',
                         ],
+                        'meta' => [
+                            'type'        => 'object',
+                            'description' => 'Map of meta_key => value applied via update_term_meta() after the term is created',
+                        ],
                     ],
                     'required' => [ 'name' ],
                 ],
@@ -404,6 +416,10 @@ class TaxonomyAbilities {
                             'type'        => 'string',
                             'default'     => 'post_tag',
                             'description' => 'Taxonomy name (default: post_tag)',
+                        ],
+                        'meta' => [
+                            'type'        => 'object',
+                            'description' => 'Map of meta_key => value applied via update_term_meta()',
                         ],
                     ],
                     'required' => [ 'id' ],

@@ -116,6 +116,10 @@ final class OrderAbilities {
                             'type'        => 'string',
                             'description' => 'Internal order note added after creation',
                         ],
+                        'meta'                 => [
+                            'type'        => 'object',
+                            'description' => 'Map of meta_key => value applied to the order before save (HPOS-aware)',
+                        ],
                     ],
                 ],
                 'output_schema'       => ResponseSchema::entity( 'order', OrderSchema::order( true ), true ),
@@ -142,6 +146,10 @@ final class OrderAbilities {
                         'note'          => [
                             'type'        => 'string',
                             'description' => 'Internal order note added after update',
+                        ],
+                        'meta'          => [
+                            'type'        => 'object',
+                            'description' => 'Map of meta_key => value applied to the order (HPOS-aware)',
                         ],
                     ],
                     'required'   => [ 'id' ],

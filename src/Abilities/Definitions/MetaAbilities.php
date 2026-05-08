@@ -1,6 +1,6 @@
 <?php
 /**
- * Meta Abilities - Post, User, and Term meta management
+ * Meta Abilities - Post, User, Term, and Comment meta management
  */
 
 declare(strict_types=1);
@@ -16,6 +16,7 @@ class MetaAbilities {
         self::registerPostMetaAbilities( $permissions );
         self::registerUserMetaAbilities( $permissions );
         self::registerTermMetaAbilities( $permissions );
+        self::registerCommentMetaAbilities( $permissions );
     }
 
     private static function registerPostMetaAbilities( PermissionManager $permissions ): void {
@@ -395,6 +396,132 @@ class MetaAbilities {
                 ],
                 'execute_callback'    => [ MetaManager::class, 'delete_term_meta' ],
                 'permission_callback' => $permissions->callback( 'can_manage_categories' ),
+                'meta' => self::destructiveMeta(),
+            ]
+        );
+    }
+
+    private static function registerCommentMetaAbilities( PermissionManager $permissions ): void {
+        wp_register_ability(
+            'site-manager/get-comment-meta',
+            [
+                'label'       => __( 'Get Comment Meta', 'lw-site-manager' ),
+                'description' => __( 'Get meta data for a comment', 'lw-site-manager' ),
+                'category'    => 'meta',
+                'input_schema' => [
+                    'type'       => 'object',
+                    'default'    => [],
+                    'properties' => [
+                        'comment_id' => [
+                            'type'        => 'integer',
+                            'description' => 'Comment ID',
+                        ],
+                        'key' => [
+                            'type'        => 'string',
+                            'description' => 'Specific meta key to retrieve (optional)',
+                        ],
+                        'include_private' => [
+                            'type'        => 'boolean',
+                            'default'     => false,
+                            'description' => 'Include leading-underscore meta keys',
+                        ],
+                    ],
+                    'required' => [ 'comment_id' ],
+                ],
+                'output_schema' => [
+                    'type' => 'object',
+                    'properties' => [
+                        'success'    => [ 'type' => 'boolean' ],
+                        'comment_id' => [ 'type' => 'integer' ],
+                        'key'        => [ 'type' => 'string' ],
+                        'value'      => [ 'type' => [ 'string', 'number', 'boolean', 'array', 'object', 'null' ] ],
+                        'meta'       => [
+                            'type' => 'object',
+                            'additionalProperties' => [
+                                'type' => [ 'string', 'number', 'boolean', 'array', 'object', 'null' ],
+                            ],
+                        ],
+                    ],
+                ],
+                'execute_callback'    => [ MetaManager::class, 'get_comment_meta' ],
+                'permission_callback' => $permissions->callback( 'can_edit_posts' ),
+                'meta' => self::readOnlyMeta(),
+            ]
+        );
+
+        wp_register_ability(
+            'site-manager/set-comment-meta',
+            [
+                'label'       => __( 'Set Comment Meta', 'lw-site-manager' ),
+                'description' => __( 'Set meta data for a comment', 'lw-site-manager' ),
+                'category'    => 'meta',
+                'input_schema' => [
+                    'type'       => 'object',
+                    'default'    => [],
+                    'properties' => [
+                        'comment_id' => [
+                            'type'        => 'integer',
+                            'description' => 'Comment ID',
+                        ],
+                        'key' => [
+                            'type'        => 'string',
+                            'description' => 'Meta key',
+                        ],
+                        'value' => [
+                            'type'        => [ 'string', 'number', 'boolean', 'array', 'object' ],
+                            'description' => 'Meta value',
+                        ],
+                    ],
+                    'required' => [ 'comment_id', 'key', 'value' ],
+                ],
+                'output_schema' => [
+                    'type' => 'object',
+                    'properties' => [
+                        'success'    => [ 'type' => 'boolean' ],
+                        'message'    => [ 'type' => 'string' ],
+                        'comment_id' => [ 'type' => 'integer' ],
+                        'key'        => [ 'type' => 'string' ],
+                        'value'      => [ 'type' => [ 'string', 'number', 'boolean', 'array', 'object', 'null' ] ],
+                    ],
+                ],
+                'execute_callback'    => [ MetaManager::class, 'set_comment_meta' ],
+                'permission_callback' => $permissions->callback( 'can_edit_posts' ),
+                'meta' => self::writeMeta(),
+            ]
+        );
+
+        wp_register_ability(
+            'site-manager/delete-comment-meta',
+            [
+                'label'       => __( 'Delete Comment Meta', 'lw-site-manager' ),
+                'description' => __( 'Delete a meta key from a comment', 'lw-site-manager' ),
+                'category'    => 'meta',
+                'input_schema' => [
+                    'type'       => 'object',
+                    'default'    => [],
+                    'properties' => [
+                        'comment_id' => [
+                            'type'        => 'integer',
+                            'description' => 'Comment ID',
+                        ],
+                        'key' => [
+                            'type'        => 'string',
+                            'description' => 'Meta key to delete',
+                        ],
+                    ],
+                    'required' => [ 'comment_id', 'key' ],
+                ],
+                'output_schema' => [
+                    'type' => 'object',
+                    'properties' => [
+                        'success'    => [ 'type' => 'boolean' ],
+                        'message'    => [ 'type' => 'string' ],
+                        'comment_id' => [ 'type' => 'integer' ],
+                        'key'        => [ 'type' => 'string' ],
+                    ],
+                ],
+                'execute_callback'    => [ MetaManager::class, 'delete_comment_meta' ],
+                'permission_callback' => $permissions->callback( 'can_edit_posts' ),
                 'meta' => self::destructiveMeta(),
             ]
         );

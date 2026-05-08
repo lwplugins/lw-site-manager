@@ -176,6 +176,11 @@ class OrderManager extends AbstractService {
                 $order->set_customer_note( $input['customer_note'] );
             }
 
+            // Apply inline meta map (HPOS-aware)
+            if ( ! empty( $input['meta'] ) && is_array( $input['meta'] ) ) {
+                WcMetaManager::apply_meta_map( $order, $input['meta'] );
+            }
+
             // Calculate totals
             $order->calculate_totals();
 
@@ -271,6 +276,11 @@ class OrderManager extends AbstractService {
             // Customer note
             if ( isset( $input['customer_note'] ) ) {
                 $order->set_customer_note( $input['customer_note'] );
+            }
+
+            // Apply inline meta map (HPOS-aware)
+            if ( ! empty( $input['meta'] ) && is_array( $input['meta'] ) ) {
+                WcMetaManager::apply_meta_map( $order, $input['meta'] );
             }
 
             $order->save();

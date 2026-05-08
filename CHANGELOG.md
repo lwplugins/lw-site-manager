@@ -1,5 +1,36 @@
 # Changelog
 
+## [1.1.26] - 2026-05-08
+
+### Added
+
+- **Global attribute taxonomies** — full CRUD for the `pa_*` attribute taxonomies (`wc-list-attributes`, `wc-get-attribute`, `wc-create-attribute`, `wc-update-attribute`, `wc-delete-attribute`). Create/update/delete invalidate the WC attribute cache (`wc_attribute_taxonomies` transient + `woocommerce-attributes` cache group). Resolution accepts either id or slug (with or without `pa_` prefix).
+- **Attribute terms** — manage the values inside each taxonomy (`wc-list-attribute-terms`, `wc-create-attribute-term`, `wc-update-attribute-term`, `wc-delete-attribute-term`). List supports search, pagination (`limit`/`offset`) and `hide_empty`.
+- **Product-attribute bindings** — bind attributes to a single product (`wc-set-product-attributes` for full replace, `wc-add-product-attribute` for incremental, `wc-remove-product-attribute` to detach). Supports both **global** (`pa_*`, term-based) and **custom** (free-form string) attributes; for global, the `options` field accepts term IDs, slugs, or names interchangeably and resolves them to IDs.
+- **Product variations** — full CRUD (`wc-create-variation`, `wc-update-variation`, `wc-delete-variation`) plus combinatorial auto-generation (`wc-generate-variations`) that builds the cartesian product of all variation-flagged attributes, skips already-existing combinations (md5 combo-key dedup), and syncs the parent via `WC_Product_Variable::sync()`. The pre-existing `wc-list-variations` ability now has its full sibling set.
+- New service classes: `AttributeManager`, `ProductAttributeManager`, `ProductVariationManager`.
+- New ability category `wc-attributes` registered in `lw-site-manager.php` alongside the existing WooCommerce categories.
+
+#### WooCommerce meta data
+
+- **Standalone meta abilities** for products and orders, all HPOS-aware via `WC_Data` API: `wc-get-product-meta`, `wc-set-product-meta`, `wc-delete-product-meta`, `wc-get-order-meta`, `wc-set-order-meta`, `wc-delete-order-meta`. Get supports a single `key` lookup or full listing with `include_protected` flag (defaults to false to hide leading-underscore meta).
+- **Inline `meta` field** added to `wc-create-order` and `wc-update-order` schemas + service handlers — a `{ key: value }` map applied via `WC_Order::update_meta_data()` before save.
+- **Inline `meta` field** added to `wc-create-variation` and `wc-update-variation` schemas + service handlers, processed via `WC_Product_Variation::update_meta_data()` to stay HPOS-future-proof.
+- New service class `WcMetaManager` providing the shared get/set/delete logic for any `WC_Data` entity.
+
+#### Core meta coverage filled in
+
+- **Comment meta** — three new abilities (`site-manager/get-comment-meta`, `site-manager/set-comment-meta`, `site-manager/delete-comment-meta`) and matching `MetaManager` methods. Comments now have the same standalone meta surface as posts, users, and terms.
+- **Inline `meta` on user create/update** — `site-manager/create-user` and `site-manager/update-user` schemas + `UserManager` services now accept a `meta` map and apply it via `update_user_meta()`.
+- **Inline `meta` on taxonomy term create/update** — applies to `site-manager/create-category`, `site-manager/update-category`, `site-manager/create-tag`, `site-manager/update-tag`; `TaxonomyManager::create_term` / `update_term` use `update_term_meta()`.
+- **Inline `meta` on comment create/update** — `site-manager/create-comment` and `site-manager/update-comment` schemas + `CommentManager` services apply the map via `update_comment_meta()`.
+- **Inline `meta` on `wc-update-order-item`** — symmetry with `wc-add-order-item` (`WC_Order_Item_Product::update_meta_data()`).
+
+### Changed
+
+- `WooCommerceAbilities` coordinator now wires up the new ability registrars (`AttributeAbilities`, `AttributeTermAbilities`, `ProductAttributeAbilities`, `VariationAbilities`, `WcMetaAbilities`).
+- `ProductManager::create_product` and `update_product` now use `WC_Product::update_meta_data() + save_meta_data()` instead of raw `update_post_meta()`, so the same `meta` payload works the same way across product types and remains correct under future HPOS-style storage.
+
 ## [1.1.25] - 2026-05-06
 
 ### Added

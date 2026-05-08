@@ -124,6 +124,13 @@ class TaxonomyManager extends AbstractService {
             return self::errorResponse( 'create_failed', $result->get_error_message(), 500 );
         }
 
+        // Apply inline meta map
+        if ( ! empty( $input['meta'] ) && is_array( $input['meta'] ) ) {
+            foreach ( $input['meta'] as $key => $value ) {
+                update_term_meta( (int) $result['term_id'], (string) $key, $value );
+            }
+        }
+
         $term = get_term( $result['term_id'], $taxonomy );
 
         return self::entityResponse( 'term', self::format_term( $term, true ) );
@@ -161,17 +168,31 @@ class TaxonomyManager extends AbstractService {
             $args['parent'] = (int) $input['parent'];
         }
 
-        if ( empty( $args ) ) {
+        $has_meta = ! empty( $input['meta'] ) && is_array( $input['meta'] );
+
+        if ( empty( $args ) && ! $has_meta ) {
             return self::entityResponse( 'term', self::format_term( $term, true ) );
         }
 
-        $result = wp_update_term( $input['id'], $term->taxonomy, $args );
+        if ( ! empty( $args ) ) {
+            $result = wp_update_term( $input['id'], $term->taxonomy, $args );
 
-        if ( is_wp_error( $result ) ) {
-            return self::errorResponse( 'update_failed', $result->get_error_message(), 500 );
+            if ( is_wp_error( $result ) ) {
+                return self::errorResponse( 'update_failed', $result->get_error_message(), 500 );
+            }
+
+            $term_id = (int) $result['term_id'];
+        } else {
+            $term_id = (int) $input['id'];
         }
 
-        $term = get_term( $result['term_id'], $term->taxonomy );
+        if ( $has_meta ) {
+            foreach ( $input['meta'] as $key => $value ) {
+                update_term_meta( $term_id, (string) $key, $value );
+            }
+        }
+
+        $term = get_term( $term_id, $term->taxonomy );
 
         return self::entityResponse( 'term', self::format_term( $term, true ) );
     }

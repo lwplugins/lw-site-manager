@@ -7,6 +7,8 @@ declare(strict_types=1);
 
 namespace LightweightPlugins\SiteManager\Abilities\Definitions;
 
+use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\AttributeAbilities;
+use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\AttributeTermAbilities;
 use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\OrderAbilities;
 use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\OrderCouponFeeAbilities;
 use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\OrderExtraAbilities;
@@ -14,8 +16,11 @@ use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\OrderItemAb
 use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\OrderPaymentAbilities;
 use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\OrderShippingAbilities;
 use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\ProductAbilities;
+use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\ProductAttributeAbilities;
 use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\ProductExtraAbilities;
 use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\ReportAbilities;
+use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\VariationAbilities;
+use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\WcMetaAbilities;
 use LightweightPlugins\SiteManager\Abilities\PermissionManager;
 
 final class WooCommerceAbilities {
@@ -34,5 +39,10 @@ final class WooCommerceAbilities {
         OrderShippingAbilities::register( $permissions );
         OrderPaymentAbilities::register( $permissions );
         ReportAbilities::register( $permissions );
+        AttributeAbilities::register( $permissions );
+        AttributeTermAbilities::register( $permissions );
+        ProductAttributeAbilities::register( $permissions );
+        VariationAbilities::register( $permissions );
+        WcMetaAbilities::register( $permissions );
     }
 }

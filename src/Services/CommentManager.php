@@ -121,6 +121,13 @@ class CommentManager extends AbstractService {
             return self::errorResponse( 'create_failed', 'Failed to create comment', 500 );
         }
 
+        // Apply inline meta map
+        if ( ! empty( $input['meta'] ) && is_array( $input['meta'] ) ) {
+            foreach ( $input['meta'] as $key => $value ) {
+                update_comment_meta( (int) $comment_id, (string) $key, $value );
+            }
+        }
+
         $comment = get_comment( $comment_id );
 
         return self::createdResponse( 'comment', self::format_comment( $comment ), $comment_id );
@@ -159,10 +166,20 @@ class CommentManager extends AbstractService {
             $commentdata['comment_approved'] = $input['status'];
         }
 
-        $result = wp_update_comment( $commentdata );
+        $has_data = count( $commentdata ) > 1;
+        $has_meta = ! empty( $input['meta'] ) && is_array( $input['meta'] );
 
-        if ( ! $result ) {
-            return self::errorResponse( 'update_failed', 'Failed to update comment', 500 );
+        if ( $has_data ) {
+            $result = wp_update_comment( $commentdata );
+            if ( ! $result ) {
+                return self::errorResponse( 'update_failed', 'Failed to update comment', 500 );
+            }
+        }
+
+        if ( $has_meta ) {
+            foreach ( $input['meta'] as $key => $value ) {
+                update_comment_meta( (int) $input['id'], (string) $key, $value );
+            }
         }
 
         $updated_comment = get_comment( $input['id'] );

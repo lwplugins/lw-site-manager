@@ -141,6 +141,10 @@ class UserAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
                             'default'     => false,
                             'description' => 'Send welcome email to user',
                         ],
+                        'meta' => [
+                            'type'        => 'object',
+                            'description' => 'Map of meta_key => value applied via update_user_meta() after the user is created',
+                        ],
                     ],
                     'required' => [ 'username', 'email' ],
                 ],
@@ -205,6 +209,10 @@ class UserAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
                         'role' => [
                             'type'        => 'string',
                             'description' => 'New role',
+                        ],
+                        'meta' => [
+                            'type'        => 'object',
+                            'description' => 'Map of meta_key => value applied via update_user_meta()',
                         ],
                     ],
                     'required' => [ 'id' ],

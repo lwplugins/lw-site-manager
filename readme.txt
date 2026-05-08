@@ -4,7 +4,7 @@ Tags: site-manager, maintenance, ai, rest-api, abilities
 Requires at least: 6.9
 Tested up to: 6.9
 Requires PHP: 8.2
-Stable tag: 1.1.25
+Stable tag: 1.1.26
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -98,6 +98,26 @@ Yes, LW Site Manager provides similar functionality to MainWP but uses the nativ
 3. Backup creation options
 
 == Changelog ==
+
+= 1.1.26 =
+* New: Order line item management — `wc-add-order-item`, `wc-update-order-item`, `wc-remove-order-item` for editing existing orders
+* New: Order coupons & fees — `wc-apply-order-coupon`, `wc-remove-order-coupon`, `wc-add-order-fee`, `wc-remove-order-fee`
+* New: Order shipping & recalculation — `wc-set-order-shipping`, `wc-remove-order-shipping`, `wc-recalculate-order`
+* New: Order payment workflow — `wc-mark-order-paid` (with `silent` flag), `wc-send-order-email` (6-template whitelist), `wc-get-payment-url`
+* New: Global attribute management — `wc-list-attributes`, `wc-get-attribute`, `wc-create-attribute`, `wc-update-attribute`, `wc-delete-attribute`
+* New: Attribute terms — `wc-list-attribute-terms`, `wc-create-attribute-term`, `wc-update-attribute-term`, `wc-delete-attribute-term`
+* New: Product-attribute bindings — `wc-set-product-attributes`, `wc-add-product-attribute`, `wc-remove-product-attribute` (supports both global pa_* and custom)
+* New: Product variations — `wc-generate-variations` (cartesian auto-fill), `wc-create-variation`, `wc-update-variation`, `wc-delete-variation`
+* New: WooCommerce meta abilities (HPOS-aware) — `wc-get/set/delete-product-meta`, `wc-get/set/delete-order-meta`
+* New: Comment meta abilities — `get-comment-meta`, `set-comment-meta`, `delete-comment-meta`
+* New: Inline `meta` field on every create/update across users, terms, comments, WC products, orders, variations, and order line items
+* New: `PermissionManager::can_manage_orders()` (`edit_shop_orders` capability) for the new order-modification abilities
+* New: Order modification guard — rejects `cancelled` / `refunded` / `failed` orders with HTTP 409
+* Update: All order mutations support `recalculate=false` for chained operations followed by a single `wc-recalculate-order`
+* Update: `wc-mark-order-paid` accepts a `silent` flag to suppress customer notification emails
+* Update: Split monolithic `WooCommerceAbilities.php` (1523 lines) into focused classes under `WooCommerce/`
+* Update: `ProductManager::create_product/update_product` switched to `WC_Product::update_meta_data()` instead of raw `update_post_meta()` (HPOS-future-proof)
+* Update: README.md now lists all 167 abilities grouped by category
 
 = 1.1.25 =
 * New: Order line item management — `wc-add-order-item`, `wc-update-order-item`, `wc-remove-order-item` for editing existing orders

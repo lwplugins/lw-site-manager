@@ -287,17 +287,15 @@ class ProductManager extends AbstractService {
             }
 
             // Save
+            // Apply inline meta map (HPOS-future-proof via WC_Data API)
+            if ( ! empty( $input['meta'] ) && is_array( $input['meta'] ) ) {
+                WcMetaManager::apply_meta_map( $product, $input['meta'] );
+            }
+
             $product_id = $product->save();
 
             if ( ! $product_id ) {
                 return self::errorResponse( 'product_create_failed', 'Failed to create product', 500 );
-            }
-
-            // Handle meta data
-            if ( ! empty( $input['meta'] ) && is_array( $input['meta'] ) ) {
-                foreach ( $input['meta'] as $key => $value ) {
-                    update_post_meta( $product_id, $key, $value );
-                }
             }
 
             return [
@@ -450,15 +448,13 @@ class ProductManager extends AbstractService {
                 $product->set_menu_order( (int) $input['menu_order'] );
             }
 
+            // Apply inline meta map (HPOS-future-proof via WC_Data API)
+            if ( ! empty( $input['meta'] ) && is_array( $input['meta'] ) ) {
+                WcMetaManager::apply_meta_map( $product, $input['meta'] );
+            }
+
             // Save
             $product->save();
-
-            // Handle meta data
-            if ( ! empty( $input['meta'] ) && is_array( $input['meta'] ) ) {
-                foreach ( $input['meta'] as $key => $value ) {
-                    update_post_meta( $product->get_id(), $key, $value );
-                }
-            }
 
             return [
                 'success' => true,
