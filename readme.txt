@@ -4,7 +4,7 @@ Tags: site-manager, maintenance, ai, rest-api, abilities
 Requires at least: 6.9
 Tested up to: 6.9
 Requires PHP: 8.2
-Stable tag: 1.1.26
+Stable tag: 1.1.27
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -98,6 +98,11 @@ Yes, LW Site Manager provides similar functionality to MainWP but uses the nativ
 3. Backup creation options
 
 == Changelog ==
+
+= 1.1.27 =
+* New: Detailed post responses include a `meta` map of custom fields. WordPress internals (`_edit_lock`, `_edit_last`, `_thumbnail_id`) are filtered out; single-value keys are unwrapped and serialized values are auto-unserialized. Enables MCP / AI / REST clients to read CPT-meta-heavy content (form submissions, ACF, etc.) via `site-manager/get-post`. Issue #16.
+* New: `lw_site_manager/post_data` filter — shape the full post payload before it leaves the server (add fields, redact meta, per-CPT customization). 3 args: `$data`, `$post`, `$detailed`.
+* New: `lw_site_manager/post_meta` filter — narrow the meta map (allowlist, redact secrets) for a given post. 2 args: `$meta`, `$post_id`.
 
 = 1.1.26 =
 * New: Order line item management — `wc-add-order-item`, `wc-update-order-item`, `wc-remove-order-item` for editing existing orders

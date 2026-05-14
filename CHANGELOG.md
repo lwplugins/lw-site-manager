@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.27] - 2026-05-13
+
+### Added
+- Detailed post responses (`site-manager/get-post`, etc.) now include a `meta` map of custom post fields. WordPress internals (`_edit_lock`, `_edit_last`, `_thumbnail_id`) are filtered out; single-value keys are unwrapped and serialized values are auto-unserialized. Lets MCP / AI / REST clients read CPT-meta-heavy content (form submissions, ACF entries, custom directory CPTs) instead of receiving only title + status. Issue #16.
+- `lw_site_manager/post_data` filter — shape the full post payload before it leaves the server (add fields, redact meta, per-CPT customization). 3 args: `$data`, `$post`, `$detailed`.
+- `lw_site_manager/post_meta` filter — narrow the meta map (allowlist, redact secrets) for a given post. 2 args: `$meta`, `$post_id`.
+
 ## [1.1.26] - 2026-05-08
 
 ### Added

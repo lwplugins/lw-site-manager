@@ -716,8 +716,66 @@ class PostManager extends AbstractService {
             // Comments count
             $data['comment_count'] = (int) $post->comment_count;
             $data['comment_status'] = $post->comment_status;
+
+            // Post meta (custom fields). WordPress internals and the featured
+            // image pointer (already exposed as featured_image / featured_image_id)
+            // are filtered out. Single-value meta is unwrapped; JSON strings stay
+            // strings — consumers know their own schema.
+            $data['meta'] = self::collect_post_meta( $post->ID );
         }
 
-        return $data;
+        /**
+         * Filter the formatted post payload before it is returned.
+         *
+         * Lets consumers add/remove fields per post type, redact sensitive meta,
+         * or shape the response for AI/MCP clients. Returning a non-array drops
+         * the change.
+         *
+         * @param array    $data     Formatted post payload.
+         * @param \WP_Post $post     The post being formatted.
+         * @param bool     $detailed Whether the detailed payload was requested.
+         */
+        $filtered = apply_filters( 'lw_site_manager/post_data', $data, $post, $detailed );
+
+        return is_array( $filtered ) ? $filtered : $data;
+    }
+
+    /**
+     * Collect post meta for the detailed response.
+     *
+     * @param int $post_id Post ID.
+     * @return array<string, mixed>
+     */
+    private static function collect_post_meta( int $post_id ): array {
+        $raw  = get_post_meta( $post_id );
+        $skip = [
+            '_edit_lock'    => true,
+            '_edit_last'    => true,
+            '_thumbnail_id' => true,
+        ];
+
+        $meta = [];
+
+        foreach ( $raw as $key => $values ) {
+            if ( isset( $skip[ $key ] ) ) {
+                continue;
+            }
+
+            $unserialized = array_map( 'maybe_unserialize', (array) $values );
+            $meta[ $key ] = count( $unserialized ) === 1 ? $unserialized[0] : $unserialized;
+        }
+
+        /**
+         * Filter the meta map returned for a post.
+         *
+         * Allowlist / redact / extend the meta payload before it is merged into
+         * the post response. Return an array.
+         *
+         * @param array<string, mixed> $meta    Meta key => value (single-value keys unwrapped).
+         * @param int                  $post_id Post ID.
+         */
+        $filtered = apply_filters( 'lw_site_manager/post_meta', $meta, $post_id );
+
+        return is_array( $filtered ) ? $filtered : $meta;
     }
 }
