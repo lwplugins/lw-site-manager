@@ -369,20 +369,28 @@ class UserAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
         return [
             'type'       => 'object',
             'properties' => [
+                // Always returned (list-users + get-user).
                 'id'           => [ 'type' => 'integer' ],
                 'username'     => [ 'type' => 'string' ],
                 'email'        => [ 'type' => 'string' ],
                 'display_name' => [ 'type' => 'string' ],
-                'first_name'   => [ 'type' => 'string' ],
-                'last_name'    => [ 'type' => 'string' ],
-                'website'      => [ 'type' => 'string' ],
-                'role'         => [ 'type' => 'string' ],
                 'roles'        => [
                     'type'  => 'array',
                     'items' => [ 'type' => 'string' ],
                 ],
                 'registered'   => [ 'type' => 'string' ],
-                'avatar_url'   => [ 'type' => 'string' ],
+                // Detailed fields, returned by get-user only.
+                'first_name'   => [ 'type' => 'string' ],
+                'last_name'    => [ 'type' => 'string' ],
+                'website'      => [ 'type' => 'string' ],
+                'bio'          => [ 'type' => 'string' ],
+                'avatar'       => [ 'type' => 'string' ],
+                'posts_count'  => [ 'type' => 'integer' ],
+                'last_login'   => [ 'type' => [ 'string', 'null' ] ],
+                'capabilities' => [
+                    'type'  => 'array',
+                    'items' => [ 'type' => 'string' ],
+                ],
             ],
         ];
     }

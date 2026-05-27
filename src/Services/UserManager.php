@@ -354,7 +354,7 @@ class UserManager extends AbstractService {
             $data['website'] = $user->user_url;
             $data['bio'] = $user->description;
             $data['avatar'] = get_avatar_url( $user->ID, [ 'size' => 96 ] );
-            $data['posts_count'] = count_user_posts( $user->ID );
+            $data['posts_count'] = (int) count_user_posts( $user->ID );
             $data['last_login'] = get_user_meta( $user->ID, 'last_login', true ) ?: null;
             $data['capabilities'] = array_keys( array_filter( $user->allcaps ) );
         }

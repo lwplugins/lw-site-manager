@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.1.28] - 2026-05-27
+
+### Fixed
+- `site-manager/get-user` and `site-manager/list-users` output schema (`getUserSchema()`) now matches the actual `format_user()` response. Removed `role` (singular — never emitted; only the `roles` array is returned) and `avatar_url` (the emitted key is `avatar`); added the missing detailed-response fields `bio`, `posts_count`, `last_login` (`string|null`), and `capabilities`.
+- `posts_count` in the detailed user response is now cast to an integer. `count_user_posts()` returns a numeric string, which contradicted the `integer` type declared in the schema.
+
 ## [1.1.27] - 2026-05-13
 
 ### Added

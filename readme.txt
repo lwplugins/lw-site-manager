@@ -4,7 +4,7 @@ Tags: site-manager, maintenance, ai, rest-api, abilities
 Requires at least: 6.9
 Tested up to: 6.9
 Requires PHP: 8.2
-Stable tag: 1.1.27
+Stable tag: 1.1.28
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -98,6 +98,10 @@ Yes, LW Site Manager provides similar functionality to MainWP but uses the nativ
 3. Backup creation options
 
 == Changelog ==
+
+= 1.1.28 =
+* Fix: `site-manager/get-user` and `site-manager/list-users` output schema now matches the actual response — removed the never-returned `role` (singular) and the mislabeled `avatar_url` (the field is `avatar`), and added the missing detailed fields `bio`, `posts_count`, `last_login`, and `capabilities`.
+* Fix: `posts_count` in the detailed user response is now returned as an integer instead of a numeric string, matching the declared schema.
 
 = 1.1.27 =
 * New: Detailed post responses include a `meta` map of custom fields. WordPress internals (`_edit_lock`, `_edit_last`, `_thumbnail_id`) are filtered out; single-value keys are unwrapped and serialized values are auto-unserialized. Enables MCP / AI / REST clients to read CPT-meta-heavy content (form submissions, ACF, etc.) via `site-manager/get-post`. Issue #16.
