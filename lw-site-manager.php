@@ -99,6 +99,8 @@ final class Plugin {
 
 		// Register the shared LW Plugins admin parent menu.
 		add_action( 'admin_menu', [ Admin\ParentPage::class, 'maybe_register' ] );
+		add_action( 'admin_menu', [ Admin\McpSettingsPage::class, 'register_menu' ], 11 );
+		add_action( 'admin_init', [ Admin\McpSettingsPage::class, 'handle_post' ] );
 
 		// Skills subsystem (always available; rides on Abilities REST and MCP).
 		Skills\Bootstrap::init();
