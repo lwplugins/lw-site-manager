@@ -122,6 +122,24 @@ Since 1.2.0 the plugin includes a built-in MCP server. Enable it under **LW Plug
 
 The MCP server is domain-locked: it disables itself automatically when the site URL changes, as a safety measure for cloned/staging copies. Re-enable it from **LW Plugins → AI / MCP** on the new domain.
 
+= Can another plugin add its own abilities or skills? (developers) =
+
+Yes — LW Site Manager is built to be extended, and other plugins can plug into both layers.
+
+**Abilities:** hook the `lw_site_manager_register_abilities` action (you receive the shared `PermissionManager`) to register your own abilities, and `lw_site_manager_register_categories` for ability categories. They are exposed over the same REST and MCP surfaces (set `meta.mcp.public = true` on your ability to expose it via the built-in MCP server).
+
+**Skills (since 1.2.0):** the easiest way is to ship a `skills/<slug>/SKILL.md` directory in your plugin and register it in one call:
+
+`add_action( 'init', function () {`
+`    if ( class_exists( '\\LightweightPlugins\\SiteManager\\Skills\\DirectorySkillSource' ) ) {`
+`        \\LightweightPlugins\\SiteManager\\Skills\\DirectorySkillSource::register(`
+`            'my-plugin', 'My Plugin', __DIR__ . '/skills'`
+`        );`
+`    }`
+`} );`
+
+Your skills then appear in the discovery catalog (under your own badge), are loadable via `site-manager/skill-get`, and — when a skill's frontmatter sets `enable_prompt: true` — as native MCP prompts, exactly like the built-in skills. For full control (dynamic skills, a non-directory source), hook the `lw_site_manager_skill_sources` filter directly and add an entry of the shape `[ 'id' => …, 'priority' => …, 'label' => …, 'loader' => callable ]`, where the loader returns skill records (`slug`, `name`, `description`, `content`, `enable_prompt`, `enable_agentic`).
+
 = Does this work with WooCommerce? =
 
 Yes — and the WooCommerce coverage is comprehensive. Beyond product and order CRUD, you can edit existing orders end-to-end: add or remove line items, apply or remove coupons, add custom fees, change shipping, recalculate totals, mark orders paid, re-send order emails, and generate pay-for-order URLs. Requires WooCommerce 7.0 or higher.
