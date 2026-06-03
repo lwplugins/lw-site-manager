@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Add a built-in MCP server (`/wp-json/mcp/lw-site-manager`) and a bundled, static Skills library to LW Site Manager, fully backward-compatible, modelled on Novamira's architecture.
+**Goal:** Add a built-in MCP server (`/wp-json/mcp/lw-site-manager`) and a bundled, static Skills library to LW Site Manager, fully backward-compatible, following a proven MCP + Skills architecture pattern.
 
 **Architecture:** Two additive subsystems under `src/Mcp/` and `src/Skills/`, bootstrapped from the main plugin class and guarded so a missing adapter never fatals. The MCP server is the official `wordpress/mcp-adapter` default server, re-branded; abilities are exposed via `meta.mcp.public`; a two-layer auth gate (transport `manage_options` + existing per-ability caps) protects it. Skills are `skills/<slug>/SKILL.md` directories surfaced through an overridden `discover-abilities` tool + a `site-manager/skill-get` ability. The work also relocates the dead `includes/Admin/` classes into `src/Admin/` and wires the admin menu.
 
@@ -12,7 +12,7 @@
 
 ## CRITICAL LICENSING CONSTRAINT
 
-Novamira's source (`/Users/trueqap/Downloads/novamira/`) is **AGPL-3.0-or-later**. This plugin is **GPL-2.0-or-later**. You MUST NOT copy Novamira source code. Implement original code that follows the documented *architecture* (architecture/ideas are not copyrightable; literal code is). The `wordpress/mcp-adapter` library is GPL-2.0-or-later and safe to depend on.
+Only the *architecture and ideas* behind this design were taken from a third-party reference implementation — never copy any third-party source code into this **GPL-2.0-or-later** plugin. Implement original code that follows the documented *architecture* (architecture/ideas are not copyrightable; literal code is). The `wordpress/mcp-adapter` library is GPL-2.0-or-later and safe to depend on.
 
 ## Verified adapter API facts (wordpress/mcp-adapter v0.5.0)
 

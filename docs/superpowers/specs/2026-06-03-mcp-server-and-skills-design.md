@@ -4,11 +4,11 @@
 - **Target plugin:** `lw-site-manager`
 - **Target version:** 1.1.28 → **1.2.0** (minor, additive)
 - **Status:** approved design, pending implementation plan
-- **Source of inspiration:** Novamira plugin (free + pro), documented in `/Users/trueqap/Downloads/novamira/docs/`
+- **Source of inspiration:** a proven MCP + Skills architecture pattern for WordPress (ideas/architecture only — no third-party code reused)
 
 ## Goal
 
-Make `lw-site-manager` self-contained for AI/MCP clients by adding two additive subsystems, modelled on Novamira:
+Make `lw-site-manager` self-contained for AI/MCP clients by adding two additive subsystems, following a proven MCP + Skills pattern:
 
 1. A **built-in MCP server** that serves the plugin's WordPress abilities over the Model Context Protocol at `/wp-json/mcp/lw-site-manager`, using the official `wordpress/mcp-adapter` library.
 2. A **bundled, static Skills library** (`skills/<slug>/SKILL.md`) surfaced to agents through the MCP discover step and a `site-manager/skill-get` ability.
@@ -69,7 +69,7 @@ src/Mcp/
 
 src/Skills/
   Bootstrap.php        // wire hooks
-  Parser.php           // frontmatter parse() + normalize_slug() + render_skill_md() (port of Novamira parser)
+  Parser.php           // frontmatter parse() + normalize_slug() + render_skill_md() (original implementation)
   Sources.php          // filter-based registry: registry()/find()/all()/discoverable(); lw_site_manager_skill_sources filter
   BuiltInSource.php    // load bundled skills/<slug>/SKILL.md via glob('*/SKILL.md'), memoized per request
   Catalog.php          // render + inject the "## Available Skills" markdown block into discover instructions
@@ -101,7 +101,7 @@ Claude Code .mcp.json (type:http, Basic app-password)
   → ResultUnwrapper normalizes {success:false} inner errors
 ```
 
-### Skills flow (mirrors Novamira)
+### Skills flow
 
 ```
 discover-abilities  → Catalog prepends "## Available Skills" (slug + description, admin-gated)
@@ -112,7 +112,7 @@ discover-abilities  → Catalog prepends "## Available Skills" (slug + descripti
 
 ### Skill file format (`skills/<slug>/SKILL.md`)
 
-Frontmatter parsed leniently (port of Novamira's parser):
+Frontmatter parsed leniently:
 
 ```markdown
 ---
