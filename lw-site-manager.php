@@ -97,6 +97,9 @@ final class Plugin {
 		// Initialize backup cron hooks.
 		add_action( 'init', [ $this, 'init_backup_system' ] );
 
+		// Register the shared LW Plugins admin parent menu.
+		add_action( 'admin_menu', [ Admin\ParentPage::class, 'maybe_register' ] );
+
 		// Skills subsystem (always available; rides on Abilities REST and MCP).
 		Skills\Bootstrap::init();
 
