@@ -31,3 +31,6 @@ Thumbs.db
 # Environment
 .env
 .env.local
+
+# Internal planning docs (brainstorm specs / implementation plans)
+/docs/superpowers/
