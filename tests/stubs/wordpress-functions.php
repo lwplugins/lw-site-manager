@@ -102,6 +102,39 @@ if ( ! function_exists( 'wp_check_filetype' ) ) {
 }
 
 // ============================================================================
+// WordPress Helper Functions
+// ============================================================================
+
+if ( ! function_exists( '__return_empty_array' ) ) {
+	/**
+	 * Return an empty array.
+	 *
+	 * @return array<mixed>
+	 */
+	function __return_empty_array(): array {
+		return [];
+	}
+}
+
+if ( ! function_exists( '__return_false' ) ) {
+	/**
+	 * Return false.
+	 */
+	function __return_false(): bool {
+		return false;
+	}
+}
+
+if ( ! function_exists( '__return_true' ) ) {
+	/**
+	 * Return true.
+	 */
+	function __return_true(): bool {
+		return true;
+	}
+}
+
+// ============================================================================
 // Filter/Action Functions
 // ============================================================================
 
