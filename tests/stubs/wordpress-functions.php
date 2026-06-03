@@ -971,6 +971,21 @@ if ( ! function_exists( 'is_ssl' ) ) {
     }
 }
 
+if ( ! function_exists( 'wp_parse_url' ) ) {
+	/**
+	 * Parse a URL and return its components.
+	 *
+	 * Thin wrapper over PHP parse_url() that mirrors the WordPress signature.
+	 *
+	 * @param string   $url       The URL to parse.
+	 * @param int      $component Optional. Component constant (e.g. PHP_URL_HOST). Default -1 (all).
+	 * @return string|int|array|null|false Component value, full array, or false on parse failure.
+	 */
+	function wp_parse_url( string $url, int $component = -1 ) {
+		return parse_url( $url, $component );
+	}
+}
+
 // ============================================================================
 // Memory Functions
 // ============================================================================
