@@ -4,7 +4,7 @@ Tags: site-manager, maintenance, ai, rest-api, abilities
 Requires at least: 6.9
 Tested up to: 6.9
 Requires PHP: 8.2
-Stable tag: 1.1.28
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -98,6 +98,12 @@ Yes, LW Site Manager provides similar functionality to MainWP but uses the nativ
 3. Backup creation options
 
 == Changelog ==
+
+= 1.2.0 =
+* New: Built-in MCP server at /wp-json/mcp/lw-site-manager (disabled by default, admin-only, domain-locked).
+* New: Bundled Skills library (site-health-triage, woocommerce-order-ops, safe-bulk-content) surfaced to AI agents via a skill-get ability and the MCP discovery catalog.
+* New: AI / MCP settings page with connection snippet and skill list.
+* Fix: Admin ParentPage/NoticeManager are now loaded (moved to src/Admin) — Site Manager appears in the LW Plugins menu.
 
 = 1.1.28 =
 * Fix: `site-manager/get-user` and `site-manager/list-users` output schema now matches the actual response — removed the never-returned `role` (singular) and the mislabeled `avatar_url` (the field is `avatar`), and added the missing detailed fields `bio`, `posts_count`, `last_login`, and `capabilities`.

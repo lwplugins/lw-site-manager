@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.2.0] - 2026-06-03
+
+### Added
+- Built-in MCP server (`/wp-json/mcp/lw-site-manager`) via the WordPress MCP Adapter; disabled by default, admin-gated, domain-locked.
+- Bundled static Skills library and `site-manager/skill-get` ability; skill catalog injected into MCP discovery; optional native MCP prompt mode.
+- "AI / MCP" admin settings page (toggle, `.mcp.json` snippet, bundled-skill list).
+
+### Fixed
+- `Admin\ParentPage` / `Admin\NoticeManager` were never autoloaded (namespaced outside `src/`); relocated to `src/Admin/` and wired to `admin_menu`, so Site Manager now appears in the shared "LW Plugins" menu.
+
 ## [1.1.28] - 2026-05-27
 
 ### Fixed
