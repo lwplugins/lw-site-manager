@@ -47,9 +47,40 @@ All order modification abilities reject `cancelled` / `refunded` / `failed` orde
 
 This plugin is designed for AI agent integration via:
 
-* **REST API** - Any AI can call abilities via HTTP
-* **MCP Adapter** - Claude, GPT can use abilities as tools
+* **Built-in MCP server** (since 1.2.0) - connect Claude, ChatGPT, or any MCP client directly to your site
+* **REST API** - any AI can call abilities via the WordPress Abilities REST endpoints
+* **Skills** (since 1.2.0) - bundled SKILL.md playbooks that guide the agent through common tasks
 * **Agentic Loops** - AI decides which abilities to call
+
+= MCP Server (since 1.2.0) =
+
+LW Site Manager ships its own Model Context Protocol (MCP) server, built on the official WordPress MCP Adapter. It exposes the plugin's abilities as MCP tools and surfaces the bundled Skills catalog, so an MCP client can discover and run them directly.
+
+* **Endpoint:** `https://YOUR-SITE/wp-json/mcp/lw-site-manager`
+* **Disabled by default.** Turn it on in the admin: **LW Plugins → AI / MCP → enable "the built-in MCP server" → Save**.
+* **Admin-only.** Access requires the `manage_options` capability at the connection level, and every ability still enforces its own capability. Use an **administrator** account's application password.
+* **Domain-locked.** The server records the site URL when enabled and automatically disables itself if the domain changes (e.g. a staging clone or migration). Re-enable it from the same page after an intentional move.
+* **Authentication:** WordPress Application Passwords over HTTP Basic (the same scheme as the REST API).
+
+Setup steps:
+
+1. Create an Application Password for an administrator: **Users → Profile → Application Passwords**.
+2. Enable the server: **LW Plugins → AI / MCP**, tick the checkbox, **Save**. The page then shows a ready-to-paste `.mcp.json` snippet pre-filled with your endpoint.
+3. Add the server to your MCP client. For Claude Code, put this in your project's `.mcp.json` (replace the host and the Basic credentials):
+
+`{`
+`  "mcpServers": {`
+`    "lw-site-manager": {`
+`      "type": "http",`
+`      "url": "https://YOUR-SITE/wp-json/mcp/lw-site-manager",`
+`      "headers": { "Authorization": "Basic BASE64(username:application_password)" }`
+`    }`
+`  }`
+`}`
+
+The `Authorization` value is the literal word `Basic`, a space, then the base64 encoding of `username:application_password`.
+
+Once connected, the client's `discover-abilities` tool returns the available abilities plus the Skills catalog; `execute-ability` runs any ability by name; and `skill-get` loads a full playbook. The existing `/wp-json/wp-abilities/v1/` REST surface is unchanged, so previous integrations keep working.
 
 = Part of LW Plugins =
 
@@ -82,6 +113,14 @@ The WordPress Abilities API is a new feature in WordPress 6.9 that allows plugin
 = How do I authenticate API requests? =
 
 Use WordPress Application Passwords. Go to Users → Your Profile → Application Passwords to create one. Then use Basic Auth with your username and app password.
+
+= How do I connect an MCP client (Claude, ChatGPT, etc.)? =
+
+Since 1.2.0 the plugin includes a built-in MCP server. Enable it under **LW Plugins → AI / MCP** (it is off by default and admin-only), create an administrator Application Password, then point your MCP client at `https://YOUR-SITE/wp-json/mcp/lw-site-manager` using HTTP Basic auth. The settings page generates a ready-to-paste `.mcp.json` snippet. See "MCP Server (since 1.2.0)" in the Description for full steps.
+
+= Why does my MCP connection suddenly return 401 after a migration? =
+
+The MCP server is domain-locked: it disables itself automatically when the site URL changes, as a safety measure for cloned/staging copies. Re-enable it from **LW Plugins → AI / MCP** on the new domain.
 
 = Does this work with WooCommerce? =
 
