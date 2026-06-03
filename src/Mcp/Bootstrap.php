@@ -34,6 +34,7 @@ final class Bootstrap {
 		add_filter( 'mcp_adapter_default_server_config', [ Server::class, 'brand' ] );
 		add_filter( 'mcp_adapter_default_transport_permission_user_capability', [ TransportGuard::class, 'capability' ], 10, 2 );
 		add_filter( 'mcp_adapter_tool_call_result', [ ResultUnwrapper::class, 'filter' ], 10, 3 );
+		add_filter( 'wp_register_ability_args', [ AbilityExposer::class, 'flag_args' ], 10, 2 );
 		add_action( 'wp_abilities_api_init', [ DiscoverAbility::class, 'register' ], 999 );
 
 		// Boot the adapter; it registers the (branded) default server on mcp_adapter_init.

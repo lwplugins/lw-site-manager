@@ -36,7 +36,7 @@ abstract class AbstractAbilitiesRegistrar {
      * @return array Meta configuration array
      */
     protected function buildMeta( bool $readonly = false, bool $destructive = false, bool $idempotent = false ): array {
-        $meta = [
+        return [
             'show_in_rest' => true,
             'annotations'  => [
                 'readonly'    => $readonly,
@@ -44,17 +44,6 @@ abstract class AbstractAbilitiesRegistrar {
                 'idempotent'  => $idempotent,
             ],
         ];
-
-        // Expose to the built-in MCP server only when it is enabled. The plain
-        // Abilities REST surface ignores this key, so it is harmless either way.
-        if ( \LightweightPlugins\SiteManager\Mcp\Toggle::is_enabled() ) {
-            $meta['mcp'] = [
-                'public' => true,
-                'type'   => 'tool',
-            ];
-        }
-
-        return $meta;
     }
 
     /**
