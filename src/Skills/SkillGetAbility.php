@@ -100,6 +100,6 @@ final class SkillGetAbility {
 		if ( str_starts_with( $slug, 'site-manager/' ) ) {
 			$slug = substr( $slug, strlen( 'site-manager/' ) );
 		}
-		return $slug;
+		return Parser::normalize_slug( $slug );
 	}
 }

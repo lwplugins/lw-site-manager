@@ -56,6 +56,9 @@ final class BuiltInSource {
 			if ( false === $raw ) {
 				continue;
 			}
+			if ( strlen( $raw ) > Parser::MAX_BODY_BYTES ) {
+				continue;
+			}
 			$parsed = Parser::parse( $raw );
 			if ( null !== $parsed['parse_error'] || '' === trim( $parsed['body'] ) ) {
 				continue;

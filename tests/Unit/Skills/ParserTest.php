@@ -38,4 +38,12 @@ final class ParserTest extends TestCase {
 		$this->assertSame( 'my-skill', Parser::normalize_slug( 'My Skill' ) );
 		$this->assertSame( 'hello-world', Parser::normalize_slug( 'hello world' ) );
 	}
+
+	public function test_render_skill_md_uses_name_not_slug(): void {
+		$md = Parser::render_skill_md( [
+			'slug' => 'wc-order-ops', 'name' => 'WooCommerce Order Operations',
+			'description' => 'd', 'content' => 'body',
+		] );
+		$this->assertStringContainsString( 'name: WooCommerce Order Operations', $md );
+	}
 }

@@ -97,7 +97,7 @@ final class Parser {
 	public static function render_skill_md( array $skill ): string {
 		return sprintf(
 			"---\nname: %s\ndescription: %s\nenable_prompt: %s\nenable_agentic: %s\n---\n\n%s",
-			$skill['slug'] ?? '',
+			$skill['name'] ?? $skill['slug'] ?? '',
 			str_replace( "\n", ' ', $skill['description'] ?? '' ),
 			( $skill['enable_prompt'] ?? false ) ? 'true' : 'false',
 			( $skill['enable_agentic'] ?? true ) ? 'true' : 'false',

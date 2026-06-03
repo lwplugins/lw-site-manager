@@ -49,4 +49,21 @@ final class SkillGetAbilityTest extends TestCase {
 		$this->assertTrue( $result['found'] );
 		remove_filter( 'lw_site_manager_skill_sources', $cb );
 	}
+
+	public function test_non_normalized_slug_still_resolves(): void {
+		$loader = static fn(): array => [ [
+			'slug' => 'demo', 'name' => 'Demo', 'description' => 'd',
+			'content' => '# Body', 'enable_prompt' => false, 'enable_agentic' => true,
+		], ];
+		$cb = static function ( array $s ) use ( $loader ): array {
+			$s['t'] = [ 'id' => 't', 'priority' => 5, 'label' => 'Test', 'loader' => $loader ];
+			return $s;
+		};
+		add_filter( 'lw_site_manager_skill_sources', $cb );
+		$result_upper  = SkillGetAbility::execute( [ 'slug' => 'DEMO' ] );
+		$result_prefix = SkillGetAbility::execute( [ 'slug' => 'site-manager/Demo' ] );
+		remove_filter( 'lw_site_manager_skill_sources', $cb );
+		$this->assertTrue( $result_upper['found'] );
+		$this->assertTrue( $result_prefix['found'] );
+	}
 }

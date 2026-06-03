@@ -12,9 +12,6 @@ if ( ! defined( 'LW_SITE_MANAGER_DIR' ) ) {
 final class BuiltInSourceTest extends TestCase {
 
 	public function test_loads_bundled_skill_directories(): void {
-		if ( ! defined( 'LW_SITE_MANAGER_DIR' ) ) {
-			define( 'LW_SITE_MANAGER_DIR', dirname( __DIR__, 3 ) . '/' );
-		}
 		$skills = BuiltInSource::load();
 		$this->assertIsArray( $skills );
 		foreach ( $skills as $s ) {

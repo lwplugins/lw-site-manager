@@ -1338,6 +1338,20 @@ if ( ! function_exists( 'wp_register_ability' ) ) {
     }
 }
 
+if ( ! function_exists( 'wp_register_ability_category' ) ) {
+    /**
+     * Register an ability category.
+     *
+     * @param string $slug Ability category slug.
+     * @param array  $args Category args.
+     * @return bool True on success.
+     */
+    function wp_register_ability_category( string $slug, array $args = [] ): bool {
+        // No-op in tests.
+        return true;
+    }
+}
+
 if ( ! function_exists( 'get_comment' ) ) {
     /**
      * Get comment.
@@ -1531,7 +1545,7 @@ if ( ! defined( 'ARRAY_N' ) ) {
 // ============================================================================
 
 if ( ! isset( $GLOBALS['wpdb'] ) ) {
-    $GLOBALS['wpdb'] = new class {
+    $GLOBALS['wpdb'] = new class() {
         public string $prefix = 'wp_';
         public string $posts = 'wp_posts';
         public string $postmeta = 'wp_postmeta';
