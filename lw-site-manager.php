@@ -96,6 +96,12 @@ final class Plugin {
 
 		// Initialize backup cron hooks.
 		add_action( 'init', [ $this, 'init_backup_system' ] );
+
+		// Skills subsystem (always available; rides on Abilities REST and MCP).
+		Skills\Bootstrap::init();
+
+		// MCP server subsystem (no-op unless enabled + adapter present).
+		add_action( 'plugins_loaded', [ Mcp\Bootstrap::class, 'init' ], 6 );
 	}
 
 	/**
