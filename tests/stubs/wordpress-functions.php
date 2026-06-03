@@ -1257,6 +1257,25 @@ if ( ! function_exists( 'sanitize_text_field' ) ) {
     }
 }
 
+if ( ! function_exists( 'sanitize_title' ) ) {
+    /**
+     * Sanitize a title, or return a fallback title.
+     *
+     * @param string $title     The string to be sanitized.
+     * @param string $fallback  Optional. A title to use if $title is empty.
+     * @param string $context   Optional. The operation for which the string is sanitized.
+     * @return string The sanitized string.
+     */
+    function sanitize_title( string $title, string $fallback = '', string $context = 'save' ): string {
+        $title = strip_tags( $title );
+        $title = strtolower( $title );
+        $title = preg_replace( '/[^a-z0-9\-]/', '-', $title );
+        $title = preg_replace( '/-+/', '-', $title );
+        $title = trim( $title, '-' );
+        return $title !== '' ? $title : $fallback;
+    }
+}
+
 // ============================================================================
 // WordPress Abilities API Functions
 // ============================================================================
