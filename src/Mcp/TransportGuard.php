@@ -1,4 +1,10 @@
 <?php
+/**
+ * MCP transport-level capability gate.
+ *
+ * @package LightweightPlugins\SiteManager\Mcp
+ */
+
 declare(strict_types=1);
 
 namespace LightweightPlugins\SiteManager\Mcp;

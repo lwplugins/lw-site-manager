@@ -1,4 +1,10 @@
 <?php
+/**
+ * MCP discover-abilities override — adds instructions and skill catalog to the response.
+ *
+ * @package LightweightPlugins\SiteManager\Mcp
+ */
+
 declare(strict_types=1);
 
 namespace LightweightPlugins\SiteManager\Mcp;

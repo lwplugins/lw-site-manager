@@ -9,6 +9,10 @@ declare(strict_types=1);
 
 namespace LightweightPlugins\SiteManager\Admin;
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 /**
  * Isolates third-party admin notices on LW plugin pages.
  *

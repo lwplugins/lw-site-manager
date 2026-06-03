@@ -51,19 +51,31 @@ final class SkillGetAbility {
 				],
 				'execute_callback'    => [ self::class, 'execute' ],
 				'permission_callback' => [ self::class, 'can_run' ],
-				'meta'                => [
-					'annotations' => [
-						'readonly'    => true,
-						'destructive' => false,
-						'idempotent'  => true,
-					],
-					'mcp'         => [
-						'public' => true,
-						'type'   => 'tool',
-					],
-				],
+				'meta'                => self::build_meta(),
 			]
 		);
+	}
+
+	/**
+	 * Build the meta array, conditionally including the mcp key.
+	 *
+	 * @return array<string,mixed>
+	 */
+	private static function build_meta(): array {
+		$meta = [
+			'annotations' => [
+				'readonly'    => true,
+				'destructive' => false,
+				'idempotent'  => true,
+			],
+		];
+		if ( \LightweightPlugins\SiteManager\Mcp\Toggle::is_enabled() ) {
+			$meta['mcp'] = [
+				'public' => true,
+				'type'   => 'tool',
+			];
+		}
+		return $meta;
 	}
 
 	public static function can_run(): bool {

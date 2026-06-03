@@ -1,4 +1,10 @@
 <?php
+/**
+ * MCP server branding — configures the adapter's default server identity.
+ *
+ * @package LightweightPlugins\SiteManager\Mcp
+ */
+
 declare(strict_types=1);
 
 namespace LightweightPlugins\SiteManager\Mcp;

@@ -1,4 +1,10 @@
 <?php
+/**
+ * MCP subsystem bootstrap — wires and boots the MCP server.
+ *
+ * @package LightweightPlugins\SiteManager\Mcp
+ */
+
 declare(strict_types=1);
 
 namespace LightweightPlugins\SiteManager\Mcp;
