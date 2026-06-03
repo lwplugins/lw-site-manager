@@ -35,46 +35,13 @@ final class BuiltInSource {
 	/**
 	 * Load and return all valid skills from the bundled skills directory.
 	 *
+	 * Delegates to the shared directory loader so external plugins and the
+	 * built-in source use identical parsing/validation logic.
+	 *
 	 * @return list<array{slug:string,name:string,description:string,content:string,enable_prompt:bool,enable_agentic:bool}>
 	 */
 	public static function load(): array {
-		static $cache = null;
-		if ( is_array( $cache ) ) {
-			return $cache;
-		}
-
-		$dir   = self::dir();
-		$files = is_dir( $dir ) ? glob( $dir . '/*/SKILL.md' ) : [];
-		$out   = [];
-
-		foreach ( (array) $files as $path ) {
-			$slug = Parser::normalize_slug( basename( dirname( $path ) ) );
-			if ( '' === $slug ) {
-				continue;
-			}
-			$raw = file_get_contents( $path );
-			if ( false === $raw ) {
-				continue;
-			}
-			if ( strlen( $raw ) > Parser::MAX_BODY_BYTES ) {
-				continue;
-			}
-			$parsed = Parser::parse( $raw );
-			if ( null !== $parsed['parse_error'] || '' === trim( $parsed['body'] ) ) {
-				continue;
-			}
-			$out[] = [
-				'slug'           => $slug,
-				'name'           => '' !== $parsed['name'] ? $parsed['name'] : $slug,
-				'description'    => $parsed['description'],
-				'content'        => $parsed['body'],
-				'enable_prompt'  => $parsed['enable_prompt'],
-				'enable_agentic' => $parsed['enable_agentic'],
-			];
-		}
-
-		$cache = $out;
-		return $out;
+		return DirectorySkillSource::load_dir( self::dir() );
 	}
 
 	private static function dir(): string {

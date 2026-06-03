@@ -262,6 +262,27 @@ if ( ! function_exists( 'remove_filter' ) ) {
     }
 }
 
+if ( ! function_exists( 'remove_all_filters' ) ) {
+    /**
+     * Remove all callbacks from a hook (optionally a single priority).
+     *
+     * @param string    $hook_name Hook name.
+     * @param int|false $priority  Optional priority to clear; false clears all.
+     * @return bool Always true.
+     */
+    function remove_all_filters( string $hook_name, $priority = false ): bool {
+        global $wp_filter;
+
+        if ( false === $priority ) {
+            unset( $wp_filter[ $hook_name ] );
+        } else {
+            unset( $wp_filter[ $hook_name ][ $priority ] );
+        }
+
+        return true;
+    }
+}
+
 // ============================================================================
 // Error Handling
 // ============================================================================
