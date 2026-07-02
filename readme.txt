@@ -4,7 +4,7 @@ Tags: site-manager, maintenance, ai, rest-api, abilities
 Requires at least: 6.9
 Tested up to: 6.9
 Requires PHP: 8.2
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -155,6 +155,9 @@ Yes, LW Site Manager provides similar functionality to MainWP but uses the nativ
 3. Backup creation options
 
 == Changelog ==
+
+= 1.2.1 =
+* Fix: WooCommerce abilities (top-sellers, low-stock, product-categories, order line-items, product/variation listings) failed for items without a featured image — wp_get_attachment_url() returned false, breaking the string|null image output schema. Missing images now normalize to null.
 
 = 1.2.0 =
 * New: Built-in MCP server at /wp-json/mcp/lw-site-manager (disabled by default, admin-only, domain-locked).

@@ -122,7 +122,7 @@ class ReportManager extends AbstractService {
                     'price'         => (string) ( $product->get_price() ?? '' ),
                     'stock_status'  => $product->get_stock_status(),
                     'stock_quantity' => $product->get_stock_quantity(),
-                    'image'         => wp_get_attachment_url( $product->get_image_id() ),
+                    'image'         => self::attachmentUrlOrNull( (int) $product->get_image_id() ),
                 ];
             }
         }
@@ -477,7 +477,7 @@ class ReportManager extends AbstractService {
                 'price'          => (string) ( $product->get_price() ?? '' ),
                 'type'           => $product->get_type(),
                 'permalink'      => $product->get_permalink(),
-                'image'          => wp_get_attachment_url( $product->get_image_id() ),
+                'image'          => self::attachmentUrlOrNull( (int) $product->get_image_id() ),
             ];
         }
 

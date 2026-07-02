@@ -703,7 +703,7 @@ class OrderManager extends AbstractService {
                     'total'        => $item->get_total(),
                     'tax'          => $item->get_total_tax(),
                     'sku'          => $product ? $product->get_sku() : '',
-                    'image'        => $product ? wp_get_attachment_url( $product->get_image_id() ) : null,
+                    'image'        => $product ? self::attachmentUrlOrNull( (int) $product->get_image_id() ) : null,
                 ];
             }
 

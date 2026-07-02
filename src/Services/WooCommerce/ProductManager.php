@@ -646,7 +646,7 @@ class ProductManager extends AbstractService {
                 'description' => $term->description,
                 'parent'      => $term->parent,
                 'count'       => $term->count,
-                'image'       => $thumbnail_id ? wp_get_attachment_url( $thumbnail_id ) : null,
+                'image'       => self::attachmentUrlOrNull( (int) $thumbnail_id ),
             ];
         }
 
@@ -700,7 +700,7 @@ class ProductManager extends AbstractService {
                     'stock_quantity' => $variation->get_stock_quantity(),
                     'stock_status'   => $variation->get_stock_status(),
                     'attributes'     => $variation->get_attributes(),
-                    'image'          => wp_get_attachment_url( $variation->get_image_id() ),
+                    'image'          => self::attachmentUrlOrNull( (int) $variation->get_image_id() ),
                     'status'         => $variation->get_status(),
                 ];
             }

@@ -390,4 +390,19 @@ abstract class AbstractService {
         }
         return null;
     }
+
+    /**
+     * Resolve an attachment URL, coercing a missing attachment to null.
+     *
+     * WordPress's wp_get_attachment_url() returns false when the attachment
+     * is absent, which breaks ability output schemas that declare the field
+     * as string|null. Normalizing to null keeps the output schema-valid.
+     *
+     * @param int $attachmentId Attachment ID (0 when the entity has no image).
+     * @return string|null The URL, or null when unavailable.
+     */
+    protected static function attachmentUrlOrNull( int $attachmentId ): ?string {
+        $url = wp_get_attachment_url( $attachmentId );
+        return is_string( $url ) ? $url : null;
+    }
 }

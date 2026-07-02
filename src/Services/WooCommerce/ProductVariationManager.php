@@ -332,7 +332,7 @@ class ProductVariationManager extends AbstractService {
             'attributes'     => $variation->get_attributes(),
             'status'         => $variation->get_status(),
             'menu_order'     => $variation->get_menu_order(),
-            'image'          => $variation->get_image_id() ? wp_get_attachment_url( $variation->get_image_id() ) : null,
+            'image'          => self::attachmentUrlOrNull( (int) $variation->get_image_id() ),
         ];
     }
 }

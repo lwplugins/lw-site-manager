@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.2.1] - 2026-07-02
+
+### Fixed
+- WooCommerce abilities returned a raw `false` from `wp_get_attachment_url()` for items without a (valid) featured image, which violated the `string|null` `image` output schema and failed the entire ability with `ability_invalid_output` (surfaced over MCP as a generic "An error occurred"). Reproduced with `wc-top-sellers` when a top product had no featured image. Added `AbstractService::attachmentUrlOrNull()` and applied it to every WooCommerce `image` output (top-sellers, low-stock, product-categories, order line-items, and product/variation listings) so a missing or dangling image normalizes to `null`.
+
 ## [1.2.0] - 2026-06-03
 
 ### Added
