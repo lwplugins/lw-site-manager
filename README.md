@@ -239,6 +239,28 @@ This plugin is designed for AI agent integration via:
 - **MCP Adapter** - Claude, GPT can use abilities as tools
 - **Agentic Loops** - AI decides which abilities to call
 
+### Built-in MCP server
+
+Since v1.2.0, the plugin ships its own MCP (Model Context Protocol) server so a client — Claude Code, Claude Desktop, ChatGPT, or any other — can connect directly and use the abilities as tools. It is **off by default**; enable it in the admin (**LW Plugins → AI / MCP →** tick *"Enable the built-in MCP server"* **→ Save**), which also reveals a ready-to-paste snippet pre-filled with your endpoint.
+
+Add the server to your MCP client. For Claude Code, in the project `.mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "lw-site-manager": {
+      "type": "http",
+      "url": "https://YOUR-SITE/wp-json/mcp/lw-site-manager",
+      "headers": {
+        "Authorization": "Basic BASE64(username:application_password)"
+      }
+    }
+  }
+}
+```
+
+The `Authorization` value is the literal word `Basic`, a space, then the base64 encoding of `username:application_password` (use an **administrator** account's Application Password). See [docs/mcp-server.md](docs/mcp-server.md) for the full setup, auth layers, and domain-lock behavior.
+
 Example AI workflow:
 ```
 User: "Check my site and update everything safely"
