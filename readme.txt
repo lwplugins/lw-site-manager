@@ -159,6 +159,8 @@ Yes, LW Site Manager provides similar functionality to MainWP but uses the nativ
 = 1.3.0 =
 * Change: The built-in MCP server is now enabled by default (previously disabled). It still requires an administrator Application Password to connect and stays domain-locked. Disable it any time under **LW Plugins → AI / MCP**.
 * Update: Default-on sites record their domain on first request, so a cloned/migrated copy on a different host still auto-disables the server.
+* Fix: The create-page and update-page abilities now set the page template from the `template` input (previously ignored, which forced a separate set-page-template call) (#17)
+* Update: Added PHPStan level 5 static analysis to CI; unit tests now run on PHP 8.2–8.5
 
 = 1.2.1 =
 * Fix: WooCommerce abilities (top-sellers, low-stock, product-categories, order line-items, product/variation listings) failed for items without a featured image — wp_get_attachment_url() returned false, breaking the string|null image output schema. Missing images now normalize to null.
