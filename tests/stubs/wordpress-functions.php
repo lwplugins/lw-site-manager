@@ -568,6 +568,13 @@ if ( ! function_exists( 'update_option' ) ) {
      */
     function update_option( string $option, $value, $autoload = null ): bool {
         global $wp_options;
+        // Mirror WordPress: bail without writing when the value is unchanged.
+        // $old_value uses get_option()'s default of false for an absent option,
+        // so update_option( $k, false ) is a no-op on an option that never existed.
+        $old_value = array_key_exists( $option, $wp_options ) ? $wp_options[ $option ] : false;
+        if ( $value === $old_value ) {
+            return false;
+        }
         $wp_options[ $option ] = $value;
         return true;
     }

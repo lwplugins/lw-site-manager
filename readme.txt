@@ -4,7 +4,7 @@ Tags: site-manager, maintenance, ai, rest-api, abilities
 Requires at least: 6.9
 Tested up to: 6.9
 Requires PHP: 8.2
-Stable tag: 1.2.1
+Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -57,7 +57,7 @@ This plugin is designed for AI agent integration via:
 LW Site Manager ships its own Model Context Protocol (MCP) server, built on the official WordPress MCP Adapter. It exposes the plugin's abilities as MCP tools and surfaces the bundled Skills catalog, so an MCP client can discover and run them directly.
 
 * **Endpoint:** `https://YOUR-SITE/wp-json/mcp/lw-site-manager`
-* **Disabled by default.** Turn it on in the admin: **LW Plugins → AI / MCP → enable "the built-in MCP server" → Save**.
+* **Enabled by default (since 1.3.0).** Toggle it in the admin: **LW Plugins → AI / MCP → "the built-in MCP server" → Save**. It still requires an administrator application password to connect.
 * **Admin-only.** Access requires the `manage_options` capability at the connection level, and every ability still enforces its own capability. Use an **administrator** account's application password.
 * **Domain-locked.** The server records the site URL when enabled and automatically disables itself if the domain changes (e.g. a staging clone or migration). Re-enable it from the same page after an intentional move.
 * **Authentication:** WordPress Application Passwords over HTTP Basic (the same scheme as the REST API).
@@ -116,7 +116,7 @@ Use WordPress Application Passwords. Go to Users → Your Profile → Applicatio
 
 = How do I connect an MCP client (Claude, ChatGPT, etc.)? =
 
-Since 1.2.0 the plugin includes a built-in MCP server. Enable it under **LW Plugins → AI / MCP** (it is off by default and admin-only), create an administrator Application Password, then point your MCP client at `https://YOUR-SITE/wp-json/mcp/lw-site-manager` using HTTP Basic auth. The settings page generates a ready-to-paste `.mcp.json` snippet. See "MCP Server (since 1.2.0)" in the Description for full steps.
+Since 1.2.0 the plugin includes a built-in MCP server, on by default since 1.3.0 (admin-only; toggle it under **LW Plugins → AI / MCP**). Create an administrator Application Password, then point your MCP client at `https://YOUR-SITE/wp-json/mcp/lw-site-manager` using HTTP Basic auth. The settings page generates a ready-to-paste `.mcp.json` snippet. See "MCP Server (since 1.2.0)" in the Description for full steps.
 
 = Why does my MCP connection suddenly return 401 after a migration? =
 
@@ -155,6 +155,10 @@ Yes, LW Site Manager provides similar functionality to MainWP but uses the nativ
 3. Backup creation options
 
 == Changelog ==
+
+= 1.3.0 =
+* Change: The built-in MCP server is now enabled by default (previously disabled). It still requires an administrator Application Password to connect and stays domain-locked. Disable it any time under **LW Plugins → AI / MCP**.
+* Update: Default-on sites record their domain on first request, so a cloned/migrated copy on a different host still auto-disables the server.
 
 = 1.2.1 =
 * Fix: WooCommerce abilities (top-sellers, low-stock, product-categories, order line-items, product/variation listings) failed for items without a featured image — wp_get_attachment_url() returned false, breaking the string|null image output schema. Missing images now normalize to null.

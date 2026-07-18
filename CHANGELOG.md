@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.3.0] - 2026-07-09
+
+### Changed
+- The built-in MCP server is now **enabled by default** (previously disabled). Connecting still requires an administrator Application Password (the `manage_options` transport gate is unchanged), and the server remains domain-locked. Disable it any time under **LW Plugins → AI / MCP**. The enable state is stored as `'1'` / `'0'` with an absent option meaning "on", so an explicit toggle-off always persists (a boolean `false` would have been a no-op over the new default) and only that `'0'` or a domain change turns the server off.
+- Default-on sites lazily record their site host on the first `is_enabled()` check, so a cloned or migrated database on a different host still auto-disables the server (preserving the clone-protection that previously depended on an explicit enable).
+
 ## [1.2.1] - 2026-07-02
 
 ### Fixed

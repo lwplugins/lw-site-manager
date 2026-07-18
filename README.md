@@ -241,7 +241,7 @@ This plugin is designed for AI agent integration via:
 
 ### Built-in MCP server
 
-Since v1.2.0, the plugin ships its own MCP (Model Context Protocol) server so a client — Claude Code, Claude Desktop, ChatGPT, or any other — can connect directly and use the abilities as tools. It is **off by default**; enable it in the admin (**LW Plugins → AI / MCP →** tick *"Enable the built-in MCP server"* **→ Save**), which also reveals a ready-to-paste snippet pre-filled with your endpoint.
+Since v1.2.0, the plugin ships its own MCP (Model Context Protocol) server so a client — Claude Code, Claude Desktop, ChatGPT, or any other — can connect directly and use the abilities as tools. It is **on by default** (since v1.3.0) and still requires an administrator Application Password to connect. Toggle it in the admin (**LW Plugins → AI / MCP →** *"Enable the built-in MCP server"* **→ Save**), where the settings page also shows a ready-to-paste snippet pre-filled with your endpoint.
 
 Add the server to your MCP client. For Claude Code, in the project `.mcp.json`:
 

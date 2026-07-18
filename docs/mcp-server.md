@@ -13,17 +13,17 @@ It is **additive and backward-compatible**: the existing WordPress Abilities RES
 | Endpoint | `https://YOUR-SITE/wp-json/mcp/lw-site-manager` |
 | Transport | Streamable HTTP (session via the `Mcp-Session-Id` header) |
 | Server id / name | `lw-site-manager` / "LW Site Manager" |
-| Default state | **Disabled** |
+| Default state | **Enabled** |
 | Access | Administrator only (`manage_options`) + each ability's own capability |
 | Auth | WordPress Application Password over HTTP Basic |
 
-## Enabling
+## Managing the state
 
-The server is **off by default**. Enable it in the admin:
+The server is **on by default**. Turn it on or off in the admin:
 
-**LW Plugins → AI / MCP →** tick *"Enable the built-in MCP server"* **→ Save.**
+**LW Plugins → AI / MCP →** tick / untick *"Enable the built-in MCP server"* **→ Save.**
 
-The settings page then shows a ready-to-paste `.mcp.json` snippet pre-filled with your endpoint, and the list of bundled skills.
+When enabled, the settings page shows a ready-to-paste `.mcp.json` snippet pre-filled with your endpoint, and the list of bundled skills.
 
 State is stored in two options:
 

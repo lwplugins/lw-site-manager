@@ -24,16 +24,30 @@ final class Toggle {
 
 	/**
 	 * Whether the MCP server is currently enabled (and the domain still matches).
+	 *
+	 * Enabled by default (option absent): only an explicit toggle-off (a stored
+	 * falsy `'0'`) or a domain change turns it off. The state is stored as the
+	 * string `'1'` / `'0'` rather than a boolean, because `update_option()`
+	 * silently refuses to persist a boolean `false` over the absent default
+	 * (`false === false`), which would make "disable" a no-op on a default-on
+	 * site. `'0'` is strictly distinct from that default, so it always writes.
 	 */
 	public static function is_enabled(): bool {
-		if ( ! get_option( self::OPTION_ENABLED, false ) ) {
+		if ( ! get_option( self::OPTION_ENABLED, '1' ) ) {
 			return false;
 		}
 
-		$locked  = (string) get_option( self::OPTION_DOMAIN, '' );
 		$current = self::current_domain();
+		$locked  = (string) get_option( self::OPTION_DOMAIN, '' );
 
-		if ( '' !== $locked && $locked !== $current ) {
+		// Default-on sites have no domain recorded yet — lock to the current host
+		// on first check so a later clone on another host auto-disables below.
+		if ( '' === $locked ) {
+			update_option( self::OPTION_DOMAIN, $current );
+			return true;
+		}
+
+		if ( $locked !== $current ) {
 			self::disable();
 			return false;
 		}
@@ -45,7 +59,7 @@ final class Toggle {
 	 * Enable the MCP server and lock it to the current domain.
 	 */
 	public static function enable(): void {
-		update_option( self::OPTION_ENABLED, true );
+		update_option( self::OPTION_ENABLED, '1' );
 		update_option( self::OPTION_DOMAIN, self::current_domain() );
 	}
 
@@ -53,7 +67,7 @@ final class Toggle {
 	 * Disable the MCP server.
 	 */
 	public static function disable(): void {
-		update_option( self::OPTION_ENABLED, false );
+		update_option( self::OPTION_ENABLED, '0' );
 	}
 
 	/**
