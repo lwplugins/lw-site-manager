@@ -63,6 +63,12 @@ class PageManager extends AbstractService {
             unset( $result['post'] );
         }
 
+        // Apply the page template. The create-page schema accepts `template`,
+        // but PostManager::create_post never sets _wp_page_template.
+        if ( isset( $result['id'] ) ) {
+            self::apply_template( (int) $result['id'], $input );
+        }
+
         return $result;
     }
 
@@ -88,6 +94,12 @@ class PageManager extends AbstractService {
         if ( isset( $result['post'] ) ) {
             $result['page'] = $result['post'];
             unset( $result['post'] );
+        }
+
+        // Apply the page template if the caller passed one (the update-page
+        // schema accepts `template`, but PostManager::update_post ignores it).
+        if ( ! empty( $input['id'] ) ) {
+            self::apply_template( (int) $input['id'], $input );
         }
 
         return $result;
@@ -336,6 +348,32 @@ class PageManager extends AbstractService {
             'templates' => $formatted,
             'total'     => count( $formatted ),
         ];
+    }
+
+    /**
+     * Apply a page template from a create/update input, if one was provided.
+     *
+     * Unlike set_template() (the dedicated ability, where an absent template
+     * means "reset to default"), an absent `template` key here is a no-op so a
+     * plain update never clears an existing template. An explicit '' or
+     * 'default' clears it; any other slug sets _wp_page_template.
+     *
+     * @param int                  $page_id Page ID.
+     * @param array<string, mixed> $input   Ability input.
+     * @return void
+     */
+    private static function apply_template( int $page_id, array $input ): void {
+        if ( ! array_key_exists( 'template', $input ) ) {
+            return;
+        }
+
+        $template = sanitize_text_field( (string) $input['template'] );
+
+        if ( '' === $template || 'default' === $template ) {
+            delete_post_meta( $page_id, '_wp_page_template' );
+        } else {
+            update_post_meta( $page_id, '_wp_page_template', $template );
+        }
     }
 
     /**

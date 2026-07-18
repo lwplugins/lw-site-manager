@@ -972,6 +972,58 @@ if ( ! function_exists( 'get_post' ) ) {
     }
 }
 
+if ( ! function_exists( 'get_post_meta' ) ) {
+    /**
+     * Get post meta (in-memory store for unit tests).
+     *
+     * @param int    $post_id Post ID.
+     * @param string $key     Meta key.
+     * @param bool   $single  Whether to return a single value.
+     * @return mixed
+     */
+    function get_post_meta( int $post_id, string $key = '', bool $single = false ) {
+        global $wp_post_meta;
+        $value = $wp_post_meta[ $post_id ][ $key ] ?? null;
+
+        if ( null === $value ) {
+            return $single ? '' : [];
+        }
+
+        return $single ? $value : [ $value ];
+    }
+}
+
+if ( ! function_exists( 'update_post_meta' ) ) {
+    /**
+     * Update post meta (in-memory store for unit tests).
+     *
+     * @param int    $post_id Post ID.
+     * @param string $key     Meta key.
+     * @param mixed  $value   Meta value.
+     * @return bool
+     */
+    function update_post_meta( int $post_id, string $key, $value ): bool {
+        global $wp_post_meta;
+        $wp_post_meta[ $post_id ][ $key ] = $value;
+        return true;
+    }
+}
+
+if ( ! function_exists( 'delete_post_meta' ) ) {
+    /**
+     * Delete post meta (in-memory store for unit tests).
+     *
+     * @param int    $post_id Post ID.
+     * @param string $key     Meta key.
+     * @return bool
+     */
+    function delete_post_meta( int $post_id, string $key ): bool {
+        global $wp_post_meta;
+        unset( $wp_post_meta[ $post_id ][ $key ] );
+        return true;
+    }
+}
+
 // ============================================================================
 // URL Functions
 // ============================================================================
@@ -1639,4 +1691,12 @@ function reset_wp_filters(): void {
 function reset_wp_options(): void {
     global $wp_options;
     $wp_options = [];
+}
+
+/**
+ * Reset the in-memory post-meta store between tests.
+ */
+function reset_wp_post_meta(): void {
+    global $wp_post_meta;
+    $wp_post_meta = [];
 }

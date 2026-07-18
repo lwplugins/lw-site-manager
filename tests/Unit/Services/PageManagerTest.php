@@ -28,6 +28,7 @@ final class PageManagerTest extends TestCase {
         parent::setUp();
         reset_wp_filters();
         reset_wp_options();
+        reset_wp_post_meta();
     }
 
     /**
@@ -36,6 +37,7 @@ final class PageManagerTest extends TestCase {
     protected function tearDown(): void {
         reset_wp_filters();
         reset_wp_options();
+        reset_wp_post_meta();
         parent::tearDown();
     }
 
@@ -64,6 +66,57 @@ final class PageManagerTest extends TestCase {
 
         $this->assertInstanceOf( \WP_Error::class, $result );
         $this->assertEquals( 'missing_title', $result->get_error_code() );
+    }
+
+    // =========================================================================
+    // Template application (issue #17)
+    // =========================================================================
+
+    /**
+     * Invoke the private apply_template() helper that create_page/update_page
+     * use to honour the `template` input (create_page's full PostManager chain
+     * needs a WordPress environment — covered by integration tests).
+     *
+     * @param int                  $page_id Page ID.
+     * @param array<string, mixed> $input   Ability input.
+     * @return void
+     */
+    private function apply_template( int $page_id, array $input ): void {
+        ( new \ReflectionMethod( PageManager::class, 'apply_template' ) )
+            ->invoke( null, $page_id, $input );
+    }
+
+    /**
+     * Regression for issue #17: a `template` input must set _wp_page_template
+     * instead of being silently dropped.
+     */
+    public function test_apply_template_sets_meta_from_template_input(): void {
+        $this->apply_template( 42, [ 'template' => 'elementor_canvas' ] );
+
+        $this->assertSame( 'elementor_canvas', get_post_meta( 42, '_wp_page_template', true ) );
+    }
+
+    /**
+     * Without a `template` key, an existing template is left untouched (so a
+     * plain page update never wipes the template).
+     */
+    public function test_apply_template_without_template_key_is_a_noop(): void {
+        update_post_meta( 42, '_wp_page_template', 'existing_template' );
+
+        $this->apply_template( 42, [ 'title' => 'no template key' ] );
+
+        $this->assertSame( 'existing_template', get_post_meta( 42, '_wp_page_template', true ) );
+    }
+
+    /**
+     * An explicit 'default' (or empty) template clears the custom template.
+     */
+    public function test_apply_template_with_default_clears_meta(): void {
+        update_post_meta( 42, '_wp_page_template', 'elementor_canvas' );
+
+        $this->apply_template( 42, [ 'template' => 'default' ] );
+
+        $this->assertSame( '', get_post_meta( 42, '_wp_page_template', true ) );
     }
 
     // =========================================================================
