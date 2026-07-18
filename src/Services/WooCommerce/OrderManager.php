@@ -189,7 +189,7 @@ class OrderManager extends AbstractService {
 
             // Add order note if provided
             if ( ! empty( $input['note'] ) ) {
-                $order->add_order_note( $input['note'], false, true );
+                $order->add_order_note( $input['note'], 0, true );
             }
 
             return [
@@ -287,7 +287,7 @@ class OrderManager extends AbstractService {
 
             // Add note if provided
             if ( ! empty( $input['note'] ) ) {
-                $order->add_order_note( $input['note'], false, true );
+                $order->add_order_note( $input['note'], 0, true );
             }
 
             return [
@@ -457,7 +457,7 @@ class OrderManager extends AbstractService {
         }
 
         $is_customer_note = (bool) ( $input['customer_note'] ?? false );
-        $note_id = $order->add_order_note( $input['note'], $is_customer_note, true );
+        $note_id = $order->add_order_note( $input['note'], (int) $is_customer_note, true );
 
         return [
             'success'       => true,
@@ -692,6 +692,10 @@ class OrderManager extends AbstractService {
             // Line items
             $data['line_items'] = [];
             foreach ( $order->get_items() as $item_id => $item ) {
+                // get_items() (default 'line_item' type) yields WC_Order_Item_Product instances.
+                if ( ! $item instanceof \WC_Order_Item_Product ) {
+                    continue;
+                }
                 $product = $item->get_product();
                 $data['line_items'][] = [
                     'id'           => $item_id,

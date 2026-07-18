@@ -115,7 +115,7 @@ class UpdateManager extends AbstractService {
 
         // Get current version before update
         $plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin_slug );
-        $old_version = $plugin_data['Version'] ?? 'unknown';
+        $old_version = $plugin_data['Version'];
 
         // Start error monitoring
         $error_handler = ErrorHandler::instance();
@@ -146,7 +146,7 @@ class UpdateManager extends AbstractService {
         // Get new version (clear file stat cache only)
         clearstatcache();
         $plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin_slug, false, false );
-        $new_version = $plugin_data['Version'] ?? $old_version;
+        $new_version = $plugin_data['Version'];
 
         // Check for fatal errors after update
         $has_fatal = self::hasFatalErrors( $php_errors );
@@ -744,6 +744,9 @@ class UpdateManager extends AbstractService {
             return $api;
         }
 
+        // plugins_api() returns a stdClass response object for 'plugin_information'.
+        $api = (object) $api;
+
         // Start error monitoring
         $error_handler = ErrorHandler::instance();
         $error_handler->start_monitoring();
@@ -844,6 +847,9 @@ class UpdateManager extends AbstractService {
         if ( is_wp_error( $api ) ) {
             return $api;
         }
+
+        // themes_api() returns a stdClass response object for 'theme_information'.
+        $api = (object) $api;
 
         // Start error monitoring
         $error_handler = ErrorHandler::instance();

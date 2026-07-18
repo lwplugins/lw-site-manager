@@ -236,10 +236,8 @@ class PluginDatabaseUpdater extends AbstractService {
         }
 
         try {
-            // Trigger WooCommerce DB update
-            if ( method_exists( 'WC_Install', 'update' ) ) {
-                \WC_Install::update();
-            }
+            // Trigger WooCommerce DB update.
+            \WC_Install::update();
 
             // Run background updates if available
             if ( class_exists( 'WC_Background_Updater' ) ) {

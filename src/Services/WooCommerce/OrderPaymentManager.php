@@ -126,9 +126,6 @@ class OrderPaymentManager extends AbstractService {
         }
 
         $mailer = WC()->mailer();
-        if ( ! $mailer ) {
-            return self::errorResponse( 'mailer_unavailable', 'WooCommerce mailer is not available', 500 );
-        }
 
         $emails    = $mailer->get_emails();
         $email_key = self::EMAIL_TYPES[ $type ];

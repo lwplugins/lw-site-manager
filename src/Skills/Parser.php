@@ -92,7 +92,7 @@ final class Parser {
 	/**
 	 * Render a skill array back into SKILL.md format.
 	 *
-	 * @param array{slug?:string,description?:string,enable_prompt?:bool,enable_agentic?:bool,content?:string} $skill
+	 * @param array{name?:string,slug?:string,description?:string,enable_prompt?:bool,enable_agentic?:bool,content?:string} $skill
 	 */
 	public static function render_skill_md( array $skill ): string {
 		return sprintf(

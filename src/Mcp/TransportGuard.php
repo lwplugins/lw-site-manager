@@ -29,7 +29,8 @@ final class TransportGuard {
 		/**
 		 * Filters the minimum capability required to reach the MCP transport.
 		 *
-		 * @param string $cap Default 'manage_options'.
+		 * @param string $cap     Default 'manage_options'.
+		 * @param mixed  $context The transport context.
 		 */
 		$cap = (string) apply_filters( 'lw_site_manager_mcp_capability', 'manage_options', $context );
 		return '' !== $cap ? $cap : 'manage_options';

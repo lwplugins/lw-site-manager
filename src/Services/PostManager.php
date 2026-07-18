@@ -684,7 +684,7 @@ class PostManager extends AbstractService {
             $data['menu_order'] = (int) $post->menu_order;
             $data['guid'] = $post->guid;
             $data['permalink'] = get_permalink( $post );
-            $data['author_name'] = get_the_author_meta( 'display_name', $post->post_author );
+            $data['author_name'] = get_the_author_meta( 'display_name', (int) $post->post_author );
 
             // Featured image (full details - $thumbnail_id already set above)
             $data['featured_image'] = $thumbnail_id ? [

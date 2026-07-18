@@ -1,0 +1,82 @@
+includes:
+	- phpstan-baseline.neon
+	- vendor/szepeviktor/phpstan-wordpress/extension.neon
+
+parameters:
+	level: 5
+
+	paths:
+		- lw-site-manager.php
+		- src/
+
+	excludePaths:
+		- tests/
+		- vendor/
+
+	# Declare the plugin's runtime-defined constants for static analysis.
+	bootstrapFiles:
+		- phpstan-bootstrap.php
+
+	# Third-party APIs the plugin integrates with. WordPress core stubs come
+	# from the szepeviktor/phpstan-wordpress extension above.
+	scanFiles:
+		- vendor/php-stubs/woocommerce-stubs/woocommerce-stubs.php
+		- vendor/php-stubs/wp-cli-stubs/wp-cli-stubs.php
+
+	# The WooCommerce stub defines WC_VERSION as the placeholder '0.0.0', which
+	# makes version_compare( WC_VERSION, ... ) fold to a constant at analysis
+	# time. The value varies at runtime, so mark it dynamic (the WP extension
+	# already lists the WP debug/dir constants the same way).
+	dynamicConstantNames:
+		- WC_VERSION
+
+	ignoreErrors:
+		# LiteSpeed Cache is an optional plugin with no stubs, so PHPStan cannot
+		# resolve LiteSpeed_Cache_API and reads method_exists() as always-false.
+		-
+			message: '#^Call to function method_exists\(\) with .LiteSpeed_Cache_API. and .preload. will always evaluate to false\.$#'
+			path: src/Services/CacheManager.php
+
+		# WooCommerce's own DB-migration entry point. The stub (correctly) marks
+		# it private; the runtime call is intentional and left unchanged.
+		-
+			message: '#^Call to private static method update\(\) of class WC_Install\.$#'
+			path: src/Services/PluginDatabaseUpdater.php
+
+		# Elementor is an optional plugin with no stubs; Elementor\Plugin is
+		# guarded at runtime by class_exists() before this access.
+		-
+			message: '#^Access to static property \$instance on an unknown class Elementor\\Plugin\.$#'
+			path: src/Services/PluginDatabaseUpdater.php
+
+		# The phpstan-wordpress bootstrap defines WP_DEBUG_LOG as literal true,
+		# but at runtime it may be a string log-file path (WP 5.1+); the ternary
+		# handles both, so the comparison is not truly always-true.
+		-
+			message: '#^Strict comparison using === between true and true will always evaluate to true\.$#'
+			path: src/Services/HealthCheck.php
+
+		# wp_get_attachment_metadata() is stubbed with a fixed image shape, but
+		# non-image attachments return arrays without width/height, so the ?? null
+		# fallback is load-bearing and must stay.
+		-
+			message: '#^Offset .(width|height). on array\{.+\} on left side of \?\? always exists and is not nullable\.$#'
+			path: src/Services/MediaManager.php
+
+		# WC_Emails::get_emails() is typed as the base WC_Email, whose stub omits
+		# trigger(); every concrete WC_Email_* subclass returned here implements it.
+		-
+			message: '#^Call to an undefined method WC_Email::trigger\(\)\.$#'
+			path: src/Services/WooCommerce/OrderPaymentManager.php
+
+		# apply_filters() is inferred to return the array passed in, but a
+		# misbehaving filter could return a non-array; the is_array() guard
+		# protects the method's array return contract.
+		-
+			message: '#^Call to function is_array\(\) with array(<string, mixed>)? will always evaluate to true\.$#'
+			path: src/Services/PostManager.php
+
+	# The WooCommerce/WordPress stub symbol tables are large; a single worker
+	# keeps peak memory deterministic under the `analyse` script's limit.
+	parallel:
+		maximumNumberOfProcesses: 1

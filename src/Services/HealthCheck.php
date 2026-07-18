@@ -245,9 +245,9 @@ class HealthCheck extends AbstractService {
 
         return [
             'total'        => $total,
-            'total_human'  => size_format( $total ),
+            'total_human'  => size_format( (int) $total ),
             'free'         => $free,
-            'free_human'   => size_format( $free ),
+            'free_human'   => size_format( (int) $free ),
             'used'         => $used,
             'used_human'   => size_format( $used ),
             'percent_used' => round( ( $used / $total ) * 100, 2 ),

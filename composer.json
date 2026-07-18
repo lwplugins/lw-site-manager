@@ -18,10 +18,13 @@
 	},
 	"require-dev": {
 		"dealerdirect/phpcodesniffer-composer-installer": "^1.2",
+		"php-stubs/woocommerce-stubs": "^10.9",
+		"php-stubs/wp-cli-stubs": "^2.12",
 		"phpcompatibility/phpcompatibility-wp": "^2.1",
 		"phpstan/phpstan": "^2.1",
 		"phpunit/phpunit": "^9.6",
 		"squizlabs/php_codesniffer": "^3.13",
+		"szepeviktor/phpstan-wordpress": "^2.0",
 		"wp-coding-standards/wpcs": "^3.3",
 		"yoast/phpunit-polyfills": "^4.0"
 	},
@@ -45,7 +48,8 @@
 	"scripts": {
 		"phpcs": "phpcs",
 		"phpcbf": "phpcbf",
-		"phpstan": "phpstan analyse src/",
+		"phpstan": "phpstan analyse --memory-limit=2G",
+		"analyse": "phpstan analyse --memory-limit=2G",
 		"test": "phpunit",
 		"test:unit": "phpunit",
 		"test:integration": "phpunit -c phpunit-integration.xml.dist",

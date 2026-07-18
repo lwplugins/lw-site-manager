@@ -318,7 +318,7 @@ class UserManager extends AbstractService {
 
         // Get user counts per role
         $user_counts = count_users();
-        $role_counts = $user_counts['avail_roles'] ?? [];
+        $role_counts = $user_counts['avail_roles'];
 
         foreach ( $roles as $slug => $role ) {
             $formatted[] = [

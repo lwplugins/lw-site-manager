@@ -368,12 +368,12 @@ class CommentManager extends AbstractService {
             $data['user_id'] = (int) $comment->user_id;
             $data['agent'] = $comment->comment_agent;
             $data['date_gmt'] = $comment->comment_date_gmt;
-            $data['post_title'] = get_the_title( $comment->comment_post_ID );
+            $data['post_title'] = get_the_title( (int) $comment->comment_post_ID );
             $data['avatar'] = get_avatar_url( $comment->comment_author_email, [ 'size' => 48 ] );
 
             // Get replies count
             $data['replies_count'] = (int) get_comments( [
-                'parent' => $comment->comment_ID,
+                'parent' => (int) $comment->comment_ID,
                 'count'  => true,
             ] );
         }

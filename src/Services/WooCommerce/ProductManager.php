@@ -528,10 +528,6 @@ class ProductManager extends AbstractService {
         $duplicate = new \WC_Admin_Duplicate_Product();
         $new_product = $duplicate->product_duplicate( $product );
 
-        if ( ! $new_product ) {
-            return self::errorResponse( 'product_duplicate_failed', 'Failed to duplicate product', 500 );
-        }
-
         // Update title if provided
         if ( ! empty( $input['new_name'] ) ) {
             $new_product->set_name( sanitize_text_field( $input['new_name'] ) );
@@ -694,9 +690,9 @@ class ProductManager extends AbstractService {
                 $variations[] = [
                     'id'             => $variation->get_id(),
                     'sku'            => $variation->get_sku(),
-                    'price'          => (string) ( $variation->get_price() ?? '' ),
-                    'regular_price'  => (string) ( $variation->get_regular_price() ?? '' ),
-                    'sale_price'     => (string) ( $variation->get_sale_price() ?? '' ),
+                    'price'          => (string) $variation->get_price(),
+                    'regular_price'  => (string) $variation->get_regular_price(),
+                    'sale_price'     => (string) $variation->get_sale_price(),
                     'stock_quantity' => $variation->get_stock_quantity(),
                     'stock_status'   => $variation->get_stock_status(),
                     'attributes'     => $variation->get_attributes(),
@@ -798,9 +794,9 @@ class ProductManager extends AbstractService {
             'type'             => $product->get_type(),
             'status'           => $product->get_status(),
             'sku'              => $product->get_sku(),
-            'price'            => (string) ( $product->get_price() ?? '' ),
-            'regular_price'    => (string) ( $product->get_regular_price() ?? '' ),
-            'sale_price'       => (string) ( $product->get_sale_price() ?? '' ),
+            'price'            => (string) $product->get_price(),
+            'regular_price'    => (string) $product->get_regular_price(),
+            'sale_price'       => (string) $product->get_sale_price(),
             'on_sale'          => $product->is_on_sale(),
             'stock_quantity'   => $product->get_stock_quantity(),
             'stock_status'     => $product->get_stock_status(),
@@ -817,7 +813,7 @@ class ProductManager extends AbstractService {
         $image_id = $product->get_image_id();
         $data['image'] = $image_id ? [
             'id'  => $image_id,
-            'url' => wp_get_attachment_url( $image_id ),
+            'url' => wp_get_attachment_url( (int) $image_id ),
         ] : null;
 
         // Categories
@@ -885,7 +881,7 @@ class ProductManager extends AbstractService {
             }
 
             // Variable product specific
-            if ( $product->is_type( 'variable' ) ) {
+            if ( $product->is_type( 'variable' ) && $product instanceof \WC_Product_Variable ) {
                 $data['variations_count'] = count( $product->get_children() );
                 $data['price_range'] = [
                     'min' => $product->get_variation_price( 'min' ),

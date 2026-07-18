@@ -202,7 +202,7 @@ class PageManager extends AbstractService {
                 'menu_order' => $index,
             ] );
 
-            if ( is_wp_error( $result ) || ! $result ) {
+            if ( ! $result ) {
                 $failed[] = $page_id;
             } else {
                 $updated[] = $page_id;

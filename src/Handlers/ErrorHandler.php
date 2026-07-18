@@ -13,7 +13,6 @@ class ErrorHandler {
 
     private bool $is_monitoring = false;
     private array $captured_errors = [];
-    private ?string $previous_error_handler = null;
     private string $log_file;
 
     public static function instance(): ErrorHandler {

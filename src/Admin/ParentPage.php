@@ -171,8 +171,8 @@ final class ParentPage {
 	/**
 	 * Render a single plugin card.
 	 *
-	 * @param string                                                                                                                              $slug   Plugin slug.
-	 * @param array{name: string, description: string, icon: string, icon_color: string, constant: string, settings_page: string, github: string} $plugin Plugin data.
+	 * @param string                                                                                                                                                 $slug   Plugin slug.
+	 * @param array{name: string, description: string, icon: string, icon_color: string, constant: string, settings_page: string, github: string, icon_svg?: string} $plugin Plugin data.
 	 * @return void
 	 */
 	private static function render_plugin_card( string $slug, array $plugin ): void {
