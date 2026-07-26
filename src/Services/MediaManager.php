@@ -7,6 +7,8 @@ declare(strict_types=1);
 
 namespace LightweightPlugins\SiteManager\Services;
 
+use LightweightPlugins\SiteManager\Services\Media\MediaFetcher;
+
 class MediaManager extends AbstractService {
 
     /**
@@ -89,7 +91,8 @@ class MediaManager extends AbstractService {
             $result = self::upload_from_base64( $input['data'], $input['filename'], $title );
         } else {
             // Upload from URL
-            $result = self::upload_from_url_internal( $input['url'], $title );
+            $verify_ssl = isset( $input['verify_ssl'] ) ? (bool) $input['verify_ssl'] : null;
+            $result = self::upload_from_url_internal( $input['url'], $title, $verify_ssl );
         }
 
         if ( is_wp_error( $result ) ) {
@@ -149,78 +152,69 @@ class MediaManager extends AbstractService {
 
     /**
      * Upload from URL (internal helper)
+     *
+     * Source resolution (local short-circuit + SSL policy) lives in
+     * MediaFetcher; this method only turns the resulting temp file into
+     * an attachment.
+     *
+     * @param string    $url        Source URL.
+     * @param string    $title      Attachment title.
+     * @param bool|null $verify_ssl Explicit SSL verification override.
+     * @return int|\WP_Error
      */
-    private static function upload_from_url_internal( string $url, string $title ): int|\WP_Error {
+    private static function upload_from_url_internal( string $url, string $title, ?bool $verify_ssl = null ): int|\WP_Error {
         $url = esc_url_raw( $url );
 
-        // Download file to temp location
-        $tmp = download_url( $url );
+        $tmp = MediaFetcher::fetch( $url, $verify_ssl );
         if ( is_wp_error( $tmp ) ) {
-            return self::errorResponse( 'download_failed', $tmp->get_error_message(), 500 );
+            return $tmp;
         }
 
         // Get filename from URL
-        $filename = basename( wp_parse_url( $url, PHP_URL_PATH ) );
+        $filename = basename( (string) wp_parse_url( $url, PHP_URL_PATH ) );
         if ( empty( $filename ) || strpos( $filename, '.' ) === false ) {
             $filename = 'uploaded-file.jpg';
         }
 
-        $file_array = [
-            'name'     => $filename,
-            'tmp_name' => $tmp,
-            'type'     => self::get_mime_type_for_file( $filename, $tmp ),
-        ];
-
-        // Upload to media library
-        $attachment_id = media_handle_sideload( $file_array, 0, $title );
-
-        // Clean up temp file
-        if ( file_exists( $tmp ) ) {
-            @unlink( $tmp );
-        }
-
-        if ( is_wp_error( $attachment_id ) ) {
-            return self::errorResponse( 'upload_failed', $attachment_id->get_error_message(), 500 );
-        }
-
-        return $attachment_id;
+        return self::sideload_temp_file( $tmp, $filename, $title );
     }
 
     /**
      * Upload from base64 data (internal helper)
+     *
+     * @param string $data     Base64 encoded file contents.
+     * @param string $filename Filename with extension.
+     * @param string $title    Attachment title.
+     * @return int|\WP_Error
      */
     private static function upload_from_base64( string $data, string $filename, string $title ): int|\WP_Error {
-        // Decode base64 data
-        $decoded = base64_decode( $data, true );
-        if ( $decoded === false ) {
-            return self::errorResponse( 'invalid_base64', 'Invalid base64 data', 400 );
+        $tmp = MediaFetcher::from_base64( $data, $filename );
+        if ( is_wp_error( $tmp ) ) {
+            return $tmp;
         }
 
-        // Create temp file
-        $tmp = wp_tempnam( $filename );
-        if ( ! $tmp ) {
-            return self::errorResponse( 'temp_file_failed', 'Could not create temporary file', 500 );
-        }
+        return self::sideload_temp_file( $tmp, $filename, $title );
+    }
 
-        // Write decoded data to temp file
-        $written = file_put_contents( $tmp, $decoded );
-        if ( $written === false ) {
-            @unlink( $tmp );
-            return self::errorResponse( 'write_failed', 'Could not write to temporary file', 500 );
-        }
-
+    /**
+     * Turn a temp file into an attachment, always cleaning the temp file up.
+     *
+     * @param string $tmp      Absolute path to the temp file.
+     * @param string $filename Filename with extension.
+     * @param string $title    Attachment title.
+     * @return int|\WP_Error
+     */
+    private static function sideload_temp_file( string $tmp, string $filename, string $title ): int|\WP_Error {
         $file_array = [
             'name'     => $filename,
             'tmp_name' => $tmp,
             'type'     => self::get_mime_type_for_file( $filename, $tmp ),
         ];
 
-        // Upload to media library
         $attachment_id = media_handle_sideload( $file_array, 0, $title );
 
-        // Clean up temp file
         if ( file_exists( $tmp ) ) {
-            @unlink( $tmp );
+            wp_delete_file( $tmp );
         }
 
         if ( is_wp_error( $attachment_id ) ) {

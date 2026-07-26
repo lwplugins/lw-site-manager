@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.3.1] - 2026-07-24
+
+### Fixed
+- `upload-media` failed with `cURL error 60: SSL certificate problem` whenever the source URL was served with a self-signed or otherwise untrusted certificate, with no way to opt out — even when the URL host was the site's own, i.e. the site downloading a file from itself. `download_url()` exposes no `sslverify` parameter, so the setting is now injected through a narrowly scoped `http_request_args` filter, and verification is skipped for same-host URLs where no man-in-the-middle position exists. (#18)
+
+### Added
+- A same-host URL pointing inside the uploads directory is now read straight from disk instead of being fetched over HTTP. This removes the loopback round-trip entirely and makes such uploads immune to TLS, firewall and rate-limit interference. The file is copied (not moved) because `media_handle_sideload()` consumes the file it is given. Traversal is rejected: the URL path is decoded and lexically normalized, then required to stay inside the uploads directory, so `..` and `%2e%2e` cannot escape.
+- Optional `verify_ssl` input on `upload-media` for explicit control. Defaults to `true` for external hosts and `false` for same-host URLs; documented as safe to disable for other hosts only in trusted environments such as staging.
+
+### Changed
+- Source resolution moved out of `MediaManager` into a focused `Services\Media\MediaFetcher`, split into a pure decision layer (`plan()`, unit-tested) and a thin I/O layer. The two upload paths (URL and base64) now share one `sideload_temp_file()` helper, removing the duplicated sideload/cleanup block and bringing `MediaManager` back under the 400-line limit.
+
 ## [1.3.0] - 2026-07-18
 
 ### Changed

@@ -4,7 +4,7 @@ Tags: site-manager, maintenance, ai, rest-api, abilities
 Requires at least: 6.9
 Tested up to: 6.9
 Requires PHP: 8.2
-Stable tag: 1.3.0
+Stable tag: 1.3.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -155,6 +155,11 @@ Yes, LW Site Manager provides similar functionality to MainWP but uses the nativ
 3. Backup creation options
 
 == Changelog ==
+
+= 1.3.1 =
+* Fix: upload-media failed with "cURL error 60: SSL certificate problem" whenever the source URL was served with a self-signed or otherwise untrusted certificate — including when the site was downloading a file from itself. Certificate verification is now skipped for URLs on this site, where there is no man-in-the-middle position to defend against (#18)
+* New: A URL on this site that points inside the uploads directory is read straight from disk, with no HTTP request at all. This removes the loopback round-trip and makes uploads immune to TLS, firewall and rate-limit interference. Path traversal is rejected: the resolved path must stay inside the uploads directory
+* New: Optional `verify_ssl` input on upload-media for explicit control. Defaults to true for external hosts and false for URLs on this site; set it to false for other hosts only in trusted environments such as staging
 
 = 1.3.0 =
 * Change: The built-in MCP server is now enabled by default (previously disabled). It still requires an administrator Application Password to connect and stays domain-locked. Disable it any time under **LW Plugins → AI / MCP**.

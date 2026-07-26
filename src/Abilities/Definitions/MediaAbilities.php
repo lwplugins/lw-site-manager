@@ -97,7 +97,11 @@ class MediaAbilities {
                     'properties' => [
                         'url' => [
                             'type'        => 'string',
-                            'description' => 'URL of the file to upload (use this OR data+filename)',
+                            'description' => 'URL of the file to upload (use this OR data+filename). A URL on this site pointing inside the uploads directory is read straight from disk, with no HTTP request.',
+                        ],
+                        'verify_ssl' => [
+                            'type'        => 'boolean',
+                            'description' => 'Verify the TLS certificate when downloading from a URL. Defaults to true for external hosts and false when the URL is on this site (no MITM position). Set to false for other hosts only in trusted environments such as staging with a self-signed certificate.',
                         ],
                         'data' => [
                             'type'        => 'string',
