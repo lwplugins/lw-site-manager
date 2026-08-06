@@ -1700,3 +1700,34 @@ function reset_wp_post_meta(): void {
     global $wp_post_meta;
     $wp_post_meta = [];
 }
+
+// ============================================================================
+// WooCommerce test doubles
+// ============================================================================
+
+if ( ! class_exists( 'WooCommerce' ) ) {
+    /**
+     * Minimal WooCommerce stand-in so the `class_exists( 'WooCommerce' )` guards
+     * in the services pass under unit tests (no real WooCommerce is loaded).
+     */
+    class WooCommerce {}
+}
+
+if ( ! function_exists( 'wc_get_orders' ) ) {
+    /**
+     * Test double for wc_get_orders(): records the query args it was called with
+     * in $GLOBALS['wc_get_orders_last_args'] and returns a paginated-shape result
+     * ($GLOBALS['wc_get_orders_result'] when set, otherwise an empty result).
+     *
+     * @param array<string, mixed> $args Query args from the code under test.
+     * @return object
+     */
+    function wc_get_orders( array $args = [] ): object {
+        $GLOBALS['wc_get_orders_last_args'] = $args;
+        return $GLOBALS['wc_get_orders_result'] ?? (object) [
+            'orders'        => [],
+            'total'         => 0,
+            'max_num_pages' => 0,
+        ];
+    }
+}

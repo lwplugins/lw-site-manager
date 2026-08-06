@@ -4,7 +4,7 @@ Tags: site-manager, maintenance, ai, rest-api, abilities
 Requires at least: 6.9
 Tested up to: 6.9
 Requires PHP: 8.2
-Stable tag: 1.3.1
+Stable tag: 1.3.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -155,6 +155,9 @@ Yes, LW Site Manager provides similar functionality to MainWP but uses the nativ
 3. Backup creation options
 
 == Changelog ==
+
+= 1.3.2 =
+* Fix: wc-list-orders crashed with a fatal TypeError (HTTP 500 / generic MCP error) whenever a refund fell in the queried range. With HPOS, wc_get_orders() also returns refund objects, which format_order() could not accept. The query is now restricted to the shop_order type, so refunds are excluded and the total / page counts stay correct (#21)
 
 = 1.3.1 =
 * Fix: upload-media failed with "cURL error 60: SSL certificate problem" whenever the source URL was served with a self-signed or otherwise untrusted certificate — including when the site was downloading a file from itself. Certificate verification is now skipped for URLs on this site, where there is no man-in-the-middle position to defend against (#18)
