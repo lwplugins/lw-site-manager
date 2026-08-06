@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.3.2] - 2026-07-26
+
+### Fixed
+- `wc-list-orders` threw a fatal `TypeError` (HTTP 500, surfaced over MCP as a generic error) whenever a refund fell in the queried date range, making the ability unusable on any store that issues refunds. `list_orders()` built the `wc_get_orders()` query without a `type`, so under HPOS the result also contained `WC_Order_Refund` objects, which `format_order()` (typed `\WC_Order`) rejected on the first one. The query is now restricted to `'type' => 'shop_order'`, which excludes refunds and keeps `total` / `max_num_pages` honest (a per-row `instanceof` guard would not). Reproduced end-to-end on WooCommerce 10.8.1 with HPOS. (#21)
+
 ## [1.3.1] - 2026-07-24
 
 ### Fixed

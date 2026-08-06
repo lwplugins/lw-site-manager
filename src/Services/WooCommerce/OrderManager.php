@@ -20,6 +20,11 @@ class OrderManager extends AbstractService {
         }
 
         $args = [
+            // Restrict to orders only. Without this, HPOS also returns
+            // WC_Order_Refund objects, which format_order() (typed \WC_Order)
+            // cannot accept — see issue #21. It also keeps total / max_num_pages
+            // honest, which a per-row instanceof guard would not.
+            'type'     => 'shop_order',
             'limit'    => min( (int) ( $input['limit'] ?? 20 ), 100 ),
             'offset'   => (int) ( $input['offset'] ?? 0 ),
             'orderby'  => $input['orderby'] ?? 'date',
