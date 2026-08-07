@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.3.3] - 2026-08-07
+
+### Changed
+- `wordpress/mcp-adapter` moved from `require` to `require-dev` + `suggest`, so `composer require lwplugins/lw-site-manager` no longer pulls it into consumer projects. Since mcp-adapter v0.5 the package is `type: wordpress-plugin`, so on Composer/Bedrock sites `composer/installers` was dropping it into `web/app/plugins/` as an unexpected standalone "MCP Adapter" plugin. The WordPress.org release ZIP still bundles the adapter — it is injected during the release workflow (`composer require … --no-dev` after the production install) — so the built-in MCP server keeps working out of the box for ZIP installs. Composer/Bedrock users who want the MCP server install the adapter (or the canonical MCP Adapter plugin) themselves. `Mcp\Bootstrap` already no-ops when the adapter class is absent, so the REST / Abilities API surface is unaffected.
+
 ## [1.3.2] - 2026-07-26
 
 ### Fixed

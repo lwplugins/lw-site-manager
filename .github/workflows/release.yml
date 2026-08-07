@@ -50,6 +50,15 @@ jobs:
         if: steps.check_release.outputs.exists == 'false'
         run: composer install --no-dev --optimize-autoloader --no-interaction
 
+      # The MCP adapter is a dev-only Composer dependency so that a
+      # `composer require lwplugins/lw-site-manager` does NOT drag it into
+      # consumer projects (on Bedrock it is type:wordpress-plugin and would
+      # install as a stray plugin). The wordpress.org ZIP still bundles it here
+      # so the built-in MCP server keeps working out of the box.
+      - name: Bundle the MCP adapter into the release ZIP
+        if: steps.check_release.outputs.exists == 'false'
+        run: composer require wordpress/mcp-adapter:^0.5 --no-dev --optimize-autoloader --no-interaction
+
       - name: Create release ZIP
         if: steps.check_release.outputs.exists == 'false'
         env:
