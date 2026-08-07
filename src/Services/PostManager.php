@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace LightweightPlugins\SiteManager\Services;
 
 use LightweightPlugins\SiteManager\Helpers\Capability;
+use LightweightPlugins\SiteManager\Helpers\ProtectedMeta;
 
 class PostManager extends AbstractService {
 
@@ -624,7 +625,7 @@ class PostManager extends AbstractService {
         foreach ( $input['ids'] as $id ) {
             $post = get_post( $id );
             if ( ! $post ) {
-                $failed[] = [ 'id' => $id, 'reason' => 'Not found' ];
+                $failed[] = (int) $id;
                 continue;
             }
 
@@ -637,7 +638,7 @@ class PostManager extends AbstractService {
                 : Capability::editPost( (int) $id );
 
             if ( $capability ) {
-                $failed[] = [ 'id' => $id, 'reason' => 'Not allowed' ];
+                $failed[] = (int) $id;
                 continue;
             }
 
@@ -663,7 +664,7 @@ class PostManager extends AbstractService {
             if ( $result ) {
                 $success[] = $id;
             } else {
-                $failed[] = [ 'id' => $id, 'reason' => 'Action failed' ];
+                $failed[] = (int) $id;
             }
         }
 
@@ -796,8 +797,19 @@ class PostManager extends AbstractService {
 
         $meta = [];
 
+        // Protected keys are where plugins keep API keys, licence keys, form
+        // payloads and (on non-HPOS stores) order PII. get-post is reachable by
+        // anyone holding edit_posts, and read_post is satisfied for any
+        // published post, so without this filter the ability hands that state
+        // to every Contributor on the site.
+        $include_protected = current_user_can( 'manage_options' );
+
         foreach ( $raw as $key => $values ) {
             if ( isset( $skip[ $key ] ) ) {
+                continue;
+            }
+
+            if ( ! $include_protected && ProtectedMeta::isProtected( (string) $key, 'post' ) ) {
                 continue;
             }
 

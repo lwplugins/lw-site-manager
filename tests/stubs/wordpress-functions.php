@@ -1066,10 +1066,26 @@ if ( ! function_exists( 'get_post_meta' ) ) {
      */
     function get_post_meta( int $post_id, string $key = '', bool $single = false ) {
         global $wp_post_meta;
+
+        // An empty key means "all meta", returned as key => array of values,
+        // which is how WordPress behaves.
+        if ( '' === $key ) {
+            $all = $wp_post_meta[ $post_id ] ?? [];
+            $out = [];
+            foreach ( $all as $meta_key => $meta_value ) {
+                $out[ $meta_key ] = is_array( $meta_value ) ? $meta_value : [ $meta_value ];
+            }
+            return $out;
+        }
+
         $value = $wp_post_meta[ $post_id ][ $key ] ?? null;
 
         if ( null === $value ) {
             return $single ? '' : [];
+        }
+
+        if ( is_array( $value ) ) {
+            return $single ? ( $value[0] ?? '' ) : $value;
         }
 
         return $single ? $value : [ $value ];
@@ -1539,6 +1555,11 @@ if ( ! class_exists( 'WP_Post' ) ) {
         public int $menu_order = 0;
         public string $guid = '';
         public string $comment_status = 'open';
+        public int $comment_count = 0;
+        public string $ping_status = 'open';
+        public string $post_password = '';
+        public string $post_mime_type = '';
+        public string $filter = 'raw';
 
         /**
          * @param array<string, mixed> $props Property overrides.
@@ -2023,5 +2044,75 @@ if ( ! function_exists( 'wp_login_url' ) ) {
      */
     function wp_login_url( string $redirect = '' ): string {
         return 'http://example.com/wp-login.php';
+    }
+}
+
+if ( ! function_exists( 'get_permalink' ) ) {
+    /**
+     * Stub for get_permalink().
+     */
+    function get_permalink( $post = 0, bool $leavename = false ): string {
+        return 'http://example.com/?p=' . ( is_object( $post ) ? $post->ID : (int) $post );
+    }
+}
+
+if ( ! function_exists( 'get_the_post_thumbnail_url' ) ) {
+    /**
+     * Stub for get_the_post_thumbnail_url().
+     */
+    function get_the_post_thumbnail_url( $post = null, string $size = 'post-thumbnail' ) {
+        return false;
+    }
+}
+
+if ( ! function_exists( 'get_the_author_meta' ) ) {
+    /**
+     * Stub for get_the_author_meta().
+     */
+    function get_the_author_meta( string $field = '', $user_id = false ): string {
+        return 'Test Author';
+    }
+}
+
+if ( ! function_exists( 'get_object_taxonomies' ) ) {
+    /**
+     * Stub for get_object_taxonomies().
+     */
+    function get_object_taxonomies( $object_type, string $output = 'names' ): array {
+        return [];
+    }
+}
+
+if ( ! function_exists( 'wp_get_object_terms' ) ) {
+    /**
+     * Stub for wp_get_object_terms().
+     */
+    function wp_get_object_terms( $object_ids, $taxonomies, array $args = [] ): array {
+        return [];
+    }
+}
+
+if ( ! function_exists( 'wp_get_attachment_url' ) ) {
+    /**
+     * Stub for wp_get_attachment_url().
+     */
+    function wp_get_attachment_url( int $attachment_id = 0 ) {
+        return false;
+    }
+}
+
+if ( ! function_exists( 'maybe_unserialize' ) ) {
+    /**
+     * Unserialize a value only if it was serialized.
+     *
+     * @param mixed $data Value.
+     * @return mixed
+     */
+    function maybe_unserialize( $data ) {
+        if ( is_string( $data ) && preg_match( '/^[aOs]:\d+:/', $data ) ) {
+            $result = @unserialize( trim( $data ) );
+            return false === $result && 'b:0;' !== $data ? $data : $result;
+        }
+        return $data;
     }
 }

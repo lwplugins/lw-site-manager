@@ -297,7 +297,7 @@ class CommentManager extends AbstractService {
         foreach ( $input['ids'] as $id ) {
             $comment = get_comment( $id );
             if ( ! $comment ) {
-                $failed[] = [ 'id' => $id, 'reason' => 'Not found' ];
+                $failed[] = (int) $id;
                 continue;
             }
 
@@ -323,7 +323,7 @@ class CommentManager extends AbstractService {
             if ( $result ) {
                 $success[] = $id;
             } else {
-                $failed[] = [ 'id' => $id, 'reason' => 'Action failed' ];
+                $failed[] = (int) $id;
             }
         }
 

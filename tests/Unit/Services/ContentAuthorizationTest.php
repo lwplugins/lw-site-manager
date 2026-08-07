@@ -77,9 +77,10 @@ final class ContentAuthorizationTest extends TestCase {
         $this->assertNotInstanceOf( \WP_Error::class, $result );
         $this->assertSame( [ 7 ], $result['success_ids'], 'Only the permitted post may be deleted' );
 
-        $failedIds = array_column( $result['failed_ids'], 'id' );
-        $this->assertContains( 8, $failedIds );
-        $this->assertContains( 9, $failedIds );
+        // failed_ids is declared as an array of integers in the ability's
+        // output schema; anything else makes the ability return HTTP 500.
+        $this->assertSame( [ 8, 9 ], $result['failed_ids'] );
+        $this->assertContainsOnly( 'int', $result['failed_ids'] );
     }
 
     /**
@@ -102,6 +103,36 @@ final class ContentAuthorizationTest extends TestCase {
             $GLOBALS['wp_query_last_args']['perm'] ?? null,
             'perm must be set, otherwise WP_Query skips the status capability mapping'
         );
+    }
+
+    /**
+     * get-post is reachable with edit_posts, and read_post is satisfied for any
+     * published post, so the meta payload itself must hide protected keys from
+     * non-administrators — that is where plugins keep API keys, licence keys
+     * and (on non-HPOS stores) order PII.
+     */
+    public function test_get_post_hides_protected_meta_from_non_admin(): void {
+        grant_wp_caps( [ 'edit_posts', 'read_post:42' ] );
+        $GLOBALS['wp_post_meta'][42] = [
+            'public_note'    => [ 'visible' ],
+            '_secret_api_key' => [ 'TOP-SECRET' ],
+        ];
+
+        $result = PostManager::get_post( [ 'id' => 42 ] );
+
+        $this->assertNotInstanceOf( \WP_Error::class, $result );
+        $meta = $result['post']['meta'] ?? [];
+        $this->assertArrayHasKey( 'public_note', $meta );
+        $this->assertArrayNotHasKey( '_secret_api_key', $meta );
+    }
+
+    public function test_get_post_shows_protected_meta_to_admin(): void {
+        grant_wp_caps( [ 'edit_posts', 'read_post:42', 'manage_options' ] );
+        $GLOBALS['wp_post_meta'][42] = [ '_secret_api_key' => [ 'TOP-SECRET' ] ];
+
+        $result = PostManager::get_post( [ 'id' => 42 ] );
+
+        $this->assertArrayHasKey( '_secret_api_key', $result['post']['meta'] ?? [] );
     }
 
     // =========================================================================
