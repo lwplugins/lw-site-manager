@@ -681,6 +681,20 @@ class UpdateManager extends AbstractService {
 
         $theme_slug = $input['theme'];
 
+        // Constrain the slug to an installed theme before it reaches core.
+        // WP_Theme::exists() is not an allowlist — it only fails on
+        // theme_not_found, so a traversal slug such as '../plugins' resolves to
+        // an existing directory, passes, and core's delete_theme() then
+        // recursively deletes it with no containment check of its own. The
+        // sibling delete_plugin() already allowlists against get_plugins();
+        // this does the same against wp_get_themes(). Reachable only by an
+        // administrator, so this is agent-safety hardening rather than a
+        // privilege boundary: it stops a hallucinated or malformed slug from an
+        // AI agent turning a routine cleanup into an unrecoverable deletion.
+        if ( 0 !== validate_file( $theme_slug ) || ! isset( wp_get_themes()[ $theme_slug ] ) ) {
+            return self::errorResponse( 'theme_not_found', __( 'Theme not found', 'lw-site-manager' ), 404 );
+        }
+
         // Check if theme exists
         $theme = wp_get_theme( $theme_slug );
         if ( ! $theme->exists() ) {
