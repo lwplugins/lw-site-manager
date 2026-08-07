@@ -4,7 +4,7 @@ Tags: site-manager, maintenance, ai, rest-api, abilities
 Requires at least: 6.9
 Tested up to: 6.9
 Requires PHP: 8.2
-Stable tag: 1.3.3
+Stable tag: 1.4.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -155,6 +155,15 @@ Yes, LW Site Manager provides similar functionality to MainWP but uses the nativ
 3. Backup creation options
 
 == Changelog ==
+
+= 1.4.0 =
+* Security: Abilities now check permissions against the specific object they act on, not just a general capability. Previously a low-privileged user with an application password could act far beyond their role: a Contributor could permanently delete any post site-wide, read every author's drafts and private posts, and (on WooCommerce stores) list all customer names, emails and phone numbers, read protected order meta and delete orders; an Author could permanently delete any media file; and a user manager or WooCommerce shop manager could reset the administrator's password or promote themselves to administrator. All confirmed fixed and covered by tests.
+* Security: The WooCommerce order abilities are gated on the order capability (edit_shop_orders / manage_woocommerce) instead of the generic post capability. Product meta abilities likewise use a product capability.
+* Security: Role, level and session-token user meta keys can no longer be written or read through the meta abilities — those keys are the role assignment itself. Change roles with the role parameter of update-user, which now requires the promote_user capability and only accepts roles the caller may actually grant.
+* Security: Protected (underscore-prefixed) meta keys are hidden from non-administrators on single-key reads, which previously bypassed the filter entirely.
+* Change: delete-media no longer defaults to permanent deletion — items go to the trash unless force is passed. Pass force: true for the old behaviour.
+* Change: list-posts no longer defaults to every post status. Callers that relied on receiving other authors' drafts must hold the corresponding capability.
+* Fix: delete-theme now rejects a slug that is not an installed theme, so a malformed or hallucinated slug can no longer delete an unrelated directory.
 
 = 1.3.3 =
 * Change: The MCP Adapter (wordpress/mcp-adapter) is no longer a hard Composer dependency. It stays bundled in the WordPress.org ZIP, so the built-in MCP server keeps working out of the box; but `composer require lwplugins/lw-site-manager` no longer pulls it in. Since mcp-adapter v0.5 is type:wordpress-plugin, Composer/Bedrock sites were getting a stray "MCP Adapter" plugin installed under web/app/plugins. Composer installs that want the MCP server should add wordpress/mcp-adapter (or the canonical MCP Adapter plugin) themselves — the server no-ops gracefully when it is absent, and the REST / Abilities API is unaffected.
