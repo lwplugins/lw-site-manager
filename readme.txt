@@ -4,7 +4,7 @@ Tags: site-manager, maintenance, ai, rest-api, abilities
 Requires at least: 6.9
 Tested up to: 6.9
 Requires PHP: 8.2
-Stable tag: 1.3.2
+Stable tag: 1.3.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -155,6 +155,9 @@ Yes, LW Site Manager provides similar functionality to MainWP but uses the nativ
 3. Backup creation options
 
 == Changelog ==
+
+= 1.3.3 =
+* Change: The MCP Adapter (wordpress/mcp-adapter) is no longer a hard Composer dependency. It stays bundled in the WordPress.org ZIP, so the built-in MCP server keeps working out of the box; but `composer require lwplugins/lw-site-manager` no longer pulls it in. Since mcp-adapter v0.5 is type:wordpress-plugin, Composer/Bedrock sites were getting a stray "MCP Adapter" plugin installed under web/app/plugins. Composer installs that want the MCP server should add wordpress/mcp-adapter (or the canonical MCP Adapter plugin) themselves — the server no-ops gracefully when it is absent, and the REST / Abilities API is unaffected.
 
 = 1.3.2 =
 * Fix: wc-list-orders crashed with a fatal TypeError (HTTP 500 / generic MCP error) whenever a refund fell in the queried range. With HPOS, wc_get_orders() also returns refund objects, which format_order() could not accept. The query is now restricted to the shop_order type, so refunds are excluded and the total / page counts stay correct (#21)

@@ -13,8 +13,7 @@
 	"minimum-stability": "stable",
 	"prefer-stable": true,
 	"require": {
-		"php": ">=8.2",
-		"wordpress/mcp-adapter": "^0.5"
+		"php": ">=8.2"
 	},
 	"require-dev": {
 		"dealerdirect/phpcodesniffer-composer-installer": "^1.2",
@@ -25,8 +24,12 @@
 		"phpunit/phpunit": "^9.6",
 		"squizlabs/php_codesniffer": "^3.13",
 		"szepeviktor/phpstan-wordpress": "^2.0",
+		"wordpress/mcp-adapter": "^0.5",
 		"wp-coding-standards/wpcs": "^3.3",
 		"yoast/phpunit-polyfills": "^4.0"
+	},
+	"suggest": {
+		"wordpress/mcp-adapter": "^0.5 — powers the built-in MCP server (LW Plugins → AI / MCP). Not needed for the REST / Abilities API. Bundled in the wordpress.org ZIP; Composer installs that want the MCP server must add it (or the canonical MCP Adapter plugin) themselves."
 	},
 	"autoload": {
 		"psr-4": {
