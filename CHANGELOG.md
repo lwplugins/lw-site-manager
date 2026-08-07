@@ -18,17 +18,20 @@ Object-level checks now run in the service layer, where the target ID is known. 
 - **Media** — `delete-media` / `update-media` acted on any attachment for anyone holding `upload_files`.
 - **User meta** — `set-user-meta` could write `{prefix}capabilities`, which *is* the role assignment, bypassing both role validation and `promote_user`. Role, level and session-token keys are now refused for every caller at every capability, on the meta ability and on `update-user`'s inline `meta` map alike, and hidden from reads.
 - **`wc-list-order-notes`** — exposed internal staff and payment-gateway notes to a Contributor.
+- **`get-post` meta payload** — reading a *published* post is legitimate for anyone with `edit_posts`, but the response returned the post's entire meta map (only `_edit_lock`, `_edit_last` and `_thumbnail_id` were stripped), handing every protected key to any Contributor. Protected keys are now hidden from non-administrators.
 
 ### Changed
 - `delete-media` no longer defaults to permanent deletion; items go to the trash unless `force: true` is passed. `wp_delete_attachment()` with force also unlinks the original and every generated size.
 - `list-posts` no longer defaults to every post status. Callers that legitimately need other authors' drafts must hold the corresponding capability.
 
 ### Fixed
+- `bulk-posts` (and `bulk-comments`) returned HTTP 500 `ability_invalid_output` whenever any item failed: the output schema declares `failed_ids` as an array of integers, but the loop pushed objects. Pre-existing — previously reachable only when a post did not exist — but per-item authorization makes a failed item routine for lower-privileged callers. `failed_ids` now carries integers as declared.
 - `delete-theme` passed the caller's slug straight to core with no `validate_file()` and no allowlist. `WP_Theme::exists()` is not an allowlist — it fails only on `theme_not_found` — so `../plugins` resolved to an existing directory and core's `delete_theme()` recursively deleted it. Administrator-gated, so not a privilege boundary crossing, but the ability is AI-agent-facing: a hallucinated slug could destroy an unrelated directory. Now allowlisted against `wp_get_themes()`, mirroring `delete_plugin()`.
 
 ### Notes
 - **Behaviour change.** Lower-privileged roles lose access they previously (incorrectly) had. Integrations running as Contributor, Author or WooCommerce shop manager may now receive `403 forbidden` where they previously succeeded — that is the fix working. Administrators are unaffected.
-- Four new test suites (52 cases) cover every finding, red before the fix and green after. The `current_user_can` and `wp_register_ability` stubs are now controllable so both the allowed and denied branch are exercised.
+- Verified end-to-end against a live WooCommerce 10.8/11.0 store with HPOS, using real Contributor, Author and shop_manager accounts with application passwords: every documented attack now returns 403 (or is skipped per item), and an administrator's access is unchanged.
+- Four new test suites (54 cases) cover every finding, red before the fix and green after. The `current_user_can` and `wp_register_ability` stubs are now controllable so both the allowed and denied branch are exercised.
 
 ## [1.3.3] - 2026-08-07
 
