@@ -832,9 +832,90 @@ if ( ! function_exists( 'current_user_can' ) ) {
      * @return bool True if user has capability.
      */
     function current_user_can( string $capability, ...$args ): bool {
-        // Return false in test environment by default.
-        return false;
+        global $wp_granted_caps;
+
+        if ( ! is_array( $wp_granted_caps ) ) {
+            // Deny by default, so a test must opt in to every capability.
+            return false;
+        }
+
+        // Object-level grants are expressed as "edit_post:123" so a test can
+        // allow a capability for one target ID and deny it for another.
+        if ( isset( $args[0] ) && is_scalar( $args[0] ) ) {
+            if ( in_array( $capability . ':' . $args[0], $wp_granted_caps, true ) ) {
+                return true;
+            }
+        }
+
+        return in_array( $capability, $wp_granted_caps, true );
     }
+}
+
+if ( ! function_exists( 'is_protected_meta' ) ) {
+    /**
+     * Whether a meta key is protected (leading underscore).
+     *
+     * @param string $meta_key  Meta key.
+     * @param string $meta_type Object type.
+     * @return bool
+     */
+    function is_protected_meta( string $meta_key, string $meta_type = '' ): bool {
+        return str_starts_with( $meta_key, '_' );
+    }
+}
+
+if ( ! function_exists( 'is_super_admin' ) ) {
+    /**
+     * Whether a user is a super admin.
+     *
+     * @param int|false $user_id User ID, or false for the current user.
+     * @return bool
+     */
+    function is_super_admin( $user_id = false ): bool {
+        global $wp_super_admins;
+        if ( ! is_array( $wp_super_admins ) ) {
+            return false;
+        }
+        return in_array( (int) $user_id, $wp_super_admins, true );
+    }
+}
+
+if ( ! function_exists( 'get_editable_roles' ) ) {
+    /**
+     * Roles the current user may assign.
+     *
+     * @return array<string, array<string, mixed>>
+     */
+    function get_editable_roles(): array {
+        global $wp_editable_roles;
+        if ( is_array( $wp_editable_roles ) ) {
+            return $wp_editable_roles;
+        }
+        return wp_roles()->roles;
+    }
+}
+
+/**
+ * Grant capabilities to the simulated current user.
+ *
+ * Plain names ("edit_posts") grant the capability outright; "edit_post:12"
+ * grants a meta capability for one target ID only.
+ *
+ * @param array<int, string> $caps Capabilities to grant.
+ */
+function grant_wp_caps( array $caps ): void {
+    global $wp_granted_caps;
+    $wp_granted_caps = $caps;
+}
+
+/**
+ * Reset all simulated capability state between tests.
+ */
+function reset_wp_caps(): void {
+    global $wp_granted_caps, $wp_super_admins, $wp_editable_roles;
+    $wp_granted_caps  = [];
+    $wp_super_admins  = [];
+    $wp_editable_roles = null;
 }
 
 // ============================================================================
@@ -960,15 +1041,17 @@ if ( ! function_exists( 'get_post' ) ) {
      * @return object|null Post object.
      */
     function get_post( ?int $post_id = null ): ?object {
+        global $wp_missing_posts;
         if ( $post_id === null ) {
             return null;
         }
-        return (object) [
-            'ID'          => $post_id,
-            'post_title'  => 'Test Post',
-            'post_type'   => 'post',
-            'post_status' => 'publish',
-        ];
+        if ( is_array( $wp_missing_posts ) && in_array( $post_id, $wp_missing_posts, true ) ) {
+            return null;
+        }
+        return new WP_Post( [
+            'ID'        => $post_id,
+            'post_type' => $GLOBALS['wp_stub_post_type'] ?? 'post',
+        ] );
     }
 }
 
@@ -983,10 +1066,26 @@ if ( ! function_exists( 'get_post_meta' ) ) {
      */
     function get_post_meta( int $post_id, string $key = '', bool $single = false ) {
         global $wp_post_meta;
+
+        // An empty key means "all meta", returned as key => array of values,
+        // which is how WordPress behaves.
+        if ( '' === $key ) {
+            $all = $wp_post_meta[ $post_id ] ?? [];
+            $out = [];
+            foreach ( $all as $meta_key => $meta_value ) {
+                $out[ $meta_key ] = is_array( $meta_value ) ? $meta_value : [ $meta_value ];
+            }
+            return $out;
+        }
+
         $value = $wp_post_meta[ $post_id ][ $key ] ?? null;
 
         if ( null === $value ) {
             return $single ? '' : [];
+        }
+
+        if ( is_array( $value ) ) {
+            return $single ? ( $value[0] ?? '' ) : $value;
         }
 
         return $single ? $value : [ $value ];
@@ -1429,8 +1528,149 @@ if ( ! function_exists( 'wp_register_ability' ) ) {
      * @param array  $args     Args including callback.
      */
     function wp_register_ability( string $name, array $args = [] ): void {
-        // No-op in tests.
+        global $wp_registered_abilities;
+        if ( ! is_array( $wp_registered_abilities ) ) {
+            $wp_registered_abilities = [];
+        }
+        $wp_registered_abilities[ $name ] = $args;
     }
+}
+
+if ( ! class_exists( 'WP_Post' ) ) {
+    /**
+     * WP_Post stub.
+     */
+    class WP_Post {
+        public int $ID = 0;
+        public string $post_title = 'Test Post';
+        public string $post_type = 'post';
+        public string $post_status = 'publish';
+        public string $post_content = '';
+        public string $post_excerpt = '';
+        public string $post_name = 'test-post';
+        public int $post_author = 1;
+        public int $post_parent = 0;
+        public string $post_date = '2026-01-01 00:00:00';
+        public string $post_modified = '2026-01-01 00:00:00';
+        public int $menu_order = 0;
+        public string $guid = '';
+        public string $comment_status = 'open';
+        public int $comment_count = 0;
+        public string $ping_status = 'open';
+        public string $post_password = '';
+        public string $post_mime_type = '';
+        public string $filter = 'raw';
+
+        /**
+         * @param array<string, mixed> $props Property overrides.
+         */
+        public function __construct( array $props = [] ) {
+            foreach ( $props as $key => $value ) {
+                if ( property_exists( $this, $key ) ) {
+                    $this->{$key} = $value;
+                }
+            }
+        }
+    }
+}
+
+if ( ! class_exists( 'WP_User' ) ) {
+    /**
+     * WP_User stub.
+     */
+    class WP_User {
+        public int $ID = 0;
+        public string $user_login = 'testuser';
+        public string $user_email = 'test@example.com';
+        public string $display_name = 'Test User';
+        public string $user_nicename = 'testuser';
+        public string $user_url = '';
+        public string $user_registered = '2026-01-01 00:00:00';
+        /** @var array<int, string> */
+        public array $roles = [ 'subscriber' ];
+        /** @var array<string, bool> */
+        public array $allcaps = [];
+
+        public function __construct( int $id = 0 ) {
+            $this->ID = $id;
+        }
+
+        /**
+         * Assign a role (records the call for assertions).
+         */
+        public function set_role( string $role ): void {
+            $this->roles                       = [ $role ];
+            $GLOBALS['wp_last_set_role']       = $role;
+        }
+
+        /**
+         * @param string $cap Capability.
+         */
+        public function has_cap( string $cap ): bool {
+            return ! empty( $this->allcaps[ $cap ] );
+        }
+    }
+}
+
+if ( ! function_exists( 'get_user_by' ) ) {
+    /**
+     * Get a user by field.
+     *
+     * @param string     $field Field name.
+     * @param int|string $value Field value.
+     * @return WP_User|false
+     */
+    function get_user_by( string $field, $value ) {
+        global $wp_missing_users;
+        $id = 'id' === strtolower( $field ) ? (int) $value : 5;
+
+        if ( is_array( $wp_missing_users ) && in_array( $id, $wp_missing_users, true ) ) {
+            return false;
+        }
+
+        return new WP_User( $id );
+    }
+}
+
+if ( ! class_exists( 'WP_Query' ) ) {
+    /**
+     * Minimal WP_Query stub that records the args it was constructed with.
+     */
+    class WP_Query {
+        /** @var array<int, object> */
+        public array $posts = [];
+
+        public int $found_posts = 0;
+
+        public int $max_num_pages = 0;
+
+        /**
+         * @param array<string, mixed> $args Query args.
+         */
+        public function __construct( array $args = [] ) {
+            $GLOBALS['wp_query_last_args'] = $args;
+            $this->posts                   = $GLOBALS['wp_query_stub_posts'] ?? [];
+            $this->found_posts             = count( $this->posts );
+        }
+    }
+}
+
+/**
+ * Registered abilities recorded by the wp_register_ability stub.
+ *
+ * @return array<string, array<string, mixed>>
+ */
+function get_registered_abilities(): array {
+    global $wp_registered_abilities;
+    return is_array( $wp_registered_abilities ) ? $wp_registered_abilities : [];
+}
+
+/**
+ * Reset recorded ability registrations between tests.
+ */
+function reset_registered_abilities(): void {
+    global $wp_registered_abilities;
+    $wp_registered_abilities = [];
 }
 
 if ( ! function_exists( 'wp_register_ability_category' ) ) {
@@ -1729,5 +1969,150 @@ if ( ! function_exists( 'wc_get_orders' ) ) {
             'total'         => 0,
             'max_num_pages' => 0,
         ];
+    }
+}
+
+if ( ! function_exists( 'wp_set_password' ) ) {
+    /**
+     * Set a user's password.
+     *
+     * @param string $password New password.
+     * @param int    $user_id  User ID.
+     */
+    function wp_set_password( string $password, int $user_id ): void {
+        $GLOBALS['wp_last_set_password'] = [ 'user_id' => $user_id, 'password' => $password ];
+    }
+}
+
+if ( ! function_exists( 'wp_update_user' ) ) {
+    /**
+     * Update a user.
+     *
+     * @param array<string, mixed> $userdata User data.
+     * @return int|WP_Error User ID on success.
+     */
+    function wp_update_user( array $userdata ) {
+        $GLOBALS['wp_last_updated_user'] = $userdata;
+        return (int) ( $userdata['ID'] ?? 0 );
+    }
+}
+
+if ( ! function_exists( 'wp_generate_password' ) ) {
+    /**
+     * Generate a password.
+     *
+     * @param int  $length              Length.
+     * @param bool $special_chars       Include special characters.
+     * @param bool $extra_special_chars Include extra special characters.
+     */
+    function wp_generate_password( int $length = 12, bool $special_chars = true, bool $extra_special_chars = false ): string {
+        return str_repeat( 'a', $length );
+    }
+}
+
+if ( ! function_exists( 'wp_delete_attachment' ) ) {
+    /**
+     * Delete an attachment.
+     *
+     * @param int  $post_id Attachment ID.
+     * @param bool $force   Force delete.
+     * @return object|false
+     */
+    function wp_delete_attachment( int $post_id, bool $force = false ) {
+        $GLOBALS['wp_last_deleted_attachment'] = [ 'id' => $post_id, 'force' => $force ];
+        return new WP_Post( [ 'ID' => $post_id, 'post_type' => 'attachment' ] );
+    }
+}
+
+if ( ! function_exists( 'get_password_reset_key' ) ) {
+    /**
+     * Generate a password reset key.
+     *
+     * @param object $user User object.
+     * @return string
+     */
+    function get_password_reset_key( object $user ): string {
+        return 'reset-key-' . ( $user->ID ?? 0 );
+    }
+}
+
+if ( ! function_exists( 'wp_login_url' ) ) {
+    /**
+     * Login URL.
+     *
+     * @param string $redirect Redirect URL.
+     */
+    function wp_login_url( string $redirect = '' ): string {
+        return 'http://example.com/wp-login.php';
+    }
+}
+
+if ( ! function_exists( 'get_permalink' ) ) {
+    /**
+     * Stub for get_permalink().
+     */
+    function get_permalink( $post = 0, bool $leavename = false ): string {
+        return 'http://example.com/?p=' . ( is_object( $post ) ? $post->ID : (int) $post );
+    }
+}
+
+if ( ! function_exists( 'get_the_post_thumbnail_url' ) ) {
+    /**
+     * Stub for get_the_post_thumbnail_url().
+     */
+    function get_the_post_thumbnail_url( $post = null, string $size = 'post-thumbnail' ) {
+        return false;
+    }
+}
+
+if ( ! function_exists( 'get_the_author_meta' ) ) {
+    /**
+     * Stub for get_the_author_meta().
+     */
+    function get_the_author_meta( string $field = '', $user_id = false ): string {
+        return 'Test Author';
+    }
+}
+
+if ( ! function_exists( 'get_object_taxonomies' ) ) {
+    /**
+     * Stub for get_object_taxonomies().
+     */
+    function get_object_taxonomies( $object_type, string $output = 'names' ): array {
+        return [];
+    }
+}
+
+if ( ! function_exists( 'wp_get_object_terms' ) ) {
+    /**
+     * Stub for wp_get_object_terms().
+     */
+    function wp_get_object_terms( $object_ids, $taxonomies, array $args = [] ): array {
+        return [];
+    }
+}
+
+if ( ! function_exists( 'wp_get_attachment_url' ) ) {
+    /**
+     * Stub for wp_get_attachment_url().
+     */
+    function wp_get_attachment_url( int $attachment_id = 0 ) {
+        return false;
+    }
+}
+
+if ( ! function_exists( 'maybe_unserialize' ) ) {
+    /**
+     * Unserialize a value only if it was serialized.
+     *
+     * @param mixed $data Value.
+     * @return mixed
+     */
+    function maybe_unserialize( $data ) {
+        if ( is_string( $data ) && preg_match( '/^[aOs]:\d+:/', $data ) ) {
+            $result = @unserialize( trim( $data ) );
+            return false === $result && 'b:0;' !== $data ? $data : $result;
+        }
+        return $data;
     }
 }

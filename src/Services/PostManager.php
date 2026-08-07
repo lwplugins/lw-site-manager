@@ -7,6 +7,9 @@ declare(strict_types=1);
 
 namespace LightweightPlugins\SiteManager\Services;
 
+use LightweightPlugins\SiteManager\Helpers\Capability;
+use LightweightPlugins\SiteManager\Helpers\ProtectedMeta;
+
 class PostManager extends AbstractService {
 
     /**
@@ -186,11 +189,21 @@ class PostManager extends AbstractService {
      * List posts
      */
     public static function list_posts( array $input ): array {
+        $status = $input['status'] ?? 'any';
+
         $args = [
             'post_type'   => $input['post_type'] ?? 'post',
             'orderby'     => $input['orderby'] ?? 'date',
             'order'       => $input['order'] ?? 'DESC',
-            'post_status' => $input['status'] ?? 'any',
+            // 'any' makes WP_Query build only negative status clauses, which
+            // skips its private/protected capability mapping entirely and
+            // returns every author's drafts and private posts. Expand it to an
+            // explicit list so the mapping runs, and set perm so protected and
+            // private statuses are limited to posts this caller may edit.
+            'post_status' => 'any' === $status
+                ? [ 'publish', 'future', 'draft', 'pending', 'private' ]
+                : $status,
+            'perm'        => 'editable',
         ];
 
         // Apply pagination
@@ -272,6 +285,11 @@ class PostManager extends AbstractService {
 
         if ( ! $post ) {
             return self::errorResponse( 'post_not_found', 'Post not found', 404 );
+        }
+
+        $error = Capability::readPost( (int) $post->ID );
+        if ( $error ) {
+            return $error;
         }
 
         return self::entityResponse( 'post', self::format_post( $post, true ) );
@@ -370,6 +388,11 @@ class PostManager extends AbstractService {
             return $post;
         }
 
+        $error = Capability::editPost( (int) $input['id'] );
+        if ( $error ) {
+            return $error;
+        }
+
         $postarr = [ 'ID' => $input['id'] ];
 
         if ( isset( $input['title'] ) ) {
@@ -456,6 +479,11 @@ class PostManager extends AbstractService {
         $post = self::getPostOrError( $input['id'] );
         if ( is_wp_error( $post ) ) {
             return $post;
+        }
+
+        $error = Capability::deletePost( (int) $input['id'] );
+        if ( $error ) {
+            return $error;
         }
 
         $force_delete = $input['force'] ?? false;
@@ -597,7 +625,20 @@ class PostManager extends AbstractService {
         foreach ( $input['ids'] as $id ) {
             $post = get_post( $id );
             if ( ! $post ) {
-                $failed[] = [ 'id' => $id, 'reason' => 'Not found' ];
+                $failed[] = (int) $id;
+                continue;
+            }
+
+            // Authorize every item: the registration-time capability says only
+            // that the caller may edit posts in general, never that they may
+            // touch THIS one. 'delete' is permanent, so it is checked against
+            // delete_post rather than edit_post.
+            $capability = 'delete' === $input['action']
+                ? Capability::deletePost( (int) $id )
+                : Capability::editPost( (int) $id );
+
+            if ( $capability ) {
+                $failed[] = (int) $id;
                 continue;
             }
 
@@ -623,7 +664,7 @@ class PostManager extends AbstractService {
             if ( $result ) {
                 $success[] = $id;
             } else {
-                $failed[] = [ 'id' => $id, 'reason' => 'Action failed' ];
+                $failed[] = (int) $id;
             }
         }
 
@@ -756,8 +797,19 @@ class PostManager extends AbstractService {
 
         $meta = [];
 
+        // Protected keys are where plugins keep API keys, licence keys, form
+        // payloads and (on non-HPOS stores) order PII. get-post is reachable by
+        // anyone holding edit_posts, and read_post is satisfied for any
+        // published post, so without this filter the ability hands that state
+        // to every Contributor on the site.
+        $include_protected = current_user_can( 'manage_options' );
+
         foreach ( $raw as $key => $values ) {
             if ( isset( $skip[ $key ] ) ) {
+                continue;
+            }
+
+            if ( ! $include_protected && ProtectedMeta::isProtected( (string) $key, 'post' ) ) {
                 continue;
             }
 

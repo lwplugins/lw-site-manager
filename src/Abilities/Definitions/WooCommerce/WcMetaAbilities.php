@@ -37,7 +37,7 @@ final class WcMetaAbilities {
                 ],
                 'output_schema'       => self::getOutputSchema(),
                 'execute_callback'    => [ WcMetaManager::class, 'get_product_meta' ],
-                'permission_callback' => $permissions->callback( 'can_edit_posts' ),
+                'permission_callback' => $permissions->callback( 'can_manage_products' ),
                 'meta'                => AbilityMeta::readOnly(),
             ]
         );
@@ -59,7 +59,7 @@ final class WcMetaAbilities {
                 ],
                 'output_schema'       => self::setOutputSchema(),
                 'execute_callback'    => [ WcMetaManager::class, 'set_product_meta' ],
-                'permission_callback' => $permissions->callback( 'can_edit_posts' ),
+                'permission_callback' => $permissions->callback( 'can_manage_products' ),
                 'meta'                => AbilityMeta::write(),
             ]
         );
@@ -81,7 +81,7 @@ final class WcMetaAbilities {
                 ],
                 'output_schema'       => self::deleteOutputSchema(),
                 'execute_callback'    => [ WcMetaManager::class, 'delete_product_meta' ],
-                'permission_callback' => $permissions->callback( 'can_delete_posts' ),
+                'permission_callback' => $permissions->callback( 'can_manage_products' ),
                 'meta'                => AbilityMeta::destructive( false ),
             ]
         );
@@ -106,7 +106,7 @@ final class WcMetaAbilities {
                 ],
                 'output_schema'       => self::getOutputSchema(),
                 'execute_callback'    => [ WcMetaManager::class, 'get_order_meta' ],
-                'permission_callback' => $permissions->callback( 'can_edit_posts' ),
+                'permission_callback' => $permissions->callback( 'can_manage_orders' ),
                 'meta'                => AbilityMeta::readOnly(),
             ]
         );
@@ -128,7 +128,7 @@ final class WcMetaAbilities {
                 ],
                 'output_schema'       => self::setOutputSchema(),
                 'execute_callback'    => [ WcMetaManager::class, 'set_order_meta' ],
-                'permission_callback' => $permissions->callback( 'can_edit_posts' ),
+                'permission_callback' => $permissions->callback( 'can_manage_orders' ),
                 'meta'                => AbilityMeta::write(),
             ]
         );
@@ -150,7 +150,7 @@ final class WcMetaAbilities {
                 ],
                 'output_schema'       => self::deleteOutputSchema(),
                 'execute_callback'    => [ WcMetaManager::class, 'delete_order_meta' ],
-                'permission_callback' => $permissions->callback( 'can_delete_posts' ),
+                'permission_callback' => $permissions->callback( 'can_manage_orders' ),
                 'meta'                => AbilityMeta::destructive( false ),
             ]
         );

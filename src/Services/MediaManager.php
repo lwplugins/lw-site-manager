@@ -7,6 +7,8 @@ declare(strict_types=1);
 
 namespace LightweightPlugins\SiteManager\Services;
 
+use LightweightPlugins\SiteManager\Helpers\Capability;
+
 use LightweightPlugins\SiteManager\Services\Media\MediaFetcher;
 
 class MediaManager extends AbstractService {
@@ -288,6 +290,11 @@ class MediaManager extends AbstractService {
             return self::errorResponse( 'not_found', 'Media not found', 404 );
         }
 
+        $error = Capability::editPost( $input['id'] );
+        if ( $error ) {
+            return $error;
+        }
+
         $post_data = [ 'ID' => $input['id'] ];
 
         if ( isset( $input['title'] ) ) {
@@ -328,7 +335,14 @@ class MediaManager extends AbstractService {
             return self::errorResponse( 'not_found', 'Media not found', 404 );
         }
 
-        $force = $input['force'] ?? true;
+        $error = Capability::deletePost( $input['id'] );
+        if ( $error ) {
+            return $error;
+        }
+
+        // Default to the trash, not permanent deletion: wp_delete_attachment()
+        // with force also unlinks the original and every generated size.
+        $force   = $input['force'] ?? false;
         $deleted = wp_delete_attachment( $input['id'], $force );
 
         if ( ! $deleted ) {

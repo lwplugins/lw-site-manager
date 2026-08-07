@@ -106,6 +106,18 @@ class PermissionManager {
             || current_user_can( 'manage_woocommerce' );
     }
 
+    /**
+     * Check if user can manage WooCommerce products.
+     *
+     * Products are a WooCommerce post type with their own capability set —
+     * the generic edit_posts capability (which Contributor holds) must never
+     * be used to gate them.
+     */
+    public function can_manage_products(): bool {
+        return current_user_can( 'edit_products' )
+            || current_user_can( 'manage_woocommerce' );
+    }
+
     // =========================================================================
     // User Management Permissions
     // =========================================================================
