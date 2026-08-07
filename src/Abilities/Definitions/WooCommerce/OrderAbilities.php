@@ -48,7 +48,7 @@ final class OrderAbilities {
                 ],
                 'output_schema'       => ResponseSchema::list( 'orders', OrderSchema::order() ),
                 'execute_callback'    => [ OrderManager::class, 'list_orders' ],
-                'permission_callback' => $permissions->callback( 'can_edit_posts' ),
+                'permission_callback' => $permissions->callback( 'can_manage_orders' ),
                 'meta'                => AbilityMeta::readOnly(),
             ]
         );
@@ -69,7 +69,7 @@ final class OrderAbilities {
                 ],
                 'output_schema'       => ResponseSchema::entity( 'order', OrderSchema::order( true ) ),
                 'execute_callback'    => [ OrderManager::class, 'get_order' ],
-                'permission_callback' => $permissions->callback( 'can_edit_posts' ),
+                'permission_callback' => $permissions->callback( 'can_manage_orders' ),
                 'meta'                => AbilityMeta::readOnly(),
             ]
         );
@@ -124,7 +124,7 @@ final class OrderAbilities {
                 ],
                 'output_schema'       => ResponseSchema::entity( 'order', OrderSchema::order( true ), true ),
                 'execute_callback'    => [ OrderManager::class, 'create_order' ],
-                'permission_callback' => $permissions->callback( 'can_edit_posts' ),
+                'permission_callback' => $permissions->callback( 'can_manage_orders' ),
                 'meta'                => AbilityMeta::write(),
             ]
         );
@@ -156,7 +156,7 @@ final class OrderAbilities {
                 ],
                 'output_schema'       => ResponseSchema::entity( 'order', OrderSchema::order( true ) ),
                 'execute_callback'    => [ OrderManager::class, 'update_order' ],
-                'permission_callback' => $permissions->callback( 'can_edit_posts' ),
+                'permission_callback' => $permissions->callback( 'can_manage_orders' ),
                 'meta'                => AbilityMeta::write(),
             ]
         );
@@ -191,7 +191,7 @@ final class OrderAbilities {
                     ],
                 ],
                 'execute_callback'    => [ OrderManager::class, 'delete_order' ],
-                'permission_callback' => $permissions->callback( 'can_edit_posts' ),
+                'permission_callback' => $permissions->callback( 'can_manage_orders' ),
                 'meta'                => AbilityMeta::destructive( false ),
             ]
         );
@@ -229,7 +229,7 @@ final class OrderAbilities {
                     ],
                 ],
                 'execute_callback'    => [ OrderManager::class, 'update_order_status' ],
-                'permission_callback' => $permissions->callback( 'can_edit_posts' ),
+                'permission_callback' => $permissions->callback( 'can_manage_orders' ),
                 'meta'                => AbilityMeta::write(),
             ]
         );

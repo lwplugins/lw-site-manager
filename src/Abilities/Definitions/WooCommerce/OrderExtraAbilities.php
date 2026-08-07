@@ -43,7 +43,7 @@ final class OrderExtraAbilities {
                     ],
                 ],
                 'execute_callback'    => [ OrderManager::class, 'list_order_statuses' ],
-                'permission_callback' => $permissions->callback( 'can_edit_posts' ),
+                'permission_callback' => $permissions->callback( 'can_manage_orders' ),
                 'meta'                => AbilityMeta::readOnly(),
             ]
         );
@@ -91,7 +91,7 @@ final class OrderExtraAbilities {
                     ],
                 ],
                 'execute_callback'    => [ OrderManager::class, 'create_refund' ],
-                'permission_callback' => $permissions->callback( 'can_edit_posts' ),
+                'permission_callback' => $permissions->callback( 'can_manage_orders' ),
                 'meta'                => AbilityMeta::destructive( false ),
             ]
         );
@@ -136,7 +136,7 @@ final class OrderExtraAbilities {
                     ],
                 ],
                 'execute_callback'    => [ OrderManager::class, 'list_order_notes' ],
-                'permission_callback' => $permissions->callback( 'can_edit_posts' ),
+                'permission_callback' => $permissions->callback( 'can_manage_orders' ),
                 'meta'                => AbilityMeta::readOnly(),
             ]
         );
@@ -172,7 +172,7 @@ final class OrderExtraAbilities {
                     ],
                 ],
                 'execute_callback'    => [ OrderManager::class, 'add_order_note' ],
-                'permission_callback' => $permissions->callback( 'can_edit_posts' ),
+                'permission_callback' => $permissions->callback( 'can_manage_orders' ),
                 'meta'                => AbilityMeta::write(),
             ]
         );
@@ -198,7 +198,7 @@ final class OrderExtraAbilities {
                 ],
                 'output_schema'       => ResponseSchema::bulk(),
                 'execute_callback'    => [ OrderManager::class, 'bulk_orders' ],
-                'permission_callback' => $permissions->callback( 'can_edit_posts' ),
+                'permission_callback' => $permissions->callback( 'can_manage_orders' ),
                 'meta'                => AbilityMeta::write(),
             ]
         );

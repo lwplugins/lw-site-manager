@@ -7,6 +7,9 @@ declare(strict_types=1);
 
 namespace LightweightPlugins\SiteManager\Services;
 
+use LightweightPlugins\SiteManager\Helpers\Capability;
+use LightweightPlugins\SiteManager\Helpers\ProtectedMeta;
+
 class UserManager extends AbstractService {
 
     /**
@@ -154,6 +157,40 @@ class UserManager extends AbstractService {
             return $user;
         }
 
+        $error = Capability::editUser( (int) $input['id'] )
+            ?? Capability::notSuperAdmin( (int) $input['id'] );
+        if ( $error ) {
+            return $error;
+        }
+
+        // Validate the role before anything is written, so a rejected role
+        // cannot leave the account half-updated. Changing a role needs
+        // promote_user for this target, and the role must be one the caller may
+        // actually hand out - get_editable_roles(), not every registered role
+        // (which is what let a shop manager grant itself 'administrator').
+        if ( ! empty( $input['role'] ) ) {
+            $error = Capability::promoteUser( (int) $input['id'] );
+            if ( $error ) {
+                return $error;
+            }
+
+            $error = self::validateEnum( $input['role'], array_keys( get_editable_roles() ), 'role' );
+            if ( $error ) {
+                return $error;
+            }
+        }
+
+        // The inline meta map is a second route to the same write that
+        // set-user-meta guards, so it enforces the same key policy.
+        if ( ! empty( $input['meta'] ) && is_array( $input['meta'] ) ) {
+            foreach ( array_keys( $input['meta'] ) as $meta_key ) {
+                $error = ProtectedMeta::guardUserWrite( (string) $meta_key );
+                if ( $error ) {
+                    return $error;
+                }
+            }
+        }
+
         $userdata = [ 'ID' => $input['id'] ];
 
         // Update email
@@ -188,13 +225,8 @@ class UserManager extends AbstractService {
             return $result;
         }
 
-        // Update role separately
+        // Update role separately (already authorized and validated above).
         if ( ! empty( $input['role'] ) ) {
-            $valid_roles = array_keys( wp_roles()->roles );
-            $error = self::validateEnum( $input['role'], $valid_roles, 'role' );
-            if ( $error ) {
-                return $error;
-            }
             $user->set_role( $input['role'] );
         }
 
@@ -270,6 +302,15 @@ class UserManager extends AbstractService {
 
         if ( ! $user ) {
             return self::errorResponse( 'user_not_found', 'User not found', 404 );
+        }
+
+        // wp_set_password() writes the users table directly and performs no
+        // capability check of its own, so this is the only thing standing
+        // between a delegated user manager and the administrator account.
+        $error = Capability::editUser( (int) $user->ID )
+            ?? Capability::notSuperAdmin( (int) $user->ID );
+        if ( $error ) {
+            return $error;
         }
 
         // Generate new password or use provided one

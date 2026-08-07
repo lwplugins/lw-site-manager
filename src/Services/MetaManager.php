@@ -7,6 +7,9 @@ declare(strict_types=1);
 
 namespace LightweightPlugins\SiteManager\Services;
 
+use LightweightPlugins\SiteManager\Helpers\ProtectedMeta;
+use LightweightPlugins\SiteManager\Services\Meta\MetaGuard;
+
 class MetaManager extends AbstractService {
 
     /**
@@ -24,8 +27,18 @@ class MetaManager extends AbstractService {
             return self::errorResponse( 'not_found', 'Post not found', 404 );
         }
 
+        $error = MetaGuard::readAll( 'post', $post_id );
+        if ( $error ) {
+            return $error;
+        }
+
         // Get specific key or all meta
         if ( ! empty( $input['key'] ) ) {
+            $error = MetaGuard::read( 'post', $post_id, (string) $input['key'] );
+            if ( $error ) {
+                return $error;
+            }
+
             $value = get_post_meta( $post_id, $input['key'], true );
             return [
                 'success' => true,
@@ -41,7 +54,7 @@ class MetaManager extends AbstractService {
 
         foreach ( $all_meta as $key => $values ) {
             // Skip private meta unless explicitly requested
-            if ( ! ( $input['include_private'] ?? false ) && strpos( $key, '_' ) === 0 ) {
+            if ( ! MetaGuard::mayListProtected( (bool) ( $input['include_private'] ?? false ) ) && strpos( $key, '_' ) === 0 ) {
                 continue;
             }
             $meta[ $key ] = count( $values ) === 1 ? $values[0] : $values;
@@ -73,6 +86,11 @@ class MetaManager extends AbstractService {
 
         if ( ! $post ) {
             return self::errorResponse( 'not_found', 'Post not found', 404 );
+        }
+
+        $error = MetaGuard::write( 'post', $post_id, (string) $input['key'] );
+        if ( $error ) {
+            return $error;
         }
 
         $result = update_post_meta( $post_id, $input['key'], $input['value'] );
@@ -108,6 +126,11 @@ class MetaManager extends AbstractService {
             return self::errorResponse( 'not_found', 'Post not found', 404 );
         }
 
+        $error = MetaGuard::write( 'post', $post_id, (string) $input['key'] );
+        if ( $error ) {
+            return $error;
+        }
+
         $result = delete_post_meta( $post_id, $input['key'] );
 
         return [
@@ -133,8 +156,18 @@ class MetaManager extends AbstractService {
             return self::errorResponse( 'not_found', 'User not found', 404 );
         }
 
+        $error = MetaGuard::readAll( 'user', $user_id );
+        if ( $error ) {
+            return $error;
+        }
+
         // Get specific key or all meta
         if ( ! empty( $input['key'] ) ) {
+            $error = MetaGuard::read( 'user', $user_id, (string) $input['key'] );
+            if ( $error ) {
+                return $error;
+            }
+
             $value = get_user_meta( $user_id, $input['key'], true );
             return [
                 'success' => true,
@@ -149,8 +182,14 @@ class MetaManager extends AbstractService {
         $meta = [];
 
         foreach ( $all_meta as $key => $values ) {
+            // Role, level and session-token keys carry no underscore, so the
+            // protected-key filter below would let them through. They are login
+            // and privilege state and are never listed.
+            if ( ProtectedMeta::isUserPrivilegeKey( (string) $key ) ) {
+                continue;
+            }
             // Skip private meta unless explicitly requested
-            if ( ! ( $input['include_private'] ?? false ) && strpos( $key, '_' ) === 0 ) {
+            if ( ! MetaGuard::mayListProtected( (bool) ( $input['include_private'] ?? false ) ) && strpos( $key, '_' ) === 0 ) {
                 continue;
             }
             $meta[ $key ] = count( $values ) === 1 ? $values[0] : $values;
@@ -182,6 +221,11 @@ class MetaManager extends AbstractService {
 
         if ( ! $user ) {
             return self::errorResponse( 'not_found', 'User not found', 404 );
+        }
+
+        $error = MetaGuard::write( 'user', $user_id, (string) $input['key'] );
+        if ( $error ) {
+            return $error;
         }
 
         $result = update_user_meta( $user_id, $input['key'], $input['value'] );
@@ -217,6 +261,11 @@ class MetaManager extends AbstractService {
             return self::errorResponse( 'not_found', 'User not found', 404 );
         }
 
+        $error = MetaGuard::write( 'user', $user_id, (string) $input['key'] );
+        if ( $error ) {
+            return $error;
+        }
+
         $result = delete_user_meta( $user_id, $input['key'] );
 
         return [
@@ -242,8 +291,18 @@ class MetaManager extends AbstractService {
             return self::errorResponse( 'not_found', 'Term not found', 404 );
         }
 
+        $error = MetaGuard::readAll( 'term', $term_id );
+        if ( $error ) {
+            return $error;
+        }
+
         // Get specific key or all meta
         if ( ! empty( $input['key'] ) ) {
+            $error = MetaGuard::read( 'term', $term_id, (string) $input['key'] );
+            if ( $error ) {
+                return $error;
+            }
+
             $value = get_term_meta( $term_id, $input['key'], true );
             return [
                 'success' => true,
@@ -289,6 +348,11 @@ class MetaManager extends AbstractService {
             return self::errorResponse( 'not_found', 'Term not found', 404 );
         }
 
+        $error = MetaGuard::write( 'term', $term_id, (string) $input['key'] );
+        if ( $error ) {
+            return $error;
+        }
+
         $result = update_term_meta( $term_id, $input['key'], $input['value'] );
 
         if ( $result === false ) {
@@ -322,6 +386,11 @@ class MetaManager extends AbstractService {
             return self::errorResponse( 'not_found', 'Term not found', 404 );
         }
 
+        $error = MetaGuard::write( 'term', $term_id, (string) $input['key'] );
+        if ( $error ) {
+            return $error;
+        }
+
         $result = delete_term_meta( $term_id, $input['key'] );
 
         return [
@@ -347,7 +416,17 @@ class MetaManager extends AbstractService {
             return self::errorResponse( 'not_found', 'Comment not found', 404 );
         }
 
+        $error = MetaGuard::readAll( 'comment', $comment_id );
+        if ( $error ) {
+            return $error;
+        }
+
         if ( ! empty( $input['key'] ) ) {
+            $error = MetaGuard::read( 'comment', $comment_id, (string) $input['key'] );
+            if ( $error ) {
+                return $error;
+            }
+
             $value = get_comment_meta( $comment_id, $input['key'], true );
             return [
                 'success'    => true,
@@ -361,7 +440,7 @@ class MetaManager extends AbstractService {
         $meta     = [];
 
         foreach ( $all_meta as $key => $values ) {
-            if ( ! ( $input['include_private'] ?? false ) && strpos( $key, '_' ) === 0 ) {
+            if ( ! MetaGuard::mayListProtected( (bool) ( $input['include_private'] ?? false ) ) && strpos( $key, '_' ) === 0 ) {
                 continue;
             }
             $meta[ $key ] = count( $values ) === 1 ? $values[0] : $values;
@@ -395,6 +474,11 @@ class MetaManager extends AbstractService {
             return self::errorResponse( 'not_found', 'Comment not found', 404 );
         }
 
+        $error = MetaGuard::write( 'comment', $comment_id, (string) $input['key'] );
+        if ( $error ) {
+            return $error;
+        }
+
         $result = update_comment_meta( $comment_id, $input['key'], $input['value'] );
 
         if ( false === $result ) {
@@ -426,6 +510,11 @@ class MetaManager extends AbstractService {
 
         if ( ! $comment ) {
             return self::errorResponse( 'not_found', 'Comment not found', 404 );
+        }
+
+        $error = MetaGuard::write( 'comment', $comment_id, (string) $input['key'] );
+        if ( $error ) {
+            return $error;
         }
 
         $result = delete_comment_meta( $comment_id, $input['key'] );

@@ -116,6 +116,7 @@
 		<properties>
 			<property name="custom_capabilities" type="array">
 				<element value="edit_shop_orders"/>
+				<element value="edit_products"/>
 				<element value="manage_woocommerce"/>
 			</property>
 		</properties>

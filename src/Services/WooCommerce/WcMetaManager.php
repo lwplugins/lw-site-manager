@@ -52,9 +52,22 @@ class WcMetaManager extends AbstractService {
             return $entity;
         }
 
-        $key = (string) ( $input['key'] ?? '' );
+        $key               = (string) ( $input['key'] ?? '' );
+        $include_protected = (bool) ( $input['include_protected'] ?? false );
 
         if ( '' !== $key ) {
+            // The single-key branch must honour the same protected-key policy as
+            // the listing below, otherwise it is a filter bypass: internal keys
+            // such as _order_key (the guest order-access token), _transaction_id
+            // or _customer_ip_address would be readable without any flag.
+            if ( ! $include_protected && self::is_protected( $key ) ) {
+                return self::errorResponse(
+                    'forbidden_meta_key',
+                    sprintf( 'The meta key "%s" is protected. Pass include_protected to read it.', $key ),
+                    403
+                );
+            }
+
             $value = $entity->get_meta( $key, true );
             return [
                 'success' => true,
@@ -65,8 +78,7 @@ class WcMetaManager extends AbstractService {
             ];
         }
 
-        $include_protected = (bool) ( $input['include_protected'] ?? false );
-        $items             = [];
+        $items = [];
 
         foreach ( $entity->get_meta_data() as $meta ) {
             $meta_key = $meta->key;
