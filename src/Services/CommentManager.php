@@ -7,6 +7,8 @@ declare(strict_types=1);
 
 namespace LightweightPlugins\SiteManager\Services;
 
+use LightweightPlugins\SiteManager\Services\Comments\CommentCounter;
+
 class CommentManager extends AbstractService {
 
     /**
@@ -16,6 +18,16 @@ class CommentManager extends AbstractService {
         $args = [
             'orderby' => $input['orderby'] ?? 'comment_date',
             'order'   => $input['order'] ?? 'DESC',
+            // Pin the type. Left unset, whether WooCommerce product reviews
+            // appear here depends on which other plugins are active: WooCommerce
+            // excludes reviews from comment queries, but bails out of that
+            // filter when any of a dozen query vars is set (type__not_in among
+            // them, which LearnDash populates), so the same call returned
+            // different rows per site. WordPress maps 'comment' to
+            // comment_type IN ( '', 'comment' ), so legacy comments stored with
+            // an empty type are still included. Pass type=review for reviews,
+            // or type=all to opt back into everything.
+            'type'    => $input['type'] ?? 'comment',
         ];
 
         // Apply pagination
@@ -29,11 +41,6 @@ class CommentManager extends AbstractService {
         // Filter by post
         if ( ! empty( $input['post_id'] ) ) {
             $args['post_id'] = $input['post_id'];
-        }
-
-        // Filter by type
-        if ( ! empty( $input['type'] ) ) {
-            $args['type'] = $input['type'];
         }
 
         // Search
@@ -334,16 +341,13 @@ class CommentManager extends AbstractService {
      * Get comment counts by status
      */
     public static function get_counts( array $input = [] ): array {
-        $counts = wp_count_comments( $input['post_id'] ?? 0 );
+        $post_id = (int) ( $input['post_id'] ?? 0 );
 
-        return [
-            'total'            => (int) $counts->total_comments,
-            'approved'         => (int) $counts->approved,
-            'awaiting'         => (int) $counts->moderated,
-            'spam'             => (int) $counts->spam,
-            'trash'            => (int) $counts->trash,
-            'post_trashed'     => (int) $counts->{'post-trashed'},
-        ];
+        // Comments and product reviews are counted separately: they are
+        // different things, and summing them made the totals depend on which
+        // other plugins the site runs. See CommentCounter.
+        return CommentCounter::forType( 'comment', $post_id )
+            + [ 'reviews' => CommentCounter::forType( 'review', $post_id ) ];
     }
 
     /**
@@ -361,6 +365,16 @@ class CommentManager extends AbstractService {
             'parent'       => (int) $comment->comment_parent,
             'type'         => $comment->comment_type ?: 'comment',
         ];
+
+        // WooCommerce stores the star rating and the verified-purchase flag as
+        // comment meta. Without them a review is just text, and an agent asked
+        // to moderate reviews cannot see what it is moderating.
+        if ( 'review' === $comment->comment_type ) {
+            $rating = get_comment_meta( (int) $comment->comment_ID, 'rating', true );
+
+            $data['rating']   = ( '' === $rating || null === $rating ) ? null : (int) $rating;
+            $data['verified'] = (bool) get_comment_meta( (int) $comment->comment_ID, 'verified', true );
+        }
 
         if ( $detailed ) {
             $data['author_url'] = $comment->comment_author_url;

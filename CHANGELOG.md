@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.5.0] - 2026-08-10
+
+### Added
+- WooCommerce product reviews now report `rating` (1-5, `null` when unset) and `verified` (verified purchaser). Both live in comment meta, so previously a review came back as plain text and an agent asked to moderate reviews could not see what it was moderating. The fields appear only on `type: "review"` rows.
+
+### Changed
+- **`list-comments` now defaults to `type: 'comment'`.** Whether product reviews appeared in the default listing was previously left to chance. WooCommerce hides reviews from comment queries via `comments_clauses`, but that filter bails out whenever any of a dozen query vars is set — `type__not_in` among them, which LearnDash populates with `ld_review`. The identical call therefore returned reviews on one site and not on another. WordPress maps `type => 'comment'` to `comment_type IN ( '', 'comment' )`, so legacy comments stored with an empty type are still returned. Pass `type=review` for reviews, or `type=all` to opt back into everything.
+- **`comment-counts` counts comments and product reviews separately** instead of summing them, and no longer relies on `wp_count_comments()` — WooCommerce filters that through `get_comments()`, inheriting the same environment-dependence. Reviews now appear under a `reviews` key with the same status breakdown. Counting is in the new `Services\Comments\CommentCounter`.
+
+### Fixed
+- The comment abilities' declared output schema did not match what they return: it advertised `author_name` and `avatar_url` where the fields are `author` and `avatar`, and omitted `agent`, `replies_count`, `rating` and `verified` entirely. The `comment-counts` schema listed `pending` and `total_moderated`, which the ability never returned, while omitting `awaiting` and `post_trashed`, which it did. Schemas are how an agent learns which fields exist, so the drift actively misled callers.
+
+### Notes
+- WooCommerce **order notes** are unaffected: they are `comment_type = 'order_note'`, which WooCommerce excludes from every comment query unconditionally, and the plugin already handles them through the dedicated `wc-list-order-notes` / `wc-add-order-note` abilities.
+- Verified end-to-end on a live WooCommerce 11.0 store: with a review present, the default `list-comments` no longer returns it, `type=review` returns it with `rating: 4` and `verified: true`, a plain comment carries no rating fields, and `comment-counts` reports the two groups separately.
+
 ## [1.4.0] - 2026-08-07
 
 ### Security
