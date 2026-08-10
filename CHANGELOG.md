@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.5.0] - 2026-08-10
+## [1.4.1] - 2026-08-10
 
 ### Added
 - WooCommerce product reviews now report `rating` (1-5, `null` when unset) and `verified` (verified purchaser). Both live in comment meta, so previously a review came back as plain text and an agent asked to moderate reviews could not see what it was moderating. The fields appear only on `type: "review"` rows.

@@ -4,7 +4,7 @@ Tags: site-manager, maintenance, ai, rest-api, abilities
 Requires at least: 6.9
 Tested up to: 6.9
 Requires PHP: 8.2
-Stable tag: 1.5.0
+Stable tag: 1.4.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -156,7 +156,7 @@ Yes, LW Site Manager provides similar functionality to MainWP but uses the nativ
 
 == Changelog ==
 
-= 1.5.0 =
+= 1.4.1 =
 * New: WooCommerce product reviews now report their star rating and verified-purchase flag. Previously a review came back as plain text, so an agent asked to moderate reviews could not see what it was moderating.
 * Change: list-comments now defaults to regular comments only. Whether product reviews appeared was previously up to chance — WooCommerce hides them, but stops doing so when another plugin (LearnDash, for one) touches the comment query, so the same call returned different results on different sites. Pass type=review for reviews, or type=all for everything.
 * Change: comment-counts counts comments and product reviews separately instead of summing them. Reviews now appear under a "reviews" key with the same breakdown.
