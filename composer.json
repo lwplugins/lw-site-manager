@@ -29,7 +29,7 @@
 		"yoast/phpunit-polyfills": "^4.0"
 	},
 	"suggest": {
-		"wordpress/mcp-adapter": "^0.5 — powers the built-in MCP server (LW Plugins → AI / MCP). Not needed for the REST / Abilities API. Bundled in the wordpress.org ZIP; Composer installs that want the MCP server must add it (or the canonical MCP Adapter plugin) themselves."
+		"wordpress/mcp-adapter": "^0.5 — powers the built-in MCP server (LW Plugins → AI / MCP). Not needed for the REST / Abilities API. Bundled in the wordpress.org ZIP. Composer installs that want the MCP server add it themselves — but note that on a WooCommerce store WooCommerce bundles its own older copy and loads it first, so the version you install may not be the one that runs; the plugin shows an admin notice when that happens."
 	},
 	"autoload": {
 		"psr-4": {

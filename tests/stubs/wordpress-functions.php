@@ -1274,7 +1274,8 @@ if ( ! function_exists( 'activate_plugin' ) ) {
      * @return null|WP_Error Null on success, WP_Error on failure.
      */
     function activate_plugin( string $plugin ) {
-        return null;
+        // Tests set this to a WP_Error to exercise the activation-failure path.
+        return $GLOBALS['wp_activate_plugin_result'] ?? null;
     }
 }
 

@@ -4,7 +4,7 @@ Tags: site-manager, maintenance, ai, rest-api, abilities
 Requires at least: 6.9
 Tested up to: 6.9
 Requires PHP: 8.2
-Stable tag: 1.4.0
+Stable tag: 1.4.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -155,6 +155,11 @@ Yes, LW Site Manager provides similar functionality to MainWP but uses the nativ
 3. Backup creation options
 
 == Changelog ==
+
+= 1.4.2 =
+* Fix: Failed plugin/theme installs and activations were reported as successful. They returned a 200 with success:false in the body, which the MCP layer then wrapped into a success envelope — so an AI agent was told the work was done when it had not been. These now return a proper error, over MCP and over REST alike, with the captured PHP errors kept in the error detail.
+* Fix: The WooCommerce report totals (orders, customers, products, coupons) returned an empty report instead of an error when WooCommerce was inactive, making "no store" indistinguishable from "no data".
+* New: An admin notice when another plugin has loaded an older copy of the MCP Adapter library. WooCommerce bundles v0.3.0 and loads it before ours, and that copy is missing the hook this plugin uses to surface failures — previously this degraded silently.
 
 = 1.4.0 =
 * Security: Abilities now check permissions against the specific object they act on, not just a general capability. Previously a low-privileged user with an application password could act far beyond their role: a Contributor could permanently delete any post site-wide, read every author's drafts and private posts, and (on WooCommerce stores) list all customer names, emails and phone numbers, read protected order meta and delete orders; an Author could permanently delete any media file; and a user manager or WooCommerce shop manager could reset the administrator's password or promote themselves to administrator. All confirmed fixed and covered by tests.

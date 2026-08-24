@@ -64,6 +64,34 @@ if ( $_run_wp_tests ) {
 		define( 'WPINC', 'wp-includes' );
 	}
 
+	// Several services `require_once ABSPATH . 'wp-admin/includes/...'` before
+	// calling an admin API. Those files are not present under unit tests, so
+	// create empty placeholders — the functions themselves come from the stubs
+	// below, this only satisfies the require.
+	$_admin_includes = ABSPATH . 'wp-admin/includes';
+	if ( ! is_dir( $_admin_includes ) ) {
+		mkdir( $_admin_includes, 0777, true );
+	}
+	foreach (
+		[
+			'class-wp-upgrader.php',
+			'file.php',
+			'image.php',
+			'media.php',
+			'plugin-install.php',
+			'plugin.php',
+			'theme.php',
+			'update.php',
+			'user.php',
+		] as $_admin_file
+	) {
+		$_path = $_admin_includes . '/' . $_admin_file;
+		if ( ! file_exists( $_path ) ) {
+			file_put_contents( $_path, "<?php\n// Placeholder for unit tests.\n" );
+		}
+	}
+	unset( $_admin_includes, $_admin_file, $_path );
+
 	// Load WordPress function stubs for unit tests.
 	require_once __DIR__ . '/stubs/wordpress-functions.php';
 }

@@ -139,9 +139,12 @@ class ReportManager extends AbstractService {
     /**
      * Get orders totals by status
      */
-    public static function orders_totals( array $input ): array {
+    public static function orders_totals( array $input ): array|\WP_Error {
         if ( ! class_exists( 'WooCommerce' ) ) {
-            return [ 'success' => false, 'totals' => [] ];
+            // Match every other WooCommerce service: a missing store is a
+            // hard failure, not an empty report. Returning success:false in a
+            // 200 made it indistinguishable from a store with no orders.
+            return self::errorResponse( 'woocommerce_not_active', 'WooCommerce is not active', 400 );
         }
 
         $statuses = wc_get_order_statuses();
@@ -171,9 +174,12 @@ class ReportManager extends AbstractService {
     /**
      * Get customers totals
      */
-    public static function customers_totals( array $input ): array {
+    public static function customers_totals( array $input ): array|\WP_Error {
         if ( ! class_exists( 'WooCommerce' ) ) {
-            return [ 'success' => false, 'totals' => [] ];
+            // Match every other WooCommerce service: a missing store is a
+            // hard failure, not an empty report. Returning success:false in a
+            // 200 made it indistinguishable from a store with no orders.
+            return self::errorResponse( 'woocommerce_not_active', 'WooCommerce is not active', 400 );
         }
 
         global $wpdb;
@@ -223,9 +229,12 @@ class ReportManager extends AbstractService {
     /**
      * Get products totals
      */
-    public static function products_totals( array $input ): array {
+    public static function products_totals( array $input ): array|\WP_Error {
         if ( ! class_exists( 'WooCommerce' ) ) {
-            return [ 'success' => false, 'totals' => [] ];
+            // Match every other WooCommerce service: a missing store is a
+            // hard failure, not an empty report. Returning success:false in a
+            // 200 made it indistinguishable from a store with no orders.
+            return self::errorResponse( 'woocommerce_not_active', 'WooCommerce is not active', 400 );
         }
 
         global $wpdb;
@@ -295,9 +304,12 @@ class ReportManager extends AbstractService {
     /**
      * Get coupons totals
      */
-    public static function coupons_totals( array $input ): array {
+    public static function coupons_totals( array $input ): array|\WP_Error {
         if ( ! class_exists( 'WooCommerce' ) ) {
-            return [ 'success' => false, 'totals' => [] ];
+            // Match every other WooCommerce service: a missing store is a
+            // hard failure, not an empty report. Returning success:false in a
+            // 200 made it indistinguishable from a store with no orders.
+            return self::errorResponse( 'woocommerce_not_active', 'WooCommerce is not active', 400 );
         }
 
         $counts = wp_count_posts( 'shop_coupon' );

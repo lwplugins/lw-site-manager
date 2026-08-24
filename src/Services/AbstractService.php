@@ -122,8 +122,8 @@ abstract class AbstractService {
      * @param int    $status  HTTP status code
      * @return \WP_Error
      */
-    protected static function errorResponse( string $code, string $message, int $status = 400 ): \WP_Error {
-        return ResponseFormatter::error( $code, $message, $status );
+    protected static function errorResponse( string $code, string $message, int $status = 400, array $detail = [] ): \WP_Error {
+        return ResponseFormatter::error( $code, $message, $status, $detail );
     }
 
     /**
