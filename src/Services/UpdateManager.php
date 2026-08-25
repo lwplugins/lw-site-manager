@@ -535,15 +535,22 @@ class UpdateManager extends AbstractService {
         $php_errors = $error_handler->stop_monitoring();
 
         if ( is_wp_error( $result ) ) {
-            return [
-                'success'    => false,
-                'message'    => $result->get_error_message(),
-                'php_errors' => $php_errors,
-            ];
+            // Fail loudly. A [ 'success' => false ] array is an HTTP 200 over
+            // REST, and over MCP the adapter wraps it into a success envelope,
+            // so the agent is told the plugin was activated when it was not.
+            return self::errorResponse(
+                'activation_failed',
+                $result->get_error_message(),
+                500,
+                [ 'php_errors' => $php_errors ]
+            );
         }
 
         $has_fatal = self::hasFatalErrors( $php_errors );
 
+        // Not converted on purpose: the plugin *is* active, it just emitted
+        // errors. Turning that into a failure would invite the caller to retry
+        // an action that already took effect.
         return [
             'success'    => ! $has_fatal,
             'message'    => $has_fatal
@@ -773,19 +780,21 @@ class UpdateManager extends AbstractService {
         $php_errors = $error_handler->stop_monitoring();
 
         if ( is_wp_error( $result ) ) {
-            return [
-                'success'    => false,
-                'message'    => $result->get_error_message(),
-                'php_errors' => $php_errors,
-            ];
+            return self::errorResponse(
+                'plugin_install_failed',
+                $result->get_error_message(),
+                500,
+                [ 'php_errors' => $php_errors ]
+            );
         }
 
         if ( $result === false ) {
-            return [
-                'success'    => false,
-                'message'    => __( 'Plugin installation failed', 'lw-site-manager' ),
-                'php_errors' => $php_errors,
-            ];
+            return self::errorResponse(
+                'plugin_install_failed',
+                __( 'Plugin installation failed', 'lw-site-manager' ),
+                500,
+                [ 'php_errors' => $php_errors ]
+            );
         }
 
         // Find the installed plugin file
@@ -877,19 +886,21 @@ class UpdateManager extends AbstractService {
         $php_errors = $error_handler->stop_monitoring();
 
         if ( is_wp_error( $result ) ) {
-            return [
-                'success'    => false,
-                'message'    => $result->get_error_message(),
-                'php_errors' => $php_errors,
-            ];
+            return self::errorResponse(
+                'theme_install_failed',
+                $result->get_error_message(),
+                500,
+                [ 'php_errors' => $php_errors ]
+            );
         }
 
         if ( $result === false ) {
-            return [
-                'success'    => false,
-                'message'    => __( 'Theme installation failed', 'lw-site-manager' ),
-                'php_errors' => $php_errors,
-            ];
+            return self::errorResponse(
+                'theme_install_failed',
+                __( 'Theme installation failed', 'lw-site-manager' ),
+                500,
+                [ 'php_errors' => $php_errors ]
+            );
         }
 
         $has_fatal = self::hasFatalErrors( $php_errors );

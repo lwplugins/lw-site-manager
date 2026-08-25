@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.4.2] - 2026-08-24
+
+### Fixed
+- **Failed operations were reported as successes.** `activate-plugin`, `install-plugin` and `install-theme` returned `[ 'success' => false, ... ]` on a hard failure. Over REST that is an HTTP 200; over MCP the adapter wraps it as `{ success: true, data: { success: false } }`, so an agent was told a plugin had been installed when it had not. They now return `WP_Error`, which surfaces as a real error in both transports. The PHP errors captured during the attempt are preserved in the error data rather than dropped. Verified live: the REST call now answers `500 activation_failed` with the real message, and the MCP tool call reports `isError: true`.
+- The WooCommerce report totals (`wc-orders-totals`, `wc-customers-totals`, `wc-products-totals`, `wc-coupons-totals`) returned `success: false` with an empty payload when WooCommerce was inactive, making "no store" look like "no data". They now return the same `woocommerce_not_active` error every other WooCommerce service already used.
+
+### Added
+- An admin notice when the MCP adapter that actually loaded is older than the one this plugin targets (`Mcp\AdapterVersion`). WooCommerce bundles `wordpress/mcp-adapter` v0.3.0 in its own vendor directory and requires it eagerly, which beats Composer's lazy PSR-4 loading — so on a WooCommerce store this plugin has always run against 0.3.0 even when its lockfile pins 0.5.0. That copy has no `mcp_adapter_tool_call_result` filter, so `Mcp\ResultUnwrapper` never ran. Until now this degraded in complete silence.
+
+  Detection deliberately does **not** use `class_exists()`. Our PSR-4 autoloader still resolves classes the older copy lacks from our own vendor, so the runtime is a mixture — a 0.3.0 core with newer classes filled in behind it — and `class_exists( '\WP\MCP\Core\McpVersionNegotiator' )` returns `true` while 0.3.0 is running. Confirmed on a live store. The check instead resolves, by reflection, which installation the loaded `McpAdapter` came from and inspects that tree.
+
+### Notes
+- **Behaviour change.** A caller that previously received `200 { success: false }` from these three abilities now receives an error status. That is the point — but any integration branching on the body rather than the status needs to handle it.
+- Batch abilities (`bulk-posts`, `update-all-plugin-dbs`, and friends) were deliberately left alone: a partial result carrying per-item detail is a real answer, not a failure. Verified live that they still return a normal result.
+- `activate-plugin` also has a "activated, but PHP errors were emitted" outcome. That is deliberately still a success payload: the plugin *is* active, and turning it into an error would invite an agent to retry an action that already took effect.
+- The `wordpress/mcp-adapter` Composer `suggest` text now warns that on a WooCommerce store the version you install may not be the version that runs.
 ## [1.4.1] - 2026-08-10
 
 ### Added

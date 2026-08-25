@@ -31,6 +31,16 @@ final class Bootstrap {
 			return;
 		}
 
+		// A different plugin may have loaded an older copy of the shared adapter
+		// before us — WooCommerce bundles v0.3.0 and requires it eagerly, which
+		// beats Composer's lazy autoloading. That copy has no
+		// mcp_adapter_tool_call_result filter, so ResultUnwrapper silently never
+		// runs and failed tool calls reach the agent looking like successes.
+		// Say so instead of degrading quietly.
+		if ( ! AdapterVersion::isCurrent() ) {
+			add_action( 'admin_notices', [ self::class, 'render_outdated_notice' ] );
+		}
+
 		add_filter( 'mcp_adapter_default_server_config', [ Server::class, 'brand' ] );
 		add_filter( 'mcp_adapter_default_transport_permission_user_capability', [ TransportGuard::class, 'capability' ], 10, 2 );
 		add_filter( 'mcp_adapter_tool_call_result', [ ResultUnwrapper::class, 'filter' ], 10, 3 );
@@ -39,6 +49,23 @@ final class Bootstrap {
 
 		// Boot the adapter; it registers the (branded) default server on mcp_adapter_init.
 		\WP\MCP\Core\McpAdapter::instance();
+	}
+
+	/**
+	 * Admin notice shown when an outdated copy of the adapter is the one running.
+	 */
+	public static function render_outdated_notice(): void {
+		$root = AdapterVersion::loadedRoot();
+
+		echo '<div class="notice notice-warning"><p><strong>LW Site Manager:</strong> ';
+		esc_html_e(
+			'Another plugin has loaded an older copy of the MCP Adapter library, so some features are unavailable — most importantly, failed tool calls are reported to the AI agent as successful. WooCommerce is the usual source: it bundles its own copy and loads it first.',
+			'lw-site-manager'
+		);
+		if ( is_string( $root ) && '' !== $root ) {
+			echo '</p><p><code>' . esc_html( $root ) . '</code>';
+		}
+		echo '</p></div>';
 	}
 
 	/**

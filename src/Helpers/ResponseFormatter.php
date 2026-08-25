@@ -34,8 +34,8 @@ class ResponseFormatter {
      * @param int    $status  HTTP status code
      * @return \WP_Error
      */
-    public static function error( string $code, string $message, int $status = 400 ): \WP_Error {
-        return new \WP_Error( $code, $message, [ 'status' => $status ] );
+    public static function error( string $code, string $message, int $status = 400, array $detail = [] ): \WP_Error {
+        return new \WP_Error( $code, $message, array_merge( [ 'status' => $status ], $detail ) );
     }
 
     /**
