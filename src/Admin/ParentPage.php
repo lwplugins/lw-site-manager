@@ -86,7 +86,7 @@ final class ParentPage {
 				'icon'          => 'dashicons-admin-tools',
 				'icon_color'    => '#135e96',
 				'constant'      => 'LW_SITE_MANAGER_VERSION',
-				'settings_page' => 'lw-site-manager',
+				'settings_page' => 'lw-site-manager-mcp',
 				'github'        => 'https://github.com/lwplugins/lw-site-manager',
 			],
 		];

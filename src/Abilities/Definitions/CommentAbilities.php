@@ -62,7 +62,8 @@ class CommentAbilities {
                         ],
                         'type' => [
                             'type'        => 'string',
-                            'description' => 'Filter by type (comment, pingback, trackback)',
+                            'default'     => 'comment',
+                            'description' => "Filter by type. Defaults to 'comment' (regular comments, including legacy ones stored with an empty type). Use 'review' for WooCommerce product reviews, 'pingback' / 'trackback' for those, or 'all' for every type.",
                         ],
                         'search' => [
                             'type'        => 'string',
@@ -133,14 +134,30 @@ class CommentAbilities {
                     ],
                 ],
                 'output_schema' => [
-                    'type'       => 'object',
-                    'properties' => [
-                        'total'           => [ 'type' => 'integer' ],
-                        'approved'        => [ 'type' => 'integer' ],
-                        'pending'         => [ 'type' => 'integer' ],
-                        'spam'            => [ 'type' => 'integer' ],
-                        'trash'           => [ 'type' => 'integer' ],
-                        'total_moderated' => [ 'type' => 'integer' ],
+                    'type'        => 'object',
+                    'description' => 'Counts for regular comments. WooCommerce product reviews are counted separately under "reviews" and are not included in these numbers.',
+                    'properties'  => [
+                        'total'        => [
+                            'type'        => 'integer',
+                            'description' => 'Approved plus awaiting moderation (excludes spam and trash)',
+                        ],
+                        'approved'     => [ 'type' => 'integer' ],
+                        'awaiting'     => [ 'type' => 'integer' ],
+                        'spam'         => [ 'type' => 'integer' ],
+                        'trash'        => [ 'type' => 'integer' ],
+                        'post_trashed' => [ 'type' => 'integer' ],
+                        'reviews'      => [
+                            'type'        => 'object',
+                            'description' => 'The same counts for WooCommerce product reviews',
+                            'properties'  => [
+                                'total'        => [ 'type' => 'integer' ],
+                                'approved'     => [ 'type' => 'integer' ],
+                                'awaiting'     => [ 'type' => 'integer' ],
+                                'spam'         => [ 'type' => 'integer' ],
+                                'trash'        => [ 'type' => 'integer' ],
+                                'post_trashed' => [ 'type' => 'integer' ],
+                            ],
+                        ],
                     ],
                 ],
                 'execute_callback'    => [ CommentManager::class, 'get_counts' ],
@@ -434,21 +451,37 @@ class CommentAbilities {
         return [
             'type'       => 'object',
             'properties' => [
-                'id'           => [ 'type' => 'integer' ],
-                'post_id'      => [ 'type' => 'integer' ],
-                'post_title'   => [ 'type' => 'string' ],
-                'author_name'  => [ 'type' => 'string' ],
-                'author_email' => [ 'type' => 'string' ],
-                'author_url'   => [ 'type' => 'string' ],
-                'author_ip'    => [ 'type' => 'string' ],
-                'content'      => [ 'type' => 'string' ],
-                'date'         => [ 'type' => 'string' ],
-                'date_gmt'     => [ 'type' => 'string' ],
-                'status'       => [ 'type' => 'string' ],
-                'type'         => [ 'type' => 'string' ],
-                'parent'       => [ 'type' => 'integer' ],
-                'user_id'      => [ 'type' => 'integer' ],
-                'avatar_url'   => [ 'type' => 'string' ],
+                'id'            => [ 'type' => 'integer' ],
+                'post_id'       => [ 'type' => 'integer' ],
+                'author'        => [ 'type' => 'string' ],
+                'author_email'  => [ 'type' => 'string' ],
+                'content'       => [ 'type' => 'string' ],
+                'date'          => [ 'type' => 'string' ],
+                'status'        => [ 'type' => 'string' ],
+                'type'          => [
+                    'type'        => 'string',
+                    'description' => "Comment type: 'comment', 'review' (WooCommerce product review), 'pingback', 'trackback'",
+                ],
+                'parent'        => [ 'type' => 'integer' ],
+                // Detailed responses only (get-comment and the moderation
+                // abilities); absent from list-comments rows.
+                'post_title'    => [ 'type' => 'string' ],
+                'author_url'    => [ 'type' => 'string' ],
+                'author_ip'     => [ 'type' => 'string' ],
+                'date_gmt'      => [ 'type' => 'string' ],
+                'user_id'       => [ 'type' => 'integer' ],
+                'agent'         => [ 'type' => 'string' ],
+                'avatar'        => [ 'type' => 'string' ],
+                'replies_count' => [ 'type' => 'integer' ],
+                // WooCommerce product reviews only.
+                'rating'        => [
+                    'type'        => [ 'integer', 'null' ],
+                    'description' => 'Star rating 1-5, null when the review has none. Present only when type is "review".',
+                ],
+                'verified'      => [
+                    'type'        => 'boolean',
+                    'description' => 'Whether the reviewer is a verified purchaser. Present only when type is "review".',
+                ],
             ],
         ];
     }

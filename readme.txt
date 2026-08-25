@@ -2,9 +2,9 @@
 Contributors: lwplugins
 Tags: site-manager, maintenance, ai, rest-api, abilities
 Requires at least: 6.9
-Tested up to: 6.9
+Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 1.4.0
+Stable tag: 1.4.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -155,6 +155,14 @@ Yes, LW Site Manager provides similar functionality to MainWP but uses the nativ
 3. Backup creation options
 
 == Changelog ==
+
+= 1.4.1 =
+* New: WooCommerce product reviews now report their star rating and verified-purchase flag. Previously a review came back as plain text, so an agent asked to moderate reviews could not see what it was moderating.
+* Change: list-comments now defaults to regular comments only. Whether product reviews appeared was previously up to chance — WooCommerce hides them, but stops doing so when another plugin (LearnDash, for one) touches the comment query, so the same call returned different results on different sites. Pass type=review for reviews, or type=all for everything.
+* Change: comment-counts counts comments and product reviews separately instead of summing them. Reviews now appear under a "reviews" key with the same breakdown.
+* Fix: The documented output of the comment abilities matches what they actually return. The schema advertised author_name and avatar_url, but the fields are author and avatar, and agent, replies_count, rating and verified were missing entirely. The comment-counts schema listed fields the ability never returned.
+* Fix: The "Settings" button on the LW Plugins overview linked to a non-existent page (admin.php?page=lw-site-manager → 403); it now opens the AI / MCP screen.
+* Update: Tested up to WordPress 7.1.
 
 = 1.4.0 =
 * Security: Abilities now check permissions against the specific object they act on, not just a general capability. Previously a low-privileged user with an application password could act far beyond their role: a Contributor could permanently delete any post site-wide, read every author's drafts and private posts, and (on WooCommerce stores) list all customer names, emails and phone numbers, read protected order meta and delete orders; an Author could permanently delete any media file; and a user manager or WooCommerce shop manager could reset the administrator's password or promote themselves to administrator. All confirmed fixed and covered by tests.
