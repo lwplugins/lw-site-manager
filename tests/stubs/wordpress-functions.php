@@ -2117,3 +2117,128 @@ if ( ! function_exists( 'maybe_unserialize' ) ) {
         return $data;
     }
 }
+
+// ============================================================================
+// Comment stubs
+// ============================================================================
+
+if ( ! class_exists( 'WP_Comment' ) ) {
+    /**
+     * WP_Comment stub.
+     */
+    class WP_Comment {
+        public string $comment_ID = '0';
+        public string $comment_post_ID = '0';
+        public string $comment_author = 'Test Author';
+        public string $comment_author_email = 'author@example.com';
+        public string $comment_author_url = '';
+        public string $comment_author_IP = '127.0.0.1';
+        public string $comment_content = 'Test comment';
+        public string $comment_date = '2026-01-01 00:00:00';
+        public string $comment_date_gmt = '2026-01-01 00:00:00';
+        public string $comment_approved = '1';
+        public string $comment_parent = '0';
+        public string $comment_type = 'comment';
+        public string $comment_agent = '';
+        public string $user_id = '0';
+
+        /**
+         * @param array<string, mixed> $props Property overrides.
+         */
+        public function __construct( array $props = [] ) {
+            foreach ( $props as $key => $value ) {
+                if ( property_exists( $this, $key ) ) {
+                    $this->{$key} = (string) $value;
+                }
+            }
+        }
+    }
+}
+
+if ( ! function_exists( 'get_comments' ) ) {
+    /**
+     * Test double for get_comments(): records every args array it was called
+     * with, and returns $GLOBALS['wp_comments_stub'] (or a count when asked).
+     *
+     * @param array<string, mixed> $args Query args.
+     * @return array<int, WP_Comment>|int
+     */
+    function get_comments( array $args = [] ) {
+        $GLOBALS['wp_get_comments_calls'][] = $args;
+        $GLOBALS['wp_get_comments_last_args'] = $args;
+
+        if ( ! empty( $args['count'] ) ) {
+            $key = ( $args['type'] ?? 'any' ) . ':' . ( $args['status'] ?? 'all' );
+            return (int) ( $GLOBALS['wp_comment_counts_stub'][ $key ] ?? 0 );
+        }
+
+        return $GLOBALS['wp_comments_stub'] ?? [];
+    }
+}
+
+if ( ! function_exists( 'get_comment_meta' ) ) {
+    /**
+     * Get comment meta.
+     *
+     * @param int    $comment_id Comment ID.
+     * @param string $key        Meta key.
+     * @param bool   $single     Return single value.
+     * @return mixed
+     */
+    function get_comment_meta( int $comment_id, string $key = '', bool $single = false ) {
+        global $wp_comment_meta;
+        $value = $wp_comment_meta[ $comment_id ][ $key ] ?? null;
+        if ( null === $value ) {
+            return $single ? '' : [];
+        }
+        return $single ? $value : [ $value ];
+    }
+}
+
+if ( ! function_exists( 'wp_get_comment_status' ) ) {
+    /**
+     * Comment status.
+     *
+     * @param mixed $comment Comment.
+     */
+    function wp_get_comment_status( $comment ): string {
+        return 'approved';
+    }
+}
+
+if ( ! function_exists( 'get_avatar_url' ) ) {
+    /**
+     * Avatar URL.
+     *
+     * @param mixed                $id_or_email Identifier.
+     * @param array<string, mixed> $args        Args.
+     */
+    function get_avatar_url( $id_or_email, array $args = [] ): string {
+        return 'http://example.com/avatar.png';
+    }
+}
+
+if ( ! function_exists( 'get_the_title' ) ) {
+    /**
+     * Post title.
+     *
+     * @param int $post_id Post ID.
+     */
+    function get_the_title( int $post_id = 0 ): string {
+        return 'Test Post';
+    }
+}
+
+/**
+ * Reset recorded comment-query state between tests.
+ */
+function reset_wp_comments(): void {
+    global $wp_comment_meta;
+    $wp_comment_meta = [];
+    unset(
+        $GLOBALS['wp_get_comments_calls'],
+        $GLOBALS['wp_get_comments_last_args'],
+        $GLOBALS['wp_comments_stub'],
+        $GLOBALS['wp_comment_counts_stub']
+    );
+}
