@@ -23,6 +23,13 @@ final class Bootstrap {
 	 * Boot the MCP subsystem if enabled and the adapter is available.
 	 */
 	public static function init(): void {
+		// Registered before the enabled check on purpose. This guard only ever
+		// denies requests to our own route, so it costs nothing when the server
+		// is off — and it must not depend on our own bootstrapping having got
+		// that far, since the whole point is that it holds when something else
+		// has gone wrong.
+		RouteGuard::register();
+
 		if ( ! Toggle::is_enabled() ) {
 			return;
 		}

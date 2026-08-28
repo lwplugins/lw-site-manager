@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.4.3] - 2026-08-28
+
+### Security
+- **The MCP endpoint no longer depends on a single adapter hook for its admin gate.** The adapter applies its transport check as `apply_filters( 'mcp_adapter_default_transport_permission_user_capability', 'read', ... )` — note the default. `Mcp\TransportGuard` raises that to `manage_options`, but only for as long as that one filter is actually applied. If it ever is not — an upstream refactor, a hook rename, or a different bundled copy of the library winning the autoload race, which already happens on every WooCommerce store — the endpoint falls back to `read`, a capability every logged-in subscriber holds.
+
+  `Mcp\RouteGuard` now enforces the same capability on WordPress's own `rest_pre_dispatch`, so the gate holds regardless of which adapter is loaded or whether its filters fire. It is registered before the enabled check, since the point is that it holds when something else has gone wrong. It matches only this plugin's server route and anything beneath it — not another plugin's MCP endpoint, and not a route that merely shares the prefix — and never overrides an answer another filter already produced.
+
+  Note this fallback is present in **every** adapter version, 0.5.0 included; it was not a weakness of the older bundled copy.
+
+  Verified live: a subscriber receives `403`, an unauthenticated caller `401`, an administrator is unaffected, and another plugin's MCP route is untouched.
+
 ## [1.4.3] - 2026-08-25
 
 ### Changed

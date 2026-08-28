@@ -157,6 +157,9 @@ Yes, LW Site Manager provides similar functionality to MainWP but uses the nativ
 == Changelog ==
 
 = 1.4.3 =
+* Security: The MCP endpoint now enforces its administrator requirement itself, instead of relying solely on the adapter library applying our filter. The library defaults to the "read" capability, which every logged-in subscriber has, so a single hook not firing would have quietly opened the endpoint to any logged-in user. Verified: a subscriber now gets 403, an administrator is unaffected, and other plugins' MCP endpoints are untouched.
+
+= 1.4.3 =
 * Update: The MCP Adapter library bundled in the plugin ZIP moves from 0.5.0 to 0.6.1, which brings better MCP resource metadata handling, more reliable sessions, and — because the adapter now uses the Jetpack Autoloader — a better chance that the newest copy wins when several plugins bundle their own.
 * Note: Abilities registered by other plugins as public are now exposed through the adapter's default MCP server unless they opt out. This plugin's own abilities are unchanged, and the MCP transport still requires the same capability as before.
 * Note: On multisite only, open MCP connections need to reconnect once after updating, because session storage moved to per-site keys. Single sites are unaffected.
