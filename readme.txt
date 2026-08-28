@@ -4,7 +4,7 @@ Tags: site-manager, maintenance, ai, rest-api, abilities
 Requires at least: 6.9
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 1.4.2
+Stable tag: 1.4.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -155,6 +155,14 @@ Yes, LW Site Manager provides similar functionality to MainWP but uses the nativ
 3. Backup creation options
 
 == Changelog ==
+
+= 1.4.3 =
+* Security: The MCP endpoint now enforces its administrator requirement itself, instead of relying solely on the adapter library applying our filter. The library defaults to the "read" capability, which every logged-in subscriber has, so a single hook not firing would have quietly opened the endpoint to any logged-in user. Verified: a subscriber now gets 403, an administrator is unaffected, and other plugins' MCP endpoints are untouched.
+
+= 1.4.3 =
+* Update: The MCP Adapter library bundled in the plugin ZIP moves from 0.5.0 to 0.6.1, which brings better MCP resource metadata handling, more reliable sessions, and — because the adapter now uses the Jetpack Autoloader — a better chance that the newest copy wins when several plugins bundle their own.
+* Note: Abilities registered by other plugins as public are now exposed through the adapter's default MCP server unless they opt out. This plugin's own abilities are unchanged, and the MCP transport still requires the same capability as before.
+* Note: On multisite only, open MCP connections need to reconnect once after updating, because session storage moved to per-site keys. Single sites are unaffected.
 
 = 1.4.2 =
 * Fix: Failed plugin/theme installs and activations were reported as successful. They returned a 200 with success:false in the body, which the MCP layer then wrapped into a success envelope — so an AI agent was told the work was done when it had not been. These now return a proper error, over MCP and over REST alike, with the captured PHP errors kept in the error detail.

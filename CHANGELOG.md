@@ -1,5 +1,28 @@
 # Changelog
 
+## [1.4.3] - 2026-08-28
+
+### Security
+- **The MCP endpoint no longer depends on a single adapter hook for its admin gate.** The adapter applies its transport check as `apply_filters( 'mcp_adapter_default_transport_permission_user_capability', 'read', ... )` — note the default. `Mcp\TransportGuard` raises that to `manage_options`, but only for as long as that one filter is actually applied. If it ever is not — an upstream refactor, a hook rename, or a different bundled copy of the library winning the autoload race, which already happens on every WooCommerce store — the endpoint falls back to `read`, a capability every logged-in subscriber holds.
+
+  `Mcp\RouteGuard` now enforces the same capability on WordPress's own `rest_pre_dispatch`, so the gate holds regardless of which adapter is loaded or whether its filters fire. It is registered before the enabled check, since the point is that it holds when something else has gone wrong. It matches only this plugin's server route and anything beneath it — not another plugin's MCP endpoint, and not a route that merely shares the prefix — and never overrides an answer another filter already produced.
+
+  Note this fallback is present in **every** adapter version, 0.5.0 included; it was not a weakness of the older bundled copy.
+
+  Verified live: a subscriber receives `403`, an unauthenticated caller `401`, an administrator is unaffected, and another plugin's MCP route is untouched.
+
+## [1.4.3] - 2026-08-25
+
+### Changed
+- The MCP Adapter bundled in the release ZIP moves from v0.5.0 to v0.6.1 (`wordpress/mcp-adapter` in `require-dev` and in the release workflow's bundle step). Verified against every adapter hook this plugin uses — `mcp_adapter_default_server_config`, `mcp_adapter_default_transport_permission_user_capability`, `mcp_adapter_tool_call_result`, `mcp_adapter_init` and the `mcp-adapter/discover-abilities` ability all still exist, and `McpNameSanitizer` still turns `mcp-adapter/execute-ability` into the `mcp-adapter-execute-ability` tool name `Mcp\ResultUnwrapper` matches on.
+- `composer.json` allows the `automattic/jetpack-autoloader` Composer plugin. Adapter 0.6.0 made it a runtime dependency; without the entry `composer install` aborts, which is what broke CI on the dependency-update PR. The adapter uses it so the newest `WP\MCP` classes win when several plugins bundle their own copy — the same class of problem the outdated-adapter notice added in 1.4.2 reports.
+
+### Notes
+- **Upstream behaviour changes inherited from adapter 0.6.0.** Abilities registered by *other* plugins with `meta.public: true` are now exposed through the adapter's default MCP server unless they set `meta.mcp.public` to false. This plugin's own abilities are unaffected: `Mcp\AbilityExposer` has always set `meta.mcp.public` explicitly on every `site-manager/*` ability, and the transport still enforces the capability from `Mcp\TransportGuard`.
+- On multisite only, active Streamable HTTP sessions must reconnect once after the update: adapter 0.6.0 moved session storage from a network-wide key to per-site keys. Single-site installs are unaffected.
+- The adapter's own minimum is WordPress 6.9, which this plugin already required — no change to the supported floor.
+- The release ZIP was rebuilt and checked: it ships only `automattic/`, `composer/` and `wordpress/` under `vendor/`, and all 345 classmap entries resolve inside the artifact. The 0.6.0 release-ZIP defect that mapped `WP_CLI` to an omitted test file is fixed in 0.6.1 and never applied to this build, which installs the adapter through Composer.
+
 ## [1.4.2] - 2026-08-24
 
 ### Fixed

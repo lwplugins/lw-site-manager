@@ -2242,3 +2242,35 @@ function reset_wp_comments(): void {
         $GLOBALS['wp_comment_counts_stub']
     );
 }
+
+if ( ! class_exists( 'WP_REST_Request' ) ) {
+    /**
+     * Minimal WP_REST_Request stub.
+     */
+    class WP_REST_Request {
+        private string $method;
+        private string $route;
+
+        public function __construct( string $method = 'GET', string $route = '' ) {
+            $this->method = $method;
+            $this->route  = $route;
+        }
+
+        public function get_method(): string {
+            return $this->method;
+        }
+
+        public function get_route(): string {
+            return $this->route;
+        }
+    }
+}
+
+if ( ! function_exists( 'is_user_logged_in' ) ) {
+    /**
+     * Whether a user is logged in.
+     */
+    function is_user_logged_in(): bool {
+        return (bool) ( $GLOBALS['wp_user_logged_in'] ?? false );
+    }
+}
