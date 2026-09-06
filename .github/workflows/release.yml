@@ -66,13 +66,13 @@ jobs:
           VERSION: ${{ steps.get_version.outputs.version }}
         run: |
           mkdir -p dist/lw-site-manager
-          rsync -av --exclude='.git' --exclude='.github' --exclude='dist' \
-            --exclude='builds' --exclude='composer.json' --exclude='composer.lock' \
-            --exclude='phpcs.xml.dist' --exclude='node_modules' --exclude='.gitignore' \
-            --exclude='tests' --exclude='phpstan.neon.dist' --exclude='phpstan-baseline.neon' \
+          rsync -av --exclude='.git' --exclude='.github' --exclude='dist' --exclude='builds' \
+            --exclude='composer.json' --exclude='composer.lock' --exclude='phpcs.xml.dist' \
+            --exclude='node_modules' --exclude='.gitignore' --exclude='.gitattributes' \
+            --exclude='tests' --exclude='docs' --exclude='.claude' --exclude='.superpowers' \
+            --exclude='phpstan.neon.dist' --exclude='phpstan-baseline.neon' \
             --exclude='phpstan-bootstrap.php' --exclude='phpunit.xml.dist' \
-            --exclude='phpunit-integration.xml.dist' --exclude='.claude' \
-            --exclude='*.log' . dist/lw-site-manager/
+            --exclude='phpunit-integration.xml.dist' --exclude='*.log' . dist/lw-site-manager/
           cd dist && zip -r "lw-site-manager-${VERSION}.zip" lw-site-manager/
 
       - name: Create tag and release
