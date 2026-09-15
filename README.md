@@ -1,6 +1,6 @@
 # Lightweight Site Manager
 
-WordPress Site Manager using the Abilities API - A native, AI-ready alternative to MainWP.
+WordPress Site Manager using the Abilities API - AI-ready site maintenance with a built-in MCP server.
 
 **Part of [LW Plugins](https://lwplugins.com) - Lightweight plugins for WordPress.**
 

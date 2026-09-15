@@ -12,7 +12,7 @@ WordPress Site Manager using the Abilities API - Full site maintenance via AI/RE
 
 == Description ==
 
-LW Site Manager is a comprehensive WordPress site management plugin built on the WordPress Abilities API. It provides a native, AI-ready alternative to MainWP for managing your WordPress site.
+LW Site Manager is a comprehensive WordPress site management plugin built on the WordPress Abilities API. It exposes your site's maintenance, content and store operations as abilities that an AI agent (through the built-in MCP server) or any REST client can call directly.
 
 = Features =
 
@@ -143,10 +143,6 @@ Your skills then appear in the discovery catalog (under your own badge), are loa
 = Does this work with WooCommerce? =
 
 Yes — and the WooCommerce coverage is comprehensive. Beyond product and order CRUD, you can edit existing orders end-to-end: add or remove line items, apply or remove coupons, add custom fees, change shipping, recalculate totals, mark orders paid, re-send order emails, and generate pay-for-order URLs. Requires WooCommerce 7.0 or higher.
-
-= Is this a MainWP alternative? =
-
-Yes, LW Site Manager provides similar functionality to MainWP but uses the native WordPress Abilities API instead of custom endpoints.
 
 == Screenshots ==
 
