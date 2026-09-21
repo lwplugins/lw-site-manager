@@ -2242,3 +2242,153 @@ function reset_wp_comments(): void {
         $GLOBALS['wp_comment_counts_stub']
     );
 }
+
+// ============================================================================
+// Term Stubs (in-memory store for unit tests)
+// ============================================================================
+
+if ( ! class_exists( 'WP_Term' ) ) {
+    /**
+     * Minimal WP_Term stand-in.
+     */
+    class WP_Term {
+        public int $term_id = 0;
+        public string $name = '';
+        public string $slug = '';
+        public string $taxonomy = 'category';
+        public string $description = '';
+        public int $parent = 0;
+        public int $count = 0;
+
+        /**
+         * @param array<string, mixed> $props Property values.
+         */
+        public function __construct( array $props = [] ) {
+            foreach ( $props as $name => $value ) {
+                $this->$name = $value;
+            }
+        }
+    }
+}
+
+if ( ! function_exists( 'taxonomy_exists' ) ) {
+    /**
+     * Only the two core taxonomies exist under unit tests.
+     */
+    function taxonomy_exists( string $taxonomy ): bool {
+        return in_array( $taxonomy, [ 'category', 'post_tag' ], true );
+    }
+}
+
+if ( ! function_exists( 'is_taxonomy_hierarchical' ) ) {
+    function is_taxonomy_hierarchical( string $taxonomy ): bool {
+        return 'category' === $taxonomy;
+    }
+}
+
+if ( ! function_exists( 'get_term' ) ) {
+    /**
+     * Term from the in-memory store ($wp_terms), or null.
+     *
+     * @param int|object $term     Term ID or object.
+     * @param string     $taxonomy Taxonomy (ignored).
+     */
+    function get_term( $term, $taxonomy = '' ) {
+        global $wp_terms;
+        $id = is_object( $term ) ? (int) $term->term_id : (int) $term;
+        return $wp_terms[ $id ] ?? null;
+    }
+}
+
+if ( ! function_exists( 'get_term_link' ) ) {
+    function get_term_link( $term, string $taxonomy = '' ): string {
+        return 'http://example.com/term/' . ( is_object( $term ) ? $term->slug : (string) $term );
+    }
+}
+
+if ( ! function_exists( 'wp_insert_term' ) ) {
+    /**
+     * Create a term in the in-memory store.
+     *
+     * @param array<string, mixed> $args Term args.
+     * @return array{term_id: int, term_taxonomy_id: int}
+     */
+    function wp_insert_term( string $name, string $taxonomy, array $args = [] ): array {
+        global $wp_terms;
+        $id               = 100 + count( (array) $wp_terms );
+        $wp_terms[ $id ]  = new WP_Term( [ 'term_id' => $id, 'name' => $name, 'slug' => strtolower( $name ), 'taxonomy' => $taxonomy ] );
+        return [ 'term_id' => $id, 'term_taxonomy_id' => $id ];
+    }
+}
+
+if ( ! function_exists( 'wp_update_term' ) ) {
+    /**
+     * Update a term in the in-memory store.
+     *
+     * @param array<string, mixed> $args Term args.
+     * @return array{term_id: int, term_taxonomy_id: int}
+     */
+    function wp_update_term( int $term_id, string $taxonomy, array $args = [] ): array {
+        global $wp_terms;
+        foreach ( $args as $name => $value ) {
+            $wp_terms[ $term_id ]->$name = $value;
+        }
+        return [ 'term_id' => $term_id, 'term_taxonomy_id' => $term_id ];
+    }
+}
+
+if ( ! function_exists( 'update_term_meta' ) ) {
+    /**
+     * Update term meta (in-memory store).
+     *
+     * @param mixed $value Meta value.
+     */
+    function update_term_meta( int $term_id, string $key, $value ): bool {
+        global $wp_term_meta;
+        $wp_term_meta[ $term_id ][ $key ] = $value;
+        return true;
+    }
+}
+
+if ( ! function_exists( 'wp_unslash' ) ) {
+    /**
+     * Remove slashes from a string or array of strings.
+     *
+     * @param mixed $value Value.
+     * @return mixed
+     */
+    function wp_unslash( $value ) {
+        if ( is_array( $value ) ) {
+            return array_map( 'wp_unslash', $value );
+        }
+        return is_string( $value ) ? stripslashes( $value ) : $value;
+    }
+}
+
+if ( ! function_exists( 'sanitize_key' ) ) {
+    function sanitize_key( string $key ): string {
+        return preg_replace( '/[^a-z0-9_\-]/', '', strtolower( $key ) );
+    }
+}
+
+if ( ! function_exists( '_get_meta_table' ) ) {
+    /**
+     * Meta table name for an object type.
+     *
+     * @return string|false
+     */
+    function _get_meta_table( string $type ) {
+        return in_array( $type, [ 'post', 'term', 'user', 'comment' ], true ) ? 'wp_' . $type . 'meta' : false;
+    }
+}
+
+/**
+ * Reset the in-memory term and term-meta stores between tests.
+ *
+ * @param array<int, WP_Term> $terms Terms to seed, keyed by ID.
+ */
+function reset_wp_terms( array $terms = [] ): void {
+    global $wp_terms, $wp_term_meta;
+    $wp_terms     = $terms;
+    $wp_term_meta = [];
+}

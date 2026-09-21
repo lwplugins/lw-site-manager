@@ -76,19 +76,26 @@ final class MetaGuard {
     public static function write( string $type, int $objectId, string $key ): ?\WP_Error {
         // Role/session keys are refused for everyone, before any capability
         // check — no capability makes writing a role assignment acceptable here.
-        if ( 'user' === $type ) {
-            $error = ProtectedMeta::guardUserWrite( $key );
-            if ( $error ) {
-                return $error;
-            }
-        }
-
-        $error = self::checkCapability( $type, $objectId, 1 );
+        $error = self::guardUserKey( $type, $key ) ?? self::checkCapability( $type, $objectId, 1 );
         if ( $error ) {
             return $error;
         }
 
-        return ProtectedMeta::guardProtectedWrite( $key, $type );
+        return self::guardKey( $type, $key );
+    }
+
+    /**
+     * Guard the key policy of a write, without the object capability.
+     *
+     * For writes whose object capability is established elsewhere: the meta
+     * map of a term being created has no term ID to check yet, and creating
+     * the term is already gated by the ability itself.
+     *
+     * @param string $type Object type: post, user, comment or term.
+     * @param string $key  Meta key being written.
+     */
+    public static function writeKey( string $type, string $key ): ?\WP_Error {
+        return self::guardUserKey( $type, $key ) ?? self::guardKey( $type, $key );
     }
 
     /**
@@ -129,6 +136,26 @@ final class MetaGuard {
             $objectId,
             sprintf( 'You are not allowed to access meta for this %s.', $type )
         );
+    }
+
+    /**
+     * Refuse role/session user meta keys, whoever the caller is.
+     *
+     * @param string $type Object type.
+     * @param string $key  Meta key being written.
+     */
+    private static function guardUserKey( string $type, string $key ): ?\WP_Error {
+        return 'user' === $type ? ProtectedMeta::guardUserWrite( $key ) : null;
+    }
+
+    /**
+     * Key-level write policy: protected keys are for administrators only.
+     *
+     * @param string $type Object type.
+     * @param string $key  Meta key being written.
+     */
+    private static function guardKey( string $type, string $key ): ?\WP_Error {
+        return ProtectedMeta::guardProtectedWrite( $key, $type );
     }
 
     /**
