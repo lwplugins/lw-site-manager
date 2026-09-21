@@ -104,6 +104,37 @@ final class MetaGuard {
     }
 
     /**
+     * Guard every key of an inline meta map, before anything is written.
+     *
+     * The create/update abilities for posts, terms, comments and users take a
+     * `meta` map: a second route to the writes set-*-meta guards, so it follows
+     * the same policy, and one refused key rejects the whole map. An object not
+     * created yet ($objectId 0) has no ID for the object capability; creating
+     * it is already gated by the ability, so only the key policy applies.
+     *
+     * @param string $type     Object type: post, user, comment or term.
+     * @param int    $objectId Target object ID, or 0 for an object not created yet.
+     * @param mixed  $meta     The caller's meta map.
+     */
+    public static function guardMap( string $type, int $objectId, mixed $meta ): ?\WP_Error {
+        if ( ! is_array( $meta ) ) {
+            return null;
+        }
+
+        foreach ( array_keys( $meta ) as $key ) {
+            $error = $objectId > 0
+                ? self::write( $type, $objectId, (string) $key )
+                : self::writeKey( $type, (string) $key );
+
+            if ( $error ) {
+                return $error;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Guard access to a whole meta listing for one object.
      *
      * @param string $type     Object type.

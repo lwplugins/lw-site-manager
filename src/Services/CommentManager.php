@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace LightweightPlugins\SiteManager\Services;
 
 use LightweightPlugins\SiteManager\Services\Comments\CommentCounter;
+use LightweightPlugins\SiteManager\Services\Meta\MetaGuard;
 
 class CommentManager extends AbstractService {
 
@@ -92,7 +93,8 @@ class CommentManager extends AbstractService {
      * Create comment
      */
     public static function create_comment( array $input ): array|\WP_Error {
-        $error = self::validateRequired( $input, [ 'post_id', 'content' ] );
+        $error = self::validateRequired( $input, [ 'post_id', 'content' ] )
+            ?? MetaGuard::guardMap( 'comment', 0, $input['meta'] ?? null );
         if ( $error ) {
             return $error;
         }
@@ -144,7 +146,8 @@ class CommentManager extends AbstractService {
      * Update comment
      */
     public static function update_comment( array $input ): array|\WP_Error {
-        $error = self::validateId( $input );
+        $error = self::validateId( $input )
+            ?? MetaGuard::guardMap( 'comment', (int) $input['id'], $input['meta'] ?? null );
         if ( $error ) {
             return $error;
         }

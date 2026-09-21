@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace LightweightPlugins\SiteManager\Services\WooCommerce;
 
 use LightweightPlugins\SiteManager\Services\AbstractService;
+use LightweightPlugins\SiteManager\Services\Meta\GatedMetaKeys;
 
 class OrderManager extends AbstractService {
 
@@ -103,6 +104,11 @@ class OrderManager extends AbstractService {
     public static function create_order( array $input ): array|\WP_Error {
         if ( ! class_exists( 'WooCommerce' ) ) {
             return self::errorResponse( 'woocommerce_not_active', 'WooCommerce is not active', 400 );
+        }
+
+        $error = GatedMetaKeys::guardMap( $input['meta'] ?? null );
+        if ( $error ) {
+            return $error;
         }
 
         try {
@@ -217,7 +223,8 @@ class OrderManager extends AbstractService {
             return self::errorResponse( 'woocommerce_not_active', 'WooCommerce is not active', 400 );
         }
 
-        $error = self::validateId( $input );
+        $error = self::validateId( $input )
+            ?? GatedMetaKeys::guardMap( $input['meta'] ?? null );
         if ( $error ) {
             return $error;
         }

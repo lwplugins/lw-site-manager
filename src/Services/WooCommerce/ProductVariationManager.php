@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace LightweightPlugins\SiteManager\Services\WooCommerce;
 
 use LightweightPlugins\SiteManager\Services\AbstractService;
+use LightweightPlugins\SiteManager\Services\Meta\GatedMetaKeys;
 
 class ProductVariationManager extends AbstractService {
 
@@ -75,6 +76,11 @@ class ProductVariationManager extends AbstractService {
             return $unavailable;
         }
 
+        $error = GatedMetaKeys::guardMap( $input['meta'] ?? null );
+        if ( $error ) {
+            return $error;
+        }
+
         $parent = self::fetch_variable_parent( (int) ( $input['product_id'] ?? 0 ) );
         if ( $parent instanceof \WP_Error ) {
             return $parent;
@@ -110,6 +116,11 @@ class ProductVariationManager extends AbstractService {
         $unavailable = OrderGuard::ensureAvailable();
         if ( $unavailable ) {
             return $unavailable;
+        }
+
+        $error = GatedMetaKeys::guardMap( $input['meta'] ?? null );
+        if ( $error ) {
+            return $error;
         }
 
         $id        = (int) ( $input['id'] ?? 0 );

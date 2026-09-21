@@ -108,7 +108,7 @@ class TaxonomyManager extends AbstractService {
             return self::errorResponse( 'invalid_taxonomy', 'Invalid taxonomy', 400 );
         }
 
-        $error = self::guard_meta_map( $input['meta'] ?? null, 0 );
+        $error = MetaGuard::guardMap( 'term', 0, $input['meta'] ?? null );
         if ( $error ) {
             return $error;
         }
@@ -160,7 +160,7 @@ class TaxonomyManager extends AbstractService {
             return self::errorResponse( 'not_found', 'Term not found', 404 );
         }
 
-        $error = self::guard_meta_map( $input['meta'] ?? null, $input['id'] );
+        $error = MetaGuard::guardMap( 'term', $input['id'], $input['meta'] ?? null );
         if ( $error ) {
             return $error;
         }
@@ -246,33 +246,6 @@ class TaxonomyManager extends AbstractService {
             'message' => 'Term deleted successfully',
             'id'      => $input['id'],
         ];
-    }
-
-    /**
-     * Refuse the whole request, before anything is changed, when any key of
-     * an inline meta map may not be written by this caller. Same policy as
-     * set-term-meta; a term being created ($term_id 0) has no ID to check the
-     * object capability against, so only the key policy applies to it.
-     *
-     * @param mixed $meta    The caller's meta map.
-     * @param int   $term_id Target term ID, or 0 for a term not created yet.
-     */
-    private static function guard_meta_map( mixed $meta, int $term_id ): ?\WP_Error {
-        if ( empty( $meta ) || ! is_array( $meta ) ) {
-            return null;
-        }
-
-        foreach ( array_keys( $meta ) as $key ) {
-            $error = $term_id > 0
-                ? MetaGuard::write( 'term', $term_id, (string) $key )
-                : MetaGuard::writeKey( 'term', (string) $key );
-
-            if ( $error ) {
-                return $error;
-            }
-        }
-
-        return null;
     }
 
     /**

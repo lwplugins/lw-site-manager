@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace LightweightPlugins\SiteManager\Services\WooCommerce;
 
 use LightweightPlugins\SiteManager\Services\AbstractService;
+use LightweightPlugins\SiteManager\Services\Meta\GatedMetaKeys;
 
 class ProductManager extends AbstractService {
 
@@ -150,7 +151,8 @@ class ProductManager extends AbstractService {
             return self::errorResponse( 'woocommerce_not_active', 'WooCommerce is not active', 400 );
         }
 
-        $error = self::validateRequiredField( $input, 'name', 'Product name is required' );
+        $error = self::validateRequiredField( $input, 'name', 'Product name is required' )
+            ?? GatedMetaKeys::guardMap( $input['meta'] ?? null );
         if ( $error ) {
             return $error;
         }
@@ -318,7 +320,8 @@ class ProductManager extends AbstractService {
             return self::errorResponse( 'woocommerce_not_active', 'WooCommerce is not active', 400 );
         }
 
-        $error = self::validateId( $input );
+        $error = self::validateId( $input )
+            ?? GatedMetaKeys::guardMap( $input['meta'] ?? null );
         if ( $error ) {
             return $error;
         }

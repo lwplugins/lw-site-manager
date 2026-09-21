@@ -8,7 +8,7 @@ declare(strict_types=1);
 namespace LightweightPlugins\SiteManager\Services;
 
 use LightweightPlugins\SiteManager\Helpers\Capability;
-use LightweightPlugins\SiteManager\Helpers\ProtectedMeta;
+use LightweightPlugins\SiteManager\Services\Meta\MetaGuard;
 
 class UserManager extends AbstractService {
 
@@ -77,7 +77,8 @@ class UserManager extends AbstractService {
      */
     public static function create_user( array $input ): array|\WP_Error {
         // Validate required fields
-        $error = self::validateRequired( $input, [ 'username', 'email' ] );
+        $error = self::validateRequired( $input, [ 'username', 'email' ] )
+            ?? MetaGuard::guardMap( 'user', 0, $input['meta'] ?? null );
         if ( $error ) {
             return $error;
         }
@@ -182,13 +183,9 @@ class UserManager extends AbstractService {
 
         // The inline meta map is a second route to the same write that
         // set-user-meta guards, so it enforces the same key policy.
-        if ( ! empty( $input['meta'] ) && is_array( $input['meta'] ) ) {
-            foreach ( array_keys( $input['meta'] ) as $meta_key ) {
-                $error = ProtectedMeta::guardUserWrite( (string) $meta_key );
-                if ( $error ) {
-                    return $error;
-                }
-            }
+        $error = MetaGuard::guardMap( 'user', (int) $input['id'], $input['meta'] ?? null );
+        if ( $error ) {
+            return $error;
         }
 
         $userdata = [ 'ID' => $input['id'] ];

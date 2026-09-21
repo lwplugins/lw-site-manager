@@ -9,6 +9,7 @@ namespace LightweightPlugins\SiteManager\Services;
 
 use LightweightPlugins\SiteManager\Helpers\Capability;
 use LightweightPlugins\SiteManager\Helpers\ProtectedMeta;
+use LightweightPlugins\SiteManager\Services\Meta\MetaGuard;
 
 class PostManager extends AbstractService {
 
@@ -299,7 +300,8 @@ class PostManager extends AbstractService {
      * Create post
      */
     public static function create_post( array $input ): array|\WP_Error {
-        $error = self::validateRequiredField( $input, 'title', 'Post title is required' );
+        $error = self::validateRequiredField( $input, 'title', 'Post title is required' )
+            ?? MetaGuard::guardMap( 'post', 0, $input['meta'] ?? null );
         if ( $error ) {
             return $error;
         }
@@ -388,7 +390,8 @@ class PostManager extends AbstractService {
             return $post;
         }
 
-        $error = Capability::editPost( (int) $input['id'] );
+        $error = Capability::editPost( (int) $input['id'] )
+            ?? MetaGuard::guardMap( 'post', (int) $input['id'], $input['meta'] ?? null );
         if ( $error ) {
             return $error;
         }
