@@ -2392,3 +2392,53 @@ function reset_wp_terms( array $terms = [] ): void {
     $wp_terms     = $terms;
     $wp_term_meta = [];
 }
+
+if ( ! function_exists( 'wp_slash' ) ) {
+    /**
+     * Add slashes to a string or array of strings.
+     *
+     * @param mixed $value Value.
+     * @return mixed
+     */
+    function wp_slash( $value ) {
+        if ( is_array( $value ) ) {
+            return array_map( 'wp_slash', $value );
+        }
+        return is_string( $value ) ? addslashes( $value ) : $value;
+    }
+}
+
+if ( ! function_exists( 'add_post_meta' ) ) {
+    /**
+     * Add post meta (in-memory store). Unslashes key and value like core's
+     * add_metadata(), so a caller that forgets wp_slash() loses backslashes.
+     *
+     * @param mixed $value Meta value.
+     */
+    function add_post_meta( int $post_id, string $key, $value, bool $unique = false ): int {
+        global $wp_post_meta;
+        $wp_post_meta[ $post_id ][ wp_unslash( $key ) ][] = wp_unslash( $value );
+        return 1;
+    }
+}
+
+if ( ! function_exists( 'wp_set_object_terms' ) ) {
+    /**
+     * @param mixed $terms Terms.
+     */
+    function wp_set_object_terms( int $object_id, $terms, string $taxonomy ): array {
+        return [];
+    }
+}
+
+if ( ! function_exists( 'set_post_thumbnail' ) ) {
+    function set_post_thumbnail( $post, int $thumbnail_id ): bool {
+        return true;
+    }
+}
+
+if ( ! function_exists( 'get_current_user_id' ) ) {
+    function get_current_user_id(): int {
+        return (int) ( $GLOBALS['wp_current_user_id'] ?? 1 );
+    }
+}

@@ -538,7 +538,8 @@ class PostManager extends AbstractService {
      * Duplicate post
      */
     public static function duplicate_post( array $input ): array|\WP_Error {
-        $error = self::validateId( $input );
+        $error = self::validateId( $input )
+            ?? Capability::editPost( (int) $input['id'] );
         if ( $error ) {
             return $error;
         }
@@ -589,7 +590,8 @@ class PostManager extends AbstractService {
                     continue;
                 }
                 foreach ( $values as $value ) {
-                    add_post_meta( $new_post_id, $key, maybe_unserialize( $value ) );
+                    // add_post_meta() unslashes key and value: slash them so the stored ones are copied exactly.
+                    add_post_meta( $new_post_id, wp_slash( $key ), wp_slash( maybe_unserialize( $value ) ) );
                 }
             }
         }
