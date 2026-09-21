@@ -81,7 +81,7 @@ final class MetaGuard {
             return $error;
         }
 
-        return self::guardKey( $type, $key );
+        return self::guardKey( $type, $objectId, $key );
     }
 
     /**
@@ -95,7 +95,7 @@ final class MetaGuard {
      * @param string $key  Meta key being written.
      */
     public static function writeKey( string $type, string $key ): ?\WP_Error {
-        return self::guardUserKey( $type, $key ) ?? self::guardKey( $type, $key );
+        return self::guardUserKey( $type, $key ) ?? self::guardKey( $type, 0, $key );
     }
 
     /**
@@ -149,13 +149,15 @@ final class MetaGuard {
     }
 
     /**
-     * Key-level write policy: protected keys are for administrators only.
+     * Key-level write policy: protected keys are for administrators only,
+     * and gated keys also need their own capability.
      *
-     * @param string $type Object type.
-     * @param string $key  Meta key being written.
+     * @param string $type     Object type.
+     * @param int    $objectId Target object ID; 0 for an object not created yet.
+     * @param string $key      Meta key being written.
      */
-    private static function guardKey( string $type, string $key ): ?\WP_Error {
-        return ProtectedMeta::guardProtectedWrite( $key, $type );
+    private static function guardKey( string $type, int $objectId, string $key ): ?\WP_Error {
+        return ProtectedMeta::guardProtectedWrite( $key, $type ) ?? GatedMetaKeys::guard( $type, $objectId, $key );
     }
 
     /**

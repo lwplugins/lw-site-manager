@@ -462,5 +462,7 @@ curl -X DELETE "https://example.com/wp-json/wp-abilities/v1/abilities/site-manag
 
 - Private meta keys (starting with `_`) are not included in queries by default
 - Use `include_private: true` parameter to include private meta keys (for post and user meta)
+- Writing or deleting a private key (starting with `_`) requires an administrator (`manage_options`); the inline `meta` map of the create/update category and tag abilities follows the same rule
+- Some keys also need their own capability, even for administrators: `_lw_seo_markdown_content` (served verbatim by LW SEO at `/md`) needs `unfiltered_html`, which administrators lack on multisite and with `DISALLOW_UNFILTERED_HTML`. Add keys with the `lw_site_manager_gated_meta_keys` filter (`meta key => capability`)
 - Meta values can be simple types (string, number, boolean) or complex types (array, object)
 - WordPress automatically serializes/deserializes complex values
