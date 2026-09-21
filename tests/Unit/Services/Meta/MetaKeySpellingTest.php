@@ -77,9 +77,10 @@ final class MetaKeySpellingTest extends TestCase {
 
     public static function provide_collation_variants(): array {
         return [
-            'accented letter' => [ 'wp_capabilitiés' ],
-            'trailing space'  => [ 'wp_capabilities ' ],
-            'control char'    => [ "wp_capa\x00bilities" ],
+            'accented letter'  => [ 'wp_capabilitiés' ],
+            'trailing space'   => [ 'wp_capabilities ' ],
+            'control char'     => [ "wp_capa\x00bilities" ],
+            'trailing newline' => [ "wp_capabilities\n" ],
         ];
     }
 

@@ -195,7 +195,7 @@ final class MetaGuard {
      * @param string $key Canonical meta key.
      */
     private static function guardShape( string $key ): ?\WP_Error {
-        if ( 1 === preg_match( '/^[\x21-\x7E](?:[\x20-\x7E]*[\x21-\x7E])?$/', $key ) ) {
+        if ( 1 === preg_match( '/^[\x21-\x7E](?:[\x20-\x7E]*[\x21-\x7E])?\z/', $key ) ) {
             return null;
         }
 
