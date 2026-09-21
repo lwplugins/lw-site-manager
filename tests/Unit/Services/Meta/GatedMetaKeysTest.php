@@ -23,19 +23,15 @@ final class GatedMetaKeysTest extends TestCase {
 
     private const KEY = '_lw_seo_markdown_content';
 
-    private object $originalWpdb;
-
     protected function setUp(): void {
         parent::setUp();
         reset_wp_caps();
         reset_wp_filters();
         reset_wp_post_meta();
         reset_wp_terms( [ 7 => new \WP_Term( [ 'term_id' => 7, 'name' => 'News', 'slug' => 'news' ] ) ] );
-        $this->originalWpdb = $GLOBALS['wpdb'];
     }
 
     protected function tearDown(): void {
-        $GLOBALS['wpdb'] = $this->originalWpdb;
         reset_wp_caps();
         reset_wp_filters();
         reset_wp_terms();
@@ -86,6 +82,7 @@ final class GatedMetaKeysTest extends TestCase {
 
         $this->assertInstanceOf( \WP_Error::class, $result );
         $this->assertSame( 'forbidden_meta_key', $result->get_error_code() );
+        $this->assertCount( 1, $GLOBALS['wp_terms'] );
     }
 
     /**
@@ -102,22 +99,18 @@ final class GatedMetaKeysTest extends TestCase {
 
     public static function provide_spelling_variants(): array {
         return [
-            'upper case'        => [ '_LW_SEO_Markdown_Content' ],
-            'slashed'           => [ '_lw_seo_markdown\\_content' ],
-            'trailing space'    => [ self::KEY . ' ' ],
+            'upper case' => [ '_LW_SEO_Markdown_Content' ],
+            'slashed'    => [ '_lw_seo_markdown\\_content' ],
         ];
     }
 
-    public function test_key_the_database_matches_to_the_stored_override_is_refused(): void {
+    public function test_accented_spelling_of_the_key_is_refused(): void {
         grant_wp_caps( [ 'edit_posts', 'manage_options', 'edit_post:42' ] );
-        // A case-/accent-insensitive meta_key collation matches this to the
-        // stored override, so the update would overwrite it.
-        $GLOBALS['wpdb'] = $this->wpdbReturningStoredKeys( [ self::KEY ] );
 
         $result = MetaManager::set_post_meta( [ 'post_id' => 42, 'key' => '_lw_seo_markdówn_content', 'value' => '# Hi' ] );
 
         $this->assertInstanceOf( \WP_Error::class, $result );
-        $this->assertSame( 'forbidden_meta_key', $result->get_error_code() );
+        $this->assertSame( 'invalid_meta_key', $result->get_error_code() );
     }
 
     public function test_unrelated_protected_key_stays_writable_for_admin(): void {
@@ -139,42 +132,5 @@ final class GatedMetaKeysTest extends TestCase {
 
         $this->assertInstanceOf( \WP_Error::class, $result );
         $this->assertSame( 'forbidden_meta_key', $result->get_error_code() );
-    }
-
-    /**
-     * A wpdb double whose get_col() returns the given stored meta keys.
-     *
-     * @param array<int, string> $keys Stored keys the lookup should report.
-     */
-    private function wpdbReturningStoredKeys( array $keys ): object {
-        return new class( $keys ) {
-            public string $prefix = 'wp_';
-            public string $postmeta = 'wp_postmeta';
-
-            /**
-             * @param array<int, string> $keys Stored keys.
-             */
-            public function __construct( private array $keys ) {}
-
-            public function prepare( string $query, ...$args ): string {
-                return $query;
-            }
-
-            public function get_col( string $query ): array {
-                return str_contains( $query, 'SELECT DISTINCT meta_key' ) ? $this->keys : [];
-            }
-
-            public function get_var( string $query ) {
-                return 0;
-            }
-
-            public function get_results( string $query, $output = OBJECT ) {
-                return [];
-            }
-
-            public function query( string $query ) {
-                return 0;
-            }
-        };
     }
 }

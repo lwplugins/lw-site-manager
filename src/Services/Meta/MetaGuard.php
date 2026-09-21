@@ -9,6 +9,7 @@ namespace LightweightPlugins\SiteManager\Services\Meta;
 
 use LightweightPlugins\SiteManager\Helpers\Capability;
 use LightweightPlugins\SiteManager\Helpers\ProtectedMeta;
+use LightweightPlugins\SiteManager\Helpers\ResponseFormatter;
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
@@ -74,14 +75,16 @@ final class MetaGuard {
      * @param string $key      Meta key being written.
      */
     public static function write( string $type, int $objectId, string $key ): ?\WP_Error {
-        // Role/session keys are refused for everyone, before any capability
-        // check — no capability makes writing a role assignment acceptable here.
-        $error = self::guardUserKey( $type, $key ) ?? self::checkCapability( $type, $objectId, 1 );
+        $key = self::canonicalKey( $key );
+
+        // Key shape and role/session keys are refused for everyone, before any
+        // capability check — no capability makes writing a role assignment acceptable here.
+        $error = self::guardShape( $key ) ?? self::guardUserKey( $type, $key ) ?? self::checkCapability( $type, $objectId, 1 );
         if ( $error ) {
             return $error;
         }
 
-        return self::guardKey( $type, $objectId, $key );
+        return self::guardKey( $type, $key );
     }
 
     /**
@@ -95,7 +98,9 @@ final class MetaGuard {
      * @param string $key  Meta key being written.
      */
     public static function writeKey( string $type, string $key ): ?\WP_Error {
-        return self::guardUserKey( $type, $key ) ?? self::guardKey( $type, 0, $key );
+        $key = self::canonicalKey( $key );
+
+        return self::guardShape( $key ) ?? self::guardUserKey( $type, $key ) ?? self::guardKey( $type, $key );
     }
 
     /**
@@ -139,6 +144,38 @@ final class MetaGuard {
     }
 
     /**
+     * The key WordPress actually writes: update/add/delete_metadata() unslash
+     * it first, so "\_secret" lands on "_secret".
+     *
+     * @param string $key Meta key as the caller sent it.
+     */
+    private static function canonicalKey( string $key ): string {
+        return (string) wp_unslash( $key );
+    }
+
+    /**
+     * Refuse keys the database could match to a different stored key.
+     *
+     * The meta_key lookups follow the column's case-, accent- and trailing-space-
+     * insensitive collation, so "wp_capabilitiés" would update wp_capabilities.
+     * Printable ASCII without surrounding spaces leaves case as the only such
+     * equivalence, and the key policies compare case-insensitively.
+     *
+     * @param string $key Canonical meta key.
+     */
+    private static function guardShape( string $key ): ?\WP_Error {
+        if ( 1 === preg_match( '/^[\x21-\x7E](?:[\x20-\x7E]*[\x21-\x7E])?$/', $key ) ) {
+            return null;
+        }
+
+        return ResponseFormatter::error(
+            'invalid_meta_key',
+            sprintf( 'The meta key "%s" must be printable ASCII without leading or trailing spaces to be written through this ability.', $key ),
+            400
+        );
+    }
+
+    /**
      * Refuse role/session user meta keys, whoever the caller is.
      *
      * @param string $type Object type.
@@ -152,12 +189,11 @@ final class MetaGuard {
      * Key-level write policy: protected keys are for administrators only,
      * and gated keys also need their own capability.
      *
-     * @param string $type     Object type.
-     * @param int    $objectId Target object ID; 0 for an object not created yet.
-     * @param string $key      Meta key being written.
+     * @param string $type Object type.
+     * @param string $key  Canonical meta key.
      */
-    private static function guardKey( string $type, int $objectId, string $key ): ?\WP_Error {
-        return ProtectedMeta::guardProtectedWrite( $key, $type ) ?? GatedMetaKeys::guard( $type, $objectId, $key );
+    private static function guardKey( string $type, string $key ): ?\WP_Error {
+        return ProtectedMeta::guardProtectedWrite( $key, $type ) ?? GatedMetaKeys::guard( $key );
     }
 
     /**
