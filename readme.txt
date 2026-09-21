@@ -4,7 +4,7 @@ Tags: site-manager, maintenance, ai, rest-api, abilities
 Requires at least: 6.9
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 1.4.3
+Stable tag: 1.4.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -151,6 +151,13 @@ Yes — and the WooCommerce coverage is comprehensive. Beyond product and order 
 3. Backup creation options
 
 == Changelog ==
+
+= 1.4.4 =
+* Fix: Privilege escalation through the user meta abilities. A role key spelled with a backslash or an accented letter (e.g. "wp_capabilities\" or "wp_capabilitiés") got past the role-key check, but WordPress and the database then wrote the real role assignment. Anyone with the edit_users capability (with WooCommerce, shop managers too) could make themselves an administrator. Keys are now checked as WordPress will store them, and must be printable ASCII.
+* Fix: The inline meta map of the create/update post, page, comment, user, category and tag abilities skipped the meta-key rules, so an Author could set protected keys and create-user checked none at all. Every map now follows the same rules as the set-meta abilities, and a refused key rejects the whole request before anything is written.
+* Fix: The LW SEO Markdown override (served verbatim at /md) could be written by administrators without the unfiltered_html capability, which they lack on multisite and with DISALLOW_UNFILTERED_HTML. It now needs unfiltered_html on every path, including the WooCommerce meta abilities and product/order meta maps. Other plugins can gate their own keys with the lw_site_manager_gated_meta_keys filter.
+* Fix: duplicate-post let an Author copy (and publish) someone else's private post, and it rewrote copied meta keys and values (a doubled unslash), which could turn a harmless key into a protected one. The source now needs edit rights, and meta is copied exactly.
+* Change: Non-administrators now get an error when a create/update meta map contains a protected (underscore) key, as set-post-meta already did.
 
 = 1.4.3 =
 * Fix: the release package and Composer dist no longer ship tests, docs or development configuration

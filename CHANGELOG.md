@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.4.4] - 2026-09-21
+
+### Fixed
+- **Privilege escalation through the user meta abilities.** The key policies checked the key as sent, but `update/add/delete_metadata()` unslash it, and `meta_key` lookups follow the column's case-, accent- and trailing-space-insensitive collation. So `wp_capabilities\` or `wp_capabilitiés` passed the role-key check and then wrote the real role assignment. Anyone with `edit_users`, who may always edit their own account, could make themselves an administrator. With WooCommerce that includes shop managers. `\_secret` likewise got past the protected-key rule. `MetaGuard` now checks the unslashed key, compares case-insensitively, and only accepts printable ASCII without leading or trailing spaces for writes and deletes, which rules out every other spelling the database would match.
+- **Inline `meta` maps skipped the meta-key policy.** Create/update post and page, comment, user, category and tag wrote their `meta` map directly, so the policy `set-*-meta` enforces did not apply. An Author could set protected keys through `create-post`, `create-user` checked no key at all, and anyone who can manage categories (editors) could write protected term meta. Every map now goes through `MetaGuard::guardMap()` before anything is written: protected keys need an administrator, the object capability is checked on updates, and one refused key rejects the whole request.
+- **The LW SEO Markdown override could be written without `unfiltered_html`.** LW SEO serves `_lw_seo_markdown_content` verbatim at `/md` and only lets `unfiltered_html` users set it. The meta abilities let any `manage_options` user write protected keys, and administrators lack `unfiltered_html` on multisite and with `DISALLOW_UNFILTERED_HTML`. `Services\Meta\GatedMetaKeys` now requires the capability for this key on every meta write and delete. That covers the post, term, user and comment meta abilities, the inline maps above, the WooCommerce meta abilities, and the product, variation and order `meta` maps. The WooCommerce paths get only this check, because their own permissions deliberately let shop managers write WooCommerce internals.
+- **`duplicate-post` copied posts it should not, and rewrote their meta keys.**
+  - It checked no rights on the source post, so an Author could copy, and publish, someone else's private post. The source now needs `edit_post`.
+  - It passed stored meta to `add_post_meta()` without `wp_slash()`. Core then unslashed every key and value a second time, so a key stored as `\_lw_seo_markdown_content` (allowed by the key policy) became the protected `_lw_seo_markdown_content` on the copy, and backslashes in values (JSON, paths) were lost. Keys and values are now copied exactly.
+
+### Added
+- `lw_site_manager_gated_meta_keys` filter (`meta key => capability`): other plugins can require a capability for their own raw-markup meta keys.
+
+### Notes
+- **Behaviour change.** Non-administrators now get `forbidden_meta_key` when an inline `meta` map contains a protected (underscore) key, exactly like `set-post-meta` already did. Integrations that set such keys as an editor or author need an administrator. Keys with non-ASCII characters are refused with `invalid_meta_key`.
+- The key-shape rule also applies to deletes: leftover keys with non-ASCII characters can no longer be removed through `delete-*-meta`.
+- A `meta` map on `update-comment` now needs `edit_comment` on that comment (which WordPress maps to editing the parent post), matching `set-comment-meta`. A role that only has `moderate_comments` can no longer set comment meta through it.
+- `duplicate-post` now refuses posts the caller cannot edit.
+- `create-tag`/`update-tag` are gated by `manage_categories` (WordPress has no separate tag capability).
+
 ## [1.4.3] - 2026-09-06
 
 ### Fixed
