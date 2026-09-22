@@ -34,30 +34,36 @@ final class RouteGuard {
 
 	/**
 	 * Hook the guard onto REST dispatch.
+	 *
+	 * `rest_dispatch_request` is the first filter that receives the route
+	 * WordPress actually matched, and it runs before the route callback on every
+	 * path that can reach it (single requests and batch sub-requests alike).
 	 */
 	public static function register(): void {
-		add_filter( 'rest_pre_dispatch', [ self::class, 'guard' ], 10, 3 );
+		add_filter( 'rest_dispatch_request', [ self::class, 'guard' ], 10, 3 );
 	}
 
 	/**
-	 * Deny requests to this plugin's MCP route from callers without the capability.
+	 * Deny dispatch of this plugin's MCP route to callers without the capability.
 	 *
-	 * @param mixed $result  Response to replace the request with, or null to continue.
-	 * @param mixed $server  REST server instance (unused).
-	 * @param mixed $request The request being dispatched.
+	 * Keys on the matched route pattern, never on the path the client sent.
+	 * WordPress matches routes case-insensitively, and the `$` anchor of its
+	 * route regex also accepts a trailing newline, so `/MCP/LW-Site-Manager` or
+	 * `?rest_route=/mcp/lw-site-manager%0A` reach the same handler under a
+	 * spelling a string comparison on the path would not recognise.
+	 *
+	 * @param mixed $result  Dispatch result from an earlier filter, or null to continue.
+	 * @param mixed $request The request being dispatched (unused).
+	 * @param mixed $route   The registered route pattern WordPress matched.
 	 * @return mixed
 	 */
-	public static function guard( mixed $result, mixed $server, mixed $request ): mixed {
+	public static function guard( mixed $result, mixed $request, mixed $route ): mixed {
 		// Never override an answer another filter already produced.
 		if ( null !== $result ) {
 			return $result;
 		}
 
-		if ( ! is_object( $request ) || ! method_exists( $request, 'get_route' ) ) {
-			return $result;
-		}
-
-		if ( ! self::isOwnRoute( (string) $request->get_route() ) ) {
+		if ( ! is_string( $route ) || ! self::isOwnRoute( $route ) ) {
 			return $result;
 		}
 
@@ -73,17 +79,18 @@ final class RouteGuard {
 	}
 
 	/**
-	 * Whether a REST route belongs to this plugin's MCP server.
+	 * Whether a registered REST route belongs to this plugin's MCP server.
 	 *
 	 * Matches the server route and anything beneath it, but not a route that
 	 * merely shares the same prefix (`…-other`), and not another plugin's MCP
-	 * server, which we have no business gating.
+	 * server, which we have no business gating. Case-insensitive, like
+	 * WordPress's own route matching.
 	 *
-	 * @param string $route Route path, e.g. /mcp/lw-site-manager.
+	 * @param string $route Route pattern, e.g. /mcp/lw-site-manager.
 	 */
 	public static function isOwnRoute( string $route ): bool {
-		$ours = '/' . Server::ROUTE_NS . '/' . Server::SERVER_ROUTE;
-		$route = '/' . ltrim( $route, '/' );
+		$ours  = strtolower( '/' . Server::ROUTE_NS . '/' . Server::SERVER_ROUTE );
+		$route = strtolower( '/' . ltrim( $route, '/' ) );
 
 		return $route === $ours || str_starts_with( $route, $ours . '/' );
 	}
