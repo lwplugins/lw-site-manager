@@ -4,7 +4,7 @@ Tags: site-manager, maintenance, ai, rest-api, abilities
 Requires at least: 6.9
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 1.4.4
+Stable tag: 1.4.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -151,6 +151,12 @@ Yes — and the WooCommerce coverage is comprehensive. Beyond product and order 
 3. Backup creation options
 
 == Changelog ==
+
+= 1.4.5 =
+* Fix: The MCP endpoint now enforces its administrator requirement itself, instead of relying only on the adapter library applying this plugin's filter. The library defaults to the "read" capability, which every logged-in subscriber has, so a single hook not firing would have opened the endpoint to any logged-in user. The check covers every URL spelling WordPress routes to the endpoint (routes are matched case-insensitively).
+* Update: The MCP Adapter library bundled in the plugin ZIP moves from 0.5.0 to 0.6.1.
+* Change: Abilities that other plugins mark as public can now be called through the MCP server (an adapter 0.6 change) unless they opt out. Calls still require an administrator and the ability's own permission check. This plugin's own abilities are unchanged.
+* Change: On multisite only, open MCP connections need to reconnect once after updating, because sessions are now stored per site.
 
 = 1.4.4 =
 * Fix: Privilege escalation through the user meta abilities. A role key spelled with a backslash or an accented letter (e.g. "wp_capabilities\" or "wp_capabilitiés") got past the role-key check, but WordPress and the database then wrote the real role assignment. Anyone with the edit_users capability (with WooCommerce, shop managers too) could make themselves an administrator. Keys are now checked as WordPress will store them, and must be printable ASCII.

@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.4.5] - 2026-09-22
+
+### Fixed
+- **The MCP endpoint's administrator requirement rested on a single adapter hook.** The adapter checks its transport permission as `apply_filters( 'mcp_adapter_default_transport_permission_user_capability', 'read', ... )`. `Mcp\TransportGuard` raises that to `manage_options`, but only while that one filter is actually applied. If it ever is not (an upstream refactor, a hook rename, or another plugin's bundled copy of the library winning the autoload race, as WooCommerce's does), the endpoint falls back to `read`, which every logged-in subscriber holds. The fallback exists in every adapter version.
+
+  `Mcp\RouteGuard` now enforces the same capability on WordPress's own `rest_dispatch_request`, independently of the adapter. It decides on the route WordPress matched, not on the path the client sent: WordPress matches routes case-insensitively and its route regex also accepts a trailing newline, so `/wp-json/MCP/lw-site-manager` or `?rest_route=/mcp/lw-site-manager%0A` reach the same handler. It covers only this plugin's server route and routes beneath it, is registered even when the MCP server is switched off, and never overrides a result another filter already produced.
+
+  Verified on WordPress 7.1 with the adapter's capability filter removed: a subscriber gets `403` on every route spelling, an unauthenticated caller `401`, and administrators are unaffected.
+
+### Changed
+- The MCP Adapter bundled in the release ZIP moves from 0.5.0 to 0.6.1 (`wordpress/mcp-adapter` `^0.6` in `require-dev`, in `suggest` and in the release workflow's bundle step). Verified on WordPress 7.1 over application-password auth: `initialize` (protocol 2025-06-18 and 2025-11-25), `tools/list`, `resources/list`, `resources/templates/list`, `prompts/list` and tool calls, with a failed ability still reported as `isError: true`.
+- `composer.json` allows the `automattic/jetpack-autoloader` Composer plugin, which adapter 0.6 requires. Without the entry a non-interactive `composer install` aborts before anything runs.
+- Development: `php-stubs/woocommerce-stubs` `^11.1`.
+
+### Notes
+- **Upstream behaviour change in adapter 0.6.** Abilities that other plugins register with `meta.public: true` can now be called through the adapter's default MCP server, which is this plugin's server, unless they set `meta.mcp.public` to false. Calls still need the MCP transport capability (`manage_options`) and the ability's own permission check. This plugin's abilities are unaffected: `Mcp\AbilityExposer` sets `meta.mcp.public` explicitly.
+- On multisite only, open MCP sessions must reconnect once after the update, because adapter 0.6 stores sessions per site. Single sites are unaffected.
+
 ## [1.4.4] - 2026-09-21
 
 ### Fixed
