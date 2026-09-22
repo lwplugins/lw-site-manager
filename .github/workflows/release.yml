@@ -58,7 +58,7 @@ jobs:
       # so the built-in MCP server keeps working out of the box.
       - name: Bundle the MCP adapter into the release ZIP
         if: steps.check_release.outputs.exists == 'false'
-        run: composer require wordpress/mcp-adapter:^0.5 --update-no-dev --optimize-autoloader --no-interaction
+        run: composer require wordpress/mcp-adapter:^0.6 --update-no-dev --optimize-autoloader --no-interaction
 
       - name: Create release ZIP
         if: steps.check_release.outputs.exists == 'false'
