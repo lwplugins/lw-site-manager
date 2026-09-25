@@ -4,7 +4,7 @@ Tags: site-manager, maintenance, ai, rest-api, abilities
 Requires at least: 6.9
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 1.4.6
+Stable tag: 1.5.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -151,6 +151,15 @@ Yes — and the WooCommerce coverage is comprehensive. Beyond product and order 
 3. Backup creation options
 
 == Changelog ==
+
+= 1.5.0 =
+* New: The AI / MCP screen is rebuilt with WordPress components, like the other LW plugins: side navigation, loading skeletons and a mobile layout.
+* New: An MCP state bar with the on/off switch, what the state means, the risk and the domain the server is bound to. Turning the server on asks for confirmation.
+* New: A "Connect a client" card with the endpoint and a Copy button, application-password steps (with a link to your profile, or why they are unavailable) and a copyable .mcp.json snippet.
+* New: MCP Adapter problems (missing, or an older copy loaded by another plugin) and the domain-change auto-disable are shown as warnings on the screen; the admin notices for them were hidden on LW screens.
+* New: A Skills tab lists every registered skill with its source.
+* New: Admin REST routes lw-site-manager/v1/admin/mcp (GET/POST) and /admin/skills (GET), for administrators only.
+* Update: The Hungarian translation is complete (all strings, informal address).
 
 = 1.4.6 =
 * Fix: Notices from themes and other plugins (for example a theme's purchase-code or recommended-plugins notice) could show on the LW Site Manager screen. They are now kept off every LW Plugins screen, whatever their markup
@@ -362,6 +371,9 @@ Yes — and the WooCommerce coverage is comprehensive. Beyond product and order 
 * Full site management capabilities
 
 == Upgrade Notice ==
+
+= 1.5.0 =
+New AI / MCP screen. The MCP server keeps its current on/off state and domain binding.
 
 = 1.1.3 =
 Adds custom taxonomy support for posts and custom post types.

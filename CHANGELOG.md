@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.5.0] - 2026-09-25
+
+### Added
+- The AI / MCP screen is rebuilt with WordPress components, like the other LW plugins: side navigation, loading skeletons and a mobile layout.
+- An MCP state bar with the on/off switch, what the state means, the risk and the domain the server is bound to. Turning the server on asks for confirmation.
+- A "Connect a client" card with the endpoint and a Copy button, application-password steps (with a link to your profile, or why they are unavailable) and a copyable `.mcp.json` snippet.
+- MCP Adapter problems (missing, or an older copy loaded by another plugin) and the domain-change auto-disable are shown as warnings on the screen; the admin notices for them were hidden on LW screens.
+- A Skills tab lists every registered skill with its source.
+- Admin REST routes `lw-site-manager/v1/admin/mcp` (GET/POST) and `/admin/skills` (GET), for administrators only.
+
+### Changed
+- The Hungarian translation is complete (all strings, informal address).
+
 ## [1.4.6] - 2026-09-25
 
 ### Fixed
