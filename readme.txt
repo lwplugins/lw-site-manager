@@ -57,7 +57,7 @@ This plugin is designed for AI agent integration via:
 LW Site Manager ships its own Model Context Protocol (MCP) server, built on the official WordPress MCP Adapter. It exposes the plugin's abilities as MCP tools and surfaces the bundled Skills catalog, so an MCP client can discover and run them directly.
 
 * **Endpoint:** `https://YOUR-SITE/wp-json/mcp/lw-site-manager`
-* **Enabled by default (since 1.3.0).** Toggle it in the admin: **LW Plugins → AI / MCP → "the built-in MCP server" → Save**. It still requires an administrator application password to connect.
+* **Enabled by default (since 1.3.0).** Turn it on or off with the switch under **LW Plugins → AI / MCP**. It still requires an administrator application password to connect.
 * **Admin-only.** Access requires the `manage_options` capability at the connection level, and every ability still enforces its own capability. Use an **administrator** account's application password.
 * **Domain-locked.** The server records the site URL when enabled and automatically disables itself if the domain changes (e.g. a staging clone or migration). Re-enable it from the same page after an intentional move.
 * **Authentication:** WordPress Application Passwords over HTTP Basic (the same scheme as the REST API).
@@ -65,7 +65,7 @@ LW Site Manager ships its own Model Context Protocol (MCP) server, built on the 
 Setup steps:
 
 1. Create an Application Password for an administrator: **Users → Profile → Application Passwords**.
-2. Enable the server: **LW Plugins → AI / MCP**, tick the checkbox, **Save**. The page then shows a ready-to-paste `.mcp.json` snippet pre-filled with your endpoint.
+2. Enable the server: **LW Plugins → AI / MCP**, turn on the switch. The screen shows a ready-to-paste `.mcp.json` snippet pre-filled with your endpoint, with a Copy button.
 3. Add the server to your MCP client. For Claude Code, put this in your project's `.mcp.json` (replace the host and the Basic credentials):
 
 `{`

@@ -21,16 +21,18 @@ It is **additive and backward-compatible**: the existing WordPress Abilities RES
 
 The server is **on by default**. Turn it on or off in the admin:
 
-**LW Plugins → AI / MCP →** tick / untick *"Enable the built-in MCP server"* **→ Save.**
+**LW Plugins → AI / MCP →** the switch in the *MCP server is on / off* bar. It saves immediately; turning it on asks for confirmation first.
 
-When enabled, the settings page shows a ready-to-paste `.mcp.json` snippet pre-filled with your endpoint, and the list of bundled skills.
+The screen also shows the endpoint (with a Copy button), the setup steps and a ready-to-paste `.mcp.json` snippet pre-filled with your endpoint, warnings (MCP Adapter missing or outdated, server switched off by a domain change), and — on the Skills tab — the registered skills.
 
 State is stored in two options:
 
 | Option | Purpose |
 |--------|---------|
-| `lw_site_manager_mcp_enabled` | `true` when the server is on |
+| `lw_site_manager_mcp_enabled` | `'1'` when the server is on, `'0'` after it was turned off (absent = on) |
 | `lw_site_manager_mcp_domain` | the site host recorded at enable time (domain-lock) |
+
+The screen reads and writes the state through admin-only REST routes (`manage_options`, cookie auth): `GET /wp-json/lw-site-manager/v1/admin/mcp`, `POST` the same route with `{"enabled": true|false}`, and `GET /wp-json/lw-site-manager/v1/admin/skills`.
 
 ### Domain-lock
 
