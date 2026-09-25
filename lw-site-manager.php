@@ -97,6 +97,11 @@ final class Plugin {
 		// Initialize backup cron hooks.
 		add_action( 'init', [ $this, 'init_backup_system' ] );
 
+		// Keep other plugins' and themes' notices off the LW Plugins screens.
+		if ( is_admin() ) {
+			Admin\NoticeManager::register();
+		}
+
 		// Register the shared LW Plugins admin parent menu.
 		add_action( 'admin_menu', [ Admin\ParentPage::class, 'maybe_register' ] );
 		add_action( 'admin_menu', [ Admin\McpSettingsPage::class, 'register_menu' ], 11 );

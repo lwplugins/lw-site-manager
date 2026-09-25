@@ -262,6 +262,49 @@ if ( ! function_exists( 'remove_filter' ) ) {
     }
 }
 
+if ( ! function_exists( 'remove_action' ) ) {
+    /**
+     * Remove an action hook.
+     *
+     * Also handles WP_Hook-shaped entries (an object with a `callbacks`
+     * array keyed by priority), which tests put in $wp_filter directly.
+     *
+     * @param string $hook_name The action hook to remove.
+     * @param mixed  $callback  The callback to remove (need not be callable, as in core).
+     * @param int    $priority  Optional. The priority. Default 10.
+     * @return bool
+     */
+    function remove_action( string $hook_name, $callback, int $priority = 10 ): bool {
+        global $wp_filter;
+
+        if ( ! isset( $wp_filter[ $hook_name ] ) || ! is_object( $wp_filter[ $hook_name ] ) ) {
+            return is_callable( $callback ) && remove_filter( $hook_name, $callback, $priority );
+        }
+
+        foreach ( $wp_filter[ $hook_name ]->callbacks[ $priority ] ?? [] as $key => $cb ) {
+            if ( $cb['function'] === $callback ) {
+                unset( $wp_filter[ $hook_name ]->callbacks[ $priority ][ $key ] );
+                return true;
+            }
+        }
+
+        return false;
+    }
+}
+
+if ( ! function_exists( 'get_admin_page_parent' ) ) {
+    /**
+     * Get the parent menu slug of the current admin page.
+     *
+     * Tests set $GLOBALS['_lw_test_admin_page_parent'].
+     *
+     * @return string
+     */
+    function get_admin_page_parent(): string {
+        return (string) ( $GLOBALS['_lw_test_admin_page_parent'] ?? '' );
+    }
+}
+
 if ( ! function_exists( 'remove_all_filters' ) ) {
     /**
      * Remove all callbacks from a hook (optionally a single priority).
