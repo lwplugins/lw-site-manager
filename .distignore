@@ -28,6 +28,12 @@ CHANGELOG.md
 tests
 bin
 
+# React admin sources and tooling (build/ ships)
+admin-src
+node_modules
+package.json
+package-lock.json
+
 # OS files
 .DS_Store
 Thumbs.db

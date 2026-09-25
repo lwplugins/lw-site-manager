@@ -1,5 +1,7 @@
 # Dependencies
 /vendor/
+
+# React admin tooling
 /node_modules/
 
 # Composer
@@ -15,8 +17,7 @@ composer.lock
 .DS_Store
 Thumbs.db
 
-# Build
-/build/
+# Build (build/ is the committed React admin bundle — never ignore it)
 /dist/
 /temp/
 
@@ -34,3 +35,6 @@ Thumbs.db
 
 # Internal planning docs (brainstorm specs / implementation plans)
 /docs/superpowers/
+
+# Internal working notes (agent reports, review packages)
+/.superpowers/

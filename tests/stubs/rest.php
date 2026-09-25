@@ -84,3 +84,30 @@ if ( ! function_exists( 'wp_is_application_passwords_available' ) ) {
 		return (bool) ( $GLOBALS['wp_app_passwords_available'] ?? true );
 	}
 }
+
+if ( ! function_exists( 'add_submenu_page' ) ) {
+	/**
+	 * Returns the hook suffix WordPress would build (or the value of
+	 * $GLOBALS['wp_submenu_hook'] when a test sets it).
+	 */
+	function add_submenu_page( string $parent_slug, string $page_title, string $menu_title, string $capability, string $menu_slug, $callback = '' ) {
+		return $GLOBALS['wp_submenu_hook'] ?? 'lw-plugins_page_' . $menu_slug;
+	}
+}
+
+if ( ! function_exists( 'add_menu_page' ) ) {
+	function add_menu_page( string $page_title, string $menu_title, string $capability, string $menu_slug, $callback = '', string $icon_url = '', $position = null ): string {
+		$GLOBALS['admin_page_hooks'][ $menu_slug ] = $menu_slug;
+		return 'toplevel_page_' . $menu_slug;
+	}
+}
+
+if ( ! function_exists( 'get_current_screen' ) ) {
+	/**
+	 * Screen whose id is $GLOBALS['wp_current_screen_id'], or null.
+	 */
+	function get_current_screen(): ?object {
+		$id = $GLOBALS['wp_current_screen_id'] ?? null;
+		return null === $id ? null : (object) [ 'id' => $id ];
+	}
+}

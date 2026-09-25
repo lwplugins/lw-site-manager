@@ -9,6 +9,9 @@
 	<!-- Exclude vendor -->
 	<exclude-pattern>./vendor/*</exclude-pattern>
 	<exclude-pattern>./node_modules/*</exclude-pattern>
+	<!-- React admin: JS sources and the generated bundle (build/index.asset.php). -->
+	<exclude-pattern>./admin-src/*</exclude-pattern>
+	<exclude-pattern>./build/*</exclude-pattern>
 
 	<!-- Use WordPress Coding Standards -->
 	<rule ref="WordPress">

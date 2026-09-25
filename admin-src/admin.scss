@@ -1,0 +1,949 @@
+@use "sass:color";
+
+// LW Site Manager admin styles. Colors, spacing and radii come from the core WPDS
+// tokens (wp-theme stylesheet, a dependency of wp-components); the fallbacks
+// only matter on WordPress versions without it.
+
+$surface: var(--wpds-color-background-surface-neutral-strong, #fff);
+$page: var(--wpds-color-background-surface-neutral, #fcfcfc);
+$stroke: var(--wpds-color-stroke-surface-neutral, #ddd);
+$stroke-weak: var(--wpds-color-stroke-surface-neutral-weak, #f0f0f0);
+$text: var(--wpds-color-foreground-content-neutral, #1e1e1e);
+$muted: var(--wpds-color-foreground-content-neutral-weak, #707070);
+$brand: var(--wp-admin-theme-color, #3858e9);
+$success: var(--wpds-color-foreground-content-success, #007f30);
+$success-bg: var(--wpds-color-background-surface-success-weak, #eff9f1);
+$warning: var(--wpds-color-foreground-content-warning, #926300);
+$warning-bg: var(--wpds-color-background-surface-warning-weak, #fef8ee);
+$error: var(--wpds-color-foreground-content-error, #cc1818);
+$error-bg: var(--wpds-color-background-surface-error-weak, #fcf0f1);
+$track: var(--wpds-color-background-track-neutral-weak, #f0f0f0);
+$radius: var(--wpds-border-radius-md, 4px);
+$radius-lg: var(--wpds-border-radius-lg, 8px);
+$gap-sm: var(--wpds-dimension-gap-sm, 8px);
+$gap-md: var(--wpds-dimension-gap-md, 12px);
+$gap-lg: var(--wpds-dimension-gap-lg, 16px);
+$gap-xl: var(--wpds-dimension-gap-xl, 24px);
+$mono: var(--wpds-typography-font-family-mono, monospace);
+
+// Brand color ----------------------------------------------------------------
+// ONE variable: the admin theme color and the logo share it. Every
+// @wordpress/components control reads --wp-admin-theme-color, so toggles,
+// focus rings, selected states and links all follow. Set on body (not only
+// the root) so portaled modals and popovers inherit it too. The darker
+// shades are derived from it (core uses -5% / -10% lightness).
+//
+// LW Site Manager blue (the logo colour, assets/img/title-icon.svg). WCAG
+// 2.x contrast (computed from relative luminance): white on #135e96 =
+// 6.84:1 (AA normal text needs 4.5:1, AAA 7:1); the darker hover/active
+// shades below only raise it.
+$lw-brand: #135e96;
+$lw-brand-darker-10: color.adjust($lw-brand, $lightness: -5%);
+$lw-brand-darker-20: color.adjust($lw-brand, $lightness: -10%);
+
+@function rgb-list($c) {
+	@return color.channel($c, "red", $space: rgb), color.channel($c, "green", $space: rgb), color.channel($c, "blue", $space: rgb);
+}
+
+body.lw-site-manager-screen,
+.lw-site-manager-root {
+	--wp-admin-theme-color: #{$lw-brand};
+	--wp-admin-theme-color--rgb: #{rgb-list($lw-brand)};
+	--wp-admin-theme-color-darker-10: #{$lw-brand-darker-10};
+	--wp-admin-theme-color-darker-10--rgb: #{rgb-list($lw-brand-darker-10)};
+	--wp-admin-theme-color-darker-20: #{$lw-brand-darker-20};
+	--wp-admin-theme-color-darker-20--rgb: #{rgb-list($lw-brand-darker-20)};
+	--wpds-color-stroke-focus: #{$lw-brand};
+}
+
+// Focus rings: only for keyboard users. Core components draw the ring on
+// :focus, so it also stayed after every mouse click. :focus-visible is the
+// browser's own "keyboard or text field" signal — clicking hides the ring,
+// Tab still shows it (WCAG 2.4.7). Scoped to this screen, incl. modals.
+body.lw-site-manager-screen {
+	:is(button, a, [role="button"], [role="radio"], [role="tab"], [tabindex]):focus:not(:focus-visible) {
+		outline: none;
+		box-shadow: none;
+	}
+
+	// Secondary buttons draw their border with box-shadow: keep it.
+	.components-button.is-secondary:focus:not(:focus-visible) {
+		box-shadow: inset 0 0 0 1px var(--wp-admin-theme-color);
+	}
+
+	.components-form-toggle__input:focus:not(:focus-visible) + .components-form-toggle__track {
+		box-shadow: none;
+	}
+}
+
+// Full-bleed app screen inside the classic admin frame.
+.lw-site-manager-screen {
+	#wpcontent {
+		padding-left: 0;
+	}
+
+	#wpbody-content {
+		padding-bottom: 0;
+	}
+
+	#wpfooter {
+		display: none;
+	}
+}
+
+.lw-site-manager-root {
+	height: calc(100vh - var(--wp-admin--admin-bar--height, 32px));
+	background: $page;
+	color: $text;
+
+	svg {
+		fill: currentColor;
+	}
+}
+
+// App shell ----------------------------------------------------------------
+// Full-height sidebar | main column (top bar + scrolling content).
+
+$bar-height: 64px;
+$foot-height: 56px;
+$canvas: var(--wpds-color-background-surface-neutral-weak, #f6f7f7);
+
+.lw-admin-shell {
+	display: grid;
+	grid-template-columns: 264px minmax(0, 1fr);
+	height: 100%;
+}
+
+.lw-admin-sidebar {
+	display: flex;
+	flex-direction: column;
+	min-height: 0;
+	background: $surface;
+	border-right: 1px solid $stroke-weak;
+
+	&__head {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		flex-shrink: 0;
+		height: $bar-height;
+		padding: 0 $gap-xl;
+		border-bottom: 1px solid $stroke-weak;
+		box-sizing: border-box;
+
+		svg {
+			width: 26px;
+			height: 26px;
+		}
+
+		strong {
+			font-size: 15px;
+		}
+	}
+
+	&__home {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		border-radius: $radius;
+		color: $text;
+		text-decoration: none;
+
+		&:hover,
+		&:focus {
+			color: $text;
+			box-shadow: none;
+		}
+
+		&:focus-visible {
+			outline: 2px solid $brand;
+			outline-offset: 4px;
+		}
+	}
+
+	&__foot {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		height: $foot-height;
+		padding: 0 $gap-md;
+		border-top: 1px solid $stroke-weak;
+		box-sizing: border-box;
+
+		.lw-admin-sidenav__item {
+			color: $muted;
+
+			&:hover {
+				color: $text;
+			}
+		}
+	}
+}
+
+.lw-admin-sidenav {
+	flex: 1;
+	overflow-y: auto;
+	padding: $gap-lg $gap-md;
+
+	ul {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	li {
+		margin: 0;
+	}
+
+	&__item {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		min-height: 38px;
+		padding: 0 $gap-md;
+		border-radius: $radius-lg;
+		color: $text;
+		font-weight: 500;
+		text-decoration: none;
+		transition: background-color 0.1s;
+
+		svg {
+			flex-shrink: 0;
+			color: $muted;
+		}
+
+		&:hover {
+			background: $canvas;
+			color: $text;
+		}
+
+		&:focus {
+			box-shadow: none;
+		}
+
+		&:focus-visible {
+			outline: 2px solid $brand;
+			outline-offset: -2px;
+		}
+
+		&[aria-current="page"] {
+			background: $canvas;
+			font-weight: 600;
+
+			svg {
+				color: $text;
+			}
+		}
+	}
+
+	&__label {
+		flex: 1;
+	}
+
+	&__meta {
+		color: $muted;
+		font-size: 12px;
+		font-variant-numeric: tabular-nums;
+	}
+
+	&__dot {
+		display: block;
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+
+		&.is-ok {
+			background: $success;
+		}
+
+		&.is-error {
+			background: $error;
+		}
+	}
+}
+
+.lw-admin-main {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	min-height: 0;
+	background: $canvas;
+}
+
+.lw-admin-topbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: $gap-lg;
+	flex-shrink: 0;
+	height: $bar-height;
+	padding: 0 $gap-xl 0 32px;
+	background: $surface;
+	border-bottom: 1px solid $stroke-weak;
+	box-sizing: border-box;
+
+	&__title {
+		margin: 0;
+		padding: 0;
+		font-size: 18px;
+		font-weight: 600;
+		line-height: 1.3;
+	}
+}
+
+.lw-admin-scroll {
+	flex: 1;
+	overflow-y: auto;
+	padding: $gap-xl 32px;
+}
+
+.lw-admin-content {
+	display: flex;
+	flex-direction: column;
+	gap: $gap-lg;
+	// Fluid: fills the main column, capped only on ultra-wide screens so
+	// label/control rows stay scannable.
+	width: 100%;
+	max-width: 1440px;
+	margin: 0 auto;
+	padding-bottom: 48px;
+}
+
+.lw-admin-footer {
+	display: flex;
+	flex-shrink: 0;
+	align-items: center;
+	justify-content: flex-end;
+	height: $foot-height;
+	padding: 0 32px;
+	border-top: 1px solid $stroke-weak;
+	background: $surface;
+	box-sizing: border-box;
+
+	a {
+		display: inline-flex;
+		border-radius: 2px;
+		text-decoration: none;
+		transition: opacity 0.15s;
+
+		&:hover {
+			opacity: 0.8;
+		}
+
+		&:focus-visible {
+			outline: 2px solid $brand;
+			outline-offset: 4px;
+		}
+	}
+}
+
+// LW Plugins wordmark (lwplugins.com light theme colors, no rounded corners).
+.lw-wordmark {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+
+	&__mark {
+		display: flex;
+		flex-shrink: 0;
+		align-items: center;
+		justify-content: center;
+		background: #0b62bf;
+
+		svg {
+			fill: #fff;
+		}
+	}
+
+	&__text {
+		color: #16181c;
+		font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+		font-size: 13px;
+		font-weight: 800;
+		letter-spacing: 0.02em;
+
+		span {
+			color: #767d86;
+		}
+	}
+}
+
+.lw-admin-callout {
+	display: flex;
+	gap: $gap-sm;
+	padding: 10px $gap-md;
+	border-radius: $radius-lg;
+	background: $canvas;
+	font-size: 13px;
+	line-height: 1.5;
+
+	> svg {
+		flex-shrink: 0;
+		margin-top: 1px;
+		color: $muted;
+	}
+
+	&.is-warning {
+		background: $warning-bg;
+
+		> svg {
+			color: $warning;
+		}
+	}
+}
+
+// Sidebar toggle only exists on mobile.
+.lw-admin-sidebar__toggle {
+	display: none;
+}
+
+// Mobile (WP admin breakpoint): no inner scroll containers — the page scrolls
+// naturally, the sidebar becomes a header with a section dropdown, and the
+// top bar sticks under the admin bar.
+@media (max-width: 782px) {
+	.lw-site-manager-root {
+		height: auto;
+		min-height: calc(100vh - var(--wp-admin--admin-bar--height, 46px));
+		// clip (not hidden) keeps position: sticky working.
+		overflow-x: clip;
+	}
+
+	.lw-admin-shell {
+		display: block;
+		height: auto;
+	}
+
+	.lw-admin-sidebar {
+		position: relative;
+		border-right: 0;
+		border-bottom: 1px solid $stroke-weak;
+
+		&__head {
+			height: 52px;
+			padding: 0 $gap-lg;
+			border-bottom: 0;
+		}
+
+		&__toggle {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			width: calc(100% - 32px);
+			min-height: 44px;
+			margin: 0 $gap-lg $gap-md;
+			padding: 0 $gap-md;
+			border: 1px solid $stroke;
+			border-radius: $radius-lg;
+			background: $surface;
+			color: $text;
+			font: inherit;
+			font-weight: 600;
+			cursor: pointer;
+
+			span {
+				flex: 1;
+				text-align: left;
+			}
+
+			svg:last-child {
+				transition: transform 0.15s;
+			}
+
+			&:focus-visible {
+				outline: 2px solid $brand;
+				outline-offset: 2px;
+			}
+		}
+
+		&.is-open &__toggle svg:last-child {
+			transform: rotate(180deg);
+		}
+
+		&__foot {
+			display: none;
+		}
+	}
+
+	.lw-admin-sidenav {
+		display: none;
+		position: absolute;
+		top: 100%;
+		right: $gap-lg;
+		left: $gap-lg;
+		z-index: 20;
+		margin-top: -$gap-sm;
+		padding: 6px;
+		border: 1px solid $stroke-weak;
+		border-radius: $radius-lg;
+		background: $surface;
+		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+
+		.is-open & {
+			display: block;
+		}
+
+		&__item {
+			min-height: 44px;
+		}
+	}
+
+	.lw-admin-main {
+		display: block;
+	}
+
+	.lw-admin-topbar {
+		position: sticky;
+		top: var(--wp-admin--admin-bar--height, 46px);
+		z-index: 10;
+		height: 56px;
+		padding: 0 $gap-lg;
+
+		&__title {
+			overflow: hidden;
+			font-size: 16px;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+
+	}
+
+	.lw-admin-scroll {
+		overflow: visible;
+		padding: $gap-lg;
+	}
+
+	.lw-admin-footer {
+		padding: 10px $gap-lg;
+	}
+
+}
+
+// Below 600px the admin bar scrolls away, so the top bar sticks to the top.
+@media (max-width: 600px) {
+	.lw-admin-topbar {
+		top: 0;
+	}
+}
+
+// Misc ---------------------------------------------------------------------
+
+.lw-admin-snackbars {
+	position: fixed;
+	right: 24px;
+	bottom: 24px;
+	z-index: 100000;
+	width: auto;
+	max-width: min(480px, calc(100vw - 48px));
+}
+
+// Skeletons ----------------------------------------------------------------
+// Shapes come from the WPDS <Skeleton>; these rules only size and lay them out.
+
+.lw-skel {
+	border-radius: $radius;
+
+	&.is-round {
+		border-radius: 999px;
+	}
+
+	&--text {
+		max-width: 100%;
+		height: 12px;
+
+		&.is-sm {
+			height: 10px;
+		}
+
+		&.is-lg {
+			height: 16px;
+		}
+
+		&.is-xl {
+			height: 28px;
+		}
+	}
+}
+
+.lw-skel-lines,
+.lw-skel-stack {
+	display: flex;
+	flex-direction: column;
+	gap: $gap-sm;
+	width: 100%;
+}
+
+.lw-skel-stack.is-loose {
+	gap: $gap-lg;
+}
+
+.lw-skel-tab {
+	display: flex;
+	flex-direction: column;
+	gap: $gap-lg;
+}
+
+.lw-skel-rows {
+	display: flex;
+	flex-direction: column;
+}
+
+.lw-skel-row {
+	display: grid;
+	grid-template-columns: minmax(140px, 30%) minmax(0, 1fr) auto;
+	align-items: center;
+	gap: $gap-md;
+	padding: 14px 0;
+	border-bottom: 1px solid $stroke-weak;
+
+	&:last-child {
+		border-bottom: 0;
+	}
+}
+
+// Plugin mark (FA duotone user badge): both layers follow `color`.
+.lw-site-manager-root .lw-admin-mark {
+	color: $lw-brand;
+	fill: currentColor;
+}
+
+// Nav: amber dot when a warning needs attention.
+.lw-admin-sidenav__dot.is-warning {
+	background: $warning;
+}
+
+// Read-only line + copy button (endpoint URL).
+.lw-admin-copy {
+	display: flex;
+	align-items: center;
+	gap: $gap-sm;
+
+	code {
+		flex: 1;
+		min-width: 0;
+		padding: 8px 10px;
+		overflow-x: auto;
+		border-radius: $radius;
+		background: $canvas;
+		font-family: $mono;
+		font-size: 12px;
+		white-space: nowrap;
+	}
+}
+
+// Code block with a caption + Copy bar (.mcp.json snippet).
+.lw-admin-code {
+	overflow: hidden;
+	border: 1px solid $stroke;
+	border-radius: $radius-lg;
+
+	&__bar {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: $gap-sm;
+		padding: 6px 6px 6px $gap-md;
+		border-bottom: 1px solid $stroke;
+		background: $surface;
+
+		span {
+			color: $muted;
+			font-family: $mono;
+			font-size: 12px;
+		}
+	}
+
+	pre {
+		margin: 0;
+		padding: $gap-md;
+		overflow-x: auto;
+		background: $canvas;
+	}
+
+	code {
+		padding: 0;
+		background: none;
+		font-family: $mono;
+		font-size: 12.5px;
+		line-height: 1.6;
+		white-space: pre;
+	}
+}
+
+// MCP state bar ------------------------------------------------------------
+// Icon | state + meaning + risk | switch, then a row of facts.
+
+.lw-sm-state {
+	&__bar {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: $gap-lg;
+		padding: 18px 20px;
+	}
+
+	&__icon {
+		display: grid;
+		flex: none;
+		place-items: center;
+		width: 48px;
+		height: 48px;
+		border-radius: 12px;
+		background: $brand;
+		color: #fff;
+
+		svg {
+			fill: currentColor;
+		}
+	}
+
+	&__text {
+		display: flex;
+		flex: 1 1 280px;
+		flex-direction: column;
+		gap: 2px;
+
+		strong {
+			font-size: 15px;
+		}
+
+		> span {
+			color: $muted;
+			font-size: 13px;
+		}
+	}
+
+	&__risk {
+		display: flex;
+		align-items: flex-start;
+		gap: 6px;
+		margin-top: 4px;
+
+		svg {
+			flex-shrink: 0;
+			color: $warning;
+		}
+	}
+
+	.components-toggle-control {
+		margin: 0;
+	}
+
+	&__facts {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+		gap: 1px;
+		margin: 0;
+		border-top: 1px solid $stroke;
+		background: $stroke;
+	}
+
+	&__fact {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		padding: 12px 20px;
+		background: $surface;
+
+		dt {
+			color: $muted;
+			font-size: 11.5px;
+			letter-spacing: 0.05em;
+			text-transform: uppercase;
+		}
+
+		dd {
+			margin: 0;
+			font-weight: 600;
+		}
+
+		code {
+			padding: 0;
+			background: none;
+			font-size: 12.5px;
+			font-weight: 400;
+		}
+	}
+
+	&.is-off {
+		.lw-sm-state__icon {
+			background: $track;
+			color: $muted;
+		}
+
+		.lw-sm-state__fact dd {
+			color: $muted;
+		}
+	}
+}
+
+.lw-sm-warnings {
+	display: flex;
+	flex-direction: column;
+	gap: $gap-sm;
+
+	.components-notice {
+		margin: 0;
+	}
+
+	.components-notice p {
+		margin: 0;
+	}
+
+	.components-notice p + p {
+		margin-top: 4px;
+	}
+
+	code {
+		font-size: 12px;
+		word-break: break-all;
+	}
+}
+
+// Connection card -----------------------------------------------------------
+
+.lw-sm-field {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+
+	&__label {
+		font-weight: 600;
+	}
+}
+
+// Numbered steps: a brand-coloured counter, title, text, then the step's
+// own control (button, command, snippet) under the text.
+.lw-sm-steps {
+	display: flex;
+	flex-direction: column;
+	gap: $gap-xl;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	counter-reset: lw-sm-step;
+
+	> li {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		gap: $gap-sm;
+		margin: 0;
+		padding-left: 40px;
+		counter-increment: lw-sm-step;
+
+		&::before {
+			content: counter(lw-sm-step);
+			position: absolute;
+			top: -2px;
+			left: 0;
+			display: grid;
+			place-items: center;
+			width: 26px;
+			height: 26px;
+			border-radius: 50%;
+			background: $brand;
+			color: #fff;
+			font-size: 13px;
+			font-weight: 600;
+		}
+	}
+
+	p {
+		margin: 0;
+		color: $muted;
+		line-height: 1.5;
+	}
+
+	.components-notice {
+		margin: 0;
+	}
+}
+
+.lw-sm-command {
+	display: block;
+	padding: 8px 10px;
+	overflow-x: auto;
+	border-radius: $radius;
+	background: $canvas;
+	font-family: $mono;
+	font-size: 12px;
+	white-space: nowrap;
+}
+
+// Skills ---------------------------------------------------------------------
+
+.lw-sm-skills {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.lw-sm-skill {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	margin: 0;
+	padding: 14px 0;
+	border-bottom: 1px solid $stroke-weak;
+
+	&:first-child {
+		padding-top: 0;
+	}
+
+	&:last-child {
+		padding-bottom: 0;
+		border-bottom: 0;
+	}
+
+	&__head {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: $gap-sm;
+
+		code {
+			padding: 2px 6px;
+			border-radius: $radius;
+			background: $canvas;
+			font-family: $mono;
+			font-size: 13px;
+			font-weight: 600;
+		}
+	}
+
+	&__desc {
+		margin: 0;
+		color: $muted;
+		line-height: 1.5;
+	}
+}
+
+@media (max-width: 782px) {
+	.lw-sm-state__bar,
+	.lw-sm-state__fact {
+		padding-right: $gap-lg;
+		padding-left: $gap-lg;
+	}
+
+	.lw-sm-steps > li {
+		padding-left: 36px;
+	}
+}
+
+// Sidebar: keep the plugin name on one line; mobile toggle: the state dot
+// must not stretch like the label next to it.
+.lw-admin-sidebar__head strong {
+	white-space: nowrap;
+}
+
+.lw-admin-sidebar__toggle .lw-admin-sidenav__dot {
+	flex: none;
+}
+
+// The "turn on?" dialog reads as a question, not a banner.
+body.lw-site-manager-screen .components-confirm-dialog {
+	max-width: 480px;
+}

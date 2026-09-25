@@ -11,3 +11,6 @@
 /phpstan-bootstrap.php	export-ignore
 /phpunit.xml.dist	export-ignore
 /phpunit-integration.xml.dist	export-ignore
+/admin-src	export-ignore
+/package.json	export-ignore
+/package-lock.json	export-ignore

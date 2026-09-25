@@ -1,116 +1,141 @@
 <?php
+/**
+ * The AI / MCP screen.
+ *
+ * @package LightweightPlugins\SiteManager
+ */
+
 declare(strict_types=1);
 
 namespace LightweightPlugins\SiteManager\Admin;
 
-use LightweightPlugins\SiteManager\Mcp\Server;
-use LightweightPlugins\SiteManager\Mcp\Toggle;
-use LightweightPlugins\SiteManager\Skills\Sources;
+use LightweightPlugins\SiteManager\Rest\Admin\Routes;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 /**
- * "AI / MCP" submenu: enable toggle, .mcp.json snippet, bundled-skill list.
+ * "AI / MCP" submenu: a mount point for the React admin (build/index),
+ * which reads and writes through the lw-site-manager/v1 admin REST routes.
  */
 final class McpSettingsPage {
 
-	public const SLUG  = 'lw-site-manager-mcp';
-	public const NONCE = 'lw_site_manager_mcp_toggle';
+	public const SLUG = 'lw-site-manager-mcp';
+
+	/**
+	 * Script and style handle.
+	 */
+	private const HANDLE = 'lw-site-manager-admin-app';
+
+	/**
+	 * Documentation of the MCP server.
+	 */
+	private const DOCS_URL = 'https://github.com/lwplugins/lw-site-manager/blob/main/docs/mcp-server.md';
+
+	/**
+	 * Hook suffix returned by add_submenu_page().
+	 *
+	 * Assets are keyed on it rather than on a hard-coded
+	 * "lw-plugins_page_lw-site-manager-mcp": WordPress derives that prefix
+	 * from the translated parent menu title, so a locale that translates
+	 * "LW Plugins" would silently stop the screen from loading.
+	 *
+	 * @var string
+	 */
+	private string $hook_suffix = '';
+
+	/**
+	 * Hook the screen.
+	 */
+	public function __construct() {
+		add_action( 'admin_menu', [ $this, 'register_menu' ], 11 );
+		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
+		add_filter( 'admin_body_class', [ $this, 'body_class' ] );
+	}
 
 	/**
 	 * Register the submenu under the LW Plugins parent.
 	 */
-	public static function register_menu(): void {
-		add_submenu_page(
+	public function register_menu(): void {
+		ParentPage::maybe_register();
+
+		$hook = add_submenu_page(
 			ParentPage::SLUG,
 			__( 'AI / MCP', 'lw-site-manager' ),
 			__( 'AI / MCP', 'lw-site-manager' ),
 			'manage_options',
 			self::SLUG,
-			[ self::class, 'render' ]
+			[ $this, 'render' ]
+		);
+
+		$this->hook_suffix = is_string( $hook ) ? $hook : '';
+	}
+
+	/**
+	 * Enqueue the React app on this screen only.
+	 *
+	 * @param string $hook Current admin page.
+	 */
+	public function enqueue_assets( string $hook ): void {
+		if ( '' === $this->hook_suffix || $hook !== $this->hook_suffix ) {
+			return;
+		}
+
+		if ( ! BuildAssets::enqueue( 'index', self::HANDLE ) ) {
+			return;
+		}
+
+		wp_add_inline_script(
+			self::HANDLE,
+			'window.lwSiteManager = ' . wp_json_encode(
+				[
+					'version'   => LW_SITE_MANAGER_VERSION,
+					'namespace' => Routes::NAMESPACE,
+					'docsUrl'   => self::DOCS_URL,
+				]
+			) . ';',
+			'before'
 		);
 	}
 
 	/**
-	 * Handle the toggle form submission.
+	 * Mark this screen's body for the app's styles.
+	 *
+	 * @param string $classes Space-separated body classes.
 	 */
-	public static function handle_post(): void {
-		if ( ! isset( $_POST[ self::NONCE ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
-			return;
+	public function body_class( $classes ): string {
+		$classes = (string) $classes;
+		$screen  = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+
+		if ( '' === $this->hook_suffix || ! $screen || $screen->id !== $this->hook_suffix ) {
+			return $classes;
 		}
-		if ( ! current_user_can( 'manage_options' ) || ! check_admin_referer( self::NONCE, self::NONCE ) ) {
-			return;
-		}
-		$enable = ! empty( $_POST['lw_mcp_enable'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-		if ( $enable ) {
-			Toggle::enable();
-		} else {
-			Toggle::disable();
-		}
-		wp_safe_redirect( add_query_arg( 'page', self::SLUG, admin_url( 'admin.php' ) ) );
-		exit;
+
+		return $classes . ' lw-site-manager-screen';
 	}
 
 	/**
-	 * Render the settings page.
+	 * Render the mount point (or a notice when the build is missing).
+	 *
+	 * The mount point sits outside .wrap so NoticeManager's direct-child
+	 * notice rules never reach the app; the missing-build notice carries
+	 * `lw-notice` so it is not hidden.
 	 */
-	public static function render(): void {
+	public function render(): void {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
-		$enabled = Toggle::is_enabled();
-		echo '<div class="wrap"><h1>' . esc_html__( 'LW Site Manager — AI / MCP', 'lw-site-manager' ) . '</h1>';
-		self::render_toggle_form( $enabled );
-		if ( $enabled ) {
-			self::render_connection_info();
-		}
-		self::render_skill_list();
-		echo '</div>';
-	}
 
-	private static function render_toggle_form( bool $enabled ): void {
-		echo '<form method="post">';
-		wp_nonce_field( self::NONCE, self::NONCE );
-		printf(
-			'<p><label><input type="checkbox" name="lw_mcp_enable" value="1" %s> %s</label></p>',
-			checked( $enabled, true, false ),
-			esc_html__( 'Enable the built-in MCP server for AI agents (admin only).', 'lw-site-manager' )
-		);
-		echo '<p class="description">' . esc_html__( 'Warning: agents can run write/destructive abilities. Enable only on sites you control. The server auto-disables if the site domain changes.', 'lw-site-manager' ) . '</p>';
-		submit_button( __( 'Save', 'lw-site-manager' ) );
-		echo '</form>';
-	}
-
-	private static function render_connection_info(): void {
-		$snippet = wp_json_encode(
-			[
-				'mcpServers' => [
-					Server::SERVER_ID => [
-						'type'    => 'http',
-						'url'     => Server::endpoint(),
-						'headers' => [ 'Authorization' => 'Basic BASE64(user:application_password)' ],
-					],
-				],
-			],
-			JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES
-		);
-		echo '<h2>' . esc_html__( '.mcp.json', 'lw-site-manager' ) . '</h2>';
-		echo '<p>' . esc_html__( 'Create an application password (Users → Profile) and paste this into your MCP client:', 'lw-site-manager' ) . '</p>';
-		echo '<textarea readonly rows="10" style="width:100%;font-family:monospace;">' . esc_textarea( (string) $snippet ) . '</textarea>';
-	}
-
-	private static function render_skill_list(): void {
-		echo '<h2>' . esc_html__( 'Bundled skills', 'lw-site-manager' ) . '</h2><ul>';
-		foreach ( Sources::all() as $skill ) {
+		if ( ! BuildAssets::exists( 'index' ) ) {
 			printf(
-				'<li><code>%s</code> <em>(%s)</em> — %s</li>',
-				esc_html( (string) ( $skill['slug'] ?? '' ) ),
-				esc_html( (string) ( $skill['source_label'] ?? '' ) ),
-				esc_html( (string) ( $skill['description'] ?? '' ) )
+				'<div class="wrap"><h1>%s</h1><div class="notice notice-error lw-notice"><p>%s</p></div></div>',
+				esc_html__( 'AI / MCP', 'lw-site-manager' ),
+				esc_html__( 'The screen files are missing. Re-install the plugin from a release ZIP, or run "npm install && npm run build" in the plugin directory.', 'lw-site-manager' )
 			);
+			return;
 		}
-		echo '</ul>';
+
+		echo '<div id="lw-site-manager-root" class="lw-site-manager-root"></div>';
 	}
 }

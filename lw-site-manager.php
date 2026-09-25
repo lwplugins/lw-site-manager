@@ -102,10 +102,11 @@ final class Plugin {
 			Admin\NoticeManager::register();
 		}
 
-		// Register the shared LW Plugins admin parent menu.
+		// The shared LW Plugins parent menu and the AI / MCP screen (React).
 		add_action( 'admin_menu', [ Admin\ParentPage::class, 'maybe_register' ] );
-		add_action( 'admin_menu', [ Admin\McpSettingsPage::class, 'register_menu' ], 11 );
-		add_action( 'admin_init', [ Admin\McpSettingsPage::class, 'handle_post' ] );
+		if ( is_admin() ) {
+			new Admin\McpSettingsPage();
+		}
 
 		// REST routes of the admin screen (lw-site-manager/v1/admin/*).
 		Rest\Admin\Routes::register();

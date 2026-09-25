@@ -1,0 +1,28 @@
+{
+	"name": "lw-site-manager-admin",
+	"version": "0.0.0",
+	"private": true,
+	"description": "LW Site Manager admin UI (React, WordPress components).",
+	"license": "GPL-2.0-or-later",
+	"scripts": {
+		"build": "wp-scripts build admin-src/index.js",
+		"start": "wp-scripts start admin-src/index.js",
+		"lint:js": "wp-scripts lint-js admin-src",
+		"i18n": "wp i18n make-pot . languages/lw-site-manager.pot --slug=lw-site-manager --domain=lw-site-manager --exclude=node_modules,vendor,admin-src,tests,docs && msgmerge --quiet --update --backup=none --no-fuzzy-matching languages/lw-site-manager-hu_HU.po languages/lw-site-manager.pot && msgfmt languages/lw-site-manager-hu_HU.po -o languages/lw-site-manager-hu_HU.mo && wp i18n make-json languages --no-purge"
+	},
+	"devDependencies": {
+		"@wordpress/scripts": "^36.0.0"
+	},
+	"dependencies": {
+		"@wordpress/api-fetch": "^7.56.0",
+		"@wordpress/components": "^41.0.0",
+		"@wordpress/compose": "^8.9.0",
+		"@wordpress/data": "^10.56.0",
+		"@wordpress/element": "^8.8.0",
+		"@wordpress/i18n": "^6.29.0",
+		"@wordpress/icons": "^17.0.0",
+		"@wordpress/notices": "^5.56.0",
+		"@wordpress/primitives": "^4.56.0",
+		"@wordpress/ui": "^0.23.0"
+	}
+}
