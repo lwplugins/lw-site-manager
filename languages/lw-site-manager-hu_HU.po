@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Lightweight Site Manager 1.1.7\n"
-"Report-Msgid-Bugs-To: https://github.com/lwplugins/lw-site-manager/issues\n"
-"POT-Creation-Date: 2026-02-07T08:43:29+00:00\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/lw-site-manager\n"
+"POT-Creation-Date: 2026-09-25T12:30:05+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LW Plugins <info@lwplugins.com>\n"
@@ -13,12 +13,13 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Domain: lw-site-manager\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: WP-CLI 2.12.0\n"
 
 #. Plugin Name of the plugin
 #: lw-site-manager.php
-msgid "Lightweight Site Manager"
-msgstr "Lightweight webhelykezelő"
+msgid "LW Site Manager"
+msgstr "LW Site Manager"
 
 #. Plugin URI of the plugin
 #: lw-site-manager.php
@@ -28,15 +29,15 @@ msgstr "https://github.com/lwplugins/lw-site-manager"
 #. Description of the plugin
 #: lw-site-manager.php
 msgid ""
-"WordPress Site Manager using Abilities API - Full site maintenance via "
-"AI/REST"
+"Lightweight site manager — full site maintenance via AI/REST using Abilities "
+"API."
 msgstr ""
-"WordPress webhelykezelő az Abilities API-val – teljes körű "
-"webhelykarbantartás AI/REST-en keresztül"
+"Könnyűsúlyú webhelykezelő — teljes karbantartás AI-n és REST-en keresztül, "
+"az Abilities API-val."
 
 #. Author of the plugin
-#: lw-site-manager.php includes/Admin/ParentPage.php:104
-#: includes/Admin/ParentPage.php:105 includes/Admin/ParentPage.php:126
+#: lw-site-manager.php src/Admin/ParentPage.php:110
+#: src/Admin/ParentPage.php:111 src/Admin/ParentPage.php:132
 msgid "LW Plugins"
 msgstr "LW Plugins"
 
@@ -45,161 +46,168 @@ msgstr "LW Plugins"
 msgid "https://lwplugins.com"
 msgstr "https://lwplugins.com"
 
-#: includes/Admin/ParentPage.php:127
-msgid "Lightweight plugins for WordPress - minimal footprint, maximum impact."
-msgstr "Könnyű WordPress bővítmények – minimális terhelés, maximális hatás."
+#: lw-site-manager.php:41
+msgid ""
+"Autoloader not found. Please run \"composer install\" in the plugin "
+"directory, or re-install the plugin from a release ZIP."
+msgstr ""
+"Nem található az autoloader. Futtasd a „composer install” parancsot a "
+"bővítmény mappájában, vagy telepítsd újra a bővítményt egy kiadási ZIP-ből."
 
-#: includes/Admin/ParentPage.php:180
-msgid "Active"
-msgstr "Aktív"
-
-#: includes/Admin/ParentPage.php:187 lw-site-manager.php:208
-msgid "Settings"
-msgstr "Beállítások"
-
-#: includes/Admin/ParentPage.php:191
-msgid "Get Plugin"
-msgstr "Bővítmény letöltése"
-
-#: lw-site-manager.php:101
+#: lw-site-manager.php:132
 msgid "LW Site Manager requires WordPress 6.9 or higher (Abilities API)."
 msgstr ""
 "Az LW Site Managerhez WordPress 6.9 vagy újabb szükséges (Abilities API)."
 
-#: lw-site-manager.php:118
+#: lw-site-manager.php:149
 msgid "Maintenance"
 msgstr "Karbantartás"
 
-#: lw-site-manager.php:119
-msgid ""
-"Site maintenance abilities including updates, backups, and optimization"
+#: lw-site-manager.php:150
+msgid "Site maintenance abilities including updates, backups, and optimization"
 msgstr ""
 "Webhelykarbantartási képességek, beleértve a frissítéseket, mentéseket és "
 "optimalizálást"
 
-#: lw-site-manager.php:127
+#: lw-site-manager.php:158
 msgid "Diagnostics"
 msgstr "Diagnosztika"
 
-#: lw-site-manager.php:128
+#: lw-site-manager.php:159
 msgid "Site health and diagnostic abilities"
 msgstr "Webhelyállapot- és diagnosztikai képességek"
 
-#: lw-site-manager.php:136
+#: lw-site-manager.php:167
 msgid "Plugins"
 msgstr "Bővítmények"
 
-#: lw-site-manager.php:137
+#: lw-site-manager.php:168
 msgid "Plugin management abilities"
 msgstr "Bővítménykezelési képességek"
 
-#: lw-site-manager.php:145
+#: lw-site-manager.php:176
 msgid "Themes"
 msgstr "Sablonok"
 
-#: lw-site-manager.php:146
+#: lw-site-manager.php:177
 msgid "Theme management abilities"
 msgstr "Sablonkezelési képességek"
 
-#: lw-site-manager.php:154
+#: lw-site-manager.php:185
 msgid "Users"
 msgstr "Felhasználók"
 
-#: lw-site-manager.php:155
+#: lw-site-manager.php:186
 msgid "User management abilities"
 msgstr "Felhasználókezelési képességek"
 
-#: lw-site-manager.php:163
+#: lw-site-manager.php:194
 msgid "Comments"
 msgstr "Hozzászólások"
 
-#: lw-site-manager.php:164
+#: lw-site-manager.php:195
 msgid "Comment management abilities"
 msgstr "Hozzászóláskezelési képességek"
 
-#: lw-site-manager.php:172
+#: lw-site-manager.php:203
 msgid "Content"
 msgstr "Tartalom"
 
-#: lw-site-manager.php:173
+#: lw-site-manager.php:204
 msgid "Posts and pages management abilities"
 msgstr "Bejegyzés- és oldalkezelési képességek"
 
-#: lw-site-manager.php:181
+#: lw-site-manager.php:212
 msgid "Media"
 msgstr "Média"
 
-#: lw-site-manager.php:182
+#: lw-site-manager.php:213
 msgid "Media library management abilities"
 msgstr "Médiakönyvtár-kezelési képességek"
 
-#: lw-site-manager.php:190
+#: lw-site-manager.php:221
 msgid "Taxonomy"
 msgstr "Taxonómia"
 
-#: lw-site-manager.php:191
+#: lw-site-manager.php:222
 msgid "Category and tag management abilities"
 msgstr "Kategória- és címkekezelési képességek"
 
-#: lw-site-manager.php:199
+#: lw-site-manager.php:230
 msgid "Meta"
 msgstr "Meta"
 
-#: lw-site-manager.php:200
+#: lw-site-manager.php:231
 msgid "Post, user, and term meta management abilities"
 msgstr "Bejegyzés-, felhasználó- és kifejezésmeta-kezelési képességek"
 
-#: lw-site-manager.php:209
+#: lw-site-manager.php:239 src/Admin/ParentPage.php:201
+msgid "Settings"
+msgstr "Beállítások"
+
+#: lw-site-manager.php:240
 msgid "WordPress settings management abilities"
 msgstr "WordPress beállításkezelési képességek"
 
-#: lw-site-manager.php:228
+#: lw-site-manager.php:264
 msgid "WooCommerce Products"
 msgstr "WooCommerce termékek"
 
-#: lw-site-manager.php:229
+#: lw-site-manager.php:265
 msgid "WooCommerce product management abilities"
 msgstr "WooCommerce termékkezelési képességek"
 
-#: lw-site-manager.php:236
+#: lw-site-manager.php:272
 msgid "WooCommerce Orders"
 msgstr "WooCommerce rendelések"
 
-#: lw-site-manager.php:237
+#: lw-site-manager.php:273
 msgid "WooCommerce order management abilities"
 msgstr "WooCommerce rendeléskezelési képességek"
 
-#: lw-site-manager.php:244
+#: lw-site-manager.php:280
 msgid "WooCommerce Customers"
 msgstr "WooCommerce vásárlók"
 
-#: lw-site-manager.php:245
+#: lw-site-manager.php:281
 msgid "WooCommerce customer management abilities"
 msgstr "WooCommerce vásárlókezelési képességek"
 
-#: lw-site-manager.php:252
+#: lw-site-manager.php:288
 msgid "WooCommerce Coupons"
 msgstr "WooCommerce kuponok"
 
-#: lw-site-manager.php:253
+#: lw-site-manager.php:289
 msgid "WooCommerce coupon management abilities"
 msgstr "WooCommerce kuponkezelési képességek"
 
-#: lw-site-manager.php:260
+#: lw-site-manager.php:296
 msgid "WooCommerce Settings"
 msgstr "WooCommerce beállítások"
 
-#: lw-site-manager.php:261
+#: lw-site-manager.php:297
 msgid "WooCommerce settings management abilities"
 msgstr "WooCommerce beállításkezelési képességek"
 
-#: lw-site-manager.php:268
+#: lw-site-manager.php:304
 msgid "WooCommerce Reports"
 msgstr "WooCommerce jelentések"
 
-#: lw-site-manager.php:269
+#: lw-site-manager.php:305
 msgid "WooCommerce reports and analytics abilities"
 msgstr "WooCommerce jelentés- és analitikai képességek"
+
+#: lw-site-manager.php:312
+msgid "WooCommerce Attributes"
+msgstr "WooCommerce tulajdonságok"
+
+#: lw-site-manager.php:313
+msgid ""
+"Global attributes, attribute terms, product-attribute bindings, and "
+"variations"
+msgstr ""
+"Globális tulajdonságok, tulajdonságértékek, termék–tulajdonság kapcsolatok "
+"és változatok"
 
 #: src/Abilities/Definitions/CommentAbilities.php:35
 msgid "List Comments"
@@ -209,67 +217,67 @@ msgstr "Hozzászólások listázása"
 msgid "List comments with filtering options"
 msgstr "Hozzászólások listázása szűrési lehetőségekkel"
 
-#: src/Abilities/Definitions/CommentAbilities.php:97
+#: src/Abilities/Definitions/CommentAbilities.php:98
 msgid "Get Comment"
 msgstr "Hozzászólás lekérése"
 
-#: src/Abilities/Definitions/CommentAbilities.php:98
+#: src/Abilities/Definitions/CommentAbilities.php:99
 msgid "Get detailed information about a comment"
 msgstr "Részletes információk lekérése egy hozzászólásról"
 
-#: src/Abilities/Definitions/CommentAbilities.php:122
+#: src/Abilities/Definitions/CommentAbilities.php:123
 msgid "Get Comment Counts"
 msgstr "Hozzászólásszámok lekérése"
 
-#: src/Abilities/Definitions/CommentAbilities.php:123
+#: src/Abilities/Definitions/CommentAbilities.php:124
 msgid "Get comment counts by status"
 msgstr "Hozzászólásszámok lekérése állapot szerint"
 
-#: src/Abilities/Definitions/CommentAbilities.php:163
+#: src/Abilities/Definitions/CommentAbilities.php:179
 msgid "Create Comment"
 msgstr "Hozzászólás létrehozása"
 
-#: src/Abilities/Definitions/CommentAbilities.php:164
+#: src/Abilities/Definitions/CommentAbilities.php:180
 msgid "Create a new comment"
 msgstr "Új hozzászólás létrehozása"
 
-#: src/Abilities/Definitions/CommentAbilities.php:217
+#: src/Abilities/Definitions/CommentAbilities.php:237
 msgid "Update Comment"
 msgstr "Hozzászólás frissítése"
 
-#: src/Abilities/Definitions/CommentAbilities.php:218
+#: src/Abilities/Definitions/CommentAbilities.php:238
 msgid "Update an existing comment"
 msgstr "Meglévő hozzászólás frissítése"
 
-#: src/Abilities/Definitions/CommentAbilities.php:263
+#: src/Abilities/Definitions/CommentAbilities.php:287
 msgid "Delete Comment"
 msgstr "Hozzászólás törlése"
 
-#: src/Abilities/Definitions/CommentAbilities.php:264
+#: src/Abilities/Definitions/CommentAbilities.php:288
 msgid "Delete a comment"
 msgstr "Hozzászólás törlése"
 
-#: src/Abilities/Definitions/CommentAbilities.php:308
+#: src/Abilities/Definitions/CommentAbilities.php:331
 msgid "Approve Comment"
 msgstr "Hozzászólás jóváhagyása"
 
-#: src/Abilities/Definitions/CommentAbilities.php:309
+#: src/Abilities/Definitions/CommentAbilities.php:332
 msgid "Approve a pending comment"
 msgstr "Függőben lévő hozzászólás jóváhagyása"
 
-#: src/Abilities/Definitions/CommentAbilities.php:333
+#: src/Abilities/Definitions/CommentAbilities.php:356
 msgid "Mark Comment as Spam"
 msgstr "Hozzászólás spamnek jelölése"
 
-#: src/Abilities/Definitions/CommentAbilities.php:334
+#: src/Abilities/Definitions/CommentAbilities.php:357
 msgid "Mark a comment as spam"
 msgstr "Hozzászólás spamnek jelölése"
 
-#: src/Abilities/Definitions/CommentAbilities.php:358
+#: src/Abilities/Definitions/CommentAbilities.php:381
 msgid "Bulk Comment Action"
 msgstr "Tömeges hozzászólás művelet"
 
-#: src/Abilities/Definitions/CommentAbilities.php:359
+#: src/Abilities/Definitions/CommentAbilities.php:382
 msgid "Perform bulk actions on multiple comments"
 msgstr "Tömeges műveletek végrehajtása több hozzászóláson"
 
@@ -297,93 +305,117 @@ msgstr "Média feltöltése"
 msgid "Upload media from URL or base64 encoded data"
 msgstr "Média feltöltése URL-ből vagy base64 kódolt adatból"
 
-#: src/Abilities/Definitions/MediaAbilities.php:139
+#: src/Abilities/Definitions/MediaAbilities.php:143
 msgid "Update Media"
 msgstr "Média frissítése"
 
-#: src/Abilities/Definitions/MediaAbilities.php:140
+#: src/Abilities/Definitions/MediaAbilities.php:144
 msgid "Update media item metadata"
 msgstr "Médiaelem metaadatainak frissítése"
 
-#: src/Abilities/Definitions/MediaAbilities.php:180
+#: src/Abilities/Definitions/MediaAbilities.php:184
 msgid "Delete Media"
 msgstr "Média törlése"
 
-#: src/Abilities/Definitions/MediaAbilities.php:181
+#: src/Abilities/Definitions/MediaAbilities.php:185
 msgid "Delete a media item"
 msgstr "Médiaelem törlése"
 
-#: src/Abilities/Definitions/MetaAbilities.php:26
+#: src/Abilities/Definitions/MetaAbilities.php:27
 msgid "Get Post Meta"
 msgstr "Bejegyzés metaadatainak lekérése"
 
-#: src/Abilities/Definitions/MetaAbilities.php:27
+#: src/Abilities/Definitions/MetaAbilities.php:28
 msgid "Get meta data for a post or page"
 msgstr "Metaadatok lekérése egy bejegyzéshez vagy oldalhoz"
 
-#: src/Abilities/Definitions/MetaAbilities.php:74
+#: src/Abilities/Definitions/MetaAbilities.php:75
 msgid "Set Post Meta"
 msgstr "Bejegyzés metaadatainak beállítása"
 
-#: src/Abilities/Definitions/MetaAbilities.php:75
+#: src/Abilities/Definitions/MetaAbilities.php:76
 msgid "Set meta data for a post or page"
 msgstr "Metaadatok beállítása egy bejegyzéshez vagy oldalhoz"
 
-#: src/Abilities/Definitions/MetaAbilities.php:116
+#: src/Abilities/Definitions/MetaAbilities.php:117
 msgid "Delete Post Meta"
 msgstr "Bejegyzés metaadatainak törlése"
 
-#: src/Abilities/Definitions/MetaAbilities.php:117
+#: src/Abilities/Definitions/MetaAbilities.php:118
 msgid "Delete meta data from a post or page"
 msgstr "Metaadatok törlése egy bejegyzésből vagy oldalból"
 
-#: src/Abilities/Definitions/MetaAbilities.php:155
+#: src/Abilities/Definitions/MetaAbilities.php:156
 msgid "Get User Meta"
 msgstr "Felhasználói metaadatok lekérése"
 
-#: src/Abilities/Definitions/MetaAbilities.php:156
+#: src/Abilities/Definitions/MetaAbilities.php:157
 msgid "Get meta data for a user"
 msgstr "Metaadatok lekérése egy felhasználóhoz"
 
-#: src/Abilities/Definitions/MetaAbilities.php:203
+#: src/Abilities/Definitions/MetaAbilities.php:204
 msgid "Set User Meta"
 msgstr "Felhasználói metaadatok beállítása"
 
-#: src/Abilities/Definitions/MetaAbilities.php:204
+#: src/Abilities/Definitions/MetaAbilities.php:205
 msgid "Set meta data for a user"
 msgstr "Metaadatok beállítása egy felhasználóhoz"
 
-#: src/Abilities/Definitions/MetaAbilities.php:245
+#: src/Abilities/Definitions/MetaAbilities.php:246
 msgid "Delete User Meta"
 msgstr "Felhasználói metaadatok törlése"
 
-#: src/Abilities/Definitions/MetaAbilities.php:246
+#: src/Abilities/Definitions/MetaAbilities.php:247
 msgid "Delete meta data from a user"
 msgstr "Metaadatok törlése egy felhasználóból"
 
-#: src/Abilities/Definitions/MetaAbilities.php:284
+#: src/Abilities/Definitions/MetaAbilities.php:285
 msgid "Get Term Meta"
 msgstr "Kifejezés metaadatainak lekérése"
 
-#: src/Abilities/Definitions/MetaAbilities.php:285
+#: src/Abilities/Definitions/MetaAbilities.php:286
 msgid "Get meta data for a term (category/tag)"
 msgstr "Metaadatok lekérése egy kifejezéshez (kategória/címke)"
 
-#: src/Abilities/Definitions/MetaAbilities.php:327
+#: src/Abilities/Definitions/MetaAbilities.php:328
 msgid "Set Term Meta"
 msgstr "Kifejezés metaadatainak beállítása"
 
-#: src/Abilities/Definitions/MetaAbilities.php:328
+#: src/Abilities/Definitions/MetaAbilities.php:329
 msgid "Set meta data for a term (category/tag)"
 msgstr "Metaadatok beállítása egy kifejezéshez (kategória/címke)"
 
-#: src/Abilities/Definitions/MetaAbilities.php:369
+#: src/Abilities/Definitions/MetaAbilities.php:370
 msgid "Delete Term Meta"
 msgstr "Kifejezés metaadatainak törlése"
 
-#: src/Abilities/Definitions/MetaAbilities.php:370
+#: src/Abilities/Definitions/MetaAbilities.php:371
 msgid "Delete meta data from a term (category/tag)"
 msgstr "Metaadatok törlése egy kifejezésből (kategória/címke)"
+
+#: src/Abilities/Definitions/MetaAbilities.php:408
+msgid "Get Comment Meta"
+msgstr "Hozzászólás metaadatainak lekérése"
+
+#: src/Abilities/Definitions/MetaAbilities.php:409
+msgid "Get meta data for a comment"
+msgstr "Egy hozzászólás metaadatainak lekérése"
+
+#: src/Abilities/Definitions/MetaAbilities.php:455
+msgid "Set Comment Meta"
+msgstr "Hozzászólás metaadatainak beállítása"
+
+#: src/Abilities/Definitions/MetaAbilities.php:456
+msgid "Set meta data for a comment"
+msgstr "Egy hozzászólás metaadatainak beállítása"
+
+#: src/Abilities/Definitions/MetaAbilities.php:496
+msgid "Delete Comment Meta"
+msgstr "Hozzászólás metaadatának törlése"
+
+#: src/Abilities/Definitions/MetaAbilities.php:497
+msgid "Delete a meta key from a comment"
+msgstr "Egy metakulcs törlése egy hozzászólásról"
 
 #: src/Abilities/Definitions/PageAbilities.php:36
 msgid "List Pages"
@@ -409,91 +441,91 @@ msgstr "Oldal létrehozása"
 msgid "Create a new page"
 msgstr "Új oldal létrehozása"
 
-#: src/Abilities/Definitions/PageAbilities.php:195
+#: src/Abilities/Definitions/PageAbilities.php:194
 msgid "Update Page"
 msgstr "Oldal frissítése"
 
-#: src/Abilities/Definitions/PageAbilities.php:196
+#: src/Abilities/Definitions/PageAbilities.php:195
 msgid "Update an existing page"
 msgstr "Meglévő oldal frissítése"
 
-#: src/Abilities/Definitions/PageAbilities.php:254
+#: src/Abilities/Definitions/PageAbilities.php:253
 msgid "Delete Page"
 msgstr "Oldal törlése"
 
-#: src/Abilities/Definitions/PageAbilities.php:255
+#: src/Abilities/Definitions/PageAbilities.php:254
 msgid "Delete a page"
 msgstr "Oldal törlése"
 
-#: src/Abilities/Definitions/PageAbilities.php:293
+#: src/Abilities/Definitions/PageAbilities.php:291
 msgid "Restore Page"
 msgstr "Oldal visszaállítása"
 
-#: src/Abilities/Definitions/PageAbilities.php:294
+#: src/Abilities/Definitions/PageAbilities.php:292
 msgid "Restore a page from trash"
 msgstr "Oldal visszaállítása a lomtárból"
 
-#: src/Abilities/Definitions/PageAbilities.php:318
+#: src/Abilities/Definitions/PageAbilities.php:316
 msgid "Duplicate Page"
 msgstr "Oldal duplikálása"
 
-#: src/Abilities/Definitions/PageAbilities.php:319
+#: src/Abilities/Definitions/PageAbilities.php:317
 msgid "Create a copy of a page"
 msgstr "Oldal másolatának létrehozása"
 
-#: src/Abilities/Definitions/PageAbilities.php:363
+#: src/Abilities/Definitions/PageAbilities.php:361
 msgid "Get Page Hierarchy"
 msgstr "Oldalhierarchia lekérése"
 
-#: src/Abilities/Definitions/PageAbilities.php:364
+#: src/Abilities/Definitions/PageAbilities.php:362
 msgid "Get hierarchical page tree structure"
 msgstr "Hierarchikus oldalfa-struktúra lekérése"
 
-#: src/Abilities/Definitions/PageAbilities.php:399
+#: src/Abilities/Definitions/PageAbilities.php:396
 msgid "Reorder Pages"
 msgstr "Oldalak átrendezése"
 
-#: src/Abilities/Definitions/PageAbilities.php:400
+#: src/Abilities/Definitions/PageAbilities.php:397
 msgid "Update page order (menu_order)"
 msgstr "Oldalsorrend frissítése (menu_order)"
 
-#: src/Abilities/Definitions/PageAbilities.php:439
+#: src/Abilities/Definitions/PageAbilities.php:435
 msgid "Set Homepage"
 msgstr "Kezdőlap beállítása"
 
-#: src/Abilities/Definitions/PageAbilities.php:440
+#: src/Abilities/Definitions/PageAbilities.php:436
 msgid "Set a page as the site homepage"
 msgstr "Egy oldal beállítása a webhely kezdőlapjaként"
 
-#: src/Abilities/Definitions/PageAbilities.php:473
+#: src/Abilities/Definitions/PageAbilities.php:468
 msgid "Set Posts Page"
 msgstr "Bejegyzések oldala beállítása"
 
-#: src/Abilities/Definitions/PageAbilities.php:474
+#: src/Abilities/Definitions/PageAbilities.php:469
 msgid "Set a page as the blog/posts page"
 msgstr "Egy oldal beállítása a blog/bejegyzések oldalaként"
 
-#: src/Abilities/Definitions/PageAbilities.php:507
+#: src/Abilities/Definitions/PageAbilities.php:501
 msgid "Get Front Page Settings"
 msgstr "Kezdőoldal-beállítások lekérése"
 
-#: src/Abilities/Definitions/PageAbilities.php:508
+#: src/Abilities/Definitions/PageAbilities.php:502
 msgid "Get current homepage and posts page settings"
 msgstr "Az aktuális kezdőlap- és bejegyzésoldal-beállítások lekérése"
 
-#: src/Abilities/Definitions/PageAbilities.php:550
+#: src/Abilities/Definitions/PageAbilities.php:541
 msgid "Get Page Templates"
 msgstr "Oldalsablonok lekérése"
 
-#: src/Abilities/Definitions/PageAbilities.php:551
+#: src/Abilities/Definitions/PageAbilities.php:542
 msgid "List available page templates"
 msgstr "Elérhető oldalsablonok listázása"
 
-#: src/Abilities/Definitions/PageAbilities.php:587
+#: src/Abilities/Definitions/PageAbilities.php:576
 msgid "Set Page Template"
 msgstr "Oldalsablon beállítása"
 
-#: src/Abilities/Definitions/PageAbilities.php:588
+#: src/Abilities/Definitions/PageAbilities.php:577
 msgid "Assign a template to a page"
 msgstr "Sablon hozzárendelése egy oldalhoz"
 
@@ -521,70 +553,70 @@ msgstr "Bejegyzéstípusok lekérése"
 msgid "List available post types"
 msgstr "Elérhető bejegyzéstípusok listázása"
 
-#: src/Abilities/Definitions/PostAbilities.php:200
+#: src/Abilities/Definitions/PostAbilities.php:198
 msgid "Create Post"
 msgstr "Bejegyzés létrehozása"
 
-#: src/Abilities/Definitions/PostAbilities.php:201
+#: src/Abilities/Definitions/PostAbilities.php:199
 msgid "Create a new post"
 msgstr "Új bejegyzés létrehozása"
 
-#: src/Abilities/Definitions/PostAbilities.php:293
+#: src/Abilities/Definitions/PostAbilities.php:289
 msgid "Update Post"
 msgstr "Bejegyzés frissítése"
 
-#: src/Abilities/Definitions/PostAbilities.php:294
+#: src/Abilities/Definitions/PostAbilities.php:290
 msgid "Update an existing post"
 msgstr "Meglévő bejegyzés frissítése"
 
-#: src/Abilities/Definitions/PostAbilities.php:384
+#: src/Abilities/Definitions/PostAbilities.php:378
 msgid "Delete Post"
 msgstr "Bejegyzés törlése"
 
-#: src/Abilities/Definitions/PostAbilities.php:385
+#: src/Abilities/Definitions/PostAbilities.php:379
 msgid "Delete a post"
 msgstr "Bejegyzés törlése"
 
-#: src/Abilities/Definitions/PostAbilities.php:423
+#: src/Abilities/Definitions/PostAbilities.php:416
 msgid "Restore Post"
 msgstr "Bejegyzés visszaállítása"
 
-#: src/Abilities/Definitions/PostAbilities.php:424
+#: src/Abilities/Definitions/PostAbilities.php:417
 msgid "Restore a post from trash"
 msgstr "Bejegyzés visszaállítása a lomtárból"
 
-#: src/Abilities/Definitions/PostAbilities.php:454
+#: src/Abilities/Definitions/PostAbilities.php:447
 msgid "Duplicate Post"
 msgstr "Bejegyzés duplikálása"
 
-#: src/Abilities/Definitions/PostAbilities.php:455
+#: src/Abilities/Definitions/PostAbilities.php:448
 msgid "Create a copy of a post"
 msgstr "Bejegyzés másolatának létrehozása"
 
-#: src/Abilities/Definitions/PostAbilities.php:493
+#: src/Abilities/Definitions/PostAbilities.php:486
 msgid "Bulk Post Action"
 msgstr "Tömeges bejegyzésművelet"
 
-#: src/Abilities/Definitions/PostAbilities.php:494
+#: src/Abilities/Definitions/PostAbilities.php:487
 msgid "Perform bulk actions on multiple posts"
 msgstr "Tömeges műveletek végrehajtása több bejegyzésen"
 
-#: src/Abilities/Definitions/PostAbilities.php:524
+#: src/Abilities/Definitions/PostAbilities.php:517
 msgid "Set Post Terms"
 msgstr "Bejegyzés taxonómia-kifejezéseinek beállítása"
 
-#: src/Abilities/Definitions/PostAbilities.php:525
+#: src/Abilities/Definitions/PostAbilities.php:518
 msgid ""
 "Set taxonomy terms for a post (supports custom post types and taxonomies)"
 msgstr ""
 "Taxonómia-kifejezések beállítása egy bejegyzéshez (támogatja az egyéni "
 "bejegyzéstípusokat és taxonómiákat)"
 
-#: src/Abilities/Definitions/PostAbilities.php:583
+#: src/Abilities/Definitions/PostAbilities.php:575
 msgid "Get Post Terms"
 msgstr "Bejegyzés taxonómia-kifejezéseinek lekérése"
 
-#: src/Abilities/Definitions/PostAbilities.php:584
+#: src/Abilities/Definitions/PostAbilities.php:576
 msgid ""
 "Get taxonomy terms for a post (supports custom post types and taxonomies)"
 msgstr ""
@@ -598,62 +630,62 @@ msgstr "Általános beállítások lekérése"
 #: src/Abilities/Definitions/SettingsAbilities.php:28
 msgid "Get WordPress general settings (site title, tagline, email, etc.)"
 msgstr ""
-"A WordPress általános beállításainak lekérése (webhelycím, jelmondat, e-mail"
-" stb.)"
+"A WordPress általános beállításainak lekérése (webhelycím, jelmondat, e-mail "
+"stb.)"
 
-#: src/Abilities/Definitions/SettingsAbilities.php:75
+#: src/Abilities/Definitions/SettingsAbilities.php:73
 msgid "Update General Settings"
 msgstr "Általános beállítások frissítése"
 
-#: src/Abilities/Definitions/SettingsAbilities.php:76
+#: src/Abilities/Definitions/SettingsAbilities.php:74
 msgid "Update WordPress general settings"
 msgstr "A WordPress általános beállításainak frissítése"
 
-#: src/Abilities/Definitions/SettingsAbilities.php:139
+#: src/Abilities/Definitions/SettingsAbilities.php:137
 msgid "Get Reading Settings"
 msgstr "Olvasási beállítások lekérése"
 
-#: src/Abilities/Definitions/SettingsAbilities.php:140
+#: src/Abilities/Definitions/SettingsAbilities.php:138
 msgid "Get WordPress reading settings"
 msgstr "A WordPress olvasási beállításainak lekérése"
 
-#: src/Abilities/Definitions/SettingsAbilities.php:179
+#: src/Abilities/Definitions/SettingsAbilities.php:175
 msgid "Update Reading Settings"
 msgstr "Olvasási beállítások frissítése"
 
-#: src/Abilities/Definitions/SettingsAbilities.php:180
+#: src/Abilities/Definitions/SettingsAbilities.php:176
 msgid "Update WordPress reading settings"
 msgstr "A WordPress olvasási beállításainak frissítése"
 
-#: src/Abilities/Definitions/SettingsAbilities.php:234
+#: src/Abilities/Definitions/SettingsAbilities.php:230
 msgid "Get Discussion Settings"
 msgstr "Hozzászólás-beállítások lekérése"
 
-#: src/Abilities/Definitions/SettingsAbilities.php:235
+#: src/Abilities/Definitions/SettingsAbilities.php:231
 msgid "Get WordPress discussion/comment settings"
 msgstr "A WordPress viták/hozzászólások beállításainak lekérése"
 
-#: src/Abilities/Definitions/SettingsAbilities.php:264
+#: src/Abilities/Definitions/SettingsAbilities.php:258
 msgid "Update Discussion Settings"
 msgstr "Hozzászólás-beállítások frissítése"
 
-#: src/Abilities/Definitions/SettingsAbilities.php:265
+#: src/Abilities/Definitions/SettingsAbilities.php:259
 msgid "Update WordPress discussion/comment settings"
 msgstr "WordPress beszélgetés/hozzászólás beállítások frissítése"
 
-#: src/Abilities/Definitions/SettingsAbilities.php:373
+#: src/Abilities/Definitions/SettingsAbilities.php:367
 msgid "Get Permalink Settings"
 msgstr "Permalink beállítások lekérése"
 
-#: src/Abilities/Definitions/SettingsAbilities.php:374
+#: src/Abilities/Definitions/SettingsAbilities.php:368
 msgid "Get WordPress permalink settings"
 msgstr "WordPress permalink beállítások lekérése"
 
-#: src/Abilities/Definitions/SettingsAbilities.php:412
+#: src/Abilities/Definitions/SettingsAbilities.php:403
 msgid "Update Permalink Settings"
 msgstr "Permalink beállítások frissítése"
 
-#: src/Abilities/Definitions/SettingsAbilities.php:413
+#: src/Abilities/Definitions/SettingsAbilities.php:404
 msgid "Update WordPress permalink settings"
 msgstr "WordPress permalink beállítások frissítése"
 
@@ -681,253 +713,606 @@ msgstr "Kategória létrehozása"
 msgid "Create a new category"
 msgstr "Új kategória létrehozása"
 
-#: src/Abilities/Definitions/TaxonomyAbilities.php:161
+#: src/Abilities/Definitions/TaxonomyAbilities.php:165
 msgid "Update Category"
 msgstr "Kategória frissítése"
 
-#: src/Abilities/Definitions/TaxonomyAbilities.php:162
+#: src/Abilities/Definitions/TaxonomyAbilities.php:166
 msgid "Update an existing category"
 msgstr "Meglévő kategória frissítése"
 
-#: src/Abilities/Definitions/TaxonomyAbilities.php:210
+#: src/Abilities/Definitions/TaxonomyAbilities.php:218
 msgid "Delete Category"
 msgstr "Kategória törlése"
 
-#: src/Abilities/Definitions/TaxonomyAbilities.php:211
+#: src/Abilities/Definitions/TaxonomyAbilities.php:219
 msgid "Delete a category"
 msgstr "Kategória törlése"
 
-#: src/Abilities/Definitions/TaxonomyAbilities.php:253
+#: src/Abilities/Definitions/TaxonomyAbilities.php:260
 msgid "List Tags"
 msgstr "Címkék listázása"
 
-#: src/Abilities/Definitions/TaxonomyAbilities.php:254
+#: src/Abilities/Definitions/TaxonomyAbilities.php:261
 msgid "List all tags"
 msgstr "Összes címke listázása"
 
-#: src/Abilities/Definitions/TaxonomyAbilities.php:307
+#: src/Abilities/Definitions/TaxonomyAbilities.php:314
 msgid "Get Tag"
 msgstr "Címke lekérése"
 
-#: src/Abilities/Definitions/TaxonomyAbilities.php:308
+#: src/Abilities/Definitions/TaxonomyAbilities.php:315
 msgid "Get detailed information about a tag"
 msgstr "Részletes információk lekérése egy címkéről"
 
-#: src/Abilities/Definitions/TaxonomyAbilities.php:340
+#: src/Abilities/Definitions/TaxonomyAbilities.php:347
 msgid "Create Tag"
 msgstr "Címke létrehozása"
 
-#: src/Abilities/Definitions/TaxonomyAbilities.php:341
+#: src/Abilities/Definitions/TaxonomyAbilities.php:348
 msgid "Create a new tag"
 msgstr "Új címke létrehozása"
 
-#: src/Abilities/Definitions/TaxonomyAbilities.php:381
+#: src/Abilities/Definitions/TaxonomyAbilities.php:392
 msgid "Update Tag"
 msgstr "Címke frissítése"
 
-#: src/Abilities/Definitions/TaxonomyAbilities.php:382
+#: src/Abilities/Definitions/TaxonomyAbilities.php:393
 msgid "Update an existing tag"
 msgstr "Meglévő címke frissítése"
 
-#: src/Abilities/Definitions/TaxonomyAbilities.php:426
+#: src/Abilities/Definitions/TaxonomyAbilities.php:441
 msgid "Delete Tag"
 msgstr "Címke törlése"
 
-#: src/Abilities/Definitions/TaxonomyAbilities.php:427
+#: src/Abilities/Definitions/TaxonomyAbilities.php:442
 msgid "Delete a tag"
 msgstr "Címke törlése"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:40
-msgid "List Products"
-msgstr "Termékek listázása"
+#: src/Abilities/Definitions/WooCommerce/AttributeAbilities.php:20
+msgid "List Global Attributes"
+msgstr "Globális tulajdonságok listázása"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:41
-msgid "List WooCommerce products with filtering options"
-msgstr "WooCommerce termékek listázása szűrési lehetőségekkel"
+#: src/Abilities/Definitions/WooCommerce/AttributeAbilities.php:21
+msgid "List WooCommerce global product attributes (pa_* taxonomies)"
+msgstr ""
+"A WooCommerce globális terméktulajdonságainak listázása (pa_* taxonómiák)"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:105
-msgid "Get Product"
-msgstr "Termék lekérése"
+#: src/Abilities/Definitions/WooCommerce/AttributeAbilities.php:44
+msgid "Get Global Attribute"
+msgstr "Globális tulajdonság lekérése"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:106
-msgid "Get detailed information about a WooCommerce product"
-msgstr "Részletes információk lekérése egy WooCommerce termékről"
+#: src/Abilities/Definitions/WooCommerce/AttributeAbilities.php:45
+msgid "Get a global product attribute by id or slug"
+msgstr "Globális terméktulajdonság lekérése azonosító vagy slug alapján"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:137
-msgid "Create Product"
-msgstr "Termék létrehozása"
+#: src/Abilities/Definitions/WooCommerce/AttributeAbilities.php:70
+msgid "Create Global Attribute"
+msgstr "Globális tulajdonság létrehozása"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:138
-msgid "Create a new WooCommerce product"
-msgstr "Új WooCommerce termék létrehozása"
+#: src/Abilities/Definitions/WooCommerce/AttributeAbilities.php:71
+msgid "Create a new global product attribute taxonomy"
+msgstr "Új globális terméktulajdonság-taxonómia létrehozása"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:157
-msgid "Update Product"
-msgstr "Termék frissítése"
+#: src/Abilities/Definitions/WooCommerce/AttributeAbilities.php:99
+msgid "Update Global Attribute"
+msgstr "Globális tulajdonság frissítése"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:158
-msgid "Update an existing WooCommerce product"
-msgstr "Meglévő WooCommerce termék frissítése"
+#: src/Abilities/Definitions/WooCommerce/AttributeAbilities.php:100
+msgid "Update label, type, or ordering of a global attribute"
+msgstr ""
+"Egy globális tulajdonság címkéjének, típusának vagy rendezésének frissítése"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:180
-msgid "Delete Product"
-msgstr "Termék törlése"
+#: src/Abilities/Definitions/WooCommerce/AttributeAbilities.php:124
+msgid "Delete Global Attribute"
+msgstr "Globális tulajdonság törlése"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:181
-msgid "Delete a WooCommerce product"
-msgstr "WooCommerce termék törlése"
+#: src/Abilities/Definitions/WooCommerce/AttributeAbilities.php:125
+msgid "Permanently delete a global attribute and all of its terms"
+msgstr "Egy globális tulajdonság és minden értékének végleges törlése"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:210
-msgid "Duplicate Product"
-msgstr "Termék duplikálása"
+#: src/Abilities/Definitions/WooCommerce/AttributeTermAbilities.php:20
+msgid "List Attribute Terms"
+msgstr "Tulajdonságértékek listázása"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:211
-msgid "Create a copy of a WooCommerce product"
-msgstr "WooCommerce termék másolatának létrehozása"
+#: src/Abilities/Definitions/WooCommerce/AttributeTermAbilities.php:21
+msgid "List terms (values) of a global attribute, e.g. all colors in pa_color"
+msgstr ""
+"Egy globális tulajdonság értékeinek listázása, pl. az összes szín a pa_color-"
+"ban"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:243
-msgid "Update Stock"
-msgstr "Készlet frissítése"
+#: src/Abilities/Definitions/WooCommerce/AttributeTermAbilities.php:53
+msgid "Create Attribute Term"
+msgstr "Tulajdonságérték létrehozása"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:244
-msgid "Update product stock quantity or status"
-msgstr "Termék készletmennyiségének vagy állapotának frissítése"
+#: src/Abilities/Definitions/WooCommerce/AttributeTermAbilities.php:54
+msgid ""
+"Add a new term (value) to a global attribute, e.g. add \"Olive\" to pa_color"
+msgstr ""
+"Új érték hozzáadása egy globális tulajdonsághoz, pl. „Olive” a pa_color-hoz"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:293
-msgid "List Product Categories"
-msgstr "Termékkategóriák listázása"
+#: src/Abilities/Definitions/WooCommerce/AttributeTermAbilities.php:77
+msgid "Update Attribute Term"
+msgstr "Tulajdonságérték frissítése"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:294
-msgid "List WooCommerce product categories"
-msgstr "WooCommerce termékkategóriák listázása"
+#: src/Abilities/Definitions/WooCommerce/AttributeTermAbilities.php:78
+msgid "Rename or re-slug an attribute term"
+msgstr "Tulajdonságérték átnevezése vagy slugjának módosítása"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:364
-msgid "List Product Variations"
-msgstr "Termékvariációk listázása"
+#: src/Abilities/Definitions/WooCommerce/AttributeTermAbilities.php:102
+msgid "Delete Attribute Term"
+msgstr "Tulajdonságérték törlése"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:365
-msgid "List variations of a variable product"
-msgstr "Egy variálható termék variációinak listázása"
+#: src/Abilities/Definitions/WooCommerce/AttributeTermAbilities.php:103
+msgid "Delete a term from a global attribute"
+msgstr "Egy érték törlése egy globális tulajdonságból"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:416
-msgid "Bulk Product Action"
-msgstr "Tömeges termékművelet"
-
-#: src/Abilities/Definitions/WooCommerceAbilities.php:417
-msgid "Perform bulk actions on multiple products"
-msgstr "Tömeges műveletek végrehajtása több terméken"
-
-#: src/Abilities/Definitions/WooCommerceAbilities.php:451
+#: src/Abilities/Definitions/WooCommerce/OrderAbilities.php:22
 msgid "List Orders"
 msgstr "Rendelések listázása"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:452
+#: src/Abilities/Definitions/WooCommerce/OrderAbilities.php:23
 msgid "List WooCommerce orders with filtering options"
 msgstr "WooCommerce rendelések listázása szűrési lehetőségekkel"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:509
+#: src/Abilities/Definitions/WooCommerce/OrderAbilities.php:59
 msgid "Get Order"
 msgstr "Rendelés lekérése"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:510
+#: src/Abilities/Definitions/WooCommerce/OrderAbilities.php:60
 msgid "Get detailed information about a WooCommerce order"
 msgstr "Részletes információk lekérése egy WooCommerce rendelésről"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:534
+#: src/Abilities/Definitions/WooCommerce/OrderAbilities.php:80
+msgid "Create Order"
+msgstr "Rendelés létrehozása"
+
+#: src/Abilities/Definitions/WooCommerce/OrderAbilities.php:81
+msgid ""
+"Create a new WooCommerce order, optionally on behalf of a customer with line "
+"items"
+msgstr ""
+"Új WooCommerce rendelés létrehozása, akár egy vásárló nevében, tételekkel"
+
+#: src/Abilities/Definitions/WooCommerce/OrderAbilities.php:135
+msgid "Update Order"
+msgstr "Rendelés frissítése"
+
+#: src/Abilities/Definitions/WooCommerce/OrderAbilities.php:136
+msgid "Update billing/shipping details or customer note on an existing order"
+msgstr ""
+"Egy meglévő rendelés számlázási/szállítási adatainak vagy vásárlói "
+"megjegyzésének frissítése"
+
+#: src/Abilities/Definitions/WooCommerce/OrderAbilities.php:167
+msgid "Delete Order"
+msgstr "Rendelés törlése"
+
+#: src/Abilities/Definitions/WooCommerce/OrderAbilities.php:168
+msgid "Move an order to trash, or permanently delete with force=true"
+msgstr "Rendelés lomtárba helyezése, vagy végleges törlése force=true esetén"
+
+#: src/Abilities/Definitions/WooCommerce/OrderAbilities.php:202
 msgid "Update Order Status"
 msgstr "Rendelés állapotának frissítése"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:535
+#: src/Abilities/Definitions/WooCommerce/OrderAbilities.php:203
 msgid "Change the status of an order"
 msgstr "Egy rendelés státuszának módosítása"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:577
+#: src/Abilities/Definitions/WooCommerce/OrderCouponFeeAbilities.php:20
+msgid "Apply Coupon to Order"
+msgstr "Kupon alkalmazása rendelésre"
+
+#: src/Abilities/Definitions/WooCommerce/OrderCouponFeeAbilities.php:21
+msgid "Apply a coupon code to an existing order"
+msgstr "Kuponkód alkalmazása egy meglévő rendelésre"
+
+#: src/Abilities/Definitions/WooCommerce/OrderCouponFeeAbilities.php:43
+msgid "Remove Coupon from Order"
+msgstr "Kupon eltávolítása a rendelésből"
+
+#: src/Abilities/Definitions/WooCommerce/OrderCouponFeeAbilities.php:44
+msgid "Remove a coupon from an existing order"
+msgstr "Kupon eltávolítása egy meglévő rendelésből"
+
+#: src/Abilities/Definitions/WooCommerce/OrderCouponFeeAbilities.php:66
+msgid "Add Order Fee"
+msgstr "Díj hozzáadása a rendeléshez"
+
+#: src/Abilities/Definitions/WooCommerce/OrderCouponFeeAbilities.php:67
+msgid "Add a custom fee (e.g., gift wrap, surcharge) to an order"
+msgstr "Egyedi díj (pl. ajándékcsomagolás, felár) hozzáadása egy rendeléshez"
+
+#: src/Abilities/Definitions/WooCommerce/OrderCouponFeeAbilities.php:96
+msgid "Remove Order Fee"
+msgstr "Díj eltávolítása a rendelésből"
+
+#: src/Abilities/Definitions/WooCommerce/OrderCouponFeeAbilities.php:97
+msgid "Remove a fee item from an order"
+msgstr "Egy díjtétel eltávolítása a rendelésből"
+
+#: src/Abilities/Definitions/WooCommerce/OrderExtraAbilities.php:21
 msgid "List Order Statuses"
 msgstr "Rendelésstátuszok listázása"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:578
+#: src/Abilities/Definitions/WooCommerce/OrderExtraAbilities.php:22
 msgid "List available WooCommerce order statuses"
 msgstr "Elérhető WooCommerce rendelésstátuszok listázása"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:613
+#: src/Abilities/Definitions/WooCommerce/OrderExtraAbilities.php:54
 msgid "Create Refund"
 msgstr "Visszatérítés létrehozása"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:614
+#: src/Abilities/Definitions/WooCommerce/OrderExtraAbilities.php:55
 msgid "Create a refund for an order"
 msgstr "Visszatérítés létrehozása egy rendeléshez"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:673
+#: src/Abilities/Definitions/WooCommerce/OrderExtraAbilities.php:102
 msgid "List Order Notes"
 msgstr "Rendelésjegyzetek listázása"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:674
+#: src/Abilities/Definitions/WooCommerce/OrderExtraAbilities.php:103
 msgid "List notes for an order"
 msgstr "Egy rendelés jegyzeteinek listázása"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:724
+#: src/Abilities/Definitions/WooCommerce/OrderExtraAbilities.php:147
 msgid "Add Order Note"
 msgstr "Rendelésjegyzet hozzáadása"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:725
+#: src/Abilities/Definitions/WooCommerce/OrderExtraAbilities.php:148
 msgid "Add a note to an order"
 msgstr "Jegyzet hozzáadása egy rendeléshez"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:768
+#: src/Abilities/Definitions/WooCommerce/OrderExtraAbilities.php:183
 msgid "Bulk Order Action"
 msgstr "Tömeges rendelésművelet"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:769
+#: src/Abilities/Definitions/WooCommerce/OrderExtraAbilities.php:184
 msgid "Update status for multiple orders"
 msgstr "Státusz frissítése több rendelésnél"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:806
+#: src/Abilities/Definitions/WooCommerce/OrderItemAbilities.php:20
+msgid "Add Order Line Item"
+msgstr "Tétel hozzáadása a rendeléshez"
+
+#: src/Abilities/Definitions/WooCommerce/OrderItemAbilities.php:21
+msgid "Add a product line item to an existing order"
+msgstr "Terméktétel hozzáadása egy meglévő rendeléshez"
+
+#: src/Abilities/Definitions/WooCommerce/OrderItemAbilities.php:52
+msgid "Update Order Line Item"
+msgstr "Rendeléstétel frissítése"
+
+#: src/Abilities/Definitions/WooCommerce/OrderItemAbilities.php:53
+msgid "Change quantity, subtotal, or total on an existing line item"
+msgstr ""
+"Egy meglévő tétel mennyiségének, részösszegének vagy végösszegének módosítása"
+
+#: src/Abilities/Definitions/WooCommerce/OrderItemAbilities.php:82
+msgid "Remove Order Line Item"
+msgstr "Tétel eltávolítása a rendelésből"
+
+#: src/Abilities/Definitions/WooCommerce/OrderItemAbilities.php:83
+msgid "Delete a line item from an order"
+msgstr "Egy tétel törlése a rendelésből"
+
+#: src/Abilities/Definitions/WooCommerce/OrderPaymentAbilities.php:29
+msgid "Mark Order Paid"
+msgstr "Rendelés megjelölése fizetettként"
+
+#: src/Abilities/Definitions/WooCommerce/OrderPaymentAbilities.php:30
+msgid ""
+"Trigger payment_complete() on an order; auto-transitions status per "
+"WooCommerce rules"
+msgstr ""
+"A payment_complete() meghívása egy rendelésen; az állapot a WooCommerce "
+"szabályai szerint vált"
+
+#: src/Abilities/Definitions/WooCommerce/OrderPaymentAbilities.php:70
+msgid "Send Order Email"
+msgstr "Rendelési e-mail küldése"
+
+#: src/Abilities/Definitions/WooCommerce/OrderPaymentAbilities.php:71
+msgid ""
+"Re-send a WooCommerce order email (admin or customer) for the given order"
+msgstr ""
+"Egy WooCommerce rendelési e-mail (admin vagy vásárlói) újraküldése az adott "
+"rendeléshez"
+
+#: src/Abilities/Definitions/WooCommerce/OrderPaymentAbilities.php:105
+msgid "Get Order Payment URL"
+msgstr "Rendelés fizetési URL-jének lekérése"
+
+#: src/Abilities/Definitions/WooCommerce/OrderPaymentAbilities.php:106
+msgid "Return the customer-facing pay-for-order URL for an unpaid order"
+msgstr ""
+"A vásárlónak szóló fizetési URL visszaadása egy kifizetetlen rendeléshez"
+
+#: src/Abilities/Definitions/WooCommerce/OrderShippingAbilities.php:20
+msgid "Set Order Shipping"
+msgstr "Rendelés szállításának beállítása"
+
+#: src/Abilities/Definitions/WooCommerce/OrderShippingAbilities.php:21
+msgid "Set or replace the shipping line on an order"
+msgstr "A szállítási tétel beállítása vagy cseréje egy rendelésen"
+
+#: src/Abilities/Definitions/WooCommerce/OrderShippingAbilities.php:60
+msgid "Remove Order Shipping"
+msgstr "Szállítás eltávolítása a rendelésből"
+
+#: src/Abilities/Definitions/WooCommerce/OrderShippingAbilities.php:61
+msgid "Remove one or all shipping lines from an order"
+msgstr "Egy vagy az összes szállítási tétel eltávolítása a rendelésből"
+
+#: src/Abilities/Definitions/WooCommerce/OrderShippingAbilities.php:95
+msgid "Recalculate Order Totals"
+msgstr "Rendelés összegeinek újraszámolása"
+
+#: src/Abilities/Definitions/WooCommerce/OrderShippingAbilities.php:96
+msgid "Force WooCommerce to recompute subtotals, taxes, and total on an order"
+msgstr ""
+"A WooCommerce újraszámolja a rendelés részösszegeit, adóit és végösszegét"
+
+#: src/Abilities/Definitions/WooCommerce/ProductAbilities.php:22
+msgid "List Products"
+msgstr "Termékek listázása"
+
+#: src/Abilities/Definitions/WooCommerce/ProductAbilities.php:23
+msgid "List WooCommerce products with filtering options"
+msgstr "WooCommerce termékek listázása szűrési lehetőségekkel"
+
+#: src/Abilities/Definitions/WooCommerce/ProductAbilities.php:74
+msgid "Get Product"
+msgstr "Termék lekérése"
+
+#: src/Abilities/Definitions/WooCommerce/ProductAbilities.php:75
+msgid "Get detailed information about a WooCommerce product"
+msgstr "Részletes információk lekérése egy WooCommerce termékről"
+
+#: src/Abilities/Definitions/WooCommerce/ProductAbilities.php:96
+msgid "Create Product"
+msgstr "Termék létrehozása"
+
+#: src/Abilities/Definitions/WooCommerce/ProductAbilities.php:97
+msgid "Create a new WooCommerce product"
+msgstr "Új WooCommerce termék létrehozása"
+
+#: src/Abilities/Definitions/WooCommerce/ProductAbilities.php:115
+msgid "Update Product"
+msgstr "Termék frissítése"
+
+#: src/Abilities/Definitions/WooCommerce/ProductAbilities.php:116
+msgid "Update an existing WooCommerce product"
+msgstr "Meglévő WooCommerce termék frissítése"
+
+#: src/Abilities/Definitions/WooCommerce/ProductAbilities.php:137
+msgid "Delete Product"
+msgstr "Termék törlése"
+
+#: src/Abilities/Definitions/WooCommerce/ProductAbilities.php:138
+msgid "Delete a WooCommerce product"
+msgstr "WooCommerce termék törlése"
+
+#: src/Abilities/Definitions/WooCommerce/ProductAttributeAbilities.php:20
+msgid "Set Product Attributes"
+msgstr "Terméktulajdonságok beállítása"
+
+#: src/Abilities/Definitions/WooCommerce/ProductAttributeAbilities.php:21
+msgid "Replace the entire attribute set on a product (global pa_* or custom)"
+msgstr ""
+"Egy termék teljes tulajdonságkészletének cseréje (globális pa_* vagy egyedi)"
+
+#: src/Abilities/Definitions/WooCommerce/ProductAttributeAbilities.php:45
+msgid "Add Product Attribute"
+msgstr "Terméktulajdonság hozzáadása"
+
+#: src/Abilities/Definitions/WooCommerce/ProductAttributeAbilities.php:46
+msgid "Append an attribute to a product without disturbing existing ones"
+msgstr "Tulajdonság hozzáadása egy termékhez a meglévők érintése nélkül"
+
+#: src/Abilities/Definitions/WooCommerce/ProductAttributeAbilities.php:82
+msgid "Remove Product Attribute"
+msgstr "Terméktulajdonság eltávolítása"
+
+#: src/Abilities/Definitions/WooCommerce/ProductAttributeAbilities.php:83
+msgid "Detach a single attribute from a product by name"
+msgstr "Egyetlen tulajdonság leválasztása egy termékről név alapján"
+
+#: src/Abilities/Definitions/WooCommerce/ProductExtraAbilities.php:22
+msgid "Duplicate Product"
+msgstr "Termék duplikálása"
+
+#: src/Abilities/Definitions/WooCommerce/ProductExtraAbilities.php:23
+msgid "Create a copy of a WooCommerce product"
+msgstr "WooCommerce termék másolatának létrehozása"
+
+#: src/Abilities/Definitions/WooCommerce/ProductExtraAbilities.php:45
+msgid "Update Stock"
+msgstr "Készlet frissítése"
+
+#: src/Abilities/Definitions/WooCommerce/ProductExtraAbilities.php:46
+msgid "Update product stock quantity or status"
+msgstr "Termék készletmennyiségének vagy állapotának frissítése"
+
+#: src/Abilities/Definitions/WooCommerce/ProductExtraAbilities.php:87
+msgid "List Product Categories"
+msgstr "Termékkategóriák listázása"
+
+#: src/Abilities/Definitions/WooCommerce/ProductExtraAbilities.php:88
+msgid "List WooCommerce product categories"
+msgstr "WooCommerce termékkategóriák listázása"
+
+#: src/Abilities/Definitions/WooCommerce/ProductExtraAbilities.php:139
+msgid "List Product Variations"
+msgstr "Termékvariációk listázása"
+
+#: src/Abilities/Definitions/WooCommerce/ProductExtraAbilities.php:140
+msgid "List variations of a variable product"
+msgstr "Egy variálható termék variációinak listázása"
+
+#: src/Abilities/Definitions/WooCommerce/ProductExtraAbilities.php:188
+msgid "Bulk Product Action"
+msgstr "Tömeges termékművelet"
+
+#: src/Abilities/Definitions/WooCommerce/ProductExtraAbilities.php:189
+msgid "Perform bulk actions on multiple products"
+msgstr "Tömeges műveletek végrehajtása több terméken"
+
+#: src/Abilities/Definitions/WooCommerce/ReportAbilities.php:20
 msgid "Sales Report"
 msgstr "Értékesítési jelentés"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:807
+#: src/Abilities/Definitions/WooCommerce/ReportAbilities.php:21
 msgid "Get WooCommerce sales summary"
 msgstr "WooCommerce értékesítési összesítő lekérése"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:858
+#: src/Abilities/Definitions/WooCommerce/ReportAbilities.php:64
 msgid "Top Selling Products"
 msgstr "Legjobban fogyó termékek"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:859
+#: src/Abilities/Definitions/WooCommerce/ReportAbilities.php:65
 msgid "Get top selling WooCommerce products"
 msgstr "A legjobban fogyó WooCommerce termékek lekérése"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:916
+#: src/Abilities/Definitions/WooCommerce/ReportAbilities.php:119
 msgid "Orders Totals"
 msgstr "Rendelések összesítése"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:917
+#: src/Abilities/Definitions/WooCommerce/ReportAbilities.php:120
 msgid "Get order counts by status"
 msgstr "Rendelések számának lekérése státusz szerint"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:954
+#: src/Abilities/Definitions/WooCommerce/ReportAbilities.php:154
 msgid "Revenue Stats"
 msgstr "Bevételi statisztikák"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:955
+#: src/Abilities/Definitions/WooCommerce/ReportAbilities.php:155
 msgid "Get revenue statistics with period comparison"
 msgstr "Bevételi statisztikák lekérése időszak-összehasonlítással"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:1023
+#: src/Abilities/Definitions/WooCommerce/ReportAbilities.php:218
 msgid "Low Stock Products"
 msgstr "Alacsony készletű termékek"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:1024
+#: src/Abilities/Definitions/WooCommerce/ReportAbilities.php:219
 msgid "Get products with low or no stock"
 msgstr "Alacsony vagy nulla készletű termékek lekérése"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:1083
+#: src/Abilities/Definitions/WooCommerce/ReportAbilities.php:272
 msgid "Products Totals"
 msgstr "Termékek összesítése"
 
-#: src/Abilities/Definitions/WooCommerceAbilities.php:1084
+#: src/Abilities/Definitions/WooCommerce/ReportAbilities.php:273
 msgid "Get product counts by status and stock"
 msgstr "Termékszámok lekérése státusz és készlet szerint"
+
+#: src/Abilities/Definitions/WooCommerce/VariationAbilities.php:20
+msgid "Generate Variations"
+msgstr "Változatok generálása"
+
+#: src/Abilities/Definitions/WooCommerce/VariationAbilities.php:21
+msgid ""
+"Auto-generate every missing variation combination from variation-flagged "
+"attributes"
+msgstr ""
+"Minden hiányzó változatkombináció automatikus létrehozása a változatokhoz "
+"jelölt tulajdonságokból"
+
+#: src/Abilities/Definitions/WooCommerce/VariationAbilities.php:52
+msgid "Create Variation"
+msgstr "Változat létrehozása"
+
+#: src/Abilities/Definitions/WooCommerce/VariationAbilities.php:53
+msgid ""
+"Create a single product variation with explicit attribute values and pricing"
+msgstr ""
+"Egyetlen termékváltozat létrehozása megadott tulajdonságértékekkel és "
+"árazással"
+
+#: src/Abilities/Definitions/WooCommerce/VariationAbilities.php:84
+msgid "Update Variation"
+msgstr "Változat frissítése"
+
+#: src/Abilities/Definitions/WooCommerce/VariationAbilities.php:85
+msgid ""
+"Update price, stock, attributes, or other fields of an existing variation"
+msgstr ""
+"Egy meglévő változat árának, készletének, tulajdonságainak vagy más mezőinek "
+"frissítése"
+
+#: src/Abilities/Definitions/WooCommerce/VariationAbilities.php:113
+msgid "Delete Variation"
+msgstr "Változat törlése"
+
+#: src/Abilities/Definitions/WooCommerce/VariationAbilities.php:114
+msgid "Trash or permanently delete a product variation"
+msgstr "Termékváltozat lomtárba helyezése vagy végleges törlése"
+
+#: src/Abilities/Definitions/WooCommerce/WcMetaAbilities.php:25
+msgid "Get Product Meta"
+msgstr "Termék metaadatainak lekérése"
+
+#: src/Abilities/Definitions/WooCommerce/WcMetaAbilities.php:26
+msgid ""
+"Read one meta key (with `key`) or list all meta on a product/variation. "
+"Hides leading-underscore keys unless include_protected=true."
+msgstr ""
+"Egy metakulcs olvasása (`key` megadásával) vagy egy termék/változat összes "
+"metaadatának listázása. Az aláhúzással kezdődő kulcsokat csak "
+"include_protected=true esetén mutatja."
+
+#: src/Abilities/Definitions/WooCommerce/WcMetaAbilities.php:48
+msgid "Set Product Meta"
+msgstr "Termék metaadatainak beállítása"
+
+#: src/Abilities/Definitions/WooCommerce/WcMetaAbilities.php:49
+msgid ""
+"Bulk update meta on a product/variation. Accepts a `meta` map of key => "
+"value pairs."
+msgstr ""
+"Egy termék/változat metaadatainak tömeges frissítése. Egy `meta` kulcs => "
+"érték párokat tartalmazó tömböt vár."
+
+#: src/Abilities/Definitions/WooCommerce/WcMetaAbilities.php:70
+msgid "Delete Product Meta"
+msgstr "Termék metaadatának törlése"
+
+#: src/Abilities/Definitions/WooCommerce/WcMetaAbilities.php:71
+msgid "Delete a single meta key from a product/variation"
+msgstr "Egyetlen metakulcs törlése egy termékről/változatról"
+
+#: src/Abilities/Definitions/WooCommerce/WcMetaAbilities.php:94
+msgid "Get Order Meta"
+msgstr "Rendelés metaadatainak lekérése"
+
+#: src/Abilities/Definitions/WooCommerce/WcMetaAbilities.php:95
+msgid ""
+"Read one meta key (with `key`) or list all meta on an order. HPOS-aware via "
+"WC_Data API."
+msgstr ""
+"Egy metakulcs olvasása (`key` megadásával) vagy egy rendelés összes "
+"metaadatának listázása. HPOS-kompatibilis a WC_Data API-n keresztül."
+
+#: src/Abilities/Definitions/WooCommerce/WcMetaAbilities.php:117
+msgid "Set Order Meta"
+msgstr "Rendelés metaadatainak beállítása"
+
+#: src/Abilities/Definitions/WooCommerce/WcMetaAbilities.php:118
+msgid ""
+"Bulk update meta on an order. HPOS-aware. Accepts a `meta` map of key => "
+"value pairs."
+msgstr ""
+"Egy rendelés metaadatainak tömeges frissítése. HPOS-kompatibilis. Egy `meta` "
+"kulcs => érték párokat tartalmazó tömböt vár."
+
+#: src/Abilities/Definitions/WooCommerce/WcMetaAbilities.php:139
+msgid "Delete Order Meta"
+msgstr "Rendelés metaadatának törlése"
+
+#: src/Abilities/Definitions/WooCommerce/WcMetaAbilities.php:140
+msgid "Delete a single meta key from an order. HPOS-aware."
+msgstr "Egyetlen metakulcs törlése egy rendelésről. HPOS-kompatibilis."
 
 #: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:33
 msgid "Create Backup"
@@ -941,83 +1326,83 @@ msgstr ""
 "Biztonsági mentési feladat indítása. Azonnal visszatér a "
 "feladatazonosítóval. A folyamat követéséhez használd a backup-status-t."
 
-#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:76
+#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:75
 msgid "Get Backup Status"
 msgstr "Biztonsági mentés állapotának lekérése"
 
-#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:77
+#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:76
 msgid "Get the status and progress of a backup job"
 msgstr "A biztonsági mentési feladat állapotának és előrehaladásának lekérése"
 
-#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:123
+#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:121
 msgid "Cancel Backup"
 msgstr "Biztonsági mentés megszakítása"
 
-#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:124
+#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:122
 msgid "Cancel a running backup job"
 msgstr "Futó biztonsági mentési feladat megszakítása"
 
-#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:156
+#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:153
 msgid "List Backups"
 msgstr "Biztonsági mentések listázása"
 
-#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:157
+#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:154
 msgid "List all available backups"
 msgstr "Az összes elérhető biztonsági mentés listázása"
 
-#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:208
+#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:202
 msgid "Restore Backup"
 msgstr "Biztonsági mentés visszaállítása"
 
-#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:209
+#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:203
 msgid "Restore site from a backup"
 msgstr "Webhely visszaállítása biztonsági mentésből"
 
-#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:253
+#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:246
 msgid "Delete Backup"
 msgstr "Biztonsági mentés törlése"
 
-#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:254
+#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:247
 msgid "Delete a backup file"
 msgstr "Biztonsági mentésfájl törlése"
 
-#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:292
+#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:284
 msgid "Health Check"
 msgstr "Állapotellenőrzés"
 
-#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:293
+#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:285
 msgid "Run comprehensive site health check"
 msgstr "Átfogó webhely-állapotellenőrzés futtatása"
 
-#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:389
+#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:374
 msgid "Get Error Log"
 msgstr "Hibanapló lekérése"
 
-#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:390
+#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:375
 msgid "Retrieve recent PHP errors from log"
 msgstr "Legutóbbi PHP hibák lekérése a naplóból"
 
-#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:442
+#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:426
 msgid "Optimize Database"
 msgstr "Adatbázis optimalizálása"
 
-#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:443
+#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:427
 msgid "Optimize database tables"
 msgstr "Adatbázistáblák optimalizálása"
 
-#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:488
+#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:470
 msgid "Cleanup Database"
 msgstr "Adatbázis tisztítása"
 
-#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:489
+#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:471
 msgid "Remove revisions, transients, spam, trash"
 msgstr "Revíziók, transiensek, spam és lomtár eltávolítása"
 
-#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:570
+#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:550
 msgid "Flush Cache"
 msgstr "Gyorsítótár ürítése"
 
-#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:571
+#: src/Abilities/Registrars/MaintenanceAbilitiesRegistrar.php:551
 msgid "Clear all caches (object cache, page cache, etc.)"
 msgstr "Minden gyorsítótár törlése (object cache, page cache stb.)"
 
@@ -1029,146 +1414,145 @@ msgstr "Frissítések ellenőrzése"
 msgid "Check for available WordPress core, plugin, and theme updates"
 msgstr "Elérhető WordPress core, bővítmény és sablon frissítések ellenőrzése"
 
-#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:109
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:105
 msgid "Update Plugin"
 msgstr "Bővítmény frissítése"
 
-#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:110
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:106
 msgid "Update a specific plugin to latest version"
 msgstr "Egy adott bővítmény frissítése a legújabb verzióra"
 
-#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:134
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:130
 msgid "Update Theme"
 msgstr "Sablon frissítése"
 
-#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:135
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:131
 msgid "Update a specific theme to latest version"
 msgstr "Frissíts egy adott sablont a legújabb verzióra"
 
-#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:159
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:155
 msgid "Update WordPress Core"
 msgstr "Frissítsd a WordPress Core-t"
 
-#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:160
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:156
 msgid "Update WordPress core to latest version"
 msgstr "Frissítsd a WordPress core-t a legújabb verzióra"
 
-#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:188
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:184
 msgid "Update Everything"
 msgstr "Frissíts mindent"
 
-#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:189
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:185
 msgid "Update all plugins, themes, and optionally WordPress core"
 msgstr ""
 "Frissítsd az összes bővítményt, sablont, és opcionálisan a WordPress core-t"
 
-#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:253
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:247
 msgid "List Plugins"
 msgstr "Bővítmények listázása"
 
-#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:254
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:248
 msgid "List all installed plugins with status"
 msgstr "Az összes telepített bővítmény listázása állapottal"
 
-#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:301
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:293
 msgid "Activate Plugin"
 msgstr "Bővítmény aktiválása"
 
-#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:302
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:294
 msgid "Activate a specific plugin"
 msgstr "Egy adott bővítmény aktiválása"
 
-#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:334
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:326
 msgid "Deactivate Plugin"
 msgstr "Bővítmény deaktiválása"
 
-#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:335
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:327
 msgid "Deactivate a specific plugin"
 msgstr "Egy adott bővítmény deaktiválása"
 
-#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:363
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:355
 msgid "Install Plugin"
 msgstr "Bővítmény telepítése"
 
-#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:364
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:356
 msgid "Install a plugin from WordPress.org repository"
 msgstr "Bővítmény telepítése a WordPress.org repositoryból"
 
-#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:408
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:399
 msgid "Delete Plugin"
 msgstr "Bővítmény törlése"
 
-#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:409
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:400
 msgid "Delete a plugin from the site"
 msgstr "Bővítmény törlése az oldalról"
 
-#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:446
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:436
 msgid "List Themes"
 msgstr "Sablonok listázása"
 
-#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:447
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:437
 msgid "List all installed themes"
 msgstr "Az összes telepített sablon listázása"
 
-#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:487
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:475
 msgid "Activate Theme"
 msgstr "Sablon aktiválása"
 
-#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:488
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:476
 msgid "Switch to a different theme"
 msgstr "Váltás egy másik sablonra"
 
-#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:516
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:504
 msgid "Install Theme"
 msgstr "Sablon telepítése"
 
-#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:517
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:505
 msgid "Install a theme from WordPress.org repository"
 msgstr "Sablon telepítése a WordPress.org repositoryból"
 
-#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:561
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:548
 msgid "Delete Theme"
 msgstr "Sablon törlése"
 
-#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:562
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:549
 msgid "Delete a theme from the site"
 msgstr "Sablon törlése az oldalról"
 
-#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:599
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:585
 msgid "Check Plugin Database Updates"
 msgstr "Bővítmény adatbázis-frissítések ellenőrzése"
 
-#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:600
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:586
 msgid "Check for pending database updates for WooCommerce, Elementor, etc."
 msgstr ""
 "Függőben lévő adatbázis-frissítések ellenőrzése WooCommerce-hez, "
 "Elementorhoz stb."
 
-#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:633
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:617
 msgid "Update Plugin Database"
 msgstr "Bővítmény adatbázis frissítése"
 
-#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:634
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:618
 msgid "Run database update for a specific plugin (WooCommerce, Elementor)"
 msgstr ""
-"Adatbázis-frissítés futtatása egy adott bővítményhez (WooCommerce, "
-"Elementor)"
+"Adatbázis-frissítés futtatása egy adott bővítményhez (WooCommerce, Elementor)"
 
-#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:663
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:647
 msgid "Update All Plugin Databases"
 msgstr "Összes bővítmény adatbázisának frissítése"
 
-#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:664
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:648
 msgid "Run all pending database updates for supported plugins"
 msgstr ""
 "Az összes függőben lévő adatbázis-frissítés futtatása a támogatott "
 "bővítményekhez"
 
-#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:699
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:682
 msgid "Get Supported DB Update Plugins"
 msgstr "Támogatott DB update bővítmények lekérése"
 
-#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:700
+#: src/Abilities/Registrars/UpdateAbilitiesRegistrar.php:683
 msgid "List plugins that support database updates"
 msgstr "Az adatbázis-frissítéseket támogató bővítmények listázása"
 
@@ -1196,37 +1580,134 @@ msgstr "Felhasználó létrehozása"
 msgid "Create a new user account"
 msgstr "Új felhasználói fiók létrehozása"
 
-#: src/Abilities/Registrars/UserAbilitiesRegistrar.php:171
+#: src/Abilities/Registrars/UserAbilitiesRegistrar.php:174
 msgid "Update User"
 msgstr "Felhasználó frissítése"
 
-#: src/Abilities/Registrars/UserAbilitiesRegistrar.php:172
+#: src/Abilities/Registrars/UserAbilitiesRegistrar.php:175
 msgid "Update an existing user"
 msgstr "Meglévő felhasználó frissítése"
 
-#: src/Abilities/Registrars/UserAbilitiesRegistrar.php:224
+#: src/Abilities/Registrars/UserAbilitiesRegistrar.php:231
 msgid "Delete User"
 msgstr "Felhasználó törlése"
 
-#: src/Abilities/Registrars/UserAbilitiesRegistrar.php:225
+#: src/Abilities/Registrars/UserAbilitiesRegistrar.php:232
 msgid "Delete a user account"
 msgstr "Felhasználói fiók törlése"
 
-#: src/Abilities/Registrars/UserAbilitiesRegistrar.php:263
+#: src/Abilities/Registrars/UserAbilitiesRegistrar.php:270
 msgid "Reset Password"
 msgstr "Jelszó visszaállítása"
 
-#: src/Abilities/Registrars/UserAbilitiesRegistrar.php:264
+#: src/Abilities/Registrars/UserAbilitiesRegistrar.php:271
 msgid "Reset a user password"
 msgstr "Felhasználói jelszó visszaállítása"
 
-#: src/Abilities/Registrars/UserAbilitiesRegistrar.php:317
+#: src/Abilities/Registrars/UserAbilitiesRegistrar.php:323
 msgid "Get Roles"
 msgstr "Szerepkörök lekérése"
 
-#: src/Abilities/Registrars/UserAbilitiesRegistrar.php:318
+#: src/Abilities/Registrars/UserAbilitiesRegistrar.php:324
 msgid "List all available user roles"
 msgstr "Az összes elérhető felhasználói szerepkör listázása"
+
+#: src/Admin/McpSettingsPage.php:65 src/Admin/McpSettingsPage.php:66
+#: src/Admin/McpSettingsPage.php:133 build/index.js:2
+msgid "AI / MCP"
+msgstr "AI / MCP"
+
+#: src/Admin/McpSettingsPage.php:134
+msgid ""
+"The screen files are missing. Re-install the plugin from a release ZIP, or "
+"run \"npm install && npm run build\" in the plugin directory."
+msgstr ""
+"Hiányoznak a képernyő fájljai. Telepítsd újra a bővítményt egy kiadási ZIP-"
+"ből, vagy futtasd az „npm install && npm run build” parancsot a bővítmény "
+"mappájában."
+
+#: src/Admin/ParentPage.php:133
+msgid "Lightweight plugins for WordPress - minimal footprint, maximum impact."
+msgstr "Könnyű WordPress bővítmények – minimális terhelés, maximális hatás."
+
+#: src/Admin/ParentPage.php:194
+msgid "Active"
+msgstr "Aktív"
+
+#: src/Admin/ParentPage.php:205
+msgid "Get Plugin"
+msgstr "Bővítmény letöltése"
+
+#. translators: 1: domain the MCP server was turned on for, 2: current domain of the site.
+#: src/Mcp/Diagnostics.php:65
+#, php-format
+msgid ""
+"The site address changed since the MCP server was turned on (it was set up "
+"for %1$s, this site now runs on %2$s), so it switched itself off. If the "
+"move was intentional, turn it back on."
+msgstr ""
+"A webhely címe megváltozott, mióta bekapcsoltad az MCP szervert (a(z) %1$s "
+"címre állítottad be, most a(z) %2$s címen fut), ezért kikapcsolt. Ha "
+"szándékos volt a költözés, kapcsold vissza."
+
+#: src/Mcp/Diagnostics.php:79
+msgid ""
+"The MCP server is enabled but the MCP Adapter library is missing. Run "
+"\"composer install\" or re-install from a release ZIP."
+msgstr ""
+"Az MCP szerver be van kapcsolva, de hiányzik az MCP Adapter könyvtár. "
+"Futtasd a „composer install” parancsot, vagy telepítsd újra egy kiadási ZIP-"
+"ből."
+
+#: src/Mcp/Diagnostics.php:86
+msgid ""
+"Another plugin has loaded an older copy of the MCP Adapter library, so some "
+"features are unavailable — most importantly, failed tool calls are reported "
+"to the AI agent as successful. WooCommerce is the usual source: it bundles "
+"its own copy and loads it first."
+msgstr ""
+"Egy másik bővítmény az MCP Adapter könyvtár egy régebbi példányát töltötte "
+"be, ezért néhány funkció nem érhető el — a legfontosabb, hogy a sikertelen "
+"eszközhívásokat az AI ügynök sikeresnek látja. Általában a WooCommerce az "
+"oka: saját példányt csomagol, és azt tölti be elsőként."
+
+#: src/Mcp/DiscoverAbility.php:37
+msgid "Discover Abilities"
+msgstr "Képességek felderítése"
+
+#: src/Mcp/DiscoverAbility.php:38
+msgid ""
+"List public WordPress abilities plus Site Manager usage instructions and "
+"skill catalog."
+msgstr ""
+"A nyilvános WordPress képességek listája, a Site Manager használati "
+"útmutatójával és a skill-katalógussal."
+
+#: src/Mcp/DiscoverAbility.php:99
+msgid ""
+"You are connected to a WordPress site via LW Site Manager. Use the listed "
+"abilities to manage it. Prefer read abilities first; confirm destructive "
+"actions with the user."
+msgstr ""
+"Egy WordPress webhelyhez kapcsolódsz az LW Site Manageren keresztül. A "
+"felsorolt képességekkel kezelheted. Először az olvasó képességeket használd; "
+"a romboló műveleteket erősíttesd meg a felhasználóval."
+
+#: src/Mcp/RouteGuard.php:76
+msgid "You are not allowed to access the MCP endpoint."
+msgstr "Nincs jogosultságod az MCP végponthoz."
+
+#: src/Rest/Admin/McpController.php:71
+msgid "The request is too large."
+msgstr "A kérés túl nagy."
+
+#: src/Rest/Admin/McpController.php:85
+msgid "Send \"enabled\" as true or false."
+msgstr "Az „enabled” értéke true vagy false legyen."
+
+#: src/Rest/Admin/McpController.php:87
+msgid "Must be true or false."
+msgstr "true vagy false lehet."
 
 #: src/Services/BackupManager.php:53
 msgid "Could not create backup directory"
@@ -1284,8 +1765,7 @@ msgstr "Nem található kompatibilis caching bővítmény az előtöltéshez"
 msgid "Started preloading for: %s"
 msgstr "Előtöltés indítva ehhez: %s"
 
-#. translators: %1$d: number of optimized tables, %2$d: number of failed
-#. tables
+#. translators: %1$d: number of optimized tables, %2$d: number of failed tables
 #: src/Services/DatabaseManager.php:46
 #, php-format
 msgid "Optimized %1$d tables, %2$d failed"
@@ -1320,15 +1800,15 @@ msgstr "A(z) %s bővítmény nincs aktiválva"
 msgid "Updated: %1$d, Failed: %2$d"
 msgstr "Frissítve: %1$d, Sikertelen: %2$d"
 
-#: src/Services/PluginDatabaseUpdater.php:265
+#: src/Services/PluginDatabaseUpdater.php:263
 msgid "WooCommerce database updated successfully"
 msgstr "A WooCommerce adatbázis sikeresen frissítve"
 
-#: src/Services/PluginDatabaseUpdater.php:348
+#: src/Services/PluginDatabaseUpdater.php:346
 msgid "Elementor database updated successfully"
 msgstr "Az Elementor adatbázis sikeresen frissítve"
 
-#: src/Services/PluginDatabaseUpdater.php:414
+#: src/Services/PluginDatabaseUpdater.php:412
 msgid "Elementor Pro database updated successfully"
 msgstr "Az Elementor Pro adatbázis sikeresen frissítve"
 
@@ -1389,82 +1869,365 @@ msgstr "Frissítve: %1$d, Sikertelen: %2$d, PHP hibák: %3$d"
 msgid "(Stopped early due to PHP errors)"
 msgstr "(Korábban leállítva PHP hibák miatt)"
 
-#: src/Services/UpdateManager.php:550
+#: src/Services/UpdateManager.php:557
 msgid "Plugin activated but PHP errors detected"
 msgstr "A bővítmény aktiválva, de PHP hibák észlelhetők"
 
-#: src/Services/UpdateManager.php:551
+#: src/Services/UpdateManager.php:558
 msgid "Plugin activated successfully"
 msgstr "A bővítmény sikeresen aktiválva"
 
-#: src/Services/UpdateManager.php:571
+#: src/Services/UpdateManager.php:578
 msgid "Plugin deactivated successfully"
 msgstr "A bővítmény sikeresen deaktiválva"
 
-#: src/Services/UpdateManager.php:591
+#: src/Services/UpdateManager.php:598
 msgid "Plugin not found"
 msgstr "A bővítmény nem található"
 
-#: src/Services/UpdateManager.php:606
+#: src/Services/UpdateManager.php:613
 msgid "Plugin deleted successfully"
 msgstr "A bővítmény sikeresen törölve"
 
-#: src/Services/UpdateManager.php:649 src/Services/UpdateManager.php:687
+#: src/Services/UpdateManager.php:656 src/Services/UpdateManager.php:702
+#: src/Services/UpdateManager.php:708
 msgid "Theme not found"
 msgstr "A sablon nem található"
 
-#: src/Services/UpdateManager.php:664
+#: src/Services/UpdateManager.php:671
 msgid "Theme activated but PHP errors detected"
 msgstr "A sablon aktiválva, de PHP hibák észlelhetők"
 
-#: src/Services/UpdateManager.php:665
+#: src/Services/UpdateManager.php:672
 msgid "Theme activated successfully"
 msgstr "A sablon sikeresen aktiválva"
 
-#: src/Services/UpdateManager.php:692
+#: src/Services/UpdateManager.php:713
 msgid "Cannot delete the active theme"
 msgstr "Az aktív sablon nem törölhető"
 
-#: src/Services/UpdateManager.php:702
+#: src/Services/UpdateManager.php:723
 msgid "Theme deleted successfully"
 msgstr "A sablon sikeresen törölve"
 
 #. translators: %s: plugin slug
-#: src/Services/UpdateManager.php:729
+#: src/Services/UpdateManager.php:750
 #, php-format
 msgid "Plugin \"%s\" is already installed"
 msgstr "A(z) \"%s\" bővítmény már telepítve van"
 
-#: src/Services/UpdateManager.php:769
+#: src/Services/UpdateManager.php:794
 msgid "Plugin installation failed"
 msgstr "A bővítmény telepítése sikertelen"
 
-#: src/Services/UpdateManager.php:798
+#: src/Services/UpdateManager.php:824
 msgid "Plugin installed but PHP errors detected"
 msgstr "A bővítmény telepítve, de PHP hibák észlelhetők"
 
 #. translators: %1$s: plugin name, %2$s: version number
-#: src/Services/UpdateManager.php:800
+#: src/Services/UpdateManager.php:826
 #, php-format
 msgid "Plugin \"%1$s\" installed successfully (v%2$s)"
 msgstr "A(z) \"%1$s\" bővítmény sikeresen telepítve (v%2$s)"
 
 #. translators: %s: theme slug
-#: src/Services/UpdateManager.php:831
+#: src/Services/UpdateManager.php:857
 #, php-format
 msgid "Theme \"%s\" is already installed"
 msgstr "A(z) \"%s\" sablon már telepítve van"
 
-#: src/Services/UpdateManager.php:870
+#: src/Services/UpdateManager.php:900
 msgid "Theme installation failed"
 msgstr "A sablon telepítése sikertelen"
 
-#: src/Services/UpdateManager.php:891
+#: src/Services/UpdateManager.php:922
 msgid "Theme installed but PHP errors detected"
 msgstr "A sablon telepítve, de PHP hibák észlelhetők"
 
 #. translators: %1$s: theme name, %2$s: version number
-#: src/Services/UpdateManager.php:893
+#: src/Services/UpdateManager.php:924
 #, php-format
 msgid "Theme \"%1$s\" installed successfully (v%2$s)"
 msgstr "A(z) \"%1$s\" sablon sikeresen telepítve (v%2$s)"
+
+#: src/Skills/Bootstrap.php:37 build/index.js:2 build/index.js:3
+msgid "Skills"
+msgstr "Skillek"
+
+#: src/Skills/Bootstrap.php:38
+msgid "Load Site Manager skill playbooks."
+msgstr "Site Manager skill-forgatókönyvek betöltése."
+
+#. translators: %s: skill name
+#: src/Skills/PromptAbilities.php:40
+#, php-format
+msgid "Skill: %s"
+msgstr "Skill: %s"
+
+#: src/Skills/SkillGetAbility.php:27
+msgid "Get Skill"
+msgstr "Skill lekérése"
+
+#: src/Skills/SkillGetAbility.php:28
+msgid ""
+"Load a Site Manager skill by slug. Returns the full SKILL.md content plus "
+"metadata."
+msgstr ""
+"Egy Site Manager skill betöltése slug alapján. A teljes SKILL.md tartalmat "
+"és a metaadatokat adja vissza."
+
+#: build/index.js:1
+msgid "That did not work. Please reload the page and try again."
+msgstr "Ez nem sikerült. Töltsd újra az oldalt, és próbáld újra."
+
+#: build/index.js:1
+msgid "LW Plugins (opens in a new tab)"
+msgstr "LW Plugins (új lapon nyílik meg)"
+
+#: build/index.js:1 build/index.js:3
+msgid "On"
+msgstr "Be"
+
+#: build/index.js:1
+msgid "Needs attention"
+msgstr "Figyelmet igényel"
+
+#. translators: %d: number of skills.
+#: build/index.js:2
+msgid "%d skill"
+msgid_plural "%d skills"
+msgstr[0] "%d skill"
+msgstr[1] "%d skill"
+
+#: build/index.js:2
+msgid "LW Site Manager home"
+msgstr "LW Site Manager kezdőlap"
+
+#: build/index.js:2
+msgid "LW Site Manager sections"
+msgstr "LW Site Manager részei"
+
+#: build/index.js:2
+msgid "Documentation"
+msgstr "Dokumentáció"
+
+#: build/index.js:2
+msgid "(opens in a new tab)"
+msgstr "(új lapon nyílik meg)"
+
+#: build/index.js:2
+msgid "MCP server"
+msgstr "MCP szerver"
+
+#: build/index.js:2
+msgid "Bundled skills"
+msgstr "Beépített skillek"
+
+#: build/index.js:2
+msgid "Try again"
+msgstr "Újrapróbálás"
+
+#: build/index.js:2
+msgid "Copied"
+msgstr "Kimásolva"
+
+#: build/index.js:2
+msgid "Copy"
+msgstr "Másolás"
+
+#: build/index.js:2
+msgid "Connect a client"
+msgstr "Kliens csatlakoztatása"
+
+#: build/index.js:2
+msgid ""
+"Point any MCP client at this site. It connects over HTTP with WordPress "
+"application passwords."
+msgstr ""
+"Irányíts bármilyen MCP klienst erre a webhelyre. HTTP-n csatlakozik, "
+"WordPress alkalmazásjelszóval."
+
+#: build/index.js:2
+msgid "The server is off. Turn it on above before you connect a client."
+msgstr ""
+"A szerver ki van kapcsolva. Mielőtt klienst csatlakoztatsz, kapcsold be fent."
+
+#: build/index.js:2
+msgid "Endpoint"
+msgstr "Végpont"
+
+#: build/index.js:2
+msgid "the endpoint URL"
+msgstr "a végpont URL-je"
+
+#: build/index.js:2
+msgid "Create an application password"
+msgstr "Hozz létre egy alkalmazásjelszót"
+
+#: build/index.js:2
+msgid ""
+"Use an administrator account: the connection needs the manage_options "
+"capability. Give the password a name you will recognise, such as the "
+"client’s name."
+msgstr ""
+"Adminisztrátori fiókot használj: a kapcsolathoz manage_options jogosultság "
+"kell. Adj a jelszónak olyan nevet, amiről felismered, például a kliens nevét."
+
+#: build/index.js:2
+msgid "Open your profile"
+msgstr "Profilod megnyitása"
+
+#: build/index.js:2
+msgid ""
+"Application passwords are not available on this site. WordPress offers them "
+"only over HTTPS or on a local environment, and a plugin or filter can also "
+"turn them off."
+msgstr ""
+"Ezen a webhelyen nem érhetők el alkalmazásjelszavak. A WordPress csak HTTPS-"
+"en vagy helyi környezetben kínálja őket, és egy bővítmény vagy szűrő is "
+"kikapcsolhatja."
+
+#: build/index.js:2
+msgid "Build the Authorization header"
+msgstr "Állítsd össze az Authorization fejlécet"
+
+#. translators: %s: placeholder text in the snippet, e.g. BASE64(user:application_password).
+#: build/index.js:3
+msgid ""
+"Base64-encode your user name and the application password joined by a colon, "
+"and put the result in place of <code>%s</code>. On macOS or Linux:"
+msgstr ""
+"Kódold Base64-be a felhasználóneved és az alkalmazásjelszót kettősponttal "
+"összefűzve, és az eredményt írd a(z) <code>%s</code> helyére. macOS-en vagy "
+"Linuxon:"
+
+#: build/index.js:3
+msgid "Paste the snippet into your MCP client"
+msgstr "Illeszd be a kódrészletet az MCP kliensedbe"
+
+#: build/index.js:3
+msgid ""
+"For Claude Code, add it to the .mcp.json file in your project folder. Other "
+"clients take the same URL and header in their own settings."
+msgstr ""
+"Claude Code esetén tedd a projektmappád .mcp.json fájljába. Más kliensek "
+"ugyanezt az URL-t és fejlécet a saját beállításaikban kérik."
+
+#: build/index.js:3
+msgid "the .mcp.json snippet"
+msgstr "a .mcp.json kódrészlet"
+
+#: build/index.js:3
+msgid "Loading…"
+msgstr "Betöltés…"
+
+#: build/index.js:3
+msgid "Bound to"
+msgstr "Ehhez kötve"
+
+#: build/index.js:3
+msgid "Who can connect"
+msgstr "Ki csatlakozhat"
+
+#: build/index.js:3
+msgid "Administrators, with an application password"
+msgstr "Adminisztrátorok, alkalmazásjelszóval"
+
+#: build/index.js:3
+msgid "On another domain"
+msgstr "Másik domainen"
+
+#: build/index.js:3
+msgid "Switches itself off"
+msgstr "Kikapcsol magától"
+
+#: build/index.js:3
+msgid "MCP server is on"
+msgstr "Az MCP szerver be van kapcsolva"
+
+#: build/index.js:3
+msgid "MCP server is off"
+msgstr "Az MCP szerver ki van kapcsolva"
+
+#: build/index.js:3
+msgid "AI agents can connect to this site and use its abilities as tools."
+msgstr ""
+"AI ügynökök csatlakozhatnak ehhez a webhelyhez, és eszközként használhatják "
+"a képességeit."
+
+#: build/index.js:3
+msgid ""
+"The MCP endpoint refuses every request. The Abilities REST API is not "
+"affected."
+msgstr ""
+"Az MCP végpont minden kérést elutasít. Az Abilities REST API-t ez nem érinti."
+
+#: build/index.js:3
+msgid ""
+"Connected agents can run write and destructive abilities. Keep it on only on "
+"sites you control."
+msgstr ""
+"A csatlakozott ügynökök író és romboló képességeket is futtathatnak. Csak "
+"olyan webhelyen hagyd bekapcsolva, amit te felügyelsz."
+
+#: build/index.js:3
+msgid "Once on, connected agents can run write and destructive abilities."
+msgstr ""
+"Bekapcsolva a csatlakozott ügynökök író és romboló képességeket is "
+"futtathatnak."
+
+#: build/index.js:3
+msgid "Off"
+msgstr "Ki"
+
+#: build/index.js:3
+msgid "Turn on"
+msgstr "Bekapcsolás"
+
+#: build/index.js:3
+msgid ""
+"Turn on the MCP server? Any AI agent with an administrator application "
+"password can then run every ability on this site, including ones that change "
+"or delete content. The server stays bound to this domain."
+msgstr ""
+"Bekapcsolod az MCP szervert? Ezután bármely AI ügynök, amelyiknél van "
+"adminisztrátori alkalmazásjelszó, futtathatja a webhely összes képességét, a "
+"tartalmat módosítókat és törlőket is. A szerver ehhez a domainhez marad "
+"kötve."
+
+#: build/index.js:3
+msgid "Built-in"
+msgstr "Beépített"
+
+#: build/index.js:3
+msgid ""
+"Step-by-step playbooks for common jobs. Agents find them in the discover-"
+"abilities result and load one with the skill-get ability."
+msgstr ""
+"Lépésről lépésre forgatókönyvek gyakori feladatokhoz. Az ügynökök a discover-"
+"abilities eredményében találják meg őket, és a skill-get képességgel töltik "
+"be."
+
+#: build/index.js:3
+msgid "Not listed for agents"
+msgstr "Ügynököknek nem listázott"
+
+#: build/index.js:3
+msgid "No skills are registered."
+msgstr "Nincs regisztrált skill."
+
+#: build/index.js:3
+msgid ""
+"Other plugins can add their own skills through the "
+"lw_site_manager_skill_sources filter."
+msgstr ""
+"Más bővítmények a lw_site_manager_skill_sources szűrővel adhatnak hozzá "
+"saját skilleket."
+
+#: build/index.js:3
+msgid "MCP server turned on."
+msgstr "MCP szerver bekapcsolva."
+
+#: build/index.js:3
+msgid "MCP server turned off."
+msgstr "MCP szerver kikapcsolva."
