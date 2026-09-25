@@ -94,4 +94,5 @@ if ( $_run_wp_tests ) {
 
 	// Load WordPress function stubs for unit tests.
 	require_once __DIR__ . '/stubs/wordpress-functions.php';
+	require_once __DIR__ . '/stubs/rest.php';
 }

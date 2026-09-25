@@ -65,10 +65,7 @@ final class Bootstrap {
 		$root = AdapterVersion::loadedRoot();
 
 		echo '<div class="notice notice-warning"><p><strong>LW Site Manager:</strong> ';
-		esc_html_e(
-			'Another plugin has loaded an older copy of the MCP Adapter library, so some features are unavailable — most importantly, failed tool calls are reported to the AI agent as successful. WooCommerce is the usual source: it bundles its own copy and loads it first.',
-			'lw-site-manager'
-		);
+		echo esc_html( Diagnostics::outdated_message() );
 		if ( is_string( $root ) && '' !== $root ) {
 			echo '</p><p><code>' . esc_html( $root ) . '</code>';
 		}
@@ -80,7 +77,7 @@ final class Bootstrap {
 	 */
 	public static function render_missing_notice(): void {
 		echo '<div class="notice notice-warning"><p><strong>LW Site Manager:</strong> ';
-		echo esc_html__( 'The MCP server is enabled but the MCP Adapter library is missing. Run "composer install" or re-install from a release ZIP.', 'lw-site-manager' );
+		echo esc_html( Diagnostics::missing_message() );
 		echo '</p></div>';
 	}
 }

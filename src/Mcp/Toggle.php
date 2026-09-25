@@ -80,7 +80,7 @@ final class Toggle {
 	/**
 	 * Get the host part of the current site URL.
 	 */
-	private static function current_domain(): string {
+	public static function current_domain(): string {
 		return (string) wp_parse_url( get_site_url(), PHP_URL_HOST );
 	}
 }

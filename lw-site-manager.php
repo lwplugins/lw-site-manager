@@ -107,6 +107,9 @@ final class Plugin {
 		add_action( 'admin_menu', [ Admin\McpSettingsPage::class, 'register_menu' ], 11 );
 		add_action( 'admin_init', [ Admin\McpSettingsPage::class, 'handle_post' ] );
 
+		// REST routes of the admin screen (lw-site-manager/v1/admin/*).
+		Rest\Admin\Routes::register();
+
 		// Skills subsystem (always available; rides on Abilities REST and MCP).
 		Skills\Bootstrap::init();
 

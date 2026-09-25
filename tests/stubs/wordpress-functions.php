@@ -2506,6 +2506,31 @@ if ( ! class_exists( 'WP_REST_Request' ) ) {
         public function get_route(): string {
             return $this->route;
         }
+
+        private string $body = '';
+
+        public function set_body( string $body ): void {
+            $this->body = $body;
+        }
+
+        public function get_body(): string {
+            return $this->body;
+        }
+
+        /**
+         * @return array<string, mixed>|null
+         */
+        public function get_json_params(): ?array {
+            $decoded = json_decode( $this->body, true );
+            return is_array( $decoded ) ? $decoded : null;
+        }
+
+        /**
+         * @return array<string, mixed>
+         */
+        public function get_body_params(): array {
+            return [];
+        }
     }
 }
 
