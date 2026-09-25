@@ -4,7 +4,7 @@ Tags: site-manager, maintenance, ai, rest-api, abilities
 Requires at least: 6.9
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 1.4.5
+Stable tag: 1.4.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -151,6 +151,9 @@ Yes — and the WooCommerce coverage is comprehensive. Beyond product and order 
 3. Backup creation options
 
 == Changelog ==
+
+= 1.4.6 =
+* Fix: Notices from themes and other plugins (for example a theme's purchase-code or recommended-plugins notice) could show on the LW Site Manager screen. They are now kept off every LW Plugins screen, whatever their markup
 
 = 1.4.5 =
 * Fix: The MCP endpoint now enforces its administrator requirement itself, instead of relying only on the adapter library applying this plugin's filter. The library defaults to the "read" capability, which every logged-in subscriber has, so a single hook not firing would have opened the endpoint to any logged-in user. The check covers every URL spelling WordPress routes to the endpoint (routes are matched case-insensitively).
