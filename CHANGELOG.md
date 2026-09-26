@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.5.1] - 2026-09-26
+
+### Changed
+- The LW Plugins overview page is now a searchable table showing each LW plugin's status and version, with one-click activation for installed plugins; it always uses the newest version shipped by any active LW plugin.
+
 ## [1.5.0] - 2026-09-25
 
 ### Added
