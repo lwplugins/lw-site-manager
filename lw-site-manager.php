@@ -102,6 +102,9 @@ final class Plugin {
 			Admin\NoticeManager::register();
 		}
 
+		// The shared LW Plugins hub (synced from lwplugins/admin-hub).
+		Admin\Hub\Hub::init( LW_SITE_MANAGER_FILE );
+
 		// The shared LW Plugins parent menu and the AI / MCP screen (React).
 		add_action( 'admin_menu', [ Admin\ParentPage::class, 'maybe_register' ] );
 		if ( is_admin() ) {

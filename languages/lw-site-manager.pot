@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: LW Site Manager 1.4.6\n"
+"Project-Id-Version: LW Site Manager 1.5.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/lw-site-manager\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-09-25T12:30:05+00:00\n"
+"POT-Creation-Date: 2026-09-26T13:53:44+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: lw-site-manager\n"
@@ -31,9 +31,10 @@ msgstr ""
 
 #. Author of the plugin
 #: lw-site-manager.php
-#: src/Admin/ParentPage.php:110
-#: src/Admin/ParentPage.php:111
-#: src/Admin/ParentPage.php:132
+#: src/Admin/Hub/Page.php:59
+#: src/Admin/Hub/Page.php:60
+#: src/Admin/Hub/Page.php:134
+#: assets/hub/index.js:5
 msgid "LW Plugins"
 msgstr ""
 
@@ -46,152 +47,152 @@ msgstr ""
 msgid "Autoloader not found. Please run \"composer install\" in the plugin directory, or re-install the plugin from a release ZIP."
 msgstr ""
 
-#: lw-site-manager.php:132
+#: lw-site-manager.php:135
 msgid "LW Site Manager requires WordPress 6.9 or higher (Abilities API)."
 msgstr ""
 
-#: lw-site-manager.php:149
+#: lw-site-manager.php:152
 msgid "Maintenance"
 msgstr ""
 
-#: lw-site-manager.php:150
+#: lw-site-manager.php:153
 msgid "Site maintenance abilities including updates, backups, and optimization"
 msgstr ""
 
-#: lw-site-manager.php:158
+#: lw-site-manager.php:161
 msgid "Diagnostics"
 msgstr ""
 
-#: lw-site-manager.php:159
+#: lw-site-manager.php:162
 msgid "Site health and diagnostic abilities"
 msgstr ""
 
-#: lw-site-manager.php:167
+#: lw-site-manager.php:170
 msgid "Plugins"
 msgstr ""
 
-#: lw-site-manager.php:168
+#: lw-site-manager.php:171
 msgid "Plugin management abilities"
 msgstr ""
 
-#: lw-site-manager.php:176
+#: lw-site-manager.php:179
 msgid "Themes"
 msgstr ""
 
-#: lw-site-manager.php:177
+#: lw-site-manager.php:180
 msgid "Theme management abilities"
 msgstr ""
 
-#: lw-site-manager.php:185
+#: lw-site-manager.php:188
 msgid "Users"
 msgstr ""
 
-#: lw-site-manager.php:186
+#: lw-site-manager.php:189
 msgid "User management abilities"
 msgstr ""
 
-#: lw-site-manager.php:194
+#: lw-site-manager.php:197
 msgid "Comments"
 msgstr ""
 
-#: lw-site-manager.php:195
+#: lw-site-manager.php:198
 msgid "Comment management abilities"
 msgstr ""
 
-#: lw-site-manager.php:203
+#: lw-site-manager.php:206
 msgid "Content"
 msgstr ""
 
-#: lw-site-manager.php:204
+#: lw-site-manager.php:207
 msgid "Posts and pages management abilities"
 msgstr ""
 
-#: lw-site-manager.php:212
+#: lw-site-manager.php:215
 msgid "Media"
 msgstr ""
 
-#: lw-site-manager.php:213
+#: lw-site-manager.php:216
 msgid "Media library management abilities"
 msgstr ""
 
-#: lw-site-manager.php:221
+#: lw-site-manager.php:224
 msgid "Taxonomy"
 msgstr ""
 
-#: lw-site-manager.php:222
+#: lw-site-manager.php:225
 msgid "Category and tag management abilities"
 msgstr ""
 
-#: lw-site-manager.php:230
+#: lw-site-manager.php:233
 msgid "Meta"
 msgstr ""
 
-#: lw-site-manager.php:231
+#: lw-site-manager.php:234
 msgid "Post, user, and term meta management abilities"
 msgstr ""
 
-#: lw-site-manager.php:239
-#: src/Admin/ParentPage.php:201
+#: lw-site-manager.php:242
+#: assets/hub/index.js:2
 msgid "Settings"
 msgstr ""
 
-#: lw-site-manager.php:240
+#: lw-site-manager.php:243
 msgid "WordPress settings management abilities"
 msgstr ""
 
-#: lw-site-manager.php:264
+#: lw-site-manager.php:267
 msgid "WooCommerce Products"
 msgstr ""
 
-#: lw-site-manager.php:265
+#: lw-site-manager.php:268
 msgid "WooCommerce product management abilities"
 msgstr ""
 
-#: lw-site-manager.php:272
+#: lw-site-manager.php:275
 msgid "WooCommerce Orders"
 msgstr ""
 
-#: lw-site-manager.php:273
+#: lw-site-manager.php:276
 msgid "WooCommerce order management abilities"
 msgstr ""
 
-#: lw-site-manager.php:280
+#: lw-site-manager.php:283
 msgid "WooCommerce Customers"
 msgstr ""
 
-#: lw-site-manager.php:281
+#: lw-site-manager.php:284
 msgid "WooCommerce customer management abilities"
 msgstr ""
 
-#: lw-site-manager.php:288
+#: lw-site-manager.php:291
 msgid "WooCommerce Coupons"
 msgstr ""
 
-#: lw-site-manager.php:289
+#: lw-site-manager.php:292
 msgid "WooCommerce coupon management abilities"
 msgstr ""
 
-#: lw-site-manager.php:296
+#: lw-site-manager.php:299
 msgid "WooCommerce Settings"
 msgstr ""
 
-#: lw-site-manager.php:297
+#: lw-site-manager.php:300
 msgid "WooCommerce settings management abilities"
 msgstr ""
 
-#: lw-site-manager.php:304
+#: lw-site-manager.php:307
 msgid "WooCommerce Reports"
 msgstr ""
 
-#: lw-site-manager.php:305
+#: lw-site-manager.php:308
 msgid "WooCommerce reports and analytics abilities"
 msgstr ""
 
-#: lw-site-manager.php:312
+#: lw-site-manager.php:315
 msgid "WooCommerce Attributes"
 msgstr ""
 
-#: lw-site-manager.php:313
+#: lw-site-manager.php:316
 msgid "Global attributes, attribute terms, product-attribute bindings, and variations"
 msgstr ""
 
@@ -1531,6 +1532,70 @@ msgstr ""
 msgid "List all available user roles"
 msgstr ""
 
+#: src/Admin/Hub/Activator.php:48
+msgid "This is not an LW plugin."
+msgstr ""
+
+#: src/Admin/Hub/Activator.php:54
+msgid "This plugin is not installed."
+msgstr ""
+
+#: src/Admin/Hub/Activator.php:62
+msgid "You are not allowed to activate this plugin."
+msgstr ""
+
+#: src/Admin/Hub/Page.php:135
+msgid "The LW Plugins page files are missing. Re-install the plugin from a release ZIP."
+msgstr ""
+
+#: src/Admin/Hub/RegistryFallback.php:32
+msgid "GDPR-compliant cookie consent banner."
+msgstr ""
+
+#: src/Admin/Hub/RegistryFallback.php:41
+msgid "Disable WordPress features like comments."
+msgstr ""
+
+#: src/Admin/Hub/RegistryFallback.php:50
+msgid "Enable WordPress features: SVG uploads and more."
+msgstr ""
+
+#: src/Admin/Hub/RegistryFallback.php:59
+msgid "Rate limiting, bot blocking, IP bans and security headers."
+msgstr ""
+
+#: src/Admin/Hub/RegistryFallback.php:68
+msgid "Lightweight image optimization — auto-convert uploads to WebP via HelloImg."
+msgstr ""
+
+#: src/Admin/Hub/RegistryFallback.php:77
+msgid "Headless LMS backend: courses, lessons, access, progress and quizzes over a REST API."
+msgstr ""
+
+#: src/Admin/Hub/RegistryFallback.php:86
+msgid "Tracking pixels: Meta, GA4, Ads, GTM, TikTok, Pinterest, Bing, Reddit, Snapchat, X."
+msgstr ""
+
+#: src/Admin/Hub/RegistryFallback.php:95
+msgid "Malware scanner for files, the database and vulnerable software."
+msgstr ""
+
+#: src/Admin/Hub/RegistryFallback.php:104
+msgid "Essential SEO features without the bloat."
+msgstr ""
+
+#: src/Admin/Hub/RegistryFallback.php:113
+msgid "Site maintenance via AI/REST using Abilities API."
+msgstr ""
+
+#: src/Admin/Hub/RegistryFallback.php:122
+msgid "Manage WordPress translations from community repositories."
+msgstr ""
+
+#: src/Admin/Hub/RegistryFallback.php:131
+msgid "Clean up your admin — notices sidebar & widget manager."
+msgstr ""
+
 #: src/Admin/McpSettingsPage.php:65
 #: src/Admin/McpSettingsPage.php:66
 #: src/Admin/McpSettingsPage.php:133
@@ -1540,18 +1605,6 @@ msgstr ""
 
 #: src/Admin/McpSettingsPage.php:134
 msgid "The screen files are missing. Re-install the plugin from a release ZIP, or run \"npm install && npm run build\" in the plugin directory."
-msgstr ""
-
-#: src/Admin/ParentPage.php:133
-msgid "Lightweight plugins for WordPress - minimal footprint, maximum impact."
-msgstr ""
-
-#: src/Admin/ParentPage.php:194
-msgid "Active"
-msgstr ""
-
-#: src/Admin/ParentPage.php:205
-msgid "Get Plugin"
 msgstr ""
 
 #. translators: 1: domain the MCP server was turned on for, 2: current domain of the site.
@@ -1864,12 +1917,161 @@ msgstr ""
 msgid "Load a Site Manager skill by slug. Returns the full SKILL.md content plus metadata."
 msgstr ""
 
+#: assets/hub/index.js:1
+msgid "All LW plugins on GitHub"
+msgstr ""
+
+#: assets/hub/index.js:1
+#: build/index.js:2
+msgid "(opens in a new tab)"
+msgstr ""
+
+#: assets/hub/index.js:1
+#: build/index.js:1
+msgid "LW Plugins (opens in a new tab)"
+msgstr ""
+
+#: assets/hub/index.js:1
+#: build/index.js:2
+msgid "Try again"
+msgstr ""
+
+#. translators: %s: plugin name.
+#: assets/hub/index.js:2
+#, js-format
+msgid "%s settings"
+msgstr ""
+
+#. translators: %s: plugin name.
+#: assets/hub/index.js:3
+#, js-format
+msgid "Activate %s"
+msgstr ""
+
+#: assets/hub/index.js:3
+msgid "Activating…"
+msgstr ""
+
+#: assets/hub/index.js:3
+msgid "Activate"
+msgstr ""
+
+#: assets/hub/index.js:3
+msgid "GitHub"
+msgstr ""
+
+#. translators: %s: plugin name.
+#: assets/hub/index.js:4
+#, js-format
+msgid "%s on GitHub (opens in a new tab)"
+msgstr ""
+
+#: assets/hub/index.js:4
+msgid "All"
+msgstr ""
+
+#: assets/hub/index.js:4
+msgid "Active"
+msgstr ""
+
+#: assets/hub/index.js:4
+msgid "Inactive"
+msgstr ""
+
+#: assets/hub/index.js:4
+msgid "Not installed"
+msgstr ""
+
+#: assets/hub/index.js:4
+msgid "Plugin"
+msgstr ""
+
+#: assets/hub/index.js:4
+msgid "Status"
+msgstr ""
+
+#: assets/hub/index.js:4
+msgid "Version"
+msgstr ""
+
+#: assets/hub/index.js:4
+msgid "Action"
+msgstr ""
+
+#: assets/hub/index.js:4
+msgid "Beta"
+msgstr ""
+
+#: assets/hub/index.js:4
+msgid "No version"
+msgstr ""
+
+#. translators: %s: search text.
+#: assets/hub/index.js:5
+#, js-format
+msgid "No plugins match “%s”."
+msgstr ""
+
+#: assets/hub/index.js:5
+msgid "No plugins in this group."
+msgstr ""
+
+#: assets/hub/index.js:5
+msgid "Show all plugins"
+msgstr ""
+
+#: assets/hub/index.js:5
+#: build/index.js:3
+msgid "Loading…"
+msgstr ""
+
+#: assets/hub/index.js:5
+msgid "Search plugins"
+msgstr ""
+
+#: assets/hub/index.js:5
+msgid "Filter by status"
+msgstr ""
+
+#: assets/hub/index.js:5
+msgid "active"
+msgid_plural "active"
+msgstr[0] ""
+msgstr[1] ""
+
+#: assets/hub/index.js:5
+msgid "inactive"
+msgid_plural "inactive"
+msgstr[0] ""
+msgstr[1] ""
+
+#: assets/hub/index.js:5
+msgid "not installed"
+msgid_plural "not installed"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: number of LW plugins listed.
+#: assets/hub/index.js:6
+#, js-format
+msgid "%d LW plugin listed."
+msgid_plural "%d LW plugins listed."
+msgstr[0] ""
+msgstr[1] ""
+
+#: assets/hub/index.js:6
 #: build/index.js:1
 msgid "That did not work. Please reload the page and try again."
 msgstr ""
 
-#: build/index.js:1
-msgid "LW Plugins (opens in a new tab)"
+#. translators: %s: plugin name.
+#: assets/hub/index.js:7
+#, js-format
+msgid "%s is active."
+msgstr ""
+
+#: assets/hub/index.js:7
+msgid "Reload page"
 msgstr ""
 
 #: build/index.js:1
@@ -1902,19 +2104,11 @@ msgid "Documentation"
 msgstr ""
 
 #: build/index.js:2
-msgid "(opens in a new tab)"
-msgstr ""
-
-#: build/index.js:2
 msgid "MCP server"
 msgstr ""
 
 #: build/index.js:2
 msgid "Bundled skills"
-msgstr ""
-
-#: build/index.js:2
-msgid "Try again"
 msgstr ""
 
 #: build/index.js:2
@@ -1981,10 +2175,6 @@ msgstr ""
 
 #: build/index.js:3
 msgid "the .mcp.json snippet"
-msgstr ""
-
-#: build/index.js:3
-msgid "Loading…"
 msgstr ""
 
 #: build/index.js:3

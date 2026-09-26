@@ -586,6 +586,19 @@ if ( ! function_exists( 'wp_json_encode' ) ) {
 global $wp_options;
 $wp_options = $wp_options ?? [];
 
+if ( ! function_exists( 'get_transient' ) ) {
+    /**
+     * Retrieve a transient value.
+     *
+     * @param string $transient Transient name.
+     * @return mixed Value or false.
+     */
+    function get_transient( string $transient ) {
+        global $wp_transients;
+        return $wp_transients[ $transient ] ?? false;
+    }
+}
+
 if ( ! function_exists( 'get_option' ) ) {
     /**
      * Retrieve option value.

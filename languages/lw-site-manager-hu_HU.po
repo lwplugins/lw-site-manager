@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Lightweight Site Manager 1.1.7\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/lw-site-manager\n"
-"POT-Creation-Date: 2026-09-25T12:30:05+00:00\n"
+"POT-Creation-Date: 2026-09-26T13:53:44+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LW Plugins <info@lwplugins.com>\n"
@@ -36,8 +36,8 @@ msgstr ""
 "az Abilities API-val."
 
 #. Author of the plugin
-#: lw-site-manager.php src/Admin/ParentPage.php:110
-#: src/Admin/ParentPage.php:111 src/Admin/ParentPage.php:132
+#: lw-site-manager.php src/Admin/Hub/Page.php:59 src/Admin/Hub/Page.php:60
+#: src/Admin/Hub/Page.php:134 assets/hub/index.js:5
 msgid "LW Plugins"
 msgstr "LW Plugins"
 
@@ -54,154 +54,154 @@ msgstr ""
 "Nem található az autoloader. Futtasd a „composer install” parancsot a "
 "bővítmény mappájában, vagy telepítsd újra a bővítményt egy kiadási ZIP-ből."
 
-#: lw-site-manager.php:132
+#: lw-site-manager.php:135
 msgid "LW Site Manager requires WordPress 6.9 or higher (Abilities API)."
 msgstr ""
 "Az LW Site Managerhez WordPress 6.9 vagy újabb szükséges (Abilities API)."
 
-#: lw-site-manager.php:149
+#: lw-site-manager.php:152
 msgid "Maintenance"
 msgstr "Karbantartás"
 
-#: lw-site-manager.php:150
+#: lw-site-manager.php:153
 msgid "Site maintenance abilities including updates, backups, and optimization"
 msgstr ""
 "Webhelykarbantartási képességek, beleértve a frissítéseket, mentéseket és "
 "optimalizálást"
 
-#: lw-site-manager.php:158
+#: lw-site-manager.php:161
 msgid "Diagnostics"
 msgstr "Diagnosztika"
 
-#: lw-site-manager.php:159
+#: lw-site-manager.php:162
 msgid "Site health and diagnostic abilities"
 msgstr "Webhelyállapot- és diagnosztikai képességek"
 
-#: lw-site-manager.php:167
+#: lw-site-manager.php:170
 msgid "Plugins"
 msgstr "Bővítmények"
 
-#: lw-site-manager.php:168
+#: lw-site-manager.php:171
 msgid "Plugin management abilities"
 msgstr "Bővítménykezelési képességek"
 
-#: lw-site-manager.php:176
+#: lw-site-manager.php:179
 msgid "Themes"
 msgstr "Sablonok"
 
-#: lw-site-manager.php:177
+#: lw-site-manager.php:180
 msgid "Theme management abilities"
 msgstr "Sablonkezelési képességek"
 
-#: lw-site-manager.php:185
+#: lw-site-manager.php:188
 msgid "Users"
 msgstr "Felhasználók"
 
-#: lw-site-manager.php:186
+#: lw-site-manager.php:189
 msgid "User management abilities"
 msgstr "Felhasználókezelési képességek"
 
-#: lw-site-manager.php:194
+#: lw-site-manager.php:197
 msgid "Comments"
 msgstr "Hozzászólások"
 
-#: lw-site-manager.php:195
+#: lw-site-manager.php:198
 msgid "Comment management abilities"
 msgstr "Hozzászóláskezelési képességek"
 
-#: lw-site-manager.php:203
+#: lw-site-manager.php:206
 msgid "Content"
 msgstr "Tartalom"
 
-#: lw-site-manager.php:204
+#: lw-site-manager.php:207
 msgid "Posts and pages management abilities"
 msgstr "Bejegyzés- és oldalkezelési képességek"
 
-#: lw-site-manager.php:212
+#: lw-site-manager.php:215
 msgid "Media"
 msgstr "Média"
 
-#: lw-site-manager.php:213
+#: lw-site-manager.php:216
 msgid "Media library management abilities"
 msgstr "Médiakönyvtár-kezelési képességek"
 
-#: lw-site-manager.php:221
+#: lw-site-manager.php:224
 msgid "Taxonomy"
 msgstr "Taxonómia"
 
-#: lw-site-manager.php:222
+#: lw-site-manager.php:225
 msgid "Category and tag management abilities"
 msgstr "Kategória- és címkekezelési képességek"
 
-#: lw-site-manager.php:230
+#: lw-site-manager.php:233
 msgid "Meta"
 msgstr "Meta"
 
-#: lw-site-manager.php:231
+#: lw-site-manager.php:234
 msgid "Post, user, and term meta management abilities"
 msgstr "Bejegyzés-, felhasználó- és kifejezésmeta-kezelési képességek"
 
-#: lw-site-manager.php:239 src/Admin/ParentPage.php:201
+#: lw-site-manager.php:242 assets/hub/index.js:2
 msgid "Settings"
 msgstr "Beállítások"
 
-#: lw-site-manager.php:240
+#: lw-site-manager.php:243
 msgid "WordPress settings management abilities"
 msgstr "WordPress beállításkezelési képességek"
 
-#: lw-site-manager.php:264
+#: lw-site-manager.php:267
 msgid "WooCommerce Products"
 msgstr "WooCommerce termékek"
 
-#: lw-site-manager.php:265
+#: lw-site-manager.php:268
 msgid "WooCommerce product management abilities"
 msgstr "WooCommerce termékkezelési képességek"
 
-#: lw-site-manager.php:272
+#: lw-site-manager.php:275
 msgid "WooCommerce Orders"
 msgstr "WooCommerce rendelések"
 
-#: lw-site-manager.php:273
+#: lw-site-manager.php:276
 msgid "WooCommerce order management abilities"
 msgstr "WooCommerce rendeléskezelési képességek"
 
-#: lw-site-manager.php:280
+#: lw-site-manager.php:283
 msgid "WooCommerce Customers"
 msgstr "WooCommerce vásárlók"
 
-#: lw-site-manager.php:281
+#: lw-site-manager.php:284
 msgid "WooCommerce customer management abilities"
 msgstr "WooCommerce vásárlókezelési képességek"
 
-#: lw-site-manager.php:288
+#: lw-site-manager.php:291
 msgid "WooCommerce Coupons"
 msgstr "WooCommerce kuponok"
 
-#: lw-site-manager.php:289
+#: lw-site-manager.php:292
 msgid "WooCommerce coupon management abilities"
 msgstr "WooCommerce kuponkezelési képességek"
 
-#: lw-site-manager.php:296
+#: lw-site-manager.php:299
 msgid "WooCommerce Settings"
 msgstr "WooCommerce beállítások"
 
-#: lw-site-manager.php:297
+#: lw-site-manager.php:300
 msgid "WooCommerce settings management abilities"
 msgstr "WooCommerce beállításkezelési képességek"
 
-#: lw-site-manager.php:304
+#: lw-site-manager.php:307
 msgid "WooCommerce Reports"
 msgstr "WooCommerce jelentések"
 
-#: lw-site-manager.php:305
+#: lw-site-manager.php:308
 msgid "WooCommerce reports and analytics abilities"
 msgstr "WooCommerce jelentés- és analitikai képességek"
 
-#: lw-site-manager.php:312
+#: lw-site-manager.php:315
 msgid "WooCommerce Attributes"
 msgstr "WooCommerce tulajdonságok"
 
-#: lw-site-manager.php:313
+#: lw-site-manager.php:316
 msgid ""
 "Global attributes, attribute terms, product-attribute bindings, and "
 "variations"
@@ -1612,6 +1612,86 @@ msgstr "Szerepkörök lekérése"
 msgid "List all available user roles"
 msgstr "Az összes elérhető felhasználói szerepkör listázása"
 
+#: src/Admin/Hub/Activator.php:48
+msgid "This is not an LW plugin."
+msgstr "Ez nem LW bővítmény."
+
+#: src/Admin/Hub/Activator.php:54
+msgid "This plugin is not installed."
+msgstr "Ez a bővítmény nincs telepítve."
+
+#: src/Admin/Hub/Activator.php:62
+msgid "You are not allowed to activate this plugin."
+msgstr "Nincs jogod bekapcsolni ezt a bővítményt."
+
+#: src/Admin/Hub/Page.php:135
+msgid ""
+"The LW Plugins page files are missing. Re-install the plugin from a release "
+"ZIP."
+msgstr ""
+"Hiányoznak az LW Plugins oldal fájljai. Telepítsd újra a bővítményt egy "
+"kiadási ZIP-ből."
+
+#: src/Admin/Hub/RegistryFallback.php:32
+msgid "GDPR-compliant cookie consent banner."
+msgstr "GDPR-kompatibilis sütihozzájárulási sáv."
+
+#: src/Admin/Hub/RegistryFallback.php:41
+msgid "Disable WordPress features like comments."
+msgstr "WordPress-funkciók kikapcsolása, például a hozzászólásoké."
+
+#: src/Admin/Hub/RegistryFallback.php:50
+msgid "Enable WordPress features: SVG uploads and more."
+msgstr "WordPress-funkciók bekapcsolása: SVG-feltöltés és egyebek."
+
+#: src/Admin/Hub/RegistryFallback.php:59
+msgid "Rate limiting, bot blocking, IP bans and security headers."
+msgstr "Kéréskorlátozás, botszűrés, IP-tiltás és biztonsági fejlécek."
+
+#: src/Admin/Hub/RegistryFallback.php:68
+msgid ""
+"Lightweight image optimization — auto-convert uploads to WebP via HelloImg."
+msgstr ""
+"Könnyű képoptimalizálás: a feltöltések automatikus WebP-konverziója a "
+"HelloImg-gel."
+
+#: src/Admin/Hub/RegistryFallback.php:77
+msgid ""
+"Headless LMS backend: courses, lessons, access, progress and quizzes over a "
+"REST API."
+msgstr ""
+"Headless LMS-háttér: kurzusok, leckék, hozzáférés, haladás és kvízek REST "
+"API-n."
+
+#: src/Admin/Hub/RegistryFallback.php:86
+msgid ""
+"Tracking pixels: Meta, GA4, Ads, GTM, TikTok, Pinterest, Bing, Reddit, "
+"Snapchat, X."
+msgstr ""
+"Követőpixelek: Meta, GA4, Ads, GTM, TikTok, Pinterest, Bing, Reddit, "
+"Snapchat, X."
+
+#: src/Admin/Hub/RegistryFallback.php:95
+msgid "Malware scanner for files, the database and vulnerable software."
+msgstr ""
+"Kártevőkereső a fájlokhoz, az adatbázishoz és a sérülékeny szoftverekhez."
+
+#: src/Admin/Hub/RegistryFallback.php:104
+msgid "Essential SEO features without the bloat."
+msgstr "A lényeges SEO-funkciók, felesleg nélkül."
+
+#: src/Admin/Hub/RegistryFallback.php:113
+msgid "Site maintenance via AI/REST using Abilities API."
+msgstr "Oldalkarbantartás AI-on és REST-en át, az Abilities API-val."
+
+#: src/Admin/Hub/RegistryFallback.php:122
+msgid "Manage WordPress translations from community repositories."
+msgstr "WordPress-fordítások kezelése közösségi tárolókból."
+
+#: src/Admin/Hub/RegistryFallback.php:131
+msgid "Clean up your admin — notices sidebar & widget manager."
+msgstr "Rendezett admin: értesítési oldalsáv és widgetkezelő."
+
 #: src/Admin/McpSettingsPage.php:65 src/Admin/McpSettingsPage.php:66
 #: src/Admin/McpSettingsPage.php:133 build/index.js:2
 msgid "AI / MCP"
@@ -1625,18 +1705,6 @@ msgstr ""
 "Hiányoznak a képernyő fájljai. Telepítsd újra a bővítményt egy kiadási ZIP-"
 "ből, vagy futtasd az „npm install && npm run build” parancsot a bővítmény "
 "mappájában."
-
-#: src/Admin/ParentPage.php:133
-msgid "Lightweight plugins for WordPress - minimal footprint, maximum impact."
-msgstr "Könnyű WordPress bővítmények – minimális terhelés, maximális hatás."
-
-#: src/Admin/ParentPage.php:194
-msgid "Active"
-msgstr "Aktív"
-
-#: src/Admin/ParentPage.php:205
-msgid "Get Plugin"
-msgstr "Bővítmény letöltése"
 
 #. translators: 1: domain the MCP server was turned on for, 2: current domain of the site.
 #: src/Mcp/Diagnostics.php:65
@@ -1976,13 +2044,151 @@ msgstr ""
 "Egy Site Manager skill betöltése slug alapján. A teljes SKILL.md tartalmat "
 "és a metaadatokat adja vissza."
 
-#: build/index.js:1
+#: assets/hub/index.js:1
+msgid "All LW plugins on GitHub"
+msgstr "Az összes LW bővítmény a GitHubon"
+
+#: assets/hub/index.js:1 build/index.js:2
+msgid "(opens in a new tab)"
+msgstr "(új lapon nyílik meg)"
+
+#: assets/hub/index.js:1 build/index.js:1
+msgid "LW Plugins (opens in a new tab)"
+msgstr "LW Plugins (új lapon nyílik meg)"
+
+#: assets/hub/index.js:1 build/index.js:2
+msgid "Try again"
+msgstr "Újrapróbálás"
+
+#. translators: %s: plugin name.
+#: assets/hub/index.js:2
+msgid "%s settings"
+msgstr "%s beállításai"
+
+#. translators: %s: plugin name.
+#: assets/hub/index.js:3
+msgid "Activate %s"
+msgstr "%s bekapcsolása"
+
+#: assets/hub/index.js:3
+msgid "Activating…"
+msgstr "Bekapcsolás…"
+
+#: assets/hub/index.js:3
+msgid "Activate"
+msgstr "Bekapcsolás"
+
+#: assets/hub/index.js:3
+msgid "GitHub"
+msgstr "GitHub"
+
+#. translators: %s: plugin name.
+#: assets/hub/index.js:4
+msgid "%s on GitHub (opens in a new tab)"
+msgstr "%s a GitHubon (új lapon nyílik meg)"
+
+#: assets/hub/index.js:4
+msgid "All"
+msgstr "Mind"
+
+#: assets/hub/index.js:4
+msgid "Active"
+msgstr "Aktív"
+
+#: assets/hub/index.js:4
+msgid "Inactive"
+msgstr "Kikapcsolva"
+
+#: assets/hub/index.js:4
+msgid "Not installed"
+msgstr "Nincs telepítve"
+
+#: assets/hub/index.js:4
+msgid "Plugin"
+msgstr "Bővítmény"
+
+#: assets/hub/index.js:4
+msgid "Status"
+msgstr "Állapot"
+
+#: assets/hub/index.js:4
+msgid "Version"
+msgstr "Verzió"
+
+#: assets/hub/index.js:4
+msgid "Action"
+msgstr "Művelet"
+
+#: assets/hub/index.js:4
+msgid "Beta"
+msgstr "Béta"
+
+#: assets/hub/index.js:4
+msgid "No version"
+msgstr "Nincs verzió"
+
+#. translators: %s: search text.
+#: assets/hub/index.js:5
+msgid "No plugins match “%s”."
+msgstr "Nincs találat erre: „%s”."
+
+#: assets/hub/index.js:5
+msgid "No plugins in this group."
+msgstr "Ebben a csoportban nincs bővítmény."
+
+#: assets/hub/index.js:5
+msgid "Show all plugins"
+msgstr "Az összes bővítmény mutatása"
+
+#: assets/hub/index.js:5 build/index.js:3
+msgid "Loading…"
+msgstr "Betöltés…"
+
+#: assets/hub/index.js:5
+msgid "Search plugins"
+msgstr "Keresés a bővítmények között"
+
+#: assets/hub/index.js:5
+msgid "Filter by status"
+msgstr "Szűrés állapot szerint"
+
+#: assets/hub/index.js:5
+msgid "active"
+msgid_plural "active"
+msgstr[0] "aktív"
+msgstr[1] "aktív"
+
+#: assets/hub/index.js:5
+msgid "inactive"
+msgid_plural "inactive"
+msgstr[0] "kikapcsolva"
+msgstr[1] "kikapcsolva"
+
+#: assets/hub/index.js:5
+msgid "not installed"
+msgid_plural "not installed"
+msgstr[0] "nincs telepítve"
+msgstr[1] "nincs telepítve"
+
+#. translators: %d: number of LW plugins listed.
+#: assets/hub/index.js:6
+msgid "%d LW plugin listed."
+msgid_plural "%d LW plugins listed."
+msgstr[0] "%d LW bővítmény látható."
+msgstr[1] "%d LW bővítmény látható."
+
+#: assets/hub/index.js:6 build/index.js:1
 msgid "That did not work. Please reload the page and try again."
 msgstr "Ez nem sikerült. Töltsd újra az oldalt, és próbáld újra."
 
-#: build/index.js:1
-msgid "LW Plugins (opens in a new tab)"
-msgstr "LW Plugins (új lapon nyílik meg)"
+#. translators: %s: plugin name.
+#: assets/hub/index.js:7
+msgid "%s is active."
+msgstr "%s bekapcsolva."
+
+#: assets/hub/index.js:7
+msgid "Reload page"
+msgstr "Oldal újratöltése"
 
 #: build/index.js:1 build/index.js:3
 msgid "On"
@@ -2012,20 +2218,12 @@ msgid "Documentation"
 msgstr "Dokumentáció"
 
 #: build/index.js:2
-msgid "(opens in a new tab)"
-msgstr "(új lapon nyílik meg)"
-
-#: build/index.js:2
 msgid "MCP server"
 msgstr "MCP szerver"
 
 #: build/index.js:2
 msgid "Bundled skills"
 msgstr "Beépített skillek"
-
-#: build/index.js:2
-msgid "Try again"
-msgstr "Újrapróbálás"
 
 #: build/index.js:2
 msgid "Copied"
@@ -2116,10 +2314,6 @@ msgstr ""
 #: build/index.js:3
 msgid "the .mcp.json snippet"
 msgstr "a .mcp.json kódrészlet"
-
-#: build/index.js:3
-msgid "Loading…"
-msgstr "Betöltés…"
 
 #: build/index.js:3
 msgid "Bound to"
