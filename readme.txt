@@ -154,6 +154,7 @@ Yes — and the WooCommerce coverage is comprehensive. Beyond product and order 
 
 = 1.5.1 =
 * Change: the LW Plugins overview page is now a searchable table showing each LW plugin's status and version, with one-click activation for installed plugins; it always uses the newest version shipped by any active LW plugin.
+* Change: Documentation: the README states the real PHP requirement (8.2+, as in the plugin header) and no longer carries an outdated "Most recent" release note; the extending-abilities guide's Quick Start now includes the `'mcp' => [ 'public' => true, 'type' => 'tool' ]` meta and explains that only `site-manager/*` abilities are exposed to MCP automatically, so companion plugins must opt in.
 
 = 1.5.0 =
 * New: The AI / MCP screen is rebuilt with WordPress components, like the other LW plugins: side navigation, loading skeletons and a mobile layout.

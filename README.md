@@ -6,7 +6,7 @@ WordPress Site Manager using the Abilities API - AI-ready site maintenance with 
 
 ## Requirements
 
-- PHP 8.1+
+- PHP 8.2+
 - WordPress 6.9+
 - WordPress Abilities API
 
@@ -283,9 +283,7 @@ AI Agent:
 
 ## Changelog
 
-See [CHANGELOG.md](CHANGELOG.md) for the full version history.
-
-Most recent: **1.1.26** — split `WooCommerceAbilities.php` into focused classes and added 38 new abilities: order management (line items, coupons, fees, shipping, payment workflow), full attribute / variation CRUD, HPOS-aware meta on every entity, plus inline `meta` on every create/update.
+See [CHANGELOG.md](CHANGELOG.md) for the full version history; the latest release is always on the [releases page](https://github.com/lwplugins/lw-site-manager/releases).
 
 ## License
 

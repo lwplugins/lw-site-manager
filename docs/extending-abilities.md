@@ -44,6 +44,10 @@ add_action( 'lw_site_manager_register_abilities', function ( $permissions ): voi
         ],
         'meta' => [
             'show_in_rest' => true,
+            'mcp'          => [
+                'public' => true,
+                'type'   => 'tool',
+            ],
             'annotations'  => [
                 'readonly'    => true,
                 'destructive' => false,
@@ -53,6 +57,8 @@ add_action( 'lw_site_manager_register_abilities', function ( $permissions ): voi
     ]);
 });
 ```
+
+`show_in_rest` makes the ability callable through the Abilities REST API; `mcp` lists it in LW Site Manager's built-in MCP server. Automatic MCP exposure applies **only to `site-manager/*` abilities** (see [mcp-server.md](mcp-server.md)): an ability in your own namespace (`my-plugin/*`) must opt in with `'mcp' => [ 'public' => true, 'type' => 'tool' ]`, otherwise it is REST-visible but missing from MCP discovery. MCP exposure doesn't change authorization: every MCP call still runs the ability's `permission_callback`.
 
 ## Naming Convention
 
@@ -135,6 +141,7 @@ Tell AI agents and automation tools about the ability's behavior:
 ```php
 'meta' => [
     'show_in_rest' => true,
+    'mcp'          => [ 'public' => true, 'type' => 'tool' ], // Listed in the MCP server
     'annotations'  => [
         'readonly'    => true,   // Only reads data, no side effects
         'destructive' => false,  // Cannot cause data loss
