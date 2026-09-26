@@ -24,5 +24,11 @@
 		"@wordpress/notices": "^5.56.0",
 		"@wordpress/primitives": "^4.56.0",
 		"@wordpress/ui": "^0.23.0"
+	},
+	"overrides": {
+		"serialize-javascript": "^7.0.5",
+		"sockjs": {
+			"uuid": "^11.1.1"
+		}
 	}
 }
