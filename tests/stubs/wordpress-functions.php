@@ -1085,6 +1085,17 @@ if ( ! function_exists( 'get_locale' ) ) {
     }
 }
 
+if ( ! function_exists( 'get_user_locale' ) ) {
+    /**
+     * Get the current user's locale (override via $GLOBALS['lw_test_user_locale']).
+     *
+     * @return string Locale string.
+     */
+    function get_user_locale(): string {
+        return $GLOBALS['lw_test_user_locale'] ?? 'en_US';
+    }
+}
+
 // ============================================================================
 // Post Functions
 // ============================================================================

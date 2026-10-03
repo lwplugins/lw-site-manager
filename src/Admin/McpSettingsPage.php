@@ -29,11 +29,6 @@ final class McpSettingsPage {
 	private const HANDLE = 'lw-site-manager-admin-app';
 
 	/**
-	 * Documentation of the MCP server.
-	 */
-	private const DOCS_URL = 'https://github.com/lwplugins/lw-site-manager/blob/main/docs/mcp-server.md';
-
-	/**
 	 * Hook suffix returned by add_submenu_page().
 	 *
 	 * Assets are keyed on it rather than on a hard-coded
@@ -92,7 +87,7 @@ final class McpSettingsPage {
 				[
 					'version'   => LW_SITE_MANAGER_VERSION,
 					'namespace' => Routes::NAMESPACE,
-					'docsUrl'   => self::DOCS_URL,
+					'docsUrl'   => self::docs_url(),
 				]
 			) . ';',
 			'before'
@@ -137,5 +132,15 @@ final class McpSettingsPage {
 		}
 
 		echo '<div id="lw-site-manager-root" class="lw-site-manager-root"></div>';
+	}
+
+	/**
+	 * Documentation page of the MCP server on docs.lwplugins.com, in the
+	 * admin user's language (Hungarian or English).
+	 */
+	public static function docs_url(): string {
+		$lang = str_starts_with( get_user_locale(), 'hu' ) ? 'hu' : 'en';
+
+		return 'https://docs.lwplugins.com/' . $lang . '/mcp';
 	}
 }

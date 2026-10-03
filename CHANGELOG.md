@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.5.2] - 2026-10-03
+
+### Fixed
+- The admin Docs link now opens the MCP server page on docs.lwplugins.com, in Hungarian for Hungarian admin users.
+
 ## [1.5.1] - 2026-09-26
 
 ### Changed

@@ -27,7 +27,20 @@ final class McpSettingsPageTest extends TestCase {
 		reset_wp_caps();
 	}
 
+	public function test_docs_url_is_hungarian_for_hungarian_locale(): void {
+		$GLOBALS['lw_test_user_locale'] = 'hu_HU';
+		$this->assertSame( 'https://docs.lwplugins.com/hu/mcp', McpSettingsPage::docs_url() );
+	}
+
+	public function test_docs_url_is_english_for_other_locales(): void {
+		$GLOBALS['lw_test_user_locale'] = 'en_US';
+		$this->assertSame( 'https://docs.lwplugins.com/en/mcp', McpSettingsPage::docs_url() );
+		$GLOBALS['lw_test_user_locale'] = 'de_DE';
+		$this->assertSame( 'https://docs.lwplugins.com/en/mcp', McpSettingsPage::docs_url() );
+	}
+
 	protected function tearDown(): void {
+		unset( $GLOBALS['lw_test_user_locale'] );
 		$GLOBALS['wp_filter'] = $this->saved_filters;
 		unset( $GLOBALS['wp_submenu_hook'], $GLOBALS['wp_current_screen_id'], $GLOBALS['admin_page_hooks'] );
 		reset_wp_caps();
