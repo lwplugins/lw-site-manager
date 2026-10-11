@@ -4,7 +4,7 @@ Tags: site-manager, maintenance, ai, rest-api, abilities
 Requires at least: 6.9
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 1.5.2
+Stable tag: 1.5.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -151,6 +151,9 @@ Yes — and the WooCommerce coverage is comprehensive. Beyond product and order 
 3. Backup creation options
 
 == Changelog ==
+
+= 1.5.3 =
+* Fix: On WooCommerce stores, failed MCP tool calls reached the AI agent as successes, or as an error without its message. WooCommerce bundles an older copy of the MCP Adapter library (0.3.0, still in WooCommerce 11.2.1) and loads it instead of ours, so updating WooCommerce did not help. Failures now reach the agent as errors with their real message whichever copy is loaded, successful calls no longer raise PHP warnings on that copy, and the admin notice about the older copy is gone. (#34)
 
 = 1.5.2 =
 * Fix: The admin Docs link now opens the MCP server page on docs.lwplugins.com, in Hungarian for Hungarian admin users.

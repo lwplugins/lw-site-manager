@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.5.3] - 2026-10-11
+
+### Fixed
+- On WooCommerce stores, failed MCP tool calls reached the AI agent as successes, or as an error without its message. WooCommerce bundles an older copy of the MCP Adapter library (0.3.0, still in WooCommerce 11.2.1) and loads it instead of ours, so updating WooCommerce did not help. Failures now reach the agent as errors with their real message whichever copy is loaded, successful calls no longer raise PHP warnings on that copy, and the admin notice about the older copy is gone. (#34)
+
 ## [1.5.2] - 2026-10-03
 
 ### Fixed
