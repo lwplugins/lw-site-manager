@@ -23,7 +23,7 @@ The server is **on by default**. Turn it on or off in the admin:
 
 **LW Plugins → AI / MCP →** the switch in the *MCP server is on / off* bar. It saves immediately; turning it on asks for confirmation first.
 
-The screen also shows the endpoint (with a Copy button), the setup steps and a ready-to-paste `.mcp.json` snippet pre-filled with your endpoint, warnings (MCP Adapter missing or outdated, server switched off by a domain change), and — on the Skills tab — the registered skills.
+The screen also shows the endpoint (with a Copy button), the setup steps and a ready-to-paste `.mcp.json` snippet pre-filled with your endpoint, warnings (MCP Adapter missing, server switched off by a domain change), and — on the Skills tab — the registered skills.
 
 State is stored in two options:
 
@@ -91,7 +91,9 @@ The adapter only exposes abilities whose meta has `mcp.public = true`. When the 
 
 ## Honest error results
 
-The adapter wraps every ability return as `{ success: true, data: <inner> }`. When the inner value is itself `{ success: false, error: … }`, that would mask a real failure behind an outer success. `src/Mcp/ResultUnwrapper.php` (hooked on `mcp_adapter_tool_call_result`) unwraps that shape so logical failures surface as proper MCP errors, preserving any structured detail.
+The adapter's `execute-ability` tool reports a failure inside its result instead of as an error: `{ success: false, error: … }` when the ability returned a `WP_Error`, and `{ success: true, data: { success: false, error: … } }` when the ability reported its failure in an array — which would mask a real failure behind an outer success. `src/Mcp/ExecuteAbility.php` wraps that tool's execute callback (via the core `wp_register_ability_args` filter) and turns both shapes into a `WP_Error`, preserving any structured detail in the message, so failures surface as MCP tool errors with their real message.
+
+This works the same whichever copy of the adapter is loaded. WooCommerce bundles an older copy (0.3.0) and a WooCommerce store loads it instead of ours; that copy lacks the adapter's own result filter, reports the nested shape as a success, and replaces the text of the flat one with a generic message. The same class also gives the result `data` in that copy's output schema a type, so successful calls no longer raise PHP warnings during core's output validation.
 
 ## Components
 
@@ -103,7 +105,7 @@ src/Mcp/
 ├── TransportGuard.php   # transport capability gate (manage_options + filter)
 ├── AbilityExposer.php   # flags site-manager/* as mcp.public when enabled
 ├── DiscoverAbility.php  # overrides discover-abilities to add instructions + skill catalog
-└── ResultUnwrapper.php  # surfaces inner {success:false} errors
+└── ExecuteAbility.php   # failures of execute-ability become MCP errors, on every adapter copy
 ```
 
 ## Requirements

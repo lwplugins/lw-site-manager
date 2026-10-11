@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace LightweightPlugins\SiteManager\Rest\Admin;
 
-use LightweightPlugins\SiteManager\Mcp\AdapterVersion;
 use LightweightPlugins\SiteManager\Mcp\Diagnostics;
 use LightweightPlugins\SiteManager\Mcp\Server;
 use LightweightPlugins\SiteManager\Mcp\Toggle;
@@ -119,13 +118,7 @@ final class McpController {
 				'matches' => '' === $locked || $locked === $current,
 			],
 			'snippet'                         => self::snippet(),
-			'warnings'                        => Diagnostics::warnings(
-				$enabled,
-				$adapter,
-				Diagnostics::ADAPTER_OUTDATED === $adapter ? AdapterVersion::loadedRoot() : null,
-				$locked,
-				$current
-			),
+			'warnings'                        => Diagnostics::warnings( $enabled, $adapter, $locked, $current ),
 			'application_passwords_available' => wp_is_application_passwords_available(),
 			'profile_url'                     => admin_url( 'profile.php#application-passwords-section' ),
 		];

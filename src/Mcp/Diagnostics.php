@@ -14,47 +14,41 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * The warnings the AI / MCP screen shows: the adapter problems Bootstrap
- * reports as admin notices (hidden on LW screens), plus why the server is
- * off after a domain change.
+ * The warnings the AI / MCP screen shows: a missing adapter library, which
+ * Bootstrap also reports as an admin notice (hidden on LW screens), plus why
+ * the server is off after a domain change.
  */
 final class Diagnostics {
 
-	public const ADAPTER_OK       = 'ok';
-	public const ADAPTER_MISSING  = 'missing';
-	public const ADAPTER_OUTDATED = 'outdated';
+	public const ADAPTER_OK      = 'ok';
+	public const ADAPTER_MISSING = 'missing';
 
 	/**
-	 * State of the MCP adapter library that actually loaded.
+	 * State of the MCP adapter library.
+	 *
+	 * Any loaded copy counts as present, including the older one WooCommerce
+	 * bundles and loads first: ExecuteAbility hooks into WordPress core rather
+	 * than into the adapter, so the server works the same on every copy.
 	 */
 	public static function adapter_state(): string {
-		if ( ! class_exists( '\WP\MCP\Core\McpAdapter' ) ) {
-			return self::ADAPTER_MISSING;
-		}
-
-		return AdapterVersion::isCurrent() ? self::ADAPTER_OK : self::ADAPTER_OUTDATED;
+		return class_exists( '\WP\MCP\Core\McpAdapter' ) ? self::ADAPTER_OK : self::ADAPTER_MISSING;
 	}
 
 	/**
 	 * Warnings for the given state. Adapter problems count only while the
 	 * server is on, as in Bootstrap (a disabled server never loads it).
 	 *
-	 * @param bool        $enabled      Whether the server is on.
-	 * @param string      $adapter      One of the ADAPTER_* states.
-	 * @param string|null $adapter_root Directory the loaded adapter came from.
-	 * @param string      $locked       Domain the server is bound to ('' = never bound).
-	 * @param string      $current      Host of the current site URL.
+	 * @param bool   $enabled Whether the server is on.
+	 * @param string $adapter One of the ADAPTER_* states.
+	 * @param string $locked  Domain the server is bound to ('' = never bound).
+	 * @param string $current Host of the current site URL.
 	 * @return list<array{code: string, message: string, detail: string}>
 	 */
-	public static function warnings( bool $enabled, string $adapter, ?string $adapter_root, string $locked, string $current ): array {
+	public static function warnings( bool $enabled, string $adapter, string $locked, string $current ): array {
 		$warnings = [];
 
 		if ( $enabled && self::ADAPTER_MISSING === $adapter ) {
 			$warnings[] = self::warning( 'adapter_missing', self::missing_message() );
-		}
-
-		if ( $enabled && self::ADAPTER_OUTDATED === $adapter ) {
-			$warnings[] = self::warning( 'adapter_outdated', self::outdated_message(), (string) $adapter_root );
 		}
 
 		if ( ! $enabled && '' !== $locked && $locked !== $current ) {
@@ -80,22 +74,16 @@ final class Diagnostics {
 	}
 
 	/**
-	 * Text for an older adapter copy that another plugin loaded first.
-	 */
-	public static function outdated_message(): string {
-		return __( 'Another plugin has loaded an older copy of the MCP Adapter library, so some features are unavailable — most importantly, failed tool calls are reported to the AI agent as successful. WooCommerce is the usual source: it bundles its own copy and loads it first.', 'lw-site-manager' );
-	}
-
-	/**
-	 * One warning entry.
+	 * One warning entry. `detail` stays in the shape the screen renders, but no
+	 * current warning carries one.
 	 *
 	 * @return array{code: string, message: string, detail: string}
 	 */
-	private static function warning( string $code, string $message, string $detail = '' ): array {
+	private static function warning( string $code, string $message ): array {
 		return [
 			'code'    => $code,
 			'message' => $message,
-			'detail'  => $detail,
+			'detail'  => '',
 		];
 	}
 }

@@ -38,38 +38,18 @@ final class Bootstrap {
 			return;
 		}
 
-		// A different plugin may have loaded an older copy of the shared adapter
-		// before us — WooCommerce bundles v0.3.0 and requires it eagerly, which
-		// beats Composer's lazy autoloading. That copy has no
-		// mcp_adapter_tool_call_result filter, so ResultUnwrapper silently never
-		// runs and failed tool calls reach the agent looking like successes.
-		// Say so instead of degrading quietly.
-		if ( ! AdapterVersion::isCurrent() ) {
-			add_action( 'admin_notices', [ self::class, 'render_outdated_notice' ] );
-		}
-
+		// The loaded adapter may be an older copy another plugin bundles —
+		// WooCommerce ships v0.3.0 and loads it before ours. Every hook below
+		// exists in that copy too; ExecuteAbility hooks into core rather than
+		// into the adapter's own result filter, which that copy lacks.
 		add_filter( 'mcp_adapter_default_server_config', [ Server::class, 'brand' ] );
 		add_filter( 'mcp_adapter_default_transport_permission_user_capability', [ TransportGuard::class, 'capability' ], 10, 2 );
-		add_filter( 'mcp_adapter_tool_call_result', [ ResultUnwrapper::class, 'filter' ], 10, 3 );
+		add_filter( 'wp_register_ability_args', [ ExecuteAbility::class, 'filter_args' ], 10, 2 );
 		add_filter( 'wp_register_ability_args', [ AbilityExposer::class, 'flag_args' ], 10, 2 );
 		add_action( 'wp_abilities_api_init', [ DiscoverAbility::class, 'register' ], 999 );
 
 		// Boot the adapter; it registers the (branded) default server on mcp_adapter_init.
 		\WP\MCP\Core\McpAdapter::instance();
-	}
-
-	/**
-	 * Admin notice shown when an outdated copy of the adapter is the one running.
-	 */
-	public static function render_outdated_notice(): void {
-		$root = AdapterVersion::loadedRoot();
-
-		echo '<div class="notice notice-warning"><p><strong>LW Site Manager:</strong> ';
-		echo esc_html( Diagnostics::outdated_message() );
-		if ( is_string( $root ) && '' !== $root ) {
-			echo '</p><p><code>' . esc_html( $root ) . '</code>';
-		}
-		echo '</p></div>';
 	}
 
 	/**
