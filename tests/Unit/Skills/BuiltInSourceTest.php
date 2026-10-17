@@ -22,6 +22,7 @@ final class BuiltInSourceTest extends TestCase {
 		$slugs = array_column( $skills, 'slug' );
 		$this->assertContains( 'site-health-triage', $slugs );
 		$this->assertContains( 'woocommerce-order-ops', $slugs );
+		$this->assertContains( 'woocommerce-catalog', $slugs );
 		$this->assertContains( 'safe-bulk-content', $slugs );
 	}
 }

@@ -31,6 +31,13 @@ parameters:
 		- WC_VERSION
 
 	ignoreErrors:
+		# SetupCheck detects optional WooCommerce extensions (Subscriptions,
+		# Bookings, Stripe …) by class name. They have no stubs, so PHPStan reads
+		# class_exists() on them as always-false.
+		-
+			message: '#^Call to function class_exists\(\) with .+ will always evaluate to false\.$#'
+			path: src/Services/WooCommerce/SetupCheck.php
+
 		# LiteSpeed Cache is an optional plugin with no stubs, so PHPStan cannot
 		# resolve LiteSpeed_Cache_API and reads method_exists() as always-false.
 		-

@@ -118,6 +118,26 @@ class PermissionManager {
             || current_user_can( 'manage_woocommerce' );
     }
 
+    /**
+     * Check if user can manage WooCommerce product terms (categories, tags,
+     * brands, shipping classes). The service re-checks the exact term
+     * capability (edit_term / delete_term) against the term.
+     */
+    public function can_manage_product_terms(): bool {
+        return current_user_can( 'manage_product_terms' )
+            || current_user_can( 'edit_product_terms' )
+            || current_user_can( 'manage_woocommerce' );
+    }
+
+    /**
+     * Check if user can manage WooCommerce store settings, payment gateways
+     * and shipping zones — the same capability WooCommerce's settings screens
+     * and REST settings endpoints require.
+     */
+    public function can_manage_woocommerce(): bool {
+        return current_user_can( 'manage_woocommerce' );
+    }
+
     // =========================================================================
     // User Management Permissions
     // =========================================================================

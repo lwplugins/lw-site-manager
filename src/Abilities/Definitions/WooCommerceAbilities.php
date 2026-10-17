@@ -16,9 +16,13 @@ use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\OrderItemAb
 use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\OrderPaymentAbilities;
 use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\OrderShippingAbilities;
 use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\ProductAbilities;
+use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\ProductAssignmentAbilities;
 use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\ProductAttributeAbilities;
 use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\ProductExtraAbilities;
+use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\ProductTermAbilities;
 use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\ReportAbilities;
+use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\ShippingAbilities;
+use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\StoreSettingsAbilities;
 use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\VariationAbilities;
 use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\WcMetaAbilities;
 use LightweightPlugins\SiteManager\Abilities\PermissionManager;
@@ -44,5 +48,9 @@ final class WooCommerceAbilities {
         ProductAttributeAbilities::register( $permissions );
         VariationAbilities::register( $permissions );
         WcMetaAbilities::register( $permissions );
+        ProductTermAbilities::register( $permissions );
+        ProductAssignmentAbilities::register( $permissions );
+        StoreSettingsAbilities::register( $permissions );
+        ShippingAbilities::register( $permissions );
     }
 }
