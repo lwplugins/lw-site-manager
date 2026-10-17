@@ -128,6 +128,7 @@
 				<element value="publish_products"/>
 				<element value="delete_products"/>
 				<element value="edit_others_products"/>
+				<element value="view_woocommerce_reports"/>
 			</property>
 		</properties>
 	</rule>

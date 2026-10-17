@@ -98,6 +98,14 @@ trait WooCommercePermissionsTrait {
     }
 
     /**
+     * View WooCommerce reports: view_woocommerce_reports, as WooCommerce's
+     * Reports screen and REST reports endpoints require.
+     */
+    public function can_view_reports(): bool {
+        return current_user_can( 'view_woocommerce_reports' );
+    }
+
+    /**
      * Check if user can manage WooCommerce store settings, payment gateways
      * and shipping zones — the same capability WooCommerce's settings screens
      * and REST settings endpoints require.

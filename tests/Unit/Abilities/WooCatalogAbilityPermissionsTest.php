@@ -20,6 +20,7 @@ use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\ProductAbil
 use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\ProductAttributeAbilities;
 use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\ProductExtraAbilities;
 use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\ProductTermAbilities;
+use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\ReportAbilities;
 use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\VariationAbilities;
 use LightweightPlugins\SiteManager\Abilities\PermissionManager;
 use PHPUnit\Framework\TestCase;
@@ -38,6 +39,7 @@ final class WooCatalogAbilityPermissionsTest extends TestCase {
         ProductAttributeAbilities::register( $permissions );
         VariationAbilities::register( $permissions );
         ProductTermAbilities::register( $permissions );
+        ReportAbilities::register( $permissions );
     }
 
     protected function tearDown(): void {
@@ -94,6 +96,13 @@ final class WooCatalogAbilityPermissionsTest extends TestCase {
             [ 'site-manager/wc-create-product-term', 'can_edit_product_terms' ],
             [ 'site-manager/wc-update-product-term', 'can_edit_product_terms' ],
             [ 'site-manager/wc-delete-product-term', 'can_delete_product_terms' ],
+            // Reports: WooCommerce's Reports/Analytics and REST 'reports' use view_woocommerce_reports.
+            [ 'site-manager/wc-sales-report', 'can_view_reports' ],
+            [ 'site-manager/wc-top-sellers', 'can_view_reports' ],
+            [ 'site-manager/wc-orders-totals', 'can_view_reports' ],
+            [ 'site-manager/wc-revenue-stats', 'can_view_reports' ],
+            [ 'site-manager/wc-low-stock-products', 'can_view_reports' ],
+            [ 'site-manager/wc-products-totals', 'can_view_reports' ],
         ];
     }
 

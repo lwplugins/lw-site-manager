@@ -53,7 +53,7 @@ final class ReportAbilities {
                     ],
                 ],
                 'execute_callback'    => [ ReportManager::class, 'sales_report' ],
-                'permission_callback' => $permissions->callback( 'can_manage_options' ),
+                'permission_callback' => $permissions->callback( 'can_view_reports' ),
                 'meta'                => AbilityMeta::readOnly(),
             ]
         );
@@ -108,7 +108,7 @@ final class ReportAbilities {
                     ],
                 ],
                 'execute_callback'    => [ ReportManager::class, 'top_sellers' ],
-                'permission_callback' => $permissions->callback( 'can_manage_options' ),
+                'permission_callback' => $permissions->callback( 'can_view_reports' ),
                 'meta'                => AbilityMeta::readOnly(),
             ]
         );
@@ -143,7 +143,7 @@ final class ReportAbilities {
                     ],
                 ],
                 'execute_callback'    => [ ReportManager::class, 'orders_totals' ],
-                'permission_callback' => $permissions->callback( 'can_manage_options' ),
+                'permission_callback' => $permissions->callback( 'can_view_reports' ),
                 'meta'                => AbilityMeta::readOnly(),
             ]
         );
@@ -207,7 +207,7 @@ final class ReportAbilities {
                     ],
                 ],
                 'execute_callback'    => [ ReportManager::class, 'revenue_stats' ],
-                'permission_callback' => $permissions->callback( 'can_manage_options' ),
+                'permission_callback' => $permissions->callback( 'can_view_reports' ),
                 'meta'                => AbilityMeta::readOnly(),
             ]
         );
@@ -261,7 +261,7 @@ final class ReportAbilities {
                     ],
                 ],
                 'execute_callback'    => [ ReportManager::class, 'low_stock_products' ],
-                'permission_callback' => $permissions->callback( 'can_manage_options' ),
+                'permission_callback' => $permissions->callback( 'can_view_reports' ),
                 'meta'                => AbilityMeta::readOnly(),
             ]
         );
@@ -293,7 +293,7 @@ final class ReportAbilities {
                     ],
                 ],
                 'execute_callback'    => [ ReportManager::class, 'products_totals' ],
-                'permission_callback' => $permissions->callback( 'can_manage_options' ),
+                'permission_callback' => $permissions->callback( 'can_view_reports' ),
                 'meta'                => AbilityMeta::readOnly(),
             ]
         );
