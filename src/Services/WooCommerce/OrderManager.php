@@ -87,9 +87,9 @@ class OrderManager extends AbstractService {
             return $error;
         }
 
-        $order = wc_get_order( (int) $input['id'] );
-        if ( ! $order ) {
-            return self::errorResponse( 'order_not_found', 'Order not found', 404 );
+        $order = OrderGuard::fetchOrder( (int) $input['id'], 'read_post' );
+        if ( $order instanceof \WP_Error ) {
+            return $order;
         }
 
         return [
@@ -229,9 +229,9 @@ class OrderManager extends AbstractService {
             return $error;
         }
 
-        $order = wc_get_order( (int) $input['id'] );
-        if ( ! $order ) {
-            return self::errorResponse( 'order_not_found', 'Order not found', 404 );
+        $order = OrderGuard::fetchOrder( (int) $input['id'], 'edit_post' );
+        if ( $order instanceof \WP_Error ) {
+            return $order;
         }
 
         try {
@@ -331,9 +331,9 @@ class OrderManager extends AbstractService {
             return $error;
         }
 
-        $order = wc_get_order( (int) $input['id'] );
-        if ( ! $order ) {
-            return self::errorResponse( 'order_not_found', 'Order not found', 404 );
+        $order = OrderGuard::fetchOrder( (int) $input['id'], 'edit_post' );
+        if ( $order instanceof \WP_Error ) {
+            return $order;
         }
 
         $old_status = $order->get_status();
@@ -376,9 +376,9 @@ class OrderManager extends AbstractService {
             return $error;
         }
 
-        $order = wc_get_order( (int) $input['id'] );
-        if ( ! $order ) {
-            return self::errorResponse( 'order_not_found', 'Order not found', 404 );
+        $order = OrderGuard::fetchOrder( (int) $input['id'], 'delete_post' );
+        if ( $order instanceof \WP_Error ) {
+            return $order;
         }
 
         $force = (bool) ( $input['force'] ?? false );
@@ -416,9 +416,9 @@ class OrderManager extends AbstractService {
             return $error;
         }
 
-        $order = wc_get_order( (int) $input['order_id'] );
-        if ( ! $order ) {
-            return self::errorResponse( 'order_not_found', 'Order not found', 404 );
+        $order = OrderGuard::fetchOrder( (int) $input['order_id'], 'read_post' );
+        if ( $order instanceof \WP_Error ) {
+            return $order;
         }
 
         $type = $input['type'] ?? 'any';
@@ -463,9 +463,9 @@ class OrderManager extends AbstractService {
             return $error;
         }
 
-        $order = wc_get_order( (int) $input['order_id'] );
-        if ( ! $order ) {
-            return self::errorResponse( 'order_not_found', 'Order not found', 404 );
+        $order = OrderGuard::fetchOrder( (int) $input['order_id'], 'edit_post' );
+        if ( $order instanceof \WP_Error ) {
+            return $order;
         }
 
         $is_customer_note = (bool) ( $input['customer_note'] ?? false );
@@ -517,9 +517,9 @@ class OrderManager extends AbstractService {
             return $error;
         }
 
-        $order = wc_get_order( (int) $input['order_id'] );
-        if ( ! $order ) {
-            return self::errorResponse( 'order_not_found', 'Order not found', 404 );
+        $order = OrderGuard::fetchOrder( (int) $input['order_id'], 'edit_post' );
+        if ( $order instanceof \WP_Error ) {
+            return $order;
         }
 
         $amount = isset( $input['amount'] ) ? (float) $input['amount'] : $order->get_total();
@@ -572,9 +572,9 @@ class OrderManager extends AbstractService {
             return $error;
         }
 
-        $order = wc_get_order( (int) $input['order_id'] );
-        if ( ! $order ) {
-            return self::errorResponse( 'order_not_found', 'Order not found', 404 );
+        $order = OrderGuard::fetchOrder( (int) $input['order_id'], 'read_post' );
+        if ( $order instanceof \WP_Error ) {
+            return $order;
         }
 
         $refunds = $order->get_refunds();
@@ -623,8 +623,8 @@ class OrderManager extends AbstractService {
         $failed_ids = [];
 
         foreach ( $input['ids'] as $id ) {
-            $order = wc_get_order( (int) $id );
-            if ( ! $order ) {
+            $order = OrderGuard::fetchOrder( (int) $id );
+            if ( $order instanceof \WP_Error ) {
                 $failed_ids[] = (int) $id;
                 continue;
             }

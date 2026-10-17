@@ -162,7 +162,7 @@ class OrderPaymentManager extends AbstractService {
             return $unavailable;
         }
 
-        $order = OrderGuard::fetchOrder( (int) ( $input['order_id'] ?? 0 ) );
+        $order = OrderGuard::fetchOrder( (int) ( $input['order_id'] ?? 0 ), 'read_post' );
         if ( $order instanceof \WP_Error ) {
             return $order;
         }

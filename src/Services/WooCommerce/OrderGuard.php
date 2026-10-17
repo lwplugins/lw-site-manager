@@ -35,20 +35,24 @@ final class OrderGuard {
     }
 
     /**
-     * Resolve and return the order, or a WP_Error if the ID is invalid / not found.
+     * Resolve an order the current user may act on.
+     *
+     * The capability is checked against the order ID first; WooCommerce maps
+     * read_post / edit_post / delete_post on an order to its order
+     * capabilities, also under HPOS. Missing and forbidden orders return the
+     * same error.
+     *
+     * @param int    $order_id   Order ID.
+     * @param string $capability read_post, edit_post (default) or delete_post.
      */
-    public static function fetchOrder( int $order_id ): \WC_Order|\WP_Error {
+    public static function fetchOrder( int $order_id, string $capability = 'edit_post' ): \WC_Order|\WP_Error {
         if ( $order_id <= 0 ) {
             return ResponseFormatter::error( 'invalid_order_id', 'Order ID must be a positive integer', 400 );
         }
 
-        $order = wc_get_order( $order_id );
+        $order = current_user_can( $capability, $order_id ) ? wc_get_order( $order_id ) : null;
 
-        if ( ! $order instanceof \WC_Order ) {
-            return ResponseFormatter::error( 'order_not_found', 'Order not found', 404 );
-        }
-
-        return $order;
+        return $order instanceof \WC_Order ? $order : CatalogGuard::unavailable( 'Order' );
     }
 
     /**
