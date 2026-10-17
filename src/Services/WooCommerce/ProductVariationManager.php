@@ -165,7 +165,7 @@ class ProductVariationManager extends AbstractService {
 
         $parent_id = $variation->get_parent_id();
         $parent    = CatalogGuard::editableProduct( $parent_id );
-        $result    = $parent instanceof \WP_Error ? $parent : ProductDeletion::delete( $id, $input );
+        $result    = $parent instanceof \WP_Error ? $parent : ProductDeletion::delete( $id, $input, true );
         if ( $result instanceof \WP_Error ) {
             return $result;
         }

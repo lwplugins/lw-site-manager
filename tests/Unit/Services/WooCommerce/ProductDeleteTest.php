@@ -15,6 +15,7 @@ declare(strict_types=1);
 
 namespace LightweightPlugins\SiteManager\Tests\Unit\Services\WooCommerce;
 
+use LightweightPlugins\SiteManager\Services\WooCommerce\ProductDeletion;
 use LightweightPlugins\SiteManager\Services\WooCommerce\ProductManager;
 use LightweightPlugins\SiteManager\Services\WooCommerce\ProductVariationManager;
 use PHPUnit\Framework\TestCase;
@@ -90,5 +91,41 @@ final class ProductDeleteTest extends TestCase {
         $this->assertInstanceOf( \WP_Error::class, $result );
         $this->assertSame( 'confirm_delete_required', $result->get_error_code() );
         $this->assertSame( [], $GLOBALS['wc_test_deleted'] );
+    }
+
+    /**
+     * A variation deleted through the product path would skip the parent
+     * edit check and the parent price sync.
+     */
+    public function test_product_delete_refuses_a_variation(): void {
+        $GLOBALS['wp_granted_caps'][] = 'delete_post:9';
+
+        $result = ProductManager::delete_product( [ 'id' => 9 ] );
+
+        $this->assertSame( 'use_variation_ability', $result->get_error_code() );
+        $this->assertSame( [], $GLOBALS['wc_test_deleted'] );
+    }
+
+    public function test_bulk_skips_variations(): void {
+        $GLOBALS['wp_granted_caps'][] = 'delete_post:9';
+
+        $result = ProductManager::bulk_products( [ 'ids' => [ 9 ], 'action' => 'delete', 'confirm_delete' => true ] );
+
+        $this->assertSame( [ 9 ], $result['failed_ids'] );
+        $this->assertSame( [], $GLOBALS['wc_test_deleted'] );
+    }
+
+    /**
+     * Without trash (EMPTY_TRASH_DAYS 0) trashing deletes for good, so it
+     * needs the same confirmation.
+     */
+    public function test_trash_is_permanent_when_the_site_has_no_trash(): void {
+        $this->assertTrue( ProductDeletion::permanentFor( false, 0 ) );
+        $this->assertTrue( ProductDeletion::permanentFor( true, 30 ) );
+        $this->assertFalse( ProductDeletion::permanentFor( false, 30 ) );
+        $this->assertNotNull( ProductDeletion::confirmBulk( 'trash', [ 'ids' => [ 5 ] ], 0 ) );
+        $this->assertNull( ProductDeletion::confirmBulk( 'trash', [ 'ids' => [ 5 ] ], 30 ) );
+        $this->assertNotNull( ProductDeletion::confirmBulk( 'delete', [ 'ids' => [ 5 ] ], 30 ) );
+        $this->assertNull( ProductDeletion::confirmBulk( 'publish', [ 'ids' => [ 5 ] ], 0 ) );
     }
 }

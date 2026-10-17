@@ -723,7 +723,7 @@ class ProductManager extends AbstractService {
             );
         }
 
-        $unconfirmed = 'delete' === $input['action'] ? ProductDeletion::confirm( [ 'force' => true ] + $input, count( $input['ids'] ) . ' product(s)' ) : null;
+        $unconfirmed = ProductDeletion::confirmBulk( (string) $input['action'], $input, ProductDeletion::trashDays() );
         if ( $unconfirmed ) {
             return $unconfirmed;
         }
@@ -733,7 +733,7 @@ class ProductManager extends AbstractService {
 
         foreach ( $input['ids'] as $id ) {
             $product = CatalogGuard::product( (int) $id, BulkProductAccess::capability( (string) $input['action'] ) );
-            if ( $product instanceof \WP_Error ) {
+            if ( $product instanceof \WP_Error || $product->is_type( 'variation' ) ) {
                 $failed_ids[] = (int) $id;
                 continue;
             }
