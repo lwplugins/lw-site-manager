@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce;
 
 use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\Schemas\AbilityMeta;
+use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\Schemas\CatalogSchema;
 use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\Schemas\ProductSchema;
 use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\Schemas\ResponseSchema;
 use LightweightPlugins\SiteManager\Abilities\PermissionManager;
@@ -145,8 +146,9 @@ final class ProductAbilities {
                         'force' => [
                             'type'        => 'boolean',
                             'default'     => false,
-                            'description' => 'Permanently delete (skip trash)',
+                            'description' => 'Permanently delete (skip trash); needs confirm_delete: true',
                         ],
+                        'confirm_delete' => CatalogSchema::confirmDelete(),
                     ],
                     'required'   => [ 'id' ],
                 ],

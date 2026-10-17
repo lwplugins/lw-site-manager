@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce;
 
 use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\Schemas\AbilityMeta;
+use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\Schemas\CatalogSchema;
 use LightweightPlugins\SiteManager\Abilities\PermissionManager;
 use LightweightPlugins\SiteManager\Services\WooCommerce\ProductVariationManager;
 
@@ -119,6 +120,7 @@ final class VariationAbilities {
                     'properties' => [
                         'id'    => [ 'type' => 'integer' ],
                         'force' => [ 'type' => 'boolean', 'default' => false ],
+                        'confirm_delete' => CatalogSchema::confirmDelete(),
                     ],
                     'required'   => [ 'id' ],
                 ],

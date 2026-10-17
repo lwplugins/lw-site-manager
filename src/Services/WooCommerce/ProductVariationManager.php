@@ -158,15 +158,18 @@ class ProductVariationManager extends AbstractService {
         }
 
         $id        = (int) ( $input['id'] ?? 0 );
-        $variation = $id > 0 ? wc_get_product( $id ) : null;
-
+        $variation = CatalogGuard::product( $id, 'delete_post' );
         if ( ! $variation instanceof \WC_Product_Variation ) {
-            return self::errorResponse( 'variation_not_found', 'Variation not found', 404 );
+            return $variation instanceof \WP_Error ? $variation : CatalogGuard::unavailable( 'Product' );
         }
 
         $parent_id = $variation->get_parent_id();
-        $force     = (bool) ( $input['force'] ?? false );
-        $variation->delete( $force );
+        $parent    = CatalogGuard::editableProduct( $parent_id );
+        $result    = $parent instanceof \WP_Error ? $parent : ProductDeletion::delete( $id, $input );
+        if ( $result instanceof \WP_Error ) {
+            return $result;
+        }
+        $force = ! $result['trashed'];
 
         \WC_Product_Variable::sync( $parent_id );
 

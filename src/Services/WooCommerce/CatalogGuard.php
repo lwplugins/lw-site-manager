@@ -21,6 +21,9 @@ final class CatalogGuard {
     /**
      * Refuse a risky or permanent change unless the caller confirmed it.
      *
+     * The flag may arrive as a JSON boolean or, on DELETE / GET requests, as
+     * a query-string "true" / "1".
+     *
      * @param bool   $needed  Whether this request needs a confirmation.
      * @param array  $input   Ability input.
      * @param string $key     Input key that carries the confirmation.
@@ -28,7 +31,7 @@ final class CatalogGuard {
      * @param array  $detail  Extra data for the caller (e.g. a preview).
      */
     public static function confirm( bool $needed, array $input, string $key, string $message, array $detail = [] ): ?\WP_Error {
-        if ( ! $needed || true === ( $input[ $key ] ?? false ) ) {
+        if ( ! $needed || in_array( $input[ $key ] ?? false, [ true, 1, '1', 'true' ], true ) ) {
             return null;
         }
 

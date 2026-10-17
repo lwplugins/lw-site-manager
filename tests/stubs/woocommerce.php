@@ -46,6 +46,14 @@ if ( ! class_exists( 'WC_Product_Variation' ) ) {
     }
 }
 
+if ( ! class_exists( 'WC_Product_Variable' ) ) {
+    class WC_Product_Variable extends WC_Product {
+        public static function sync( $product, $save = true ) {
+            $GLOBALS['wc_test_synced'][] = $product;
+        }
+    }
+}
+
 if ( ! class_exists( 'WC_Order' ) ) {
     class WC_Order extends WC_Data {
         public float $total     = 100.0;

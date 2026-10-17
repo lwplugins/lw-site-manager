@@ -118,7 +118,9 @@ final class CatalogRulesTest extends TestCase {
     public function test_confirm_blocks_until_the_flag_is_strictly_true(): void {
         $this->assertNull( CatalogGuard::confirm( false, [], 'confirm_delete', 'x' ) );
         $this->assertSame( 'confirm_delete_required', CatalogGuard::confirm( true, [], 'confirm_delete', 'x' )->get_error_code() );
-        $this->assertSame( 409, CatalogGuard::confirm( true, [ 'confirm_delete' => 'true' ], 'confirm_delete', 'x' )->get_error_data()['status'] );
+        $this->assertSame( 409, CatalogGuard::confirm( true, [ 'confirm_delete' => 'yes' ], 'confirm_delete', 'x' )->get_error_data()['status'] );
+        $this->assertSame( 409, CatalogGuard::confirm( true, [ 'confirm_delete' => false ], 'confirm_delete', 'x' )->get_error_data()['status'] );
+        $this->assertNull( CatalogGuard::confirm( true, [ 'confirm_delete' => 'true' ], 'confirm_delete', 'x' ) );
         $this->assertNull( CatalogGuard::confirm( true, [ 'confirm_delete' => true ], 'confirm_delete', 'x' ) );
     }
 

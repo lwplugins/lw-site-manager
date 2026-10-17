@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce;
 
 use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\Schemas\AbilityMeta;
+use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\Schemas\CatalogSchema;
 use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\Schemas\ProductSchema;
 use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\Schemas\ResponseSchema;
 use LightweightPlugins\SiteManager\Abilities\PermissionManager;
@@ -200,6 +201,7 @@ final class ProductExtraAbilities {
                             'type' => 'string',
                             'enum' => [ 'publish', 'draft', 'trash', 'delete', 'restore' ],
                         ],
+                        'confirm_delete' => CatalogSchema::confirmDelete(),
                     ],
                     'required'   => [ 'ids', 'action' ],
                 ],

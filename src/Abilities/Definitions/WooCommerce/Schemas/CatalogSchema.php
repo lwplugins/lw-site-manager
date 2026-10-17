@@ -20,7 +20,7 @@ final class CatalogSchema {
     }
 
     public static function confirmDelete(): array {
-        return [ 'type' => 'boolean', 'default' => false, 'description' => 'Required (true): the delete is permanent' ];
+        return [ 'type' => 'boolean', 'default' => false, 'description' => 'Required (true) for a permanent delete' ];
     }
 
     public static function confirmChange( string $what ): array {

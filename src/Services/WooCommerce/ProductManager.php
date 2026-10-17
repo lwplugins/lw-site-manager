@@ -479,35 +479,17 @@ class ProductManager extends AbstractService {
             return self::errorResponse( 'woocommerce_not_active', 'WooCommerce is not active', 400 );
         }
 
-        $error = self::validateId( $input );
-        if ( $error ) {
-            return $error;
-        }
-
-        $product = wc_get_product( (int) $input['id'] );
-        if ( ! $product ) {
-            return self::errorResponse( 'product_not_found', 'Product not found', 404 );
-        }
-
-        $force = (bool) ( $input['force'] ?? false );
-        $product_name = $product->get_name();
-
-        if ( $force ) {
-            $result = $product->delete( true );
-        } else {
-            $result = wp_trash_post( $product->get_id() );
-        }
-
-        if ( ! $result ) {
-            return self::errorResponse( 'product_delete_failed', 'Failed to delete product', 500 );
+        $result = ProductDeletion::delete( (int) ( $input['id'] ?? 0 ), $input );
+        if ( $result instanceof \WP_Error ) {
+            return $result;
         }
 
         return [
             'success' => true,
-            'message' => $force ? 'Product permanently deleted' : 'Product moved to trash',
-            'id'      => (int) $input['id'],
-            'name'    => $product_name,
-            'trashed' => ! $force,
+            'message' => $result['trashed'] ? 'Product moved to trash' : 'Product permanently deleted',
+            'id'      => $result['id'],
+            'name'    => $result['name'],
+            'trashed' => $result['trashed'],
         ];
     }
 
@@ -739,6 +721,11 @@ class ProductManager extends AbstractService {
                 'Invalid action. Allowed: ' . implode( ', ', $allowed_actions ),
                 400
             );
+        }
+
+        $unconfirmed = 'delete' === $input['action'] ? ProductDeletion::confirm( [ 'force' => true ] + $input, count( $input['ids'] ) . ' product(s)' ) : null;
+        if ( $unconfirmed ) {
+            return $unconfirmed;
         }
 
         $success_ids = [];

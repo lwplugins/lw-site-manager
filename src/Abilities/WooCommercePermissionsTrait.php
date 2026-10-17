@@ -51,7 +51,8 @@ trait WooCommercePermissionsTrait {
     }
 
     /**
-     * Delete products and variations; the service checks delete_post on each.
+     * Delete products and variations. ProductDeletion then requires
+     * delete_post on the product itself (and edit_post on a variation's parent).
      */
     public function can_delete_products(): bool {
         return current_user_can( 'delete_products' );
