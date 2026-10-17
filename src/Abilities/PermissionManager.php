@@ -9,7 +9,8 @@ namespace LightweightPlugins\SiteManager\Abilities;
 
 class PermissionManager {
 
-    use WooCommercePermissionsTrait;
+    use WooCommerceCatalogPermissionsTrait;
+    use WooCommerceOrderPermissionsTrait;
 
     // =========================================================================
     // Update & Installation Permissions
