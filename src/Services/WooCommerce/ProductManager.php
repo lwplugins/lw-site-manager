@@ -133,8 +133,9 @@ class ProductManager extends AbstractService {
             }
         }
 
-        if ( ! $product ) {
-            return self::errorResponse( 'product_not_found', 'Product not found', 404 );
+        $product = $product ? CatalogGuard::readableProduct( $product->get_id() ) : CatalogGuard::unavailable( 'Product' );
+        if ( $product instanceof \WP_Error ) {
+            return $product;
         }
 
         return [
@@ -326,9 +327,9 @@ class ProductManager extends AbstractService {
             return $error;
         }
 
-        $product = wc_get_product( (int) $input['id'] );
-        if ( ! $product ) {
-            return self::errorResponse( 'product_not_found', 'Product not found', 404 );
+        $product = CatalogGuard::editableProduct( (int) $input['id'] );
+        if ( $product instanceof \WP_Error ) {
+            return $product;
         }
 
         try {
@@ -523,9 +524,9 @@ class ProductManager extends AbstractService {
             return $error;
         }
 
-        $product = wc_get_product( (int) $input['id'] );
-        if ( ! $product ) {
-            return self::errorResponse( 'product_not_found', 'Product not found', 404 );
+        $product = CatalogGuard::readableProduct( (int) $input['id'] );
+        if ( $product instanceof \WP_Error ) {
+            return $product;
         }
 
         $duplicate = new \WC_Admin_Duplicate_Product();
@@ -563,9 +564,9 @@ class ProductManager extends AbstractService {
             return $error;
         }
 
-        $product = wc_get_product( (int) $input['id'] );
-        if ( ! $product ) {
-            return self::errorResponse( 'product_not_found', 'Product not found', 404 );
+        $product = CatalogGuard::editableProduct( (int) $input['id'] );
+        if ( $product instanceof \WP_Error ) {
+            return $product;
         }
 
         $old_quantity = $product->get_stock_quantity();
@@ -675,9 +676,9 @@ class ProductManager extends AbstractService {
             return $error;
         }
 
-        $product = wc_get_product( (int) $input['product_id'] );
-        if ( ! $product ) {
-            return self::errorResponse( 'product_not_found', 'Product not found', 404 );
+        $product = CatalogGuard::readableProduct( (int) $input['product_id'] );
+        if ( $product instanceof \WP_Error ) {
+            return $product;
         }
 
         if ( ! $product->is_type( 'variable' ) ) {
@@ -744,8 +745,8 @@ class ProductManager extends AbstractService {
         $failed_ids = [];
 
         foreach ( $input['ids'] as $id ) {
-            $product = wc_get_product( (int) $id );
-            if ( ! $product ) {
+            $product = CatalogGuard::product( (int) $id, BulkProductAccess::capability( (string) $input['action'] ) );
+            if ( $product instanceof \WP_Error ) {
                 $failed_ids[] = (int) $id;
                 continue;
             }

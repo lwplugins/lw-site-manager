@@ -124,10 +124,14 @@ class ProductVariationManager extends AbstractService {
         }
 
         $id        = (int) ( $input['id'] ?? 0 );
-        $variation = $id > 0 ? wc_get_product( $id ) : null;
+        $variation = CatalogGuard::editableProduct( $id );
 
         if ( ! $variation instanceof \WC_Product_Variation ) {
-            return self::errorResponse( 'variation_not_found', 'Variation not found', 404 );
+            return $variation instanceof \WP_Error ? $variation : CatalogGuard::unavailable( 'Product' );
+        }
+        $parent = CatalogGuard::editableProduct( $variation->get_parent_id() );
+        if ( $parent instanceof \WP_Error ) {
+            return $parent;
         }
 
         if ( isset( $input['attributes'] ) && is_array( $input['attributes'] ) ) {
@@ -309,9 +313,9 @@ class ProductVariationManager extends AbstractService {
             return self::errorResponse( 'invalid_product_id', 'product_id is required', 400 );
         }
 
-        $product = wc_get_product( $product_id );
-        if ( ! $product instanceof \WC_Product ) {
-            return self::errorResponse( 'product_not_found', 'Product not found', 404 );
+        $product = CatalogGuard::editableProduct( $product_id );
+        if ( $product instanceof \WP_Error ) {
+            return $product;
         }
 
         if ( 'variable' !== $product->get_type() ) {

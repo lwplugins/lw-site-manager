@@ -52,16 +52,33 @@ final class CatalogGuard {
     }
 
     /**
-     * Load a product (or variation) the current user may edit.
+     * Load a product (or variation) the current user may act on.
+     *
+     * @param int    $productId  Product or variation ID.
+     * @param string $capability Meta capability checked against it (read_post, edit_post, delete_post).
      */
-    public static function editableProduct( int $productId ): \WC_Product|\WP_Error {
-        if ( $productId <= 0 || ! current_user_can( 'edit_post', $productId ) ) {
+    public static function product( int $productId, string $capability ): \WC_Product|\WP_Error {
+        if ( $productId <= 0 || ! current_user_can( $capability, $productId ) ) {
             return self::unavailable( 'Product' );
         }
 
         $product = wc_get_product( $productId );
 
         return $product instanceof \WC_Product ? $product : self::unavailable( 'Product' );
+    }
+
+    /**
+     * Load a product (or variation) the current user may edit.
+     */
+    public static function editableProduct( int $productId ): \WC_Product|\WP_Error {
+        return self::product( $productId, 'edit_post' );
+    }
+
+    /**
+     * Load a product (or variation) the current user may read.
+     */
+    public static function readableProduct( int $productId ): \WC_Product|\WP_Error {
+        return self::product( $productId, 'read_post' );
     }
 
     /**

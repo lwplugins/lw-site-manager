@@ -198,12 +198,7 @@ class ProductAttributeManager extends AbstractService {
             return self::errorResponse( 'invalid_product_id', 'product_id is required', 400 );
         }
 
-        $product = wc_get_product( $product_id );
-        if ( ! $product instanceof \WC_Product ) {
-            return self::errorResponse( 'product_not_found', 'Product not found', 404 );
-        }
-
-        return $product;
+        return CatalogGuard::editableProduct( $product_id );
     }
 
     private static function resolve_attribute_key( string $name ): string {

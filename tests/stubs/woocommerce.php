@@ -38,6 +38,14 @@ if ( ! class_exists( 'WC_Product' ) ) {
     }
 }
 
+if ( ! class_exists( 'WC_Product_Variation' ) ) {
+    class WC_Product_Variation extends WC_Product {
+        public function get_parent_id(): int {
+            return (int) ( $GLOBALS['wc_test_variation_parent'] ?? 0 );
+        }
+    }
+}
+
 if ( ! class_exists( 'WC_Order' ) ) {
     class WC_Order extends WC_Data {
         public float $total     = 100.0;

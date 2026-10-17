@@ -13,15 +13,15 @@ use LightweightPlugins\SiteManager\Services\Meta\GatedMetaKeys;
 class WcMetaManager extends AbstractService {
 
     public static function get_product_meta( array $input ): array|\WP_Error {
-        return self::get_meta( self::resolve_product( $input ), $input );
+        return self::get_meta( self::resolve_product( $input, 'read_post' ), $input );
     }
 
     public static function set_product_meta( array $input ): array|\WP_Error {
-        return self::set_meta( self::resolve_product( $input ), $input );
+        return self::set_meta( self::resolve_product( $input, 'edit_post' ), $input );
     }
 
     public static function delete_product_meta( array $input ): array|\WP_Error {
-        return self::delete_meta( self::resolve_product( $input ), $input );
+        return self::delete_meta( self::resolve_product( $input, 'edit_post' ), $input );
     }
 
     public static function get_order_meta( array $input ): array|\WP_Error {
@@ -167,7 +167,7 @@ class WcMetaManager extends AbstractService {
         ];
     }
 
-    private static function resolve_product( array $input ): \WC_Data|\WP_Error {
+    private static function resolve_product( array $input, string $capability ): \WC_Data|\WP_Error {
         $unavailable = OrderGuard::ensureAvailable();
         if ( $unavailable ) {
             return $unavailable;
@@ -178,12 +178,7 @@ class WcMetaManager extends AbstractService {
             return self::errorResponse( 'invalid_product_id', 'product_id is required', 400 );
         }
 
-        $product = wc_get_product( $id );
-        if ( ! $product instanceof \WC_Data ) {
-            return self::errorResponse( 'product_not_found', 'Product not found', 404 );
-        }
-
-        return $product;
+        return CatalogGuard::product( $id, $capability );
     }
 
     private static function resolve_order( array $input ): \WC_Data|\WP_Error {
