@@ -199,7 +199,7 @@ final class OrderExtraAbilities {
                 ],
                 'output_schema'       => ResponseSchema::bulk(),
                 'execute_callback'    => [ OrderManager::class, 'bulk_orders' ],
-                'permission_callback' => $permissions->callback( 'can_manage_orders' ),
+                'permission_callback' => $permissions->callback( 'can_batch_orders' ),
                 'meta'                => AbilityMeta::write(),
             ]
         );

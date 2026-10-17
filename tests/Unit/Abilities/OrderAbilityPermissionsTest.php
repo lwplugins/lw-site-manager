@@ -43,7 +43,7 @@ final class OrderAbilityPermissionsTest extends TestCase {
      *
      * @dataProvider provide_order_abilities
      */
-    public function test_order_abilities_require_order_capability( string $ability ): void {
+    public function test_order_abilities_require_order_capability( string $ability, string $method = 'can_manage_orders' ): void {
         $registered = get_registered_abilities();
 
         $this->assertArrayHasKey( $ability, $registered, "Ability {$ability} was not registered" );
@@ -51,14 +51,14 @@ final class OrderAbilityPermissionsTest extends TestCase {
         $callback = $registered[ $ability ]['permission_callback'];
         $this->assertIsArray( $callback );
         $this->assertSame(
-            'can_manage_orders',
+            $method,
             $callback[1],
-            "{$ability} must be gated on can_manage_orders, not " . $callback[1]
+            "{$ability} must be gated on {$method}, not " . $callback[1]
         );
     }
 
     /**
-     * @return array<string, array{0: string}>
+     * @return array<string, array{0: string, 1: string}>
      */
     public static function provide_order_abilities(): array {
         $abilities = [
@@ -81,9 +81,18 @@ final class OrderAbilityPermissionsTest extends TestCase {
             'site-manager/wc-delete-order-meta',
         ];
 
+        // Where WooCommerce's REST orders controller asks for a narrower
+        // capability than edit_shop_orders, mirror it.
+        $specific = [
+            'site-manager/wc-list-orders'  => 'can_read_orders',
+            'site-manager/wc-create-order' => 'can_create_orders',
+            'site-manager/wc-delete-order' => 'can_delete_orders',
+            'site-manager/wc-bulk-orders'  => 'can_batch_orders',
+        ];
+
         $cases = [];
         foreach ( $abilities as $ability ) {
-            $cases[ $ability ] = [ $ability ];
+            $cases[ $ability ] = [ $ability, $specific[ $ability ] ?? 'can_manage_orders' ];
         }
 
         return $cases;

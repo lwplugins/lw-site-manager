@@ -49,7 +49,7 @@ final class OrderAbilities {
                 ],
                 'output_schema'       => ResponseSchema::list( 'orders', OrderSchema::order() ),
                 'execute_callback'    => [ OrderManager::class, 'list_orders' ],
-                'permission_callback' => $permissions->callback( 'can_manage_orders' ),
+                'permission_callback' => $permissions->callback( 'can_read_orders' ),
                 'meta'                => AbilityMeta::readOnly(),
             ]
         );
@@ -125,7 +125,7 @@ final class OrderAbilities {
                 ],
                 'output_schema'       => ResponseSchema::entity( 'order', OrderSchema::order( true ), true ),
                 'execute_callback'    => [ OrderManager::class, 'create_order' ],
-                'permission_callback' => $permissions->callback( 'can_manage_orders' ),
+                'permission_callback' => $permissions->callback( 'can_create_orders' ),
                 'meta'                => AbilityMeta::write(),
             ]
         );
@@ -193,7 +193,7 @@ final class OrderAbilities {
                     ],
                 ],
                 'execute_callback'    => [ OrderManager::class, 'delete_order' ],
-                'permission_callback' => $permissions->callback( 'can_manage_orders' ),
+                'permission_callback' => $permissions->callback( 'can_delete_orders' ),
                 'meta'                => AbilityMeta::destructive( false ),
             ]
         );

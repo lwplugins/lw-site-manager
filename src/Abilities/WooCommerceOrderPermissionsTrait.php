@@ -30,4 +30,32 @@ trait WooCommerceOrderPermissionsTrait {
     public function can_view_reports(): bool {
         return current_user_can( 'view_woocommerce_reports' );
     }
+
+    /**
+     * List orders: read_private_shop_orders (REST orders 'read' context).
+     */
+    public function can_read_orders(): bool {
+        return current_user_can( 'read_private_shop_orders' );
+    }
+
+    /**
+     * Create orders: publish_shop_orders (REST orders 'create' context).
+     */
+    public function can_create_orders(): bool {
+        return current_user_can( 'publish_shop_orders' );
+    }
+
+    /**
+     * Delete orders: delete_shop_orders; the service checks delete_post on the order.
+     */
+    public function can_delete_orders(): bool {
+        return current_user_can( 'delete_shop_orders' );
+    }
+
+    /**
+     * Bulk order changes: edit_others_shop_orders (REST orders 'batch' context).
+     */
+    public function can_batch_orders(): bool {
+        return current_user_can( 'edit_others_shop_orders' );
+    }
 }
