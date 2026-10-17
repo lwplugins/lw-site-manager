@@ -42,7 +42,7 @@ final class AttributeTermAbilities {
                     ],
                 ],
                 'execute_callback'    => [ AttributeManager::class, 'list_attribute_terms' ],
-                'permission_callback' => $permissions->callback( 'can_edit_posts' ),
+                'permission_callback' => $permissions->callback( 'can_read_product_terms' ),
                 'meta'                => AbilityMeta::readOnly(),
             ]
         );
@@ -66,7 +66,7 @@ final class AttributeTermAbilities {
                 ],
                 'output_schema'       => self::termMutationSchema(),
                 'execute_callback'    => [ AttributeManager::class, 'create_attribute_term' ],
-                'permission_callback' => $permissions->callback( 'can_publish_posts' ),
+                'permission_callback' => $permissions->callback( 'can_edit_product_terms' ),
                 'meta'                => AbilityMeta::write(),
             ]
         );
@@ -91,7 +91,7 @@ final class AttributeTermAbilities {
                 ],
                 'output_schema'       => self::termMutationSchema(),
                 'execute_callback'    => [ AttributeManager::class, 'update_attribute_term' ],
-                'permission_callback' => $permissions->callback( 'can_edit_posts' ),
+                'permission_callback' => $permissions->callback( 'can_edit_product_terms' ),
                 'meta'                => AbilityMeta::write(),
             ]
         );
@@ -122,7 +122,7 @@ final class AttributeTermAbilities {
                     ],
                 ],
                 'execute_callback'    => [ AttributeManager::class, 'delete_attribute_term' ],
-                'permission_callback' => $permissions->callback( 'can_delete_posts' ),
+                'permission_callback' => $permissions->callback( 'can_delete_product_terms' ),
                 'meta'                => AbilityMeta::destructive( false ),
             ]
         );

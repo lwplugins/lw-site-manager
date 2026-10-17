@@ -33,7 +33,7 @@ final class AttributeAbilities {
                     ],
                 ],
                 'execute_callback'    => [ AttributeManager::class, 'list_attributes' ],
-                'permission_callback' => $permissions->callback( 'can_edit_posts' ),
+                'permission_callback' => $permissions->callback( 'can_read_product_terms' ),
                 'meta'                => AbilityMeta::readOnly(),
             ]
         );
@@ -59,7 +59,7 @@ final class AttributeAbilities {
                     ],
                 ],
                 'execute_callback'    => [ AttributeManager::class, 'get_attribute' ],
-                'permission_callback' => $permissions->callback( 'can_edit_posts' ),
+                'permission_callback' => $permissions->callback( 'can_read_product_terms' ),
                 'meta'                => AbilityMeta::readOnly(),
             ]
         );
@@ -88,7 +88,7 @@ final class AttributeAbilities {
                 ],
                 'output_schema'       => self::mutationOutputSchema(),
                 'execute_callback'    => [ AttributeManager::class, 'create_attribute' ],
-                'permission_callback' => $permissions->callback( 'can_publish_posts' ),
+                'permission_callback' => $permissions->callback( 'can_read_product_terms' ),
                 'meta'                => AbilityMeta::write(),
             ]
         );
@@ -113,7 +113,7 @@ final class AttributeAbilities {
                 ],
                 'output_schema'       => self::mutationOutputSchema(),
                 'execute_callback'    => [ AttributeManager::class, 'update_attribute' ],
-                'permission_callback' => $permissions->callback( 'can_edit_posts' ),
+                'permission_callback' => $permissions->callback( 'can_read_product_terms' ),
                 'meta'                => AbilityMeta::write(),
             ]
         );
@@ -142,7 +142,7 @@ final class AttributeAbilities {
                     ],
                 ],
                 'execute_callback'    => [ AttributeManager::class, 'delete_attribute' ],
-                'permission_callback' => $permissions->callback( 'can_delete_posts' ),
+                'permission_callback' => $permissions->callback( 'can_read_product_terms' ),
                 'meta'                => AbilityMeta::destructive( false ),
             ]
         );

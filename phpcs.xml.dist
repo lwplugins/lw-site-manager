@@ -123,6 +123,7 @@
 				<element value="manage_woocommerce"/>
 				<element value="manage_product_terms"/>
 				<element value="edit_product_terms"/>
+				<element value="delete_product_terms"/>
 			</property>
 		</properties>
 	</rule>

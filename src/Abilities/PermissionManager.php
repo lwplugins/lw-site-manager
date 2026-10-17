@@ -130,6 +130,30 @@ class PermissionManager {
     }
 
     /**
+     * Read product terms and manage global attributes: manage_product_terms,
+     * which WooCommerce's Attributes screen and its REST attribute and term
+     * endpoints (wc_rest_check_manager_permissions 'attributes',
+     * wc_rest_check_product_term_permissions 'read') require.
+     */
+    public function can_read_product_terms(): bool {
+        return current_user_can( 'manage_product_terms' );
+    }
+
+    /**
+     * Create or edit product terms (taxonomy cap edit_terms).
+     */
+    public function can_edit_product_terms(): bool {
+        return current_user_can( 'edit_product_terms' );
+    }
+
+    /**
+     * Delete product terms (taxonomy cap delete_terms).
+     */
+    public function can_delete_product_terms(): bool {
+        return current_user_can( 'delete_product_terms' );
+    }
+
+    /**
      * Check if user can manage WooCommerce store settings, payment gateways
      * and shipping zones — the same capability WooCommerce's settings screens
      * and REST settings endpoints require.
