@@ -73,7 +73,7 @@ A global attribute (Color) is a store-wide taxonomy `pa_<slug>`; its terms are t
 4. Price and stock each with `wc-update-variation`; set `regular_price` and `sale_price` together.
 
 - The variation `attributes` map holds one value per axis, e.g. `{"pa_color": "red", "pa_size": "m"}`: global values are term slugs, product-only ones the option text. On update it replaces the whole combination. Don't set the variation name.
-- `wc-list-variations` (`product_id`); `wc-delete-variation` (`id`, `force`) trashes by default.
+- `wc-list-variations` (`product_id`); `wc-delete-variation` (`id`, `force` + `confirm_delete: true` for a permanent delete) trashes by default.
 - **Default (preselected) variation:** `wc-set-default-variation` with `product_id` and one of: `attributes` (`{"pa_color": "red", "Size": "M"}` — an axis left out means "any"), `variation_id` (copy that variation's combination), or `clear: true`. Values must be options of the product's variation attributes. There is only one default; setting it replaces the old one.
 
 ## Store settings
@@ -102,8 +102,8 @@ A global attribute (Color) is a store-wide taxonomy `pa_<slug>`; its terms are t
 ## Bulk, duplicates, deletion
 
 - `wc-duplicate-product` (`id`, `new_name`, `status` default `draft`).
-- `wc-bulk-products` (`ids`, `action`: publish/draft/trash/delete/restore).
-- `wc-delete-product` (`id`, `force`): trash by default; a permanent delete can't be undone. Remove a variable product's variations before force-deleting it.
+- `wc-bulk-products` (`ids`, `action`: publish/draft/trash/delete/restore). `delete` (and `trash` on a site without trash) needs `confirm_delete: true`; IDs you may not change, and variations, come back in `failed_ids`.
+- `wc-delete-product` (`id`, `force`, `confirm_delete`): trash by default; a permanent delete needs `force` plus `confirm_delete: true` and can't be undone. WooCommerce deletes a variable product's variations with it. Variation IDs are refused here — use `wc-delete-variation`.
 - Product meta: `wc-get-product-meta`, `wc-set-product-meta`, `wc-delete-product-meta` (also on variations). Prefer the typed fields over underscore-prefixed WooCommerce internals.
 
 ## Working rules
