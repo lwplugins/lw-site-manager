@@ -13,7 +13,7 @@ use LightweightPlugins\SiteManager\Services\Meta\GatedMetaKeys;
 class WcMetaManager extends AbstractService {
 
     public static function get_product_meta( array $input ): array|\WP_Error {
-        return self::get_meta( self::resolve_product( $input, 'read_post' ), $input );
+        return self::get_meta( self::resolve_product( $input, 'edit_post' ), $input );
     }
 
     public static function set_product_meta( array $input ): array|\WP_Error {

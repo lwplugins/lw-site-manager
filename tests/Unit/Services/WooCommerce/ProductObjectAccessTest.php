@@ -76,6 +76,20 @@ final class ProductObjectAccessTest extends TestCase {
         $this->assertSame( $missing->get_error_message(), $forbidden->get_error_message() );
     }
 
+    /**
+     * Meta can hold internal and protected values, so reading it needs the
+     * same right as changing the product — read_post would expose it to any
+     * reader of a published product.
+     */
+    public function test_product_meta_read_needs_edit_post(): void {
+        $GLOBALS['wp_granted_caps'][] = 'read_post:5';
+
+        $result = WcMetaManager::get_product_meta( [ 'product_id' => 5, 'include_protected' => true ] );
+
+        $this->assertInstanceOf( \WP_Error::class, $result );
+        $this->assertSame( 'not_found_or_forbidden', $result->get_error_code() );
+    }
+
     public function test_variation_update_also_needs_the_parent(): void {
         $GLOBALS['wp_granted_caps'][]          = 'edit_post:9';
         $GLOBALS['wc_test_variation_parent'] = 7;
