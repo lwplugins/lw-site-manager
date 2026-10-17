@@ -63,7 +63,7 @@ final class ProductAbilities {
                 ],
                 'output_schema'       => ResponseSchema::list( 'products', ProductSchema::product() ),
                 'execute_callback'    => [ ProductManager::class, 'list_products' ],
-                'permission_callback' => $permissions->callback( 'can_edit_posts' ),
+                'permission_callback' => $permissions->callback( 'can_read_products' ),
                 'meta'                => AbilityMeta::readOnly(),
             ]
         );
@@ -85,7 +85,7 @@ final class ProductAbilities {
                 ],
                 'output_schema'       => ResponseSchema::entity( 'product', ProductSchema::product( true ) ),
                 'execute_callback'    => [ ProductManager::class, 'get_product' ],
-                'permission_callback' => $permissions->callback( 'can_edit_posts' ),
+                'permission_callback' => $permissions->callback( 'can_read_products' ),
                 'meta'                => AbilityMeta::readOnly(),
             ]
         );
@@ -104,7 +104,7 @@ final class ProductAbilities {
                 ],
                 'output_schema'       => ResponseSchema::entity( 'product', ProductSchema::product( true ), true ),
                 'execute_callback'    => [ ProductManager::class, 'create_product' ],
-                'permission_callback' => $permissions->callback( 'can_publish_posts' ),
+                'permission_callback' => $permissions->callback( 'can_publish_products' ),
                 'meta'                => AbilityMeta::write(),
             ]
         );
@@ -126,7 +126,7 @@ final class ProductAbilities {
                 ],
                 'output_schema'       => ResponseSchema::entity( 'product', ProductSchema::product( true ) ),
                 'execute_callback'    => [ ProductManager::class, 'update_product' ],
-                'permission_callback' => $permissions->callback( 'can_edit_posts' ),
+                'permission_callback' => $permissions->callback( 'can_manage_products' ),
                 'meta'                => AbilityMeta::write(),
             ]
         );
@@ -152,7 +152,7 @@ final class ProductAbilities {
                 ],
                 'output_schema'       => ResponseSchema::delete(),
                 'execute_callback'    => [ ProductManager::class, 'delete_product' ],
-                'permission_callback' => $permissions->callback( 'can_delete_posts' ),
+                'permission_callback' => $permissions->callback( 'can_delete_products' ),
                 'meta'                => AbilityMeta::destructive(),
             ]
         );

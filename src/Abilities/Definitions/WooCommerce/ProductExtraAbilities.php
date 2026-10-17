@@ -34,7 +34,7 @@ final class ProductExtraAbilities {
                 ],
                 'output_schema'       => ResponseSchema::entity( 'product', ProductSchema::product( true ), true ),
                 'execute_callback'    => [ ProductManager::class, 'duplicate_product' ],
-                'permission_callback' => $permissions->callback( 'can_publish_posts' ),
+                'permission_callback' => $permissions->callback( 'can_duplicate_products' ),
                 'meta'                => AbilityMeta::write(),
             ]
         );
@@ -76,7 +76,7 @@ final class ProductExtraAbilities {
                     ],
                 ],
                 'execute_callback'    => [ ProductManager::class, 'update_stock' ],
-                'permission_callback' => $permissions->callback( 'can_edit_posts' ),
+                'permission_callback' => $permissions->callback( 'can_manage_products' ),
                 'meta'                => AbilityMeta::write(),
             ]
         );
@@ -128,7 +128,7 @@ final class ProductExtraAbilities {
                     ],
                 ],
                 'execute_callback'    => [ ProductManager::class, 'list_product_categories' ],
-                'permission_callback' => $permissions->callback( 'can_edit_posts' ),
+                'permission_callback' => $permissions->callback( 'can_read_product_terms' ),
                 'meta'                => AbilityMeta::readOnly(),
             ]
         );
@@ -177,7 +177,7 @@ final class ProductExtraAbilities {
                     ],
                 ],
                 'execute_callback'    => [ ProductManager::class, 'list_variations' ],
-                'permission_callback' => $permissions->callback( 'can_edit_posts' ),
+                'permission_callback' => $permissions->callback( 'can_read_products' ),
                 'meta'                => AbilityMeta::readOnly(),
             ]
         );
@@ -205,7 +205,7 @@ final class ProductExtraAbilities {
                 ],
                 'output_schema'       => ResponseSchema::bulk(),
                 'execute_callback'    => [ ProductManager::class, 'bulk_products' ],
-                'permission_callback' => $permissions->callback( 'can_edit_posts' ),
+                'permission_callback' => $permissions->callback( 'can_batch_products' ),
                 'meta'                => AbilityMeta::write(),
             ]
         );

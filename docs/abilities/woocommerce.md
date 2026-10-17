@@ -1005,7 +1005,7 @@ All of these go through WooCommerce's own APIs: the term API with WooCommerce's 
 
 | Ability | Capability | Notes |
 |---|---|---|
-| `wc-list-product-terms` | `edit_products` or `manage_woocommerce` | `taxonomy`: `product_cat`, `product_tag`, `product_brand`, `product_shipping_class`; `orderby` includes `menu_order` |
+| `wc-list-product-terms` | `manage_product_terms` | `taxonomy`: `product_cat`, `product_tag`, `product_brand`, `product_shipping_class`; `orderby` includes `menu_order` |
 | `wc-get-product-term` | same | |
 | `wc-create-product-term` | `edit_product_terms` | `parent` (categories, brands), `image_id` (term meta `thumbnail_id`; categories, brands), `display_type` and `menu_order` (term meta `order`; categories) |
 | `wc-update-product-term` | `edit_term` on the term | only the fields sent change |

@@ -34,7 +34,7 @@ final class ProductAttributeAbilities {
                 ],
                 'output_schema'       => self::productAttrOutputSchema(),
                 'execute_callback'    => [ ProductAttributeManager::class, 'set_product_attributes' ],
-                'permission_callback' => $permissions->callback( 'can_edit_posts' ),
+                'permission_callback' => $permissions->callback( 'can_manage_products' ),
                 'meta'                => AbilityMeta::write(),
             ]
         );
@@ -71,7 +71,7 @@ final class ProductAttributeAbilities {
                 ],
                 'output_schema'       => self::productAttrOutputSchema(),
                 'execute_callback'    => [ ProductAttributeManager::class, 'add_product_attribute' ],
-                'permission_callback' => $permissions->callback( 'can_edit_posts' ),
+                'permission_callback' => $permissions->callback( 'can_manage_products' ),
                 'meta'                => AbilityMeta::write(),
             ]
         );
@@ -105,7 +105,7 @@ final class ProductAttributeAbilities {
                     ],
                 ],
                 'execute_callback'    => [ ProductAttributeManager::class, 'remove_product_attribute' ],
-                'permission_callback' => $permissions->callback( 'can_delete_posts' ),
+                'permission_callback' => $permissions->callback( 'can_manage_products' ),
                 'meta'                => AbilityMeta::destructive( false ),
             ]
         );

@@ -41,7 +41,7 @@ final class VariationAbilities {
                     ],
                 ],
                 'execute_callback'    => [ ProductVariationManager::class, 'generate_variations' ],
-                'permission_callback' => $permissions->callback( 'can_publish_posts' ),
+                'permission_callback' => $permissions->callback( 'can_publish_products' ),
                 'meta'                => AbilityMeta::write(),
             ]
         );
@@ -73,7 +73,7 @@ final class VariationAbilities {
                 ],
                 'output_schema'       => self::variationMutationSchema( true ),
                 'execute_callback'    => [ ProductVariationManager::class, 'create_variation' ],
-                'permission_callback' => $permissions->callback( 'can_publish_posts' ),
+                'permission_callback' => $permissions->callback( 'can_publish_products' ),
                 'meta'                => AbilityMeta::write(),
             ]
         );
@@ -102,7 +102,7 @@ final class VariationAbilities {
                 ],
                 'output_schema'       => self::variationMutationSchema(),
                 'execute_callback'    => [ ProductVariationManager::class, 'update_variation' ],
-                'permission_callback' => $permissions->callback( 'can_edit_posts' ),
+                'permission_callback' => $permissions->callback( 'can_manage_products' ),
                 'meta'                => AbilityMeta::write(),
             ]
         );
@@ -133,7 +133,7 @@ final class VariationAbilities {
                     ],
                 ],
                 'execute_callback'    => [ ProductVariationManager::class, 'delete_variation' ],
-                'permission_callback' => $permissions->callback( 'can_delete_posts' ),
+                'permission_callback' => $permissions->callback( 'can_delete_products' ),
                 'meta'                => AbilityMeta::destructive( false ),
             ]
         );

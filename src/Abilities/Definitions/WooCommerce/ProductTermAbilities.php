@@ -37,7 +37,7 @@ final class ProductTermAbilities {
                 'required'    => [ 'taxonomy' ],
                 'output'      => ResponseSchema::list( 'terms', CatalogSchema::term() ),
                 'callback'    => [ ProductTermManager::class, 'list_terms' ],
-                'permission'  => 'can_manage_products',
+                'permission'  => 'can_read_product_terms',
                 'meta'        => AbilityMeta::readOnly(),
             ]
         );
@@ -56,7 +56,7 @@ final class ProductTermAbilities {
                 'required'    => [ 'taxonomy', 'id' ],
                 'output'      => [ 'type' => 'object', 'properties' => [ 'term' => CatalogSchema::term() ] ],
                 'callback'    => [ ProductTermManager::class, 'get_term' ],
-                'permission'  => 'can_manage_products',
+                'permission'  => 'can_read_product_terms',
                 'meta'        => AbilityMeta::readOnly(),
             ]
         );
@@ -72,7 +72,7 @@ final class ProductTermAbilities {
                 'required'    => [ 'taxonomy', 'name' ],
                 'output'      => CatalogSchema::mutation( 'term', CatalogSchema::term() ),
                 'callback'    => [ ProductTermManager::class, 'create_term' ],
-                'permission'  => 'can_manage_product_terms',
+                'permission'  => 'can_edit_product_terms',
                 'meta'        => AbilityMeta::write(),
             ]
         );
@@ -94,7 +94,7 @@ final class ProductTermAbilities {
                 'required'    => [ 'taxonomy', 'id' ],
                 'output'      => CatalogSchema::mutation( 'term', CatalogSchema::term() ),
                 'callback'    => [ ProductTermManager::class, 'update_term' ],
-                'permission'  => 'can_manage_product_terms',
+                'permission'  => 'can_edit_product_terms',
                 'meta'        => AbilityMeta::write(),
             ]
         );
@@ -114,7 +114,7 @@ final class ProductTermAbilities {
                 'required'    => [ 'taxonomy', 'id' ],
                 'output'      => CatalogSchema::deleted(),
                 'callback'    => [ ProductTermManager::class, 'delete_term' ],
-                'permission'  => 'can_manage_product_terms',
+                'permission'  => 'can_delete_product_terms',
                 'meta'        => AbilityMeta::destructive( false ),
             ]
         );

@@ -37,14 +37,39 @@ trait WooCommercePermissionsTrait {
     }
 
     /**
-     * Check if user can manage WooCommerce product terms (categories, tags,
-     * brands, shipping classes). The service re-checks the exact term
-     * capability (edit_term / delete_term) against the term.
+     * Read products, including private and draft ones (REST 'read' context).
      */
-    public function can_manage_product_terms(): bool {
-        return current_user_can( 'manage_product_terms' )
-            || current_user_can( 'edit_product_terms' )
-            || current_user_can( 'manage_woocommerce' );
+    public function can_read_products(): bool {
+        return current_user_can( 'read_private_products' );
+    }
+
+    /**
+     * Create products and variations (REST 'create' context).
+     */
+    public function can_publish_products(): bool {
+        return current_user_can( 'publish_products' );
+    }
+
+    /**
+     * Delete products and variations; the service checks delete_post on each.
+     */
+    public function can_delete_products(): bool {
+        return current_user_can( 'delete_products' );
+    }
+
+    /**
+     * Batch product actions (REST 'batch' context: edit_others_products).
+     */
+    public function can_batch_products(): bool {
+        return current_user_can( 'edit_others_products' );
+    }
+
+    /**
+     * Duplicate a product, with the capability WooCommerce's own Duplicate
+     * action checks (filterable, manage_woocommerce by default).
+     */
+    public function can_duplicate_products(): bool {
+        return current_user_can( (string) apply_filters( 'woocommerce_duplicate_product_capability', 'manage_woocommerce' ) );
     }
 
     /**

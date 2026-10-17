@@ -124,6 +124,10 @@
 				<element value="manage_product_terms"/>
 				<element value="edit_product_terms"/>
 				<element value="delete_product_terms"/>
+				<element value="read_private_products"/>
+				<element value="publish_products"/>
+				<element value="delete_products"/>
+				<element value="edit_others_products"/>
 			</property>
 		</properties>
 	</rule>

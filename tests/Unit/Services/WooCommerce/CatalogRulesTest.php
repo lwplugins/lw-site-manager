@@ -153,9 +153,9 @@ final class CatalogRulesTest extends TestCase {
         $manager = new PermissionManager();
 
         $GLOBALS['wp_granted_caps'] = [ 'edit_posts', 'manage_categories' ];
-        $this->assertFalse( $manager->can_manage_product_terms() );
+        $this->assertFalse( $manager->can_edit_product_terms() );
 
-        $GLOBALS['wp_granted_caps'] = [ 'manage_product_terms' ];
-        $this->assertTrue( $manager->can_manage_product_terms() );
+        $GLOBALS['wp_granted_caps'] = [ 'edit_product_terms' ];
+        $this->assertTrue( $manager->can_edit_product_terms() );
     }
 }
