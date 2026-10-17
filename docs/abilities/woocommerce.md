@@ -31,6 +31,7 @@ WooCommerce abilities are only available when the WooCommerce plugin is active.
   - [wc-revenue-stats](#wc-revenue-stats)
   - [wc-low-stock-products](#wc-low-stock-products)
   - [wc-products-totals](#wc-products-totals)
+- [Catalog terms, store settings, payments and shipping](#catalog-terms-store-settings-payments-and-shipping)
 
 ---
 
@@ -995,3 +996,33 @@ No required input.
   "total": 31
 }
 ```
+
+---
+
+# Catalog terms, store settings, payments and shipping
+
+All of these go through WooCommerce's own APIs: the term API with WooCommerce's term meta, `WC_Product` setters, `WC_Admin_Settings::save_fields()` with the settings pages' field definitions, `WC_Settings_API` for gateways, `WC_Shipping_Zone` for zones and WooCommerce's zone-method REST controller for method settings. Permanent deletes need `confirm_delete: true` and risky changes `confirm_change: true`; without the flag the call returns 409 and changes nothing (`wc-update-store-settings` includes a `changes` preview).
+
+| Ability | Capability | Notes |
+|---|---|---|
+| `wc-list-product-terms` | `edit_products` or `manage_woocommerce` | `taxonomy`: `product_cat`, `product_tag`, `product_brand`, `product_shipping_class`; `orderby` includes `menu_order` |
+| `wc-get-product-term` | same | |
+| `wc-create-product-term` | `edit_product_terms` | `parent` (categories, brands), `image_id` (term meta `thumbnail_id`; categories, brands), `display_type` and `menu_order` (term meta `order`; categories) |
+| `wc-update-product-term` | `edit_term` on the term | only the fields sent change |
+| `wc-delete-product-term` | `delete_term` on the term | permanent, `confirm_delete`; the default category is refused |
+| `wc-set-product-brands` | `edit_post` on the product + `assign_product_terms` | `brand_ids`, `append` |
+| `wc-set-product-shipping-class` | same | `shipping_class_id`, `0` clears; works on variations |
+| `wc-set-default-variation` | `edit_post` on the product | `attributes`, `variation_id` or `clear` |
+| `wc-get-store-settings` | `manage_woocommerce` | `include_fields` adds types, options and the risky flag |
+| `wc-update-store-settings` | `manage_woocommerce` | strict validation; currency, decimals, tax, units, base country and locations need `confirm_change` |
+| `wc-check-setup` | `manage_woocommerce` | read-only; `issues` lists what blocks selling |
+| `wc-list-payment-gateways` | `manage_woocommerce` | no gateway settings or credentials in the output |
+| `wc-set-payment-gateway-enabled` | `manage_woocommerce` | refuses gateways that need setup; the last enabled one needs `confirm_change` to disable |
+| `wc-list-shipping-zones` / `wc-get-shipping-zone` | `manage_woocommerce` | zone `0` = rest of the world |
+| `wc-create-shipping-zone` / `wc-update-shipping-zone` | `manage_woocommerce` | `locations` replaces all locations |
+| `wc-delete-shipping-zone` | `manage_woocommerce` | permanent, `confirm_delete` |
+| `wc-list-shipping-method-types` | `manage_woocommerce` | methods that can be added and their fields |
+| `wc-add-shipping-zone-method` / `wc-update-shipping-zone-method` | `manage_woocommerce` | `settings`, `enabled`, `order`; credential-like settings are returned masked (`********`) and a mask sent back is ignored |
+| `wc-delete-shipping-zone-method` | `manage_woocommerce` | permanent, `confirm_delete` |
+
+A lookup that fails because an ID is missing and one that fails because the caller may not touch it return the same `not_found_or_forbidden` error.

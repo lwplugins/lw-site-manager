@@ -29,6 +29,7 @@ The plugin ships a small starter library under `skills/`:
 |------|---------|
 | `site-health-triage` | Diagnose a site (health-check, error-log, updates) read-first. |
 | `woocommerce-order-ops` | Inspect and safely modify WooCommerce orders (lookups, status, refunds). |
+| `woocommerce-catalog` | Products, variations, attributes, categories/tags/brands/shipping classes, store settings, shipping zones and payment methods. |
 | `safe-bulk-content` | Preview-before-mutate bulk post/page operations. |
 
 ## SKILL.md format
