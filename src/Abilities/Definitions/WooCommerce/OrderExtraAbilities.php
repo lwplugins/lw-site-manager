@@ -52,7 +52,7 @@ final class OrderExtraAbilities {
             'site-manager/wc-create-refund',
             [
                 'label'               => __( 'Create Refund', 'lw-site-manager' ),
-                'description'         => __( 'Create a refund for an order', 'lw-site-manager' ),
+                'description'         => __( 'Record a refund on an order (no money is sent through the payment gateway). Needs confirm_refund: true; without it the amount is previewed', 'lw-site-manager' ),
                 'category'            => 'wc-orders',
                 'input_schema'        => [
                     'type'       => 'object',
@@ -61,8 +61,9 @@ final class OrderExtraAbilities {
                         'order_id'      => [ 'type' => 'integer', 'description' => 'Order ID' ],
                         'amount'        => [
                             'type'        => 'number',
-                            'description' => 'Refund amount (defaults to full order total)',
+                            'description' => 'Refund amount, at most the still-refundable remainder (the default)',
                         ],
+                        'confirm_refund' => [ 'type' => 'boolean', 'default' => false, 'description' => 'Required (true) to create the refund' ],
                         'reason'        => [ 'type' => 'string', 'description' => 'Reason for refund' ],
                         'restock_items' => [ 'type' => 'boolean', 'default' => true ],
                         'line_items'    => [

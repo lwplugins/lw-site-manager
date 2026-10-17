@@ -522,41 +522,7 @@ class OrderManager extends AbstractService {
             return $order;
         }
 
-        $amount = isset( $input['amount'] ) ? (float) $input['amount'] : $order->get_total();
-        $reason = $input['reason'] ?? '';
-        $restock = (bool) ( $input['restock_items'] ?? true );
-
-        // Line items to refund
-        $line_items = [];
-        if ( ! empty( $input['line_items'] ) ) {
-            foreach ( $input['line_items'] as $item ) {
-                $line_items[ $item['id'] ] = [
-                    'qty'          => $item['quantity'] ?? 0,
-                    'refund_total' => $item['total'] ?? 0,
-                ];
-            }
-        }
-
-        $refund = wc_create_refund( [
-            'order_id'       => $order->get_id(),
-            'amount'         => $amount,
-            'reason'         => $reason,
-            'line_items'     => $line_items,
-            'restock_items'  => $restock,
-        ] );
-
-        if ( is_wp_error( $refund ) ) {
-            return $refund;
-        }
-
-        return [
-            'success'   => true,
-            'message'   => 'Refund created successfully',
-            'refund_id' => $refund->get_id(),
-            'order_id'  => $order->get_id(),
-            'amount'    => $amount,
-            'reason'    => $reason,
-        ];
+        return RefundService::create( $order, $input );
     }
 
     /**
