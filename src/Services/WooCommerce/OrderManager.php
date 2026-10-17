@@ -381,25 +381,25 @@ class OrderManager extends AbstractService {
             return $order;
         }
 
-        $force = (bool) ( $input['force'] ?? false );
-        $order_number = $order->get_order_number();
-
-        if ( $force ) {
-            $result = $order->delete( true );
-        } else {
-            $result = wp_trash_post( $order->get_id() );
+        // WC_Order::delete() trashes (posts and HPOS storage) unless forced.
+        $permanent   = ProductDeletion::permanent( $input );
+        $unconfirmed = CatalogGuard::confirm( $permanent, $input, 'confirm_delete', sprintf( 'This permanently deletes order #%s; it cannot be restored from the trash.', $order->get_order_number() ) );
+        if ( $unconfirmed ) {
+            return $unconfirmed;
         }
 
-        if ( ! $result ) {
+        $id           = $order->get_id();
+        $order_number = $order->get_order_number();
+        if ( ! $order->delete( $permanent ) ) {
             return self::errorResponse( 'order_delete_failed', 'Failed to delete order', 500 );
         }
 
         return [
             'success'      => true,
-            'message'      => $force ? 'Order permanently deleted' : 'Order moved to trash',
-            'id'           => (int) $input['id'],
+            'message'      => $permanent ? 'Order permanently deleted' : 'Order moved to trash',
+            'id'           => $id,
             'order_number' => $order_number,
-            'trashed'      => ! $force,
+            'trashed'      => ! $permanent,
         ];
     }
 

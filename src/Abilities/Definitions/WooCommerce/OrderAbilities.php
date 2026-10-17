@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce;
 
 use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\Schemas\AbilityMeta;
+use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\Schemas\CatalogSchema;
 use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\Schemas\OrderSchema;
 use LightweightPlugins\SiteManager\Abilities\Definitions\WooCommerce\Schemas\ResponseSchema;
 use LightweightPlugins\SiteManager\Abilities\PermissionManager;
@@ -175,8 +176,9 @@ final class OrderAbilities {
                         'force' => [
                             'type'        => 'boolean',
                             'default'     => false,
-                            'description' => 'Permanently delete instead of trashing',
+                            'description' => 'Permanently delete instead of trashing; needs confirm_delete: true',
                         ],
+                        'confirm_delete' => CatalogSchema::confirmDelete(),
                     ],
                     'required'   => [ 'id' ],
                 ],
