@@ -163,7 +163,7 @@ final class WcMetaAbilities {
                 'success' => [ 'type' => 'boolean' ],
                 'id'      => [ 'type' => 'integer' ],
                 'key'     => [ 'type' => 'string' ],
-                'value'   => [],
+                'value'   => self::anyValue(),
                 'exists'  => [ 'type' => 'boolean' ],
                 'meta'    => [
                     'type'  => 'array',
@@ -172,13 +172,21 @@ final class WcMetaAbilities {
                         'properties' => [
                             'id'    => [ 'type' => 'integer' ],
                             'key'   => [ 'type' => 'string' ],
-                            'value' => [],
+                            'value' => self::anyValue(),
                         ],
                     ],
                 ],
                 'total'   => [ 'type' => 'integer' ],
             ],
         ];
+    }
+
+    /**
+     * A meta value can be any JSON type. WordPress' schema validator needs an
+     * explicit type list; an empty schema triggers "Undefined array key type".
+     */
+    private static function anyValue(): array {
+        return [ 'type' => [ 'string', 'number', 'integer', 'boolean', 'array', 'object', 'null' ] ];
     }
 
     private static function setOutputSchema(): array {
