@@ -4,7 +4,7 @@ Tags: site-manager, maintenance, ai, rest-api, abilities
 Requires at least: 6.9
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 1.5.3
+Stable tag: 1.6.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -33,13 +33,19 @@ LW Site Manager is a comprehensive WordPress site management plugin built on the
 
 = WooCommerce Abilities (when WooCommerce is active) =
 
-* **Products** - List, get, create, update, delete, duplicate; stock updates; variations; product categories; bulk actions
+* **Products** - List, get, create, update, delete, duplicate; stock updates; variations and default variation; bulk actions
 * **Orders (CRUD)** - List, get, create, update, delete; status changes; order notes; refunds; bulk actions
 * **Order line items** - Add, update quantity/price, or remove products on existing orders
 * **Order coupons & fees** - Apply / remove coupons; add / remove custom fees
 * **Order shipping** - Set or replace shipping line; remove shipping; force totals recalculation
 * **Order payment workflow** - Mark orders paid (with optional silent flag), re-send order emails (6 templates), generate pay-for-order URL
 * **Reports** - Sales, top sellers, order totals, revenue stats with period comparison, low stock products
+* **Catalog terms** - Product categories, tags, brands and shipping classes (with category images, display type and order); brand, shipping class and default variation on products
+* **Store settings** - Read and change the General, Products and Tax settings with strict validation, plus a setup check that lists what still blocks selling
+* **Payments** - List payment methods and turn them on or off
+* **Shipping** - Shipping zones, their locations and their shipping methods
+
+Every WooCommerce ability checks the same capabilities WooCommerce itself uses, and products and orders are also checked one by one. Permanent deletes need `force` plus `confirm_delete: true`, refunds need `confirm_refund: true`, and risky store setting changes need `confirm_change: true`; without the flag the call returns a preview and changes nothing.
 
 All order modification abilities reject `cancelled` / `refunded` / `failed` orders with HTTP 409, and support `recalculate=false` for chained operations.
 
@@ -142,7 +148,7 @@ Your skills then appear in the discovery catalog (under your own badge), are loa
 
 = Does this work with WooCommerce? =
 
-Yes — and the WooCommerce coverage is comprehensive. Beyond product and order CRUD, you can edit existing orders end-to-end: add or remove line items, apply or remove coupons, add custom fees, change shipping, recalculate totals, mark orders paid, re-send order emails, and generate pay-for-order URLs. Requires WooCommerce 7.0 or higher.
+Yes — and the WooCommerce coverage is comprehensive. Beyond product and order CRUD, you can edit existing orders end-to-end: add or remove line items, apply or remove coupons, add custom fees, change shipping, recalculate totals, mark orders paid, re-send order emails, and generate pay-for-order URLs. You can also manage product categories, tags, brands and shipping classes, store settings, payment methods and shipping zones. Requires WooCommerce 7.0 or higher.
 
 == Screenshots ==
 
@@ -151,6 +157,25 @@ Yes — and the WooCommerce coverage is comprehensive. Beyond product and order 
 3. Backup creation options
 
 == Changelog ==
+
+= 1.6.0 =
+* New: WooCommerce catalog terms: `wc-list-product-terms`, `wc-get-product-term`, `wc-create-product-term`, `wc-update-product-term` and `wc-delete-product-term` manage product categories, tags, brands and shipping classes, including the category image, display type and order.
+* New: WooCommerce product assignments: `wc-set-product-brands`, `wc-set-product-shipping-class` (works on variations too) and `wc-set-default-variation`.
+* New: WooCommerce store settings: `wc-get-store-settings` and `wc-update-store-settings` read and change the General, Products and Tax settings with strict validation; `wc-check-setup` lists what still blocks selling.
+* New: WooCommerce payments: `wc-list-payment-gateways` (no gateway settings or credentials in the output) and `wc-set-payment-gateway-enabled`.
+* New: WooCommerce shipping: `wc-list-shipping-zones`, `wc-get-shipping-zone`, `wc-create-shipping-zone`, `wc-update-shipping-zone`, `wc-delete-shipping-zone`, `wc-list-shipping-method-types`, `wc-add-shipping-zone-method`, `wc-update-shipping-zone-method` and `wc-delete-shipping-zone-method`. Credential-like method settings are returned masked.
+* New: A `woocommerce-catalog` skill that guides an agent through products, variations, attributes, catalog terms, store settings, shipping and payments.
+* New: Risky store changes (currency, decimals, tax, units, base country, selling locations, disabling the last payment method) need `confirm_change: true`; without it the call returns a preview and changes nothing.
+* Fix: Security: the WooCommerce abilities now require the capabilities WooCommerce itself uses for products, product terms, global attributes, orders and reports, instead of generic post capabilities.
+* Fix: Security: product, variation, order, product meta, order meta and bulk abilities check the user's permission on each object, not only their role. Bulk actions skip and report the objects the user may not change.
+* Fix: Security: reading product meta needs the same permission as editing the product.
+* Fix: Trashing an order on a store using High-Performance Order Storage now really moves the order to the trash.
+* Fix: Report abilities work for shop managers (they need `view_woocommerce_reports` instead of `manage_options`).
+* Fix: `wc-get-product-meta` and `wc-get-order-meta` no longer raise PHP warnings about a missing schema type.
+* Change: Breaking: a product, variation or order that does not exist or that the user may not access now returns the same `not_found_or_forbidden` error (HTTP 404).
+* Change: Breaking: permanent deletes need `confirm_delete: true`. That covers `force: true` on `wc-delete-product`, `wc-delete-variation` and `wc-delete-order`, the `delete` action of `wc-bulk-products`, and any delete or `trash` action on a site where trash is turned off. Without it the call returns 409 and deletes nothing. Deletes still go to the trash by default.
+* Change: Breaking: `wc-create-refund` needs `confirm_refund: true`; without it the call returns 409 with the amount it would refund. The amount defaults to what is still refundable and cannot exceed it.
+* Change: Breaking: `wc-delete-product` refuses variation IDs (use `wc-delete-variation`), and `wc-bulk-products` reports variations as failed.
 
 = 1.5.3 =
 * Fix: On WooCommerce stores, failed MCP tool calls reached the AI agent as successes, or as an error without its message. WooCommerce bundles an older copy of the MCP Adapter library (0.3.0, still in WooCommerce 11.2.1) and loads it instead of ours, so updating WooCommerce did not help. Failures now reach the agent as errors with their real message whichever copy is loaded, successful calls no longer raise PHP warnings on that copy, and the admin notice about the older copy is gone. (#34)

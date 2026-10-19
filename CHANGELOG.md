@@ -1,5 +1,30 @@
 # Changelog
 
+## [1.6.0] - 2026-10-19
+
+### Added
+- WooCommerce catalog terms: `wc-list-product-terms`, `wc-get-product-term`, `wc-create-product-term`, `wc-update-product-term` and `wc-delete-product-term` manage product categories, tags, brands and shipping classes, including the category image, display type and order.
+- WooCommerce product assignments: `wc-set-product-brands`, `wc-set-product-shipping-class` (works on variations too) and `wc-set-default-variation`.
+- WooCommerce store settings: `wc-get-store-settings` and `wc-update-store-settings` read and change the General, Products and Tax settings with strict validation; `wc-check-setup` lists what still blocks selling.
+- WooCommerce payments: `wc-list-payment-gateways` (no gateway settings or credentials in the output) and `wc-set-payment-gateway-enabled`.
+- WooCommerce shipping: `wc-list-shipping-zones`, `wc-get-shipping-zone`, `wc-create-shipping-zone`, `wc-update-shipping-zone`, `wc-delete-shipping-zone`, `wc-list-shipping-method-types`, `wc-add-shipping-zone-method`, `wc-update-shipping-zone-method` and `wc-delete-shipping-zone-method`. Credential-like method settings are returned masked.
+- A `woocommerce-catalog` skill that guides an agent through products, variations, attributes, catalog terms, store settings, shipping and payments.
+- Risky store changes (currency, decimals, tax, units, base country, selling locations, disabling the last payment method) need `confirm_change: true`; without it the call returns a preview and changes nothing.
+
+### Fixed
+- Security: the WooCommerce abilities now require the capabilities WooCommerce itself uses for products, product terms, global attributes, orders and reports, instead of generic post capabilities.
+- Security: product, variation, order, product meta, order meta and bulk abilities check the user's permission on each object, not only their role. Bulk actions skip and report the objects the user may not change.
+- Security: reading product meta needs the same permission as editing the product.
+- Trashing an order on a store using High-Performance Order Storage now really moves the order to the trash.
+- Report abilities work for shop managers (they need `view_woocommerce_reports` instead of `manage_options`).
+- `wc-get-product-meta` and `wc-get-order-meta` no longer raise PHP warnings about a missing schema type.
+
+### Changed
+- Breaking: a product, variation or order that does not exist or that the user may not access now returns the same `not_found_or_forbidden` error (HTTP 404).
+- Breaking: permanent deletes need `confirm_delete: true`. That covers `force: true` on `wc-delete-product`, `wc-delete-variation` and `wc-delete-order`, the `delete` action of `wc-bulk-products`, and any delete or `trash` action on a site where trash is turned off. Without it the call returns 409 and deletes nothing. Deletes still go to the trash by default.
+- Breaking: `wc-create-refund` needs `confirm_refund: true`; without it the call returns 409 with the amount it would refund. The amount defaults to what is still refundable and cannot exceed it.
+- Breaking: `wc-delete-product` refuses variation IDs (use `wc-delete-variation`), and `wc-bulk-products` reports variations as failed.
+
 ## [1.5.3] - 2026-10-11
 
 ### Fixed

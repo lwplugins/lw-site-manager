@@ -277,6 +277,9 @@ Delete a product.
 |-------|------|----------|---------|-------------|
 | `id` | integer | **yes** | - | Product ID |
 | `force` | boolean | no | `false` | Permanent deletion (instead of trash) |
+| `confirm_delete` | boolean | no | `false` | Required (`true`) for a permanent delete: `force: true`, or any delete on a site with trash turned off. Without it the call returns 409 and deletes nothing. |
+
+Needs `delete_post` on the product. Variation IDs are refused with `use_variation_ability`; use `wc-delete-variation`. A missing product and one the user may not delete both return `not_found_or_forbidden`.
 
 ### Output
 
@@ -468,6 +471,9 @@ Bulk operations on multiple products.
 |-------|------|----------|---------|-------------|
 | `ids` | array | **yes** | - | Array of product IDs |
 | `action` | string | **yes** | - | Action: `publish`, `draft`, `trash`, `delete`, `restore` |
+| `confirm_delete` | boolean | no | `false` | Required (`true`) for the `delete` action, and for `trash` on a site with trash turned off |
+
+Each product is checked with the capability its action needs (`publish_post`, `edit_post`, `delete_post`); refused products and variation IDs are listed under `failed`.
 
 ### Output
 
@@ -643,7 +649,7 @@ No required input.
 
 ## wc-create-refund
 
-Create a refund for an order.
+Record a refund on an order. No money is sent through the payment gateway. Needs `edit_post` on the order.
 
 **Method:** `POST`
 **Endpoint:** `/wp-json/wp-abilities/v1/abilities/site-manager/wc-create-refund/run`
@@ -653,7 +659,8 @@ Create a refund for an order.
 | Field | Type | Required | Default | Description |
 |-------|------|----------|---------|-------------|
 | `order_id` | integer | **yes** | - | Order ID |
-| `amount` | number | no | - | Amount to refund (defaults to full amount) |
+| `amount` | number | no | - | Amount to refund; defaults to, and cannot exceed, the still-refundable remainder |
+| `confirm_refund` | boolean | **yes** (`true`) | `false` | Without it the call returns 409 with `amount` and `refundable` and records nothing |
 | `reason` | string | no | - | Refund reason |
 | `restock_items` | boolean | no | `true` | Restock items |
 | `line_items` | array | no | - | Partial refund by line item |
@@ -1026,3 +1033,9 @@ All of these go through WooCommerce's own APIs: the term API with WooCommerce's 
 | `wc-delete-shipping-zone-method` | `manage_woocommerce` | permanent, `confirm_delete` |
 
 A lookup that fails because an ID is missing and one that fails because the caller may not touch it return the same `not_found_or_forbidden` error.
+
+## Deletes and confirmations on existing abilities (since 1.6.0)
+
+- `wc-delete-order` and `wc-delete-variation` trash by default through WooCommerce (`WC_Order::delete()` / `WC_Product::delete()`, so orders are trashed under HPOS as well). `force: true`, or any delete on a site with trash turned off, needs `confirm_delete: true`; without it the call returns 409.
+- Orders are checked one by one: `read_post` on the order for reads, `edit_post` for changes and all order meta, `delete_post` for deletes. Listing needs `read_private_shop_orders`, creating `publish_shop_orders`, bulk status changes `edit_others_shop_orders`.
+- Products are checked the same way with the product post type's capabilities; reading product meta needs `edit_post` on the product.

@@ -137,6 +137,8 @@ This project is a WordPress plugin that uses the Abilities API to provide comple
 | **wc-products** | WooCommerce Products | CRUD, stock, variations |
 | **wc-orders** | WooCommerce Orders | list, status update, refunds |
 | **wc-reports** | WooCommerce Reports | sales, top sellers, revenue |
+| **wc-attributes** | WooCommerce Attributes | global attributes, terms, variations |
+| **wc-settings** | WooCommerce Settings | store settings, payments, shipping zones |
 
 ### Installation
 

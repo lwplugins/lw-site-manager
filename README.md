@@ -26,7 +26,7 @@ composer require lwplugins/lw-site-manager
 
 ## Available Abilities
 
-The plugin currently registers **167 abilities**. All slugs use the `site-manager/` namespace and are grouped below by their ability category.
+The plugin currently registers **190 abilities** (with WooCommerce active). All slugs use the `site-manager/` namespace and are grouped below by their ability category.
 
 ### Core abilities
 
@@ -169,11 +169,25 @@ Tags: `list-tags`, `get-tag`, `create-tag`, `update-tag`, `delete-tag`
 
 > All HPOS-aware via `WC_Data` API. Inline `meta` is also accepted by `wc-create-product` / `wc-update-product`, `wc-create-order` / `wc-update-order`, `wc-create-variation` / `wc-update-variation`, `wc-add-order-item` / `wc-update-order-item`.
 
+#### Catalog terms and product assignments (8)
+
+`wc-list-product-terms`, `wc-get-product-term`, `wc-create-product-term`, `wc-update-product-term`, `wc-delete-product-term` (product categories, tags, brands and shipping classes), `wc-set-product-brands`, `wc-set-product-shipping-class`, `wc-set-default-variation`
+
+#### Store settings and payments (5)
+
+`wc-get-store-settings`, `wc-update-store-settings`, `wc-check-setup`, `wc-list-payment-gateways`, `wc-set-payment-gateway-enabled`
+
+#### Shipping (9)
+
+`wc-list-shipping-zones`, `wc-get-shipping-zone`, `wc-create-shipping-zone`, `wc-update-shipping-zone`, `wc-delete-shipping-zone`, `wc-list-shipping-method-types`, `wc-add-shipping-zone-method`, `wc-update-shipping-zone-method`, `wc-delete-shipping-zone-method`
+
 ### Behavioral notes
 
 - **Order locking** — every order modification ability rejects `cancelled` / `refunded` / `failed` orders with HTTP 409 (`order_locked`).
 - **Deferred recalculation** — order item/coupon/fee/shipping mutations support `recalculate=false`; chain several mutations and finish with a single `wc-recalculate-order` call.
 - **Email opt-out** — `wc-mark-order-paid` accepts `silent: true` to suppress the customer notification.
+- **WooCommerce capabilities** — every WooCommerce ability checks the capability WooCommerce itself uses, and products, variations and orders are also checked one by one. A missing object and one the user may not access return the same `not_found_or_forbidden` error.
+- **Confirmations** — permanent deletes (`force: true`, the bulk `delete` action, or any delete on a site with trash turned off) need `confirm_delete: true`; `wc-create-refund` needs `confirm_refund: true`; risky store setting changes need `confirm_change: true`. Without the flag the call returns 409 with a preview and changes nothing.
 
 ## Documentation
 
