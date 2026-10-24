@@ -7,7 +7,7 @@ declare(strict_types=1);
 
 namespace LightweightPlugins\SiteManager\Services;
 
-use LightweightPlugins\SiteManager\Services\Comments\CommentCounter;
+use LightweightPlugins\SiteManager\Services\Comments\{CommentAccess, CommentCounter};
 use LightweightPlugins\SiteManager\Services\Meta\MetaGuard;
 
 class CommentManager extends AbstractService {
@@ -81,7 +81,7 @@ class CommentManager extends AbstractService {
         }
 
         $input['id'] = (int) $input['id'];
-        $comment = self::getCommentOrError( $input['id'] );
+        $comment = CommentAccess::editable( $input['id'] );
         if ( is_wp_error( $comment ) ) {
             return $comment;
         }
@@ -99,9 +99,9 @@ class CommentManager extends AbstractService {
             return $error;
         }
 
-        $post = self::getPostOrError( $input['post_id'] );
-        if ( is_wp_error( $post ) ) {
-            return $post;
+        $error = CommentAccess::commentablePost( (int) $input['post_id'] );
+        if ( $error ) {
+            return $error;
         }
 
         $commentdata = [
@@ -153,7 +153,7 @@ class CommentManager extends AbstractService {
         }
 
         $input['id'] = (int) $input['id'];
-        $comment = self::getCommentOrError( $input['id'] );
+        $comment = CommentAccess::editable( $input['id'] );
         if ( is_wp_error( $comment ) ) {
             return $comment;
         }
@@ -207,7 +207,7 @@ class CommentManager extends AbstractService {
         }
 
         $input['id'] = (int) $input['id'];
-        $comment = self::getCommentOrError( $input['id'] );
+        $comment = CommentAccess::editable( $input['id'] );
         if ( is_wp_error( $comment ) ) {
             return $comment;
         }
@@ -237,7 +237,7 @@ class CommentManager extends AbstractService {
         }
 
         $input['id'] = (int) $input['id'];
-        $comment = self::getCommentOrError( $input['id'] );
+        $comment = CommentAccess::editable( $input['id'] );
         if ( is_wp_error( $comment ) ) {
             return $comment;
         }
@@ -264,7 +264,7 @@ class CommentManager extends AbstractService {
         }
 
         $input['id'] = (int) $input['id'];
-        $comment = self::getCommentOrError( $input['id'] );
+        $comment = CommentAccess::editable( $input['id'] );
         if ( is_wp_error( $comment ) ) {
             return $comment;
         }
@@ -305,8 +305,7 @@ class CommentManager extends AbstractService {
         $failed = [];
 
         foreach ( $input['ids'] as $id ) {
-            $comment = get_comment( $id );
-            if ( ! $comment ) {
+            if ( is_wp_error( CommentAccess::editable( (int) $id ) ) ) {
                 $failed[] = (int) $id;
                 continue;
             }
