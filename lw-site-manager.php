@@ -94,6 +94,9 @@ final class Plugin {
 		// Error handler for updates.
 		add_action( 'init', [ $this, 'init_error_handler' ] );
 
+		// Remove the error log file of earlier versions, once.
+		add_action( 'admin_init', [ Handlers\ErrorLogFile::class, 'removePreviousFile' ] );
+
 		// Initialize backup cron hooks.
 		add_action( 'init', [ $this, 'init_backup_system' ] );
 

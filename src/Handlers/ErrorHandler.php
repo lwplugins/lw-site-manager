@@ -13,7 +13,6 @@ class ErrorHandler {
 
     private bool $is_monitoring = false;
     private array $captured_errors = [];
-    private string $log_file;
 
     public static function instance(): ErrorHandler {
         if ( null === self::$instance ) {
@@ -23,7 +22,6 @@ class ErrorHandler {
     }
 
     private function __construct() {
-        $this->log_file = WP_CONTENT_DIR . '/wpsm-error.log';
     }
 
     /**
@@ -147,7 +145,9 @@ class ErrorHandler {
         $timestamp = current_time( 'Y-m-d H:i:s' );
         $log_entry = "[{$timestamp}] {$message}\n";
 
-        error_log( $log_entry, 3, $this->log_file );
+        if ( ErrorLogFile::prepare() ) {
+            error_log( $log_entry, 3, ErrorLogFile::path() );
+        }
     }
 
     /**
@@ -221,11 +221,12 @@ class ErrorHandler {
      * Read custom error log
      */
     public function read_error_log( int $lines = 100 ): array {
-        if ( ! file_exists( $this->log_file ) ) {
+        $log_file = ErrorLogFile::existingPath();
+        if ( null === $log_file || ! file_exists( $log_file ) ) {
             return [];
         }
 
-        $content = file_get_contents( $this->log_file );
+        $content = file_get_contents( $log_file );
         $all_lines = explode( "\n", trim( $content ) );
 
         return array_slice( $all_lines, -$lines );
@@ -235,8 +236,9 @@ class ErrorHandler {
      * Clear custom error log
      */
     public function clear_error_log(): bool {
-        if ( file_exists( $this->log_file ) ) {
-            return unlink( $this->log_file );
+        $log_file = ErrorLogFile::existingPath();
+        if ( null !== $log_file && file_exists( $log_file ) ) {
+            return unlink( $log_file );
         }
         return true;
     }
