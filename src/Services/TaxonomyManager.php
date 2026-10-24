@@ -7,6 +7,8 @@ declare(strict_types=1);
 
 namespace LightweightPlugins\SiteManager\Services;
 
+use LightweightPlugins\SiteManager\Helpers\Capability;
+use LightweightPlugins\SiteManager\Helpers\TypeCapability;
 use LightweightPlugins\SiteManager\Services\Meta\MetaGuard;
 
 class TaxonomyManager extends AbstractService {
@@ -108,7 +110,8 @@ class TaxonomyManager extends AbstractService {
             return self::errorResponse( 'invalid_taxonomy', 'Invalid taxonomy', 400 );
         }
 
-        $error = MetaGuard::guardMap( 'term', 0, $input['meta'] ?? null );
+        $error = TypeCapability::createTerm( $taxonomy )
+            ?? MetaGuard::guardMap( 'term', 0, $input['meta'] ?? null );
         if ( $error ) {
             return $error;
         }
@@ -160,7 +163,8 @@ class TaxonomyManager extends AbstractService {
             return self::errorResponse( 'not_found', 'Term not found', 404 );
         }
 
-        $error = MetaGuard::guardMap( 'term', $input['id'], $input['meta'] ?? null );
+        $error = Capability::editTerm( (int) $term->term_id )
+            ?? MetaGuard::guardMap( 'term', $input['id'], $input['meta'] ?? null );
         if ( $error ) {
             return $error;
         }
@@ -224,6 +228,11 @@ class TaxonomyManager extends AbstractService {
 
         if ( is_wp_error( $term ) || ! $term ) {
             return self::errorResponse( 'not_found', 'Term not found', 404 );
+        }
+
+        $error = Capability::deleteTerm( (int) $term->term_id );
+        if ( $error ) {
+            return $error;
         }
 
         // Prevent deleting default category

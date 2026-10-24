@@ -93,6 +93,13 @@ final class Capability {
     }
 
     /**
+     * Whether the current user may delete a specific term.
+     */
+    public static function deleteTerm( int $termId ): ?\WP_Error {
+        return self::check( 'delete_term', $termId, 'You are not allowed to delete this term.' );
+    }
+
+    /**
      * Guard a super-admin target against a caller who is not one.
      *
      * Mirrors the guard UserManager::delete_user() already applies, so a
