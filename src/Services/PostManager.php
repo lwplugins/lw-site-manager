@@ -9,6 +9,7 @@ namespace LightweightPlugins\SiteManager\Services;
 
 use LightweightPlugins\SiteManager\Helpers\Capability;
 use LightweightPlugins\SiteManager\Helpers\ProtectedMeta;
+use LightweightPlugins\SiteManager\Helpers\TypeCapability;
 use LightweightPlugins\SiteManager\Services\Meta\MetaGuard;
 
 class PostManager extends AbstractService {
@@ -88,7 +89,6 @@ class PostManager extends AbstractService {
             return self::errorResponse( 'invalid_taxonomy', 'Invalid taxonomy: ' . $taxonomy, 400 );
         }
 
-        // Check if taxonomy is registered for this post type
         $post_type_taxonomies = get_object_taxonomies( $post->post_type );
         if ( ! in_array( $taxonomy, $post_type_taxonomies, true ) ) {
             return self::errorResponse(
@@ -96,6 +96,11 @@ class PostManager extends AbstractService {
                 "Taxonomy '{$taxonomy}' is not registered for post type '{$post->post_type}'",
                 400
             );
+        }
+
+        $error = Capability::editPost( (int) $post->ID ) ?? TypeCapability::assignTerms( $taxonomy );
+        if ( $error ) {
+            return $error;
         }
 
         $term_ids = isset( $input['terms'] ) ? array_map( 'intval', (array) $input['terms'] ) : [];
@@ -107,7 +112,6 @@ class PostManager extends AbstractService {
             return self::errorResponse( 'set_terms_failed', $result->get_error_message(), 500 );
         }
 
-        // Get updated terms
         $terms = wp_get_object_terms( $input['id'], $taxonomy );
         $formatted_terms = array_map( fn( $term ) => [
             'id'   => $term->term_id,
@@ -301,6 +305,8 @@ class PostManager extends AbstractService {
      */
     public static function create_post( array $input ): array|\WP_Error {
         $error = self::validateRequiredField( $input, 'title', 'Post title is required' )
+            ?? TypeCapability::createPost( (string) ( $input['post_type'] ?? 'post' ), (string) ( $input['status'] ?? 'draft' ), (int) ( $input['author'] ?? get_current_user_id() ) )
+            ?? TypeCapability::assignPostTerms( $input )
             ?? MetaGuard::guardMap( 'post', 0, $input['meta'] ?? null );
         if ( $error ) {
             return $error;
@@ -315,27 +321,22 @@ class PostManager extends AbstractService {
             'post_author'  => $input['author'] ?? get_current_user_id(),
         ];
 
-        // Slug
         if ( ! empty( $input['slug'] ) ) {
             $postarr['post_name'] = sanitize_title( $input['slug'] );
         }
 
-        // Parent (for hierarchical types)
         if ( ! empty( $input['parent'] ) ) {
             $postarr['post_parent'] = $input['parent'];
         }
 
-        // Menu order
         if ( isset( $input['menu_order'] ) ) {
             $postarr['menu_order'] = (int) $input['menu_order'];
         }
 
-        // Date
         if ( ! empty( $input['date'] ) ) {
             $postarr['post_date'] = $input['date'];
         }
 
-        // Categories (for posts)
         if ( ! empty( $input['categories'] ) ) {
             $postarr['post_category'] = (array) $input['categories'];
         }
@@ -354,17 +355,14 @@ class PostManager extends AbstractService {
             }
         }
 
-        // Custom taxonomies
         if ( ! empty( $input['taxonomies'] ) && is_array( $input['taxonomies'] ) ) {
             self::set_post_taxonomies( $post_id, $input['taxonomies'] );
         }
 
-        // Featured image
         if ( ! empty( $input['featured_image'] ) ) {
             set_post_thumbnail( $post_id, $input['featured_image'] );
         }
 
-        // Custom meta fields
         if ( ! empty( $input['meta'] ) && is_array( $input['meta'] ) ) {
             foreach ( $input['meta'] as $key => $value ) {
                 update_post_meta( $post_id, $key, $value );
@@ -390,7 +388,8 @@ class PostManager extends AbstractService {
             return $post;
         }
 
-        $error = Capability::editPost( (int) $input['id'] )
+        $error = TypeCapability::writePost( $post, isset( $input['status'] ) ? (string) $input['status'] : null, isset( $input['author'] ) ? (int) $input['author'] : null )
+            ?? TypeCapability::assignPostTerms( $input )
             ?? MetaGuard::guardMap( 'post', (int) $input['id'], $input['meta'] ?? null );
         if ( $error ) {
             return $error;
@@ -426,7 +425,6 @@ class PostManager extends AbstractService {
             $postarr['post_date'] = $input['date'];
         }
 
-        // Categories
         if ( isset( $input['categories'] ) ) {
             $postarr['post_category'] = (array) $input['categories'];
         }
@@ -443,12 +441,10 @@ class PostManager extends AbstractService {
             wp_set_post_tags( $input['id'], $tag_ids );
         }
 
-        // Custom taxonomies
         if ( ! empty( $input['taxonomies'] ) && is_array( $input['taxonomies'] ) ) {
             self::set_post_taxonomies( $input['id'], $input['taxonomies'] );
         }
 
-        // Featured image
         if ( isset( $input['featured_image'] ) ) {
             if ( $input['featured_image'] ) {
                 set_post_thumbnail( $input['id'], $input['featured_image'] );
@@ -457,7 +453,6 @@ class PostManager extends AbstractService {
             }
         }
 
-        // Custom meta fields
         if ( ! empty( $input['meta'] ) && is_array( $input['meta'] ) ) {
             foreach ( $input['meta'] as $key => $value ) {
                 update_post_meta( $input['id'], $key, $value );
@@ -518,6 +513,11 @@ class PostManager extends AbstractService {
             return $post;
         }
 
+        $error = Capability::deletePost( (int) $post->ID );
+        if ( $error ) {
+            return $error;
+        }
+
         if ( $post->post_status !== 'trash' ) {
             return self::errorResponse( 'not_in_trash', 'Post is not in trash', 400 );
         }
@@ -549,11 +549,14 @@ class PostManager extends AbstractService {
             return $post;
         }
 
-        $new_title = $input['new_title'] ?? $post->post_title . ' (Copy)';
-        $new_status = $input['status'] ?? 'draft';
+        $new_status = (string) ( $input['status'] ?? 'draft' );
+        $error      = TypeCapability::createPost( $post->post_type, $new_status, get_current_user_id() );
+        if ( $error ) {
+            return $error;
+        }
 
         $new_post = [
-            'post_title'   => $new_title,
+            'post_title'   => $input['new_title'] ?? $post->post_title . ' (Copy)',
             'post_content' => $post->post_content,
             'post_excerpt' => $post->post_excerpt,
             'post_status'  => $new_status,
@@ -569,24 +572,21 @@ class PostManager extends AbstractService {
             return $new_post_id;
         }
 
-        // Copy taxonomies
-        $taxonomies = get_object_taxonomies( $post->post_type );
+        $taxonomies = array_filter( get_object_taxonomies( $post->post_type ), fn( $taxonomy ) => null === TypeCapability::assignTerms( $taxonomy ) );
         foreach ( $taxonomies as $taxonomy ) {
             $terms = wp_get_object_terms( $post->ID, $taxonomy, [ 'fields' => 'ids' ] );
             wp_set_object_terms( $new_post_id, $terms, $taxonomy );
         }
 
-        // Copy featured image
         $thumbnail_id = get_post_thumbnail_id( $post->ID );
         if ( $thumbnail_id ) {
             set_post_thumbnail( $new_post_id, $thumbnail_id );
         }
 
-        // Copy meta (optionally)
         if ( $input['copy_meta'] ?? true ) {
             $meta = get_post_meta( $post->ID );
             foreach ( $meta as $key => $values ) {
-                if ( $key === '_edit_lock' || $key === '_edit_last' ) {
+                if ( $key === '_edit_lock' || $key === '_edit_last' || MetaGuard::writeKey( 'post', wp_slash( (string) $key ) ) ) {
                     continue;
                 }
                 foreach ( $values as $value ) {
@@ -636,11 +636,11 @@ class PostManager extends AbstractService {
 
             // Authorize every item: the registration-time capability says only
             // that the caller may edit posts in general, never that they may
-            // touch THIS one. 'delete' is permanent, so it is checked against
-            // delete_post rather than edit_post.
-            $capability = 'delete' === $input['action']
+            // touch THIS one. Trash, restore and delete are checked against
+            // delete_post as in wp-admin; publish also needs publish_posts.
+            $capability = in_array( $input['action'], [ 'trash', 'delete', 'restore' ], true )
                 ? Capability::deletePost( (int) $id )
-                : Capability::editPost( (int) $id );
+                : TypeCapability::writePost( $post, 'publish' === $input['action'] ? 'publish' : null );
 
             if ( $capability ) {
                 $failed[] = (int) $id;

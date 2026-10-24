@@ -1115,10 +1115,12 @@ if ( ! function_exists( 'get_post' ) ) {
         if ( is_array( $wp_missing_posts ) && in_array( $post_id, $wp_missing_posts, true ) ) {
             return null;
         }
-        return new WP_Post( [
-            'ID'        => $post_id,
-            'post_type' => $GLOBALS['wp_stub_post_type'] ?? 'post',
-        ] );
+        return new WP_Post(
+            [
+                'ID'        => $post_id,
+                'post_type' => $GLOBALS['wp_stub_post_type'] ?? 'post',
+            ] + ( $GLOBALS['wp_stub_post_props'] ?? [] )
+        );
     }
 }
 
@@ -1766,11 +1768,12 @@ if ( ! function_exists( 'get_comment' ) ) {
         if ( $comment_id === null || $comment_id < 1 ) {
             return null;
         }
-        return (object) [
-            'comment_ID'      => $comment_id,
-            'comment_content' => 'Test comment',
-            'comment_approved' => '1',
-        ];
+        return new WP_Comment(
+            [
+                'comment_ID'      => $comment_id,
+                'comment_post_ID' => $GLOBALS['wp_stub_comment_post_id'] ?? 1,
+            ]
+        );
     }
 }
 
@@ -2147,7 +2150,7 @@ if ( ! function_exists( 'get_object_taxonomies' ) ) {
      * Stub for get_object_taxonomies().
      */
     function get_object_taxonomies( $object_type, string $output = 'names' ): array {
-        return [];
+        return 'names' === $output ? ( $GLOBALS['wp_stub_object_taxonomies'] ?? [] ) : [];
     }
 }
 
@@ -2494,6 +2497,7 @@ if ( ! function_exists( 'wp_set_object_terms' ) ) {
      * @param mixed $terms Terms.
      */
     function wp_set_object_terms( int $object_id, $terms, string $taxonomy ): array {
+        $GLOBALS['wp_set_object_terms_calls'][] = [ $object_id, $terms, $taxonomy ];
         return [];
     }
 }
@@ -2564,5 +2568,170 @@ if ( ! function_exists( 'is_user_logged_in' ) ) {
      */
     function is_user_logged_in(): bool {
         return (bool) ( $GLOBALS['wp_user_logged_in'] ?? false );
+    }
+}
+
+// ============================================================================
+// Post type / taxonomy objects and remaining write stubs
+// ============================================================================
+
+if ( ! class_exists( 'WP_Post_Type' ) ) {
+    /**
+     * Minimal WP_Post_Type stand-in: name plus the resolved cap object.
+     */
+    class WP_Post_Type {
+        public string $name = '';
+        public object $cap;
+
+        /**
+         * @param array<string, string> $cap Capability map.
+         */
+        public function __construct( string $name, array $cap ) {
+            $this->name = $name;
+            $this->cap  = (object) $cap;
+        }
+    }
+}
+
+if ( ! class_exists( 'WP_Taxonomy' ) ) {
+    /**
+     * Minimal WP_Taxonomy stand-in: name plus the resolved cap object.
+     */
+    class WP_Taxonomy {
+        public string $name = '';
+        public object $cap;
+
+        /**
+         * @param array<string, string> $cap Capability map.
+         */
+        public function __construct( string $name, array $cap ) {
+            $this->name = $name;
+            $this->cap  = (object) $cap;
+        }
+    }
+}
+
+if ( ! function_exists( 'get_post_type_object' ) ) {
+    /**
+     * Core-shaped cap objects for 'post' and 'page'; any other type is
+     * unregistered unless a test seeds $GLOBALS['wp_stub_post_type_objects'].
+     */
+    function get_post_type_object( string $post_type ): ?WP_Post_Type {
+        if ( isset( $GLOBALS['wp_stub_post_type_objects'][ $post_type ] ) ) {
+            return $GLOBALS['wp_stub_post_type_objects'][ $post_type ];
+        }
+        if ( ! in_array( $post_type, [ 'post', 'page', 'attachment' ], true ) ) {
+            return null;
+        }
+        $plural = 'page' === $post_type ? 'pages' : 'posts';
+        return new WP_Post_Type(
+            $post_type,
+            [
+                'create_posts'       => "edit_{$plural}",
+                'edit_posts'         => "edit_{$plural}",
+                'publish_posts'      => "publish_{$plural}",
+                'edit_others_posts'  => "edit_others_{$plural}",
+                'delete_posts'       => "delete_{$plural}",
+            ]
+        );
+    }
+}
+
+if ( ! function_exists( 'get_taxonomy' ) ) {
+    /**
+     * Core-shaped cap objects for the two core taxonomies taxonomy_exists() knows.
+     *
+     * @return WP_Taxonomy|false
+     */
+    function get_taxonomy( string $taxonomy ) {
+        if ( isset( $GLOBALS['wp_stub_taxonomy_objects'][ $taxonomy ] ) ) {
+            return $GLOBALS['wp_stub_taxonomy_objects'][ $taxonomy ];
+        }
+        if ( ! taxonomy_exists( $taxonomy ) ) {
+            return false;
+        }
+        return new WP_Taxonomy(
+            $taxonomy,
+            [
+                'manage_terms' => 'manage_categories',
+                'edit_terms'   => 'manage_categories',
+                'delete_terms' => 'manage_categories',
+                'assign_terms' => 'edit_posts',
+            ]
+        );
+    }
+}
+
+if ( ! function_exists( 'wp_delete_term' ) ) {
+    /**
+     * Remove a term from the in-memory store.
+     *
+     * @return bool
+     */
+    function wp_delete_term( int $term_id, string $taxonomy ) {
+        global $wp_terms;
+        unset( $wp_terms[ $term_id ] );
+        return true;
+    }
+}
+
+if ( ! function_exists( 'wp_insert_comment' ) ) {
+    /**
+     * Records the comment data and returns a fixed new ID.
+     *
+     * @param array<string, mixed> $commentdata Comment data.
+     */
+    function wp_insert_comment( array $commentdata ): int {
+        $GLOBALS['wp_inserted_comments'][] = $commentdata;
+        return 55;
+    }
+}
+
+if ( ! function_exists( 'wp_set_post_tags' ) ) {
+    /**
+     * Records the tag assignment.
+     *
+     * @param mixed $tags Tags.
+     */
+    function wp_set_post_tags( int $post_id, $tags = '', bool $append = false ): array {
+        $GLOBALS['wp_set_post_tags_calls'][] = [ $post_id, $tags ];
+        return [];
+    }
+}
+
+if ( ! function_exists( 'get_term_by' ) ) {
+    /**
+     * Look up a term in the in-memory store by slug or name.
+     *
+     * @param mixed $value Value.
+     * @return WP_Term|false
+     */
+    function get_term_by( string $field, $value, string $taxonomy = '' ) {
+        global $wp_terms;
+        foreach ( (array) $wp_terms as $term ) {
+            if ( isset( $term->$field ) && $term->$field === $value ) {
+                return $term;
+            }
+        }
+        return false;
+    }
+}
+
+if ( ! function_exists( 'wp_kses_post' ) ) {
+    /**
+     * Pass-through: unit tests do not exercise KSES.
+     */
+    function wp_kses_post( string $data ): string {
+        return $data;
+    }
+}
+
+if ( ! function_exists( 'wp_delete_file' ) ) {
+    /**
+     * Records the path instead of touching the filesystem.
+     */
+    function wp_delete_file( string $file ): bool {
+        $GLOBALS['wp_deleted_files'][] = $file;
+        return true;
     }
 }

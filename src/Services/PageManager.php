@@ -10,6 +10,8 @@ declare(strict_types=1);
 
 namespace LightweightPlugins\SiteManager\Services;
 
+use LightweightPlugins\SiteManager\Helpers\Capability;
+
 class PageManager extends AbstractService {
 
     /**
@@ -152,7 +154,6 @@ class PageManager extends AbstractService {
      * Duplicate page
      */
     public static function duplicate_page( array $input ): array|\WP_Error {
-        // Verify it's actually a page
         if ( ! empty( $input['id'] ) ) {
             $post = self::getPostOrError( $input['id'], 'page' );
             if ( is_wp_error( $post ) ) {
@@ -166,7 +167,6 @@ class PageManager extends AbstractService {
             return $result;
         }
 
-        // Rename key for clarity
         if ( isset( $result['post'] ) ) {
             $result['page'] = $result['post'];
             unset( $result['post'] );
@@ -209,10 +209,9 @@ class PageManager extends AbstractService {
         $failed = [];
 
         foreach ( $input['order'] as $index => $page_id ) {
-            $result = wp_update_post( [
-                'ID'         => $page_id,
-                'menu_order' => $index,
-            ] );
+            $page    = self::getPostOrError( (int) $page_id, 'page' );
+            $allowed = ! is_wp_error( $page ) && null === Capability::editPost( (int) $page_id );
+            $result  = $allowed && wp_update_post( [ 'ID' => $page_id, 'menu_order' => $index ] );
 
             if ( ! $result ) {
                 $failed[] = $page_id;
@@ -385,9 +384,10 @@ class PageManager extends AbstractService {
             return $error;
         }
 
-        $page = self::getPostOrError( $input['id'], 'page' );
-        if ( is_wp_error( $page ) ) {
-            return $page;
+        $page  = self::getPostOrError( $input['id'], 'page' );
+        $error = is_wp_error( $page ) ? $page : Capability::editPost( (int) $input['id'] );
+        if ( $error ) {
+            return $error;
         }
 
         $template = $input['template'] ?? 'default';
