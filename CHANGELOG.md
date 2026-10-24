@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.6.1] - 2026-10-24
+
+### Fixed
+- Creating and updating posts uses the post type's own capabilities: creating needs the type's create permission, publishing, scheduling or making a post private needs its publish permission, and writing a post for another author needs permission to edit others' posts. `duplicate-post` and `duplicate-page` follow the same rules for the copy.
+- `duplicate-post` and `duplicate-page` copy only the terms and meta keys the user may set themselves.
+- `create-post` and `duplicate-post` refuse internal post types such as revisions, menu items, Customizer changesets, global styles, attachments and WooCommerce refunds.
+- Categories, tags and other terms set with `create-post`, `update-post` or `set-post-terms` need the taxonomy's assign permission; `set-post-terms` also needs permission to edit that post.
+- Restoring a post from the trash, and the bulk trash and restore actions, need permission to delete that post, as in wp-admin. Bulk publish needs the publish permission.
+- `reorder-pages` and `set-page-template` check the permission to edit each page; `reorder-pages` reports the pages it skipped as failed.
+- Creating, updating and deleting terms checks the taxonomy's and the term's own capabilities.
+- Every comment ability checks the permission to edit that comment; creating a comment needs permission to edit the target post. Bulk actions skip and report the comments the user may not change.
+
+### Changed
+- Managing WooCommerce product reviews through the comment abilities needs the same permission as in WooCommerce.
+- The plugin's error log has its own directory, `wp-content/wpsm-logs/`, with a per-site file name. The previous log file is removed once, after the update.
+
 ## [1.6.0] - 2026-10-19
 
 ### Added

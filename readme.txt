@@ -4,7 +4,7 @@ Tags: site-manager, maintenance, ai, rest-api, abilities
 Requires at least: 6.9
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 1.6.0
+Stable tag: 1.6.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -157,6 +157,18 @@ Yes — and the WooCommerce coverage is comprehensive. Beyond product and order 
 3. Backup creation options
 
 == Changelog ==
+
+= 1.6.1 =
+* Fix: Creating and updating posts uses the post type's own capabilities: creating needs the type's create permission, publishing, scheduling or making a post private needs its publish permission, and writing a post for another author needs permission to edit others' posts. `duplicate-post` and `duplicate-page` follow the same rules for the copy.
+* Fix: `duplicate-post` and `duplicate-page` copy only the terms and meta keys the user may set themselves.
+* Fix: `create-post` and `duplicate-post` refuse internal post types such as revisions, menu items, Customizer changesets, global styles, attachments and WooCommerce refunds.
+* Fix: Categories, tags and other terms set with `create-post`, `update-post` or `set-post-terms` need the taxonomy's assign permission; `set-post-terms` also needs permission to edit that post.
+* Fix: Restoring a post from the trash, and the bulk trash and restore actions, need permission to delete that post, as in wp-admin. Bulk publish needs the publish permission.
+* Fix: `reorder-pages` and `set-page-template` check the permission to edit each page; `reorder-pages` reports the pages it skipped as failed.
+* Fix: Creating, updating and deleting terms checks the taxonomy's and the term's own capabilities.
+* Fix: Every comment ability checks the permission to edit that comment; creating a comment needs permission to edit the target post. Bulk actions skip and report the comments the user may not change.
+* Change: Managing WooCommerce product reviews through the comment abilities needs the same permission as in WooCommerce.
+* Change: The plugin's error log has its own directory, `wp-content/wpsm-logs/`, with a per-site file name. The previous log file is removed once, after the update.
 
 = 1.6.0 =
 * New: WooCommerce catalog terms: `wc-list-product-terms`, `wc-get-product-term`, `wc-create-product-term`, `wc-update-product-term` and `wc-delete-product-term` manage product categories, tags, brands and shipping classes, including the category image, display type and order.
