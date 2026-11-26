@@ -11,6 +11,7 @@ use LightweightPlugins\SiteManager\Services\BackupManager;
 use LightweightPlugins\SiteManager\Services\HealthCheck;
 use LightweightPlugins\SiteManager\Services\DatabaseManager;
 use LightweightPlugins\SiteManager\Services\CacheManager;
+use LightweightPlugins\SiteManager\Services\Health\MemoryUsage;
 
 class MaintenanceAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
 
@@ -334,15 +335,7 @@ class MaintenanceAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
                                 ],
                             ],
                         ],
-                        'memory' => [
-                            'type'       => 'object',
-                            'properties' => [
-                                'limit'     => [ 'type' => 'string', 'description' => 'Size, or "unlimited" when memory_limit is -1' ],
-                                'usage'     => [ 'type' => 'string' ],
-                                'percent'   => [ 'type' => [ 'number', 'null' ], 'description' => 'Null when the limit is unlimited' ],
-                                'unlimited' => [ 'type' => 'boolean' ],
-                            ],
-                        ],
+                        'memory' => MemoryUsage::schema(),
                         'server' => [
                             'type'       => 'object',
                             'properties' => [

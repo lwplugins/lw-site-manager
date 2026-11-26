@@ -18,6 +18,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 final class MemoryUsage {
 
     /**
+     * Output schema of the `memory` block.
+     *
+     * @return array<string, mixed>
+     */
+    public static function schema(): array {
+        return [
+            'type'       => 'object',
+            'properties' => [
+                'limit'     => [ 'type' => 'string', 'description' => 'Size, or "unlimited" when memory_limit is -1' ],
+                'usage'     => [ 'type' => 'string' ],
+                'percent'   => [ 'type' => [ 'number', 'null' ], 'description' => 'Null when the limit is unlimited' ],
+                'unlimited' => [ 'type' => 'boolean' ],
+            ],
+        ];
+    }
+
+    /**
      * Build the `memory` block of the health-check result.
      *
      * @param string $iniLimit The memory_limit ini value, e.g. "256M" or "-1".
