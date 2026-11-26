@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.6.2] - 2026-11-26
+
+### Changed
+- The generic post meta abilities (set/delete post meta, the create/update post `meta` map, WooCommerce product and variation meta) refuse page-builder storage keys (Elementor, Bricks, Breakdance, Oxygen, Beaver Builder, WPBakery, Divi, Brizy, Kirki, Spectra, GenerateBlocks), so a page layout is only changed through the builder's own abilities. Reading these keys is still allowed, the error names the abilities to use instead, and the list can be adjusted with the `lw_site_manager_builder_meta_keys` filter.
+
+### Fixed
+- Post content, titles and excerpts, comments, term names and descriptions, user fields and meta values keep their backslashes (Windows paths, escaped quotes in JSON, `\n` in code samples) instead of losing them.
+- Setting post, user, term or comment meta to the value it already has no longer fails with "Failed to update meta"; the response says `changed: false`. Re-saving settings with unchanged numeric values is no longer reported as a failure.
+- Passwords containing quotes or backslashes set with `create-user`, `update-user` or `reset-password` work on the WordPress login form.
+- Meta keys containing a backslash can be deleted as they were written, and term meta on a term shared between taxonomies returns WordPress' error instead of a false success.
+- `health-check` no longer fails on servers with an unlimited PHP memory limit; it reports the limit as "unlimited".
+- Skill descriptions written as multi-line YAML (`>` and `|` blocks, indented continuation lines, quoted values) are read correctly.
+
 ## [1.6.1] - 2026-10-24
 
 ### Fixed
