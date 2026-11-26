@@ -91,21 +91,6 @@ install_wp() {
 		download https://wordpress.org/${ARCHIVE_NAME}.tar.gz $TMPDIR/wordpress.tar.gz
 		tar --strip-components=1 -zxmf $TMPDIR/wordpress.tar.gz -C $WP_CORE_DIR
 	fi
-
-	download https://raw.githubusercontent.com/marber/wp-tests/refs/heads/develop/wp-tests-config-sample.php $WP_CORE_DIR/wp-tests-config.php
-
-	# portable in-place argument for both GNU sed and Mac OSX sed
-	if [[ $(uname -s) == 'Darwin' ]]; then
-		local ioption='-i.bak'
-	else
-		local ioption='-i'
-	fi
-
-	# Generate wp-config.php with database settings
-	sed $ioption "s/database_name_here/$DB_NAME/" $WP_CORE_DIR/wp-tests-config.php
-	sed $ioption "s/username_here/$DB_USER/" $WP_CORE_DIR/wp-tests-config.php
-	sed $ioption "s/password_here/$DB_PASS/" $WP_CORE_DIR/wp-tests-config.php
-	sed $ioption "s|localhost|${DB_HOST}|" $WP_CORE_DIR/wp-tests-config.php
 }
 
 install_test_suite() {
