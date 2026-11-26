@@ -9,6 +9,7 @@ namespace LightweightPlugins\SiteManager\Services;
 
 use LightweightPlugins\SiteManager\Helpers\ProtectedMeta;
 use LightweightPlugins\SiteManager\Services\Meta\MetaGuard;
+use LightweightPlugins\SiteManager\Services\Meta\MetaWriter;
 
 class MetaManager extends AbstractService {
 
@@ -93,15 +94,14 @@ class MetaManager extends AbstractService {
             return $error;
         }
 
-        $result = update_post_meta( $post_id, $input['key'], $input['value'] );
-
-        if ( $result === false ) {
-            return self::errorResponse( 'update_failed', 'Failed to update meta', 500 );
+        $changed = MetaWriter::set( 'post', $post_id, (string) $input['key'], $input['value'] );
+        if ( is_wp_error( $changed ) ) {
+            return $changed;
         }
-
         return [
             'success' => true,
-            'message' => 'Meta updated successfully',
+            'changed' => $changed,
+            'message' => $changed ? 'Meta updated successfully' : 'Meta unchanged: the value is already stored',
             'post_id' => $post_id,
             'key'     => $input['key'],
             'value'   => $input['value'],
@@ -228,15 +228,14 @@ class MetaManager extends AbstractService {
             return $error;
         }
 
-        $result = update_user_meta( $user_id, $input['key'], $input['value'] );
-
-        if ( $result === false ) {
-            return self::errorResponse( 'update_failed', 'Failed to update meta', 500 );
+        $changed = MetaWriter::set( 'user', $user_id, (string) $input['key'], $input['value'] );
+        if ( is_wp_error( $changed ) ) {
+            return $changed;
         }
-
         return [
             'success' => true,
-            'message' => 'Meta updated successfully',
+            'changed' => $changed,
+            'message' => $changed ? 'Meta updated successfully' : 'Meta unchanged: the value is already stored',
             'user_id' => $user_id,
             'key'     => $input['key'],
             'value'   => $input['value'],
@@ -353,15 +352,14 @@ class MetaManager extends AbstractService {
             return $error;
         }
 
-        $result = update_term_meta( $term_id, $input['key'], $input['value'] );
-
-        if ( $result === false ) {
-            return self::errorResponse( 'update_failed', 'Failed to update meta', 500 );
+        $changed = MetaWriter::set( 'term', $term_id, (string) $input['key'], $input['value'] );
+        if ( is_wp_error( $changed ) ) {
+            return $changed;
         }
-
         return [
             'success' => true,
-            'message' => 'Meta updated successfully',
+            'changed' => $changed,
+            'message' => $changed ? 'Meta updated successfully' : 'Meta unchanged: the value is already stored',
             'term_id' => $term_id,
             'key'     => $input['key'],
             'value'   => $input['value'],
@@ -479,15 +477,14 @@ class MetaManager extends AbstractService {
             return $error;
         }
 
-        $result = update_comment_meta( $comment_id, $input['key'], $input['value'] );
-
-        if ( false === $result ) {
-            return self::errorResponse( 'update_failed', 'Failed to update meta', 500 );
+        $changed = MetaWriter::set( 'comment', $comment_id, (string) $input['key'], $input['value'] );
+        if ( is_wp_error( $changed ) ) {
+            return $changed;
         }
-
         return [
             'success'    => true,
-            'message'    => 'Meta updated successfully',
+            'changed'    => $changed,
+            'message'    => $changed ? 'Meta updated successfully' : 'Meta unchanged: the value is already stored',
             'comment_id' => $comment_id,
             'key'        => $input['key'],
             'value'      => $input['value'],

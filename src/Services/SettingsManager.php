@@ -7,6 +7,8 @@ declare(strict_types=1);
 
 namespace LightweightPlugins\SiteManager\Services;
 
+use LightweightPlugins\SiteManager\Helpers\StoredValue;
+
 class SettingsManager extends AbstractService {
 
     /**
@@ -154,8 +156,7 @@ class SettingsManager extends AbstractService {
                     }
                 }
 
-                $result = update_option( $key, $value );
-                if ( $result || get_option( $key ) === $value ) {
+                if ( update_option( $key, $value ) || StoredValue::optionUnchanged( $key, $value ) ) {
                     $updated[] = $key;
                 } else {
                     $failed[] = [
@@ -260,8 +261,7 @@ class SettingsManager extends AbstractService {
                     $value = (int) (bool) $value;
                 }
 
-                $result = update_option( $key, $value );
-                if ( $result || get_option( $key ) == $value ) {
+                if ( update_option( $key, $value ) || StoredValue::optionUnchanged( $key, $value ) ) {
                     $updated[] = $key;
                 } else {
                     $failed[] = [
@@ -378,8 +378,7 @@ class SettingsManager extends AbstractService {
                     continue;
                 }
 
-                $result = update_option( $key, $value );
-                if ( $result || get_option( $key ) == $value ) {
+                if ( update_option( $key, $value ) || StoredValue::optionUnchanged( $key, $value ) ) {
                     $updated[] = $key;
                 } else {
                     $failed[] = [
@@ -449,8 +448,7 @@ class SettingsManager extends AbstractService {
             if ( isset( $input[ $key ] ) ) {
                 $value = sanitize_text_field( $input[ $key ] );
 
-                $result = update_option( $key, $value );
-                if ( $result || get_option( $key ) === $value ) {
+                if ( update_option( $key, $value ) || StoredValue::optionUnchanged( $key, $value ) ) {
                     $updated[] = $key;
                 } else {
                     $failed[] = [

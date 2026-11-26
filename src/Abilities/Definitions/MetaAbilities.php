@@ -98,6 +98,7 @@ class MetaAbilities {
                     'type' => 'object',
                     'properties' => [
                         'success' => [ 'type' => 'boolean' ],
+                        'changed' => [ 'type' => 'boolean', 'description' => 'False when the value was already stored (nothing written)' ],
                         'message' => [ 'type' => 'string' ],
                         'post_id' => [ 'type' => 'integer' ],
                         'key'     => [ 'type' => 'string' ],
@@ -227,6 +228,7 @@ class MetaAbilities {
                     'type' => 'object',
                     'properties' => [
                         'success' => [ 'type' => 'boolean' ],
+                        'changed' => [ 'type' => 'boolean', 'description' => 'False when the value was already stored (nothing written)' ],
                         'message' => [ 'type' => 'string' ],
                         'user_id' => [ 'type' => 'integer' ],
                         'key'     => [ 'type' => 'string' ],
@@ -351,6 +353,7 @@ class MetaAbilities {
                     'type' => 'object',
                     'properties' => [
                         'success' => [ 'type' => 'boolean' ],
+                        'changed' => [ 'type' => 'boolean', 'description' => 'False when the value was already stored (nothing written)' ],
                         'message' => [ 'type' => 'string' ],
                         'term_id' => [ 'type' => 'integer' ],
                         'key'     => [ 'type' => 'string' ],
@@ -478,6 +481,7 @@ class MetaAbilities {
                     'type' => 'object',
                     'properties' => [
                         'success'    => [ 'type' => 'boolean' ],
+                        'changed'    => [ 'type' => 'boolean', 'description' => 'False when the value was already stored (nothing written)' ],
                         'message'    => [ 'type' => 'string' ],
                         'comment_id' => [ 'type' => 'integer' ],
                         'key'        => [ 'type' => 'string' ],

@@ -628,7 +628,13 @@ if ( ! function_exists( 'update_option' ) ) {
         // $old_value uses get_option()'s default of false for an absent option,
         // so update_option( $k, false ) is a no-op on an option that never existed.
         $old_value = array_key_exists( $option, $wp_options ) ? $wp_options[ $option ] : false;
+        $value     = sanitize_option( $option, $value );
+        $value     = apply_filters( "pre_update_option_{$option}", $value, $old_value, $option );
         if ( $value === $old_value ) {
+            return false;
+        }
+        // The row exists and holds the same bytes: core's UPDATE affects 0 rows.
+        if ( array_key_exists( $option, $wp_options ) && (string) maybe_serialize( $value ) === (string) maybe_serialize( $old_value ) ) {
             return false;
         }
         $wp_options[ $option ] = $value;
@@ -1168,12 +1174,10 @@ if ( ! function_exists( 'update_post_meta' ) ) {
      * @param int    $post_id Post ID.
      * @param string $key     Meta key.
      * @param mixed  $value   Meta value.
-     * @return bool
+     * @return int|bool
      */
-    function update_post_meta( int $post_id, string $key, $value ): bool {
-        global $wp_post_meta;
-        $wp_post_meta[ $post_id ][ $key ] = $value;
-        return true;
+    function update_post_meta( int $post_id, string $key, $value ) {
+        return lwsm_stub_update_meta( 'post', $post_id, $key, $value );
     }
 }
 
@@ -2413,10 +2417,13 @@ if ( ! function_exists( 'update_term_meta' ) ) {
      *
      * @param mixed $value Meta value.
      */
-    function update_term_meta( int $term_id, string $key, $value ): bool {
-        global $wp_term_meta;
-        $wp_term_meta[ $term_id ][ $key ] = $value;
-        return true;
+    function update_term_meta( int $term_id, string $key, $value ) {
+        // Core returns WP_Error for a term shared between taxonomies.
+        $shared = apply_filters( 'lwsm_stub_term_meta_result', null );
+        if ( null !== $shared ) {
+            return $shared;
+        }
+        return lwsm_stub_update_meta( 'term', $term_id, $key, $value );
     }
 }
 
@@ -2733,5 +2740,150 @@ if ( ! function_exists( 'wp_delete_file' ) ) {
     function wp_delete_file( string $file ): bool {
         $GLOBALS['wp_deleted_files'][] = $file;
         return true;
+    }
+}
+
+// ============================================================================
+// Meta write semantics (mirrors core update_metadata())
+// ============================================================================
+
+if ( ! function_exists( 'is_serialized' ) ) {
+    /**
+     * Whether a value is a serialized string (simplified).
+     *
+     * @param mixed $data Value.
+     */
+    function is_serialized( $data ): bool {
+        if ( ! is_string( $data ) ) {
+            return false;
+        }
+        $data = trim( $data );
+        return 'N;' === $data || (bool) preg_match( '/^([adObis]):/', $data );
+    }
+}
+
+if ( ! function_exists( 'maybe_serialize' ) ) {
+    /**
+     * Serialize arrays/objects, and double-serialize serialized strings, like core.
+     *
+     * @param mixed $data Value.
+     * @return mixed
+     */
+    function maybe_serialize( $data ) {
+        if ( is_array( $data ) || is_object( $data ) || is_serialized( $data ) ) {
+            return serialize( $data );
+        }
+        return $data;
+    }
+}
+
+if ( ! function_exists( 'sanitize_meta' ) ) {
+    /**
+     * Apply the "sanitize_{type}_meta_{key}" filter, like core.
+     *
+     * @param mixed $value Meta value.
+     * @return mixed
+     */
+    function sanitize_meta( string $key, $value, string $type, string $subtype = '' ) {
+        return apply_filters( "sanitize_{$type}_meta_{$key}", $value, $key, $type );
+    }
+}
+
+if ( ! function_exists( 'sanitize_option' ) ) {
+    /**
+     * Apply the "sanitize_option_{name}" filter, like core.
+     *
+     * @param mixed $value Option value.
+     * @return mixed
+     */
+    function sanitize_option( string $option, $value ) {
+        return apply_filters( "sanitize_option_{$option}", $value, $option );
+    }
+}
+
+if ( ! function_exists( 'get_object_subtype' ) ) {
+    function get_object_subtype( string $type, int $id ): string {
+        return '';
+    }
+}
+
+if ( ! function_exists( 'wp_is_post_revision' ) ) {
+    /**
+     * @return int|false Parent post ID of a revision.
+     */
+    function wp_is_post_revision( $post ) {
+        return $GLOBALS['wp_stub_revision_parent'][ (int) $post ] ?? false;
+    }
+}
+
+if ( ! function_exists( 'get_metadata_raw' ) ) {
+    /**
+     * Stored values for one key (single row per key in the in-memory store).
+     *
+     * @return array<int, mixed>|null
+     */
+    function get_metadata_raw( string $type, int $id, string $key, bool $single = false ) {
+        $store = $GLOBALS[ "wp_{$type}_meta" ] ?? [];
+        if ( ! is_array( $store ) || ! isset( $store[ $id ] ) || ! array_key_exists( $key, $store[ $id ] ) ) {
+            return null;
+        }
+        return $single ? $store[ $id ][ $key ] : [ $store[ $id ][ $key ] ];
+    }
+}
+
+/**
+ * The value as it comes back from the database: scalars as strings.
+ *
+ * @param mixed $value Value.
+ * @return mixed
+ */
+function lwsm_stub_db_roundtrip( $value ) {
+    $stored = maybe_serialize( $value );
+    return maybe_unserialize( is_string( $stored ) ? $stored : (string) $stored );
+}
+
+/**
+ * In-memory update_{type}_meta(): unslashes, sanitizes and returns false for an
+ * unchanged value like core (identity check, then "0 rows affected"). Setting
+ * $GLOBALS['wp_stub_meta_update_fails'] makes every write fail without storing.
+ *
+ * @param mixed $value Meta value.
+ * @return int|bool
+ */
+function lwsm_stub_update_meta( string $type, int $id, string $key, $value ) {
+    if ( ! empty( $GLOBALS['wp_stub_meta_update_fails'] ) ) {
+        return false;
+    }
+    $key   = wp_unslash( $key );
+    $value = sanitize_meta( $key, wp_unslash( $value ), $type );
+    $old   = get_metadata_raw( $type, $id, $key );
+    if ( null === $old ) {
+        $GLOBALS[ "wp_{$type}_meta" ][ $id ][ $key ] = lwsm_stub_db_roundtrip( $value );
+        return 1;
+    }
+    if ( (string) maybe_serialize( $old[0] ) === (string) maybe_serialize( $value ) ) {
+        return false;
+    }
+    $GLOBALS[ "wp_{$type}_meta" ][ $id ][ $key ] = lwsm_stub_db_roundtrip( $value );
+    return true;
+}
+
+if ( ! function_exists( 'update_user_meta' ) ) {
+    /**
+     * @param mixed $value Meta value.
+     * @return int|bool
+     */
+    function update_user_meta( int $user_id, string $key, $value ) {
+        return lwsm_stub_update_meta( 'user', $user_id, $key, $value );
+    }
+}
+
+if ( ! function_exists( 'update_comment_meta' ) ) {
+    /**
+     * @param mixed $value Meta value.
+     * @return int|bool
+     */
+    function update_comment_meta( int $comment_id, string $key, $value ) {
+        return lwsm_stub_update_meta( 'comment', $comment_id, $key, $value );
     }
 }
