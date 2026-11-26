@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace LightweightPlugins\SiteManager\Services;
 
 use LightweightPlugins\SiteManager\Handlers\ErrorHandler;
+use LightweightPlugins\SiteManager\Services\Health\MemoryUsage;
 
 class HealthCheck extends AbstractService {
 
@@ -72,14 +73,11 @@ class HealthCheck extends AbstractService {
         }
 
         // Memory check
-        $memory_limit = wp_convert_hr_to_bytes( ini_get( 'memory_limit' ) );
-        $memory_usage = memory_get_usage( true );
-        $memory_percent = ( $memory_usage / $memory_limit ) * 100;
-
-        if ( $memory_percent > 80 ) {
+        $memory = MemoryUsage::report( (string) ini_get( 'memory_limit' ), memory_get_usage( true ) );
+        if ( null !== $memory['percent'] && $memory['percent'] > 80 ) {
             $issues[] = [
                 'type'     => 'warning',
-                'message'  => sprintf( 'Memory usage is high: %d%%', round( $memory_percent ) ),
+                'message'  => sprintf( 'Memory usage is high: %d%%', round( $memory['percent'] ) ),
                 'category' => 'performance',
             ];
             $score -= 10;
@@ -159,11 +157,7 @@ class HealthCheck extends AbstractService {
             'php_version' => $php_version,
             'wp_version'  => $wp_version,
             'disk_usage'  => $disk_usage,
-            'memory'      => [
-                'limit'   => size_format( $memory_limit ),
-                'usage'   => size_format( $memory_usage ),
-                'percent' => round( $memory_percent, 2 ),
-            ],
+            'memory'      => $memory,
             'server'      => [
                 'software' => $_SERVER['SERVER_SOFTWARE'] ?? 'unknown',
                 'hostname' => gethostname(),

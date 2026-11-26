@@ -705,7 +705,11 @@ if ( ! function_exists( 'size_format' ) ) {
      * @param int        $decimals Decimal places.
      * @return string Formatted size.
      */
-    function size_format( $bytes, int $decimals = 0 ): string {
+    function size_format( $bytes, int $decimals = 0 ) {
+        // Core returns false for negative or non-numeric sizes.
+        if ( ! is_numeric( $bytes ) || $bytes < 0 ) {
+            return false;
+        }
         $bytes = (int) $bytes;
         if ( $bytes < 1024 ) {
             return $bytes . ' B';

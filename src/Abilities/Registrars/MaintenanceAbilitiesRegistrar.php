@@ -337,9 +337,10 @@ class MaintenanceAbilitiesRegistrar extends AbstractAbilitiesRegistrar {
                         'memory' => [
                             'type'       => 'object',
                             'properties' => [
-                                'limit'   => [ 'type' => 'string' ],
-                                'usage'   => [ 'type' => 'string' ],
-                                'percent' => [ 'type' => 'number' ],
+                                'limit'     => [ 'type' => 'string', 'description' => 'Size, or "unlimited" when memory_limit is -1' ],
+                                'usage'     => [ 'type' => 'string' ],
+                                'percent'   => [ 'type' => [ 'number', 'null' ], 'description' => 'Null when the limit is unlimited' ],
+                                'unlimited' => [ 'type' => 'boolean' ],
                             ],
                         ],
                         'server' => [
