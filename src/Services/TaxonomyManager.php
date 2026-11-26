@@ -128,7 +128,7 @@ class TaxonomyManager extends AbstractService {
             $args['parent'] = (int) $input['parent'];
         }
 
-        $result = wp_insert_term( $input['name'], $taxonomy, $args );
+        $result = wp_insert_term( wp_slash( (string) $input['name'] ), $taxonomy, wp_slash( $args ) );
 
         if ( is_wp_error( $result ) ) {
             return self::errorResponse( 'create_failed', $result->get_error_message(), 500 );
@@ -191,7 +191,7 @@ class TaxonomyManager extends AbstractService {
         }
 
         if ( ! empty( $args ) ) {
-            $result = wp_update_term( $input['id'], $term->taxonomy, $args );
+            $result = wp_update_term( $input['id'], $term->taxonomy, wp_slash( $args ) );
 
             if ( is_wp_error( $result ) ) {
                 return self::errorResponse( 'update_failed', $result->get_error_message(), 500 );

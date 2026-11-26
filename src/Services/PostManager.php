@@ -40,7 +40,7 @@ class PostManager extends AbstractService {
                     $tag_ids[] = $term->term_id;
                 } else {
                     // Create new tag
-                    $new_term = wp_insert_term( $tag, 'post_tag' );
+                    $new_term = wp_insert_term( wp_slash( $tag ), 'post_tag' );
                     if ( ! is_wp_error( $new_term ) ) {
                         $tag_ids[] = $new_term['term_id'];
                     }
@@ -341,7 +341,8 @@ class PostManager extends AbstractService {
             $postarr['post_category'] = (array) $input['categories'];
         }
 
-        $post_id = wp_insert_post( $postarr, true );
+        // Core unslashes post data: slash it so backslashes in content survive.
+        $post_id = wp_insert_post( wp_slash( $postarr ), true );
 
         if ( is_wp_error( $post_id ) ) {
             return $post_id;
@@ -429,7 +430,7 @@ class PostManager extends AbstractService {
             $postarr['post_category'] = (array) $input['categories'];
         }
 
-        $result = wp_update_post( $postarr, true );
+        $result = wp_update_post( wp_slash( $postarr ), true );
 
         if ( is_wp_error( $result ) ) {
             return $result;
@@ -566,7 +567,7 @@ class PostManager extends AbstractService {
             'menu_order'   => $post->menu_order,
         ];
 
-        $new_post_id = wp_insert_post( $new_post, true );
+        $new_post_id = wp_insert_post( wp_slash( $new_post ), true );
 
         if ( is_wp_error( $new_post_id ) ) {
             return $new_post_id;

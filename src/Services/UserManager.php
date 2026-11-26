@@ -113,7 +113,8 @@ class UserManager extends AbstractService {
             return $error;
         }
 
-        $user_id = wp_insert_user( $userdata );
+        // Core unslashes user fields but hashes user_pass as given.
+        $user_id = wp_insert_user( array_merge( wp_slash( $userdata ), [ 'user_pass' => $userdata['user_pass'] ] ) );
 
         if ( is_wp_error( $user_id ) ) {
             return $user_id;
@@ -216,7 +217,7 @@ class UserManager extends AbstractService {
             $userdata['user_pass'] = $input['password'];
         }
 
-        $result = wp_update_user( $userdata );
+        $result = wp_update_user( array_merge( wp_slash( $userdata ), array_intersect_key( $userdata, [ 'user_pass' => true ] ) ) );
 
         if ( is_wp_error( $result ) ) {
             return $result;

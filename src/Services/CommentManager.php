@@ -124,7 +124,7 @@ class CommentManager extends AbstractService {
             }
         }
 
-        $comment_id = wp_insert_comment( $commentdata );
+        $comment_id = wp_insert_comment( wp_slash( $commentdata ) );
 
         if ( ! $comment_id ) {
             return self::errorResponse( 'create_failed', 'Failed to create comment', 500 );
@@ -180,7 +180,7 @@ class CommentManager extends AbstractService {
         $has_meta = ! empty( $input['meta'] ) && is_array( $input['meta'] );
 
         if ( $has_data ) {
-            $result = wp_update_comment( $commentdata );
+            $result = wp_update_comment( wp_slash( $commentdata ) );
             if ( ! $result ) {
                 return self::errorResponse( 'update_failed', 'Failed to update comment', 500 );
             }

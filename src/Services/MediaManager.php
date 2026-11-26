@@ -109,11 +109,11 @@ class MediaManager extends AbstractService {
         }
 
         if ( ! empty( $caption ) || ! empty( $description ) ) {
-            wp_update_post( [
+            wp_update_post( wp_slash( [
                 'ID'           => $attachment_id,
                 'post_excerpt' => $caption,
                 'post_content' => $description,
-            ] );
+            ] ) );
         }
 
         // Invalidate the post + meta object caches before reading back.
@@ -213,7 +213,7 @@ class MediaManager extends AbstractService {
             'type'     => self::get_mime_type_for_file( $filename, $tmp ),
         ];
 
-        $attachment_id = media_handle_sideload( $file_array, 0, $title );
+        $attachment_id = media_handle_sideload( $file_array, 0, wp_slash( $title ) );
 
         if ( file_exists( $tmp ) ) {
             wp_delete_file( $tmp );
@@ -308,7 +308,7 @@ class MediaManager extends AbstractService {
         }
 
         if ( count( $post_data ) > 1 ) {
-            wp_update_post( $post_data );
+            wp_update_post( wp_slash( $post_data ) );
         }
 
         if ( isset( $input['alt'] ) ) {

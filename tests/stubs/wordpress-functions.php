@@ -1793,6 +1793,7 @@ if ( ! function_exists( 'wp_update_comment' ) ) {
      * @return int|false Comment ID on success.
      */
     function wp_update_comment( array $commentarr ) {
+        $GLOBALS['wp_updated_comments'][] = wp_unslash( $commentarr );
         return $commentarr['comment_ID'] ?? false;
     }
 }
@@ -1859,6 +1860,7 @@ if ( ! function_exists( 'wp_update_post' ) ) {
      * @return int|WP_Error Post ID on success.
      */
     function wp_update_post( array $postarr ) {
+        $GLOBALS['wp_saved_posts'][] = wp_unslash( $postarr );
         return $postarr['ID'] ?? 0;
     }
 }
@@ -1871,6 +1873,8 @@ if ( ! function_exists( 'wp_insert_post' ) ) {
      * @return int|WP_Error Post ID on success.
      */
     function wp_insert_post( array $postarr ) {
+        // Core unslashes the post data before saving it.
+        $GLOBALS['wp_saved_posts'][] = wp_unslash( $postarr );
         return 1;
     }
 }
@@ -2071,7 +2075,8 @@ if ( ! function_exists( 'wp_update_user' ) ) {
      * @return int|WP_Error User ID on success.
      */
     function wp_update_user( array $userdata ) {
-        $GLOBALS['wp_last_updated_user'] = $userdata;
+        // Core hashes user_pass as given and unslashes the other fields.
+        $GLOBALS['wp_last_updated_user'] = array_merge( wp_unslash( $userdata ), array_intersect_key( $userdata, [ 'user_pass' => 1 ] ) );
         return (int) ( $userdata['ID'] ?? 0 );
     }
 }
@@ -2394,7 +2399,8 @@ if ( ! function_exists( 'wp_insert_term' ) ) {
     function wp_insert_term( string $name, string $taxonomy, array $args = [] ): array {
         global $wp_terms;
         $id               = 100 + count( (array) $wp_terms );
-        $wp_terms[ $id ]  = new WP_Term( [ 'term_id' => $id, 'name' => $name, 'slug' => strtolower( $name ), 'taxonomy' => $taxonomy ] );
+        $name             = wp_unslash( $name );
+        $wp_terms[ $id ]  = new WP_Term( [ 'term_id' => $id, 'name' => $name, 'slug' => strtolower( $name ), 'taxonomy' => $taxonomy, 'description' => wp_unslash( $args['description'] ?? '' ) ] );
         return [ 'term_id' => $id, 'term_taxonomy_id' => $id ];
     }
 }
@@ -2408,7 +2414,7 @@ if ( ! function_exists( 'wp_update_term' ) ) {
      */
     function wp_update_term( int $term_id, string $taxonomy, array $args = [] ): array {
         global $wp_terms;
-        foreach ( $args as $name => $value ) {
+        foreach ( wp_unslash( $args ) as $name => $value ) {
             $wp_terms[ $term_id ]->$name = $value;
         }
         return [ 'term_id' => $term_id, 'term_taxonomy_id' => $term_id ];
@@ -2693,7 +2699,7 @@ if ( ! function_exists( 'wp_insert_comment' ) ) {
      * @param array<string, mixed> $commentdata Comment data.
      */
     function wp_insert_comment( array $commentdata ): int {
-        $GLOBALS['wp_inserted_comments'][] = $commentdata;
+        $GLOBALS['wp_inserted_comments'][] = wp_unslash( $commentdata );
         return 55;
     }
 }
@@ -2889,5 +2895,47 @@ if ( ! function_exists( 'update_comment_meta' ) ) {
      */
     function update_comment_meta( int $comment_id, string $key, $value ) {
         return lwsm_stub_update_meta( 'comment', $comment_id, $key, $value );
+    }
+}
+
+if ( ! function_exists( 'wp_insert_user' ) ) {
+    /**
+     * Records the user as core would store it: user_pass as given, the rest unslashed.
+     *
+     * @param array<string, mixed> $userdata User data.
+     */
+    function wp_insert_user( array $userdata ): int {
+        $GLOBALS['wp_inserted_users'][] = array_merge( wp_unslash( $userdata ), array_intersect_key( $userdata, [ 'user_pass' => 1 ] ) );
+        return 77;
+    }
+}
+
+if ( ! function_exists( 'username_exists' ) ) {
+    /**
+     * @return int|false
+     */
+    function username_exists( string $username ) {
+        return false;
+    }
+}
+
+if ( ! function_exists( 'email_exists' ) ) {
+    /**
+     * @return int|false
+     */
+    function email_exists( string $email ) {
+        return false;
+    }
+}
+
+if ( ! function_exists( 'sanitize_user' ) ) {
+    function sanitize_user( string $username, bool $strict = false ): string {
+        return preg_replace( '/[^a-z0-9 _.\-@]/i', '', $username );
+    }
+}
+
+if ( ! function_exists( 'sanitize_email' ) ) {
+    function sanitize_email( string $email ): string {
+        return trim( $email );
     }
 }

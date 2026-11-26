@@ -209,7 +209,7 @@ class AttributeManager extends AbstractService {
             $args['description'] = (string) $input['description'];
         }
 
-        $result = wp_insert_term( $name, $taxonomy, $args );
+        $result = wp_insert_term( wp_slash( $name ), $taxonomy, wp_slash( $args ) );
         if ( $result instanceof \WP_Error ) {
             return $result;
         }
@@ -249,7 +249,7 @@ class AttributeManager extends AbstractService {
             return self::errorResponse( 'no_changes', 'No fields to update were provided', 400 );
         }
 
-        $result = wp_update_term( $term_id, $taxonomy, $args );
+        $result = wp_update_term( $term_id, $taxonomy, wp_slash( $args ) );
         if ( $result instanceof \WP_Error ) {
             return $result;
         }

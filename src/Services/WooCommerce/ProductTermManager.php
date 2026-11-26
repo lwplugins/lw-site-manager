@@ -96,7 +96,7 @@ class ProductTermManager extends AbstractService {
             return $args;
         }
 
-        $result = wp_insert_term( $name, $taxonomy, $args );
+        $result = wp_insert_term( wp_slash( $name ), $taxonomy, wp_slash( $args ) );
         if ( is_wp_error( $result ) ) {
             return self::errorResponse( $result->get_error_code(), $result->get_error_message(), 'term_exists' === $result->get_error_code() ? 409 : 400 );
         }
@@ -131,7 +131,7 @@ class ProductTermManager extends AbstractService {
         }
 
         if ( [] !== $args ) {
-            $result = wp_update_term( $term->term_id, $term->taxonomy, $args );
+            $result = wp_update_term( $term->term_id, $term->taxonomy, wp_slash( $args ) );
             if ( is_wp_error( $result ) ) {
                 return self::errorResponse( $result->get_error_code(), $result->get_error_message(), 400 );
             }
