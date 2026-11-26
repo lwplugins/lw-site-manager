@@ -33,6 +33,9 @@ final class MetaWriter {
      * @return bool|\WP_Error True when the stored value changed, false when it was already stored.
      */
     public static function set( string $type, int $objectId, string $key, mixed $value ): bool|\WP_Error {
+        // update_{type}_meta() unslashes key and value: slash them so backslashes survive.
+        $key   = wp_slash( $key );
+        $value = wp_slash( $value );
         $result = match ( $type ) {
             'post'    => update_post_meta( $objectId, $key, $value ),
             'user'    => update_user_meta( $objectId, $key, $value ),

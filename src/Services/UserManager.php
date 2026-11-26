@@ -128,7 +128,7 @@ class UserManager extends AbstractService {
         // Apply inline meta map
         if ( ! empty( $input['meta'] ) && is_array( $input['meta'] ) ) {
             foreach ( $input['meta'] as $key => $value ) {
-                update_user_meta( $user_id, (string) $key, $value );
+                update_user_meta( $user_id, wp_slash( (string) $key ), wp_slash( $value ) );
             }
         }
 
@@ -230,7 +230,7 @@ class UserManager extends AbstractService {
         // Apply inline meta map
         if ( ! empty( $input['meta'] ) && is_array( $input['meta'] ) ) {
             foreach ( $input['meta'] as $key => $value ) {
-                update_user_meta( (int) $input['id'], (string) $key, $value );
+                update_user_meta( (int) $input['id'], wp_slash( (string) $key ), wp_slash( $value ) );
             }
         }
 

@@ -365,7 +365,7 @@ class PostManager extends AbstractService {
 
         if ( ! empty( $input['meta'] ) && is_array( $input['meta'] ) ) {
             foreach ( $input['meta'] as $key => $value ) {
-                update_post_meta( $post_id, $key, $value );
+                update_post_meta( $post_id, wp_slash( (string) $key ), wp_slash( $value ) );
             }
         }
 
@@ -455,7 +455,7 @@ class PostManager extends AbstractService {
 
         if ( ! empty( $input['meta'] ) && is_array( $input['meta'] ) ) {
             foreach ( $input['meta'] as $key => $value ) {
-                update_post_meta( $input['id'], $key, $value );
+                update_post_meta( $input['id'], wp_slash( (string) $key ), wp_slash( $value ) );
             }
         }
 

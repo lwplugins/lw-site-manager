@@ -302,7 +302,7 @@ class ProductTermManager extends AbstractService {
 
     private static function writeMeta( int $termId, array $meta ): void {
         foreach ( $meta as $key => $value ) {
-            update_term_meta( $termId, $key, $value );
+            update_term_meta( $termId, wp_slash( $key ), wp_slash( $value ) );
         }
     }
 }

@@ -105,7 +105,7 @@ class MediaManager extends AbstractService {
 
         // Update metadata
         if ( ! empty( $alt ) ) {
-            update_post_meta( $attachment_id, '_wp_attachment_image_alt', $alt );
+            update_post_meta( $attachment_id, '_wp_attachment_image_alt', wp_slash( $alt ) );
         }
 
         if ( ! empty( $caption ) || ! empty( $description ) ) {
@@ -312,7 +312,7 @@ class MediaManager extends AbstractService {
         }
 
         if ( isset( $input['alt'] ) ) {
-            update_post_meta( $input['id'], '_wp_attachment_image_alt', $input['alt'] );
+            update_post_meta( $input['id'], '_wp_attachment_image_alt', wp_slash( $input['alt'] ) );
         }
 
         $attachment = get_post( $input['id'] );

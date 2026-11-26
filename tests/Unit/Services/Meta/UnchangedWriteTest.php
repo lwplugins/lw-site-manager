@@ -130,13 +130,17 @@ final class UnchangedWriteTest extends TestCase {
         $this->assertSame( 'update_failed', $result->get_error_code() );
     }
 
-    public function test_value_equal_after_unslashing_counts_as_unchanged(): void {
-        $GLOBALS['wp_post_meta'][42]['path'] = 'C:dir';
+    public function test_backslashes_are_compared_literally(): void {
+        $GLOBALS['wp_post_meta'][42]['path'] = 'C:\\dir';
+        $GLOBALS['wp_post_meta'][42]['old']  = 'C:dir';
 
-        $result = MetaManager::set_post_meta( [ 'post_id' => 42, 'key' => 'path', 'value' => 'C:\\dir' ] );
+        $same  = MetaManager::set_post_meta( [ 'post_id' => 42, 'key' => 'path', 'value' => 'C:\\dir' ] );
+        $fixed = MetaManager::set_post_meta( [ 'post_id' => 42, 'key' => 'old', 'value' => 'C:\\dir' ] );
 
-        $this->assertIsArray( $result );
-        $this->assertFalse( $result['changed'] );
+        $this->assertIsArray( $same );
+        $this->assertFalse( $same['changed'] );
+        $this->assertIsArray( $fixed );
+        $this->assertTrue( $fixed['changed'] );
     }
 
     public function test_value_equal_after_registered_sanitizer_counts_as_unchanged(): void {

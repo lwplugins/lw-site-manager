@@ -371,7 +371,7 @@ class PageManager extends AbstractService {
         if ( '' === $template || 'default' === $template ) {
             delete_post_meta( $page_id, '_wp_page_template' );
         } else {
-            update_post_meta( $page_id, '_wp_page_template', $template );
+            update_post_meta( $page_id, '_wp_page_template', wp_slash( $template ) );
         }
     }
 
@@ -395,7 +395,7 @@ class PageManager extends AbstractService {
         if ( $template === 'default' ) {
             delete_post_meta( $input['id'], '_wp_page_template' );
         } else {
-            update_post_meta( $input['id'], '_wp_page_template', $template );
+            update_post_meta( $input['id'], '_wp_page_template', wp_slash( $template ) );
         }
 
         return self::successResponse(

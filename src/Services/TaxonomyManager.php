@@ -137,7 +137,7 @@ class TaxonomyManager extends AbstractService {
         // Apply inline meta map
         if ( ! empty( $input['meta'] ) && is_array( $input['meta'] ) ) {
             foreach ( $input['meta'] as $key => $value ) {
-                update_term_meta( (int) $result['term_id'], (string) $key, $value );
+                update_term_meta( (int) $result['term_id'], wp_slash( (string) $key ), wp_slash( $value ) );
             }
         }
 
@@ -204,7 +204,7 @@ class TaxonomyManager extends AbstractService {
 
         if ( $has_meta ) {
             foreach ( $input['meta'] as $key => $value ) {
-                update_term_meta( $term_id, (string) $key, $value );
+                update_term_meta( $term_id, wp_slash( (string) $key ), wp_slash( $value ) );
             }
         }
 
