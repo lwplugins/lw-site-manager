@@ -105,21 +105,23 @@ final class BackslashContentTest extends TestCase {
         $this->assertSame( 'C:\\dir', get_term( 7 )->description );
     }
 
-    public function test_create_user_saves_fields_exactly_and_password_unchanged(): void {
+    public function test_create_user_saves_fields_exactly_and_hashes_the_password_like_wp_login(): void {
         grant_wp_caps( [ 'create_users', 'promote_users' ] );
 
         UserManager::create_user( [ 'username' => 'eve', 'email' => 'eve@example.com', 'display_name' => 'E\\ve', 'password' => 'p\\w"d' ] );
 
         $saved = end( $GLOBALS['wp_inserted_users'] );
         $this->assertSame( 'E\\ve', $saved['display_name'] );
-        $this->assertSame( 'p\\w"d', $saved['user_pass'] );
+        // wp-login.php checks the slashed $_POST['pwd']: the hash must be of the slashed password.
+        $this->assertSame( wp_slash( 'p\\w"d' ), $saved['user_pass'] );
     }
 
-    public function test_update_user_password_is_not_slashed(): void {
+    public function test_update_user_password_is_hashed_like_wp_login(): void {
         grant_wp_caps( [ 'edit_users', 'edit_user:2' ] );
 
         UserManager::update_user( [ 'id' => 2, 'password' => 'p\\w"d', 'last_name' => 'O\\Neil' ] );
 
-        $this->assertSame( 'p\\w"d', $GLOBALS['wp_last_updated_user']['user_pass'] );
+        $this->assertSame( wp_slash( 'p\\w"d' ), $GLOBALS['wp_last_updated_user']['user_pass'] );
+        $this->assertSame( 'O\\Neil', $GLOBALS['wp_last_updated_user']['last_name'] );
     }
 }
