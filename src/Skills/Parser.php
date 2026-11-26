@@ -55,17 +55,8 @@ final class Parser {
 	 * @param array{name:string,description:string,enable_prompt:bool,enable_agentic:bool,body:string,parse_error:?string} $result
 	 */
 	private static function apply_frontmatter( string $front, array &$result ): void {
-		foreach ( explode( "\n", $front ) as $line ) {
-			$line = trim( $line );
-			if ( '' === $line || str_starts_with( $line, '#' ) ) {
-				continue;
-			}
-			$colon = strpos( $line, ':' );
-			if ( false === $colon ) {
-				continue;
-			}
-			$key   = strtolower( trim( substr( $line, 0, $colon ) ) );
-			$value = trim( substr( $line, $colon + 1 ), " \t\"'" );
+		foreach ( FrontmatterReader::read( $front ) as $key => $value ) {
+			$value = trim( $value );
 			match ( $key ) {
 				'name'           => $result['name'] = $value,
 				'description'    => $result['description'] = $value,
