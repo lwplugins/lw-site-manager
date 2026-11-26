@@ -341,7 +341,6 @@ class PostManager extends AbstractService {
             $postarr['post_category'] = (array) $input['categories'];
         }
 
-        // Core unslashes post data: slash it so backslashes in content survive.
         $post_id = wp_insert_post( wp_slash( $postarr ), true );
 
         if ( is_wp_error( $post_id ) ) {
@@ -587,7 +586,7 @@ class PostManager extends AbstractService {
         if ( $input['copy_meta'] ?? true ) {
             $meta = get_post_meta( $post->ID );
             foreach ( $meta as $key => $values ) {
-                if ( $key === '_edit_lock' || $key === '_edit_last' || MetaGuard::copyKey( 'post', wp_slash( (string) $key ) ) ) {
+                if ( $key === '_edit_lock' || $key === '_edit_last' || MetaGuard::copyKey( 'post', (string) $key ) ) {
                     continue;
                 }
                 foreach ( $values as $value ) {

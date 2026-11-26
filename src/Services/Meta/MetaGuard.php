@@ -22,6 +22,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  * an object-level capability check, and the protected-key policy. MetaManager
  * only delegates here, so the answer cannot drift between the twelve
  * get/set/delete methods.
+ *
+ * The key checked is the key stored: every writer and deleter slashes the key
+ * before calling core, so core's unslash yields exactly the caller's key. For
+ * caller-supplied keys the unslashed spelling is checked as well (eachSpelling()).
  */
 final class MetaGuard {
 
@@ -75,17 +79,15 @@ final class MetaGuard {
      * @param string $key      Meta key being written.
      */
     public static function write( string $type, int $objectId, string $key ): ?\WP_Error {
-        $key = self::canonicalKey( $key );
-
         // Key shape, role/session keys and builder storage are refused for everyone,
         // before any capability check — no capability makes writing a role assignment acceptable here.
-        $error = self::guardShape( $key ) ?? self::guardUserKey( $type, $key ) ?? self::guardBuilderKey( $type, $key )
+        $error = self::eachSpelling( $key, fn( string $k ) => self::guardShape( $k ) ?? self::guardUserKey( $type, $k ) ?? self::guardBuilderKey( $type, $k ) )
             ?? self::checkCapability( $type, $objectId, 1 );
         if ( $error ) {
             return $error;
         }
 
-        return self::guardKey( $type, $key );
+        return self::eachSpelling( $key, fn( string $k ) => self::guardKey( $type, $k ) );
     }
 
     /**
@@ -99,10 +101,10 @@ final class MetaGuard {
      * @param string $key  Meta key being written.
      */
     public static function writeKey( string $type, string $key ): ?\WP_Error {
-        $key = self::canonicalKey( $key );
-
-        return self::guardShape( $key ) ?? self::guardUserKey( $type, $key ) ?? self::guardBuilderKey( $type, $key )
-            ?? self::guardKey( $type, $key );
+        return self::eachSpelling(
+            $key,
+            fn( string $k ) => self::guardShape( $k ) ?? self::guardUserKey( $type, $k ) ?? self::guardBuilderKey( $type, $k ) ?? self::guardKey( $type, $k )
+        );
     }
 
     /**
@@ -116,8 +118,7 @@ final class MetaGuard {
      * @param string $key  Meta key being copied.
      */
     public static function copyKey( string $type, string $key ): ?\WP_Error {
-        $key = self::canonicalKey( $key );
-
+        // The key already exists on the source and is copied byte for byte.
         return self::guardShape( $key ) ?? self::guardUserKey( $type, $key ) ?? self::guardKey( $type, $key );
     }
 
@@ -207,13 +208,23 @@ final class MetaGuard {
     }
 
     /**
-     * The key WordPress actually writes: update/add/delete_metadata() unslash
-     * it first, so "\_secret" lands on "_secret".
+     * Run a key check on the stored key and on its unslashed spelling.
      *
-     * @param string $key Meta key as the caller sent it.
+     * The stored key is the caller's key (writers slash it for core). The
+     * unslashed spelling is refused too, so "\\_secret" is never accepted in
+     * place of "_secret" even on a path that forgets to slash.
+     *
+     * @param string                          $key   Meta key as the caller sent it.
+     * @param callable(string): ?\WP_Error   $check Key check.
      */
-    private static function canonicalKey( string $key ): string {
-        return (string) wp_unslash( $key );
+    private static function eachSpelling( string $key, callable $check ): ?\WP_Error {
+        foreach ( array_unique( [ $key, (string) wp_unslash( $key ) ] ) as $spelling ) {
+            $error = $check( $spelling );
+            if ( $error ) {
+                return $error;
+            }
+        }
+        return null;
     }
 
     /**

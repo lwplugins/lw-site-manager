@@ -118,4 +118,45 @@ final class BackslashMetaTest extends TestCase {
 
         $this->assertSame( [ 'C:\\dir' ], get_metadata_raw( 'term', 7, 'k' ) );
     }
+
+    // =========================================================================
+    // Backslash keys: the guarded key is the key written and deleted
+    // =========================================================================
+
+    /**
+     * @return array<string, array{0: string, 1: string, 2: string, 3: int}>
+     */
+    public static function deleteTypes(): array {
+        return [
+            'post'    => [ 'post', 'post_id', 'post', 42 ],
+            'user'    => [ 'user', 'user_id', 'user', 2 ],
+            'comment' => [ 'comment', 'comment_id', 'comment', 9 ],
+            'term'    => [ 'term', 'term_id', 'term', 7 ],
+        ];
+    }
+
+    /**
+     * @dataProvider deleteTypes
+     */
+    public function test_backslash_key_is_written_and_deleted_as_sent( string $type, string $idKey, string $unused, int $id ): void {
+        $GLOBALS[ "wp_{$type}_meta" ][ $id ]['ab'] = 'other key';
+        $set    = "set_{$type}_meta";
+        $delete = "delete_{$type}_meta";
+
+        MetaManager::$set( [ $idKey => $id, 'key' => 'a\\b', 'value' => 'v' ] );
+        $this->assertSame( [ 'v' ], get_metadata_raw( $type, $id, 'a\\b' ) );
+
+        $result = MetaManager::$delete( [ $idKey => $id, 'key' => 'a\\b' ] );
+
+        $this->assertTrue( $result['success'] );
+        $this->assertNull( get_metadata_raw( $type, $id, 'a\\b' ) );
+        $this->assertSame( [ 'other key' ], get_metadata_raw( $type, $id, 'ab' ) );
+    }
+
+    public function test_meta_map_writes_backslash_key_as_sent(): void {
+        PostManager::update_post( [ 'id' => 42, 'meta' => [ 'a\\b' => 'v' ] ] );
+
+        $this->assertSame( [ 'v' ], get_metadata_raw( 'post', 42, 'a\\b' ) );
+        $this->assertNull( get_metadata_raw( 'post', 42, 'ab' ) );
+    }
 }

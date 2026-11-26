@@ -1194,9 +1194,7 @@ if ( ! function_exists( 'delete_post_meta' ) ) {
      * @return bool
      */
     function delete_post_meta( int $post_id, string $key ): bool {
-        global $wp_post_meta;
-        unset( $wp_post_meta[ $post_id ][ $key ] );
-        return true;
+        return lwsm_stub_delete_meta( 'post', $post_id, $key );
     }
 }
 
@@ -2937,5 +2935,35 @@ if ( ! function_exists( 'sanitize_user' ) ) {
 if ( ! function_exists( 'sanitize_email' ) ) {
     function sanitize_email( string $email ): string {
         return trim( $email );
+    }
+}
+
+/**
+ * In-memory delete_{type}_meta(): unslashes the key like core's delete_metadata().
+ */
+function lwsm_stub_delete_meta( string $type, int $id, string $key ): bool {
+    $key = wp_unslash( $key );
+    if ( ! isset( $GLOBALS[ "wp_{$type}_meta" ][ $id ] ) || ! array_key_exists( $key, $GLOBALS[ "wp_{$type}_meta" ][ $id ] ) ) {
+        return false;
+    }
+    unset( $GLOBALS[ "wp_{$type}_meta" ][ $id ][ $key ] );
+    return true;
+}
+
+if ( ! function_exists( 'delete_user_meta' ) ) {
+    function delete_user_meta( int $id, string $key ): bool {
+        return lwsm_stub_delete_meta( 'user', $id, $key );
+    }
+}
+
+if ( ! function_exists( 'delete_term_meta' ) ) {
+    function delete_term_meta( int $id, string $key ): bool {
+        return lwsm_stub_delete_meta( 'term', $id, $key );
+    }
+}
+
+if ( ! function_exists( 'delete_comment_meta' ) ) {
+    function delete_comment_meta( int $id, string $key ): bool {
+        return lwsm_stub_delete_meta( 'comment', $id, $key );
     }
 }

@@ -131,7 +131,7 @@ class MetaManager extends AbstractService {
             return $error;
         }
 
-        $result = delete_post_meta( $post_id, $input['key'] );
+        $result = delete_post_meta( $post_id, wp_slash( (string) $input['key'] ) );
 
         return [
             'success' => $result,
@@ -265,7 +265,7 @@ class MetaManager extends AbstractService {
             return $error;
         }
 
-        $result = delete_user_meta( $user_id, $input['key'] );
+        $result = delete_user_meta( $user_id, wp_slash( (string) $input['key'] ) );
 
         return [
             'success' => $result,
@@ -389,7 +389,7 @@ class MetaManager extends AbstractService {
             return $error;
         }
 
-        $result = delete_term_meta( $term_id, $input['key'] );
+        $result = delete_term_meta( $term_id, wp_slash( (string) $input['key'] ) );
 
         return [
             'success' => $result,
@@ -514,7 +514,7 @@ class MetaManager extends AbstractService {
             return $error;
         }
 
-        $result = delete_comment_meta( $comment_id, $input['key'] );
+        $result = delete_comment_meta( $comment_id, wp_slash( (string) $input['key'] ) );
 
         return [
             'success'    => $result,
