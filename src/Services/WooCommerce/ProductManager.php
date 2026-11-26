@@ -8,7 +8,7 @@ declare(strict_types=1);
 namespace LightweightPlugins\SiteManager\Services\WooCommerce;
 
 use LightweightPlugins\SiteManager\Services\AbstractService;
-use LightweightPlugins\SiteManager\Services\Meta\GatedMetaKeys;
+use LightweightPlugins\SiteManager\Services\Meta\MetaGuard;
 
 class ProductManager extends AbstractService {
 
@@ -153,7 +153,7 @@ class ProductManager extends AbstractService {
         }
 
         $error = self::validateRequiredField( $input, 'name', 'Product name is required' )
-            ?? GatedMetaKeys::guardMap( $input['meta'] ?? null );
+            ?? MetaGuard::guardWcMap( $input['meta'] ?? null, true );
         if ( $error ) {
             return $error;
         }
@@ -322,7 +322,7 @@ class ProductManager extends AbstractService {
         }
 
         $error = self::validateId( $input )
-            ?? GatedMetaKeys::guardMap( $input['meta'] ?? null );
+            ?? MetaGuard::guardWcMap( $input['meta'] ?? null, true );
         if ( $error ) {
             return $error;
         }

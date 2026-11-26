@@ -586,7 +586,7 @@ class PostManager extends AbstractService {
         if ( $input['copy_meta'] ?? true ) {
             $meta = get_post_meta( $post->ID );
             foreach ( $meta as $key => $values ) {
-                if ( $key === '_edit_lock' || $key === '_edit_last' || MetaGuard::writeKey( 'post', wp_slash( (string) $key ) ) ) {
+                if ( $key === '_edit_lock' || $key === '_edit_last' || MetaGuard::copyKey( 'post', wp_slash( (string) $key ) ) ) {
                     continue;
                 }
                 foreach ( $values as $value ) {

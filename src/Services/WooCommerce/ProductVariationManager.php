@@ -8,7 +8,7 @@ declare(strict_types=1);
 namespace LightweightPlugins\SiteManager\Services\WooCommerce;
 
 use LightweightPlugins\SiteManager\Services\AbstractService;
-use LightweightPlugins\SiteManager\Services\Meta\GatedMetaKeys;
+use LightweightPlugins\SiteManager\Services\Meta\MetaGuard;
 
 class ProductVariationManager extends AbstractService {
 
@@ -76,7 +76,7 @@ class ProductVariationManager extends AbstractService {
             return $unavailable;
         }
 
-        $error = GatedMetaKeys::guardMap( $input['meta'] ?? null );
+        $error = MetaGuard::guardWcMap( $input['meta'] ?? null, true );
         if ( $error ) {
             return $error;
         }
@@ -118,7 +118,7 @@ class ProductVariationManager extends AbstractService {
             return $unavailable;
         }
 
-        $error = GatedMetaKeys::guardMap( $input['meta'] ?? null );
+        $error = MetaGuard::guardWcMap( $input['meta'] ?? null, true );
         if ( $error ) {
             return $error;
         }

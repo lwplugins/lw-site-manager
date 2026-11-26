@@ -8,7 +8,7 @@ declare(strict_types=1);
 namespace LightweightPlugins\SiteManager\Services\WooCommerce;
 
 use LightweightPlugins\SiteManager\Services\AbstractService;
-use LightweightPlugins\SiteManager\Services\Meta\GatedMetaKeys;
+use LightweightPlugins\SiteManager\Services\Meta\MetaGuard;
 
 class WcMetaManager extends AbstractService {
 
@@ -111,7 +111,7 @@ class WcMetaManager extends AbstractService {
             return self::errorResponse( 'invalid_meta', 'meta must be a non-empty object map of key => value', 400 );
         }
 
-        $error = GatedMetaKeys::guardMap( $meta );
+        $error = MetaGuard::guardWcMap( $meta, $entity instanceof \WC_Product );
         if ( $error ) {
             return $error;
         }
@@ -147,7 +147,7 @@ class WcMetaManager extends AbstractService {
             return self::errorResponse( 'invalid_key', 'key is required', 400 );
         }
 
-        $error = GatedMetaKeys::guard( $key );
+        $error = MetaGuard::guardWcMap( [ $key => null ], $entity instanceof \WC_Product );
         if ( $error ) {
             return $error;
         }

@@ -85,7 +85,7 @@ class MetaAbilities {
                         ],
                         'key' => [
                             'type'        => 'string',
-                            'description' => 'Meta key',
+                            'description' => 'Meta key. Page-builder storage keys (e.g. _elementor_*, _bricks_*) are refused: use that builder\'s abilities.',
                         ],
                         'value' => [
                             'type'        => [ 'string', 'number', 'boolean', 'array', 'object' ],
@@ -127,7 +127,7 @@ class MetaAbilities {
                         ],
                         'key' => [
                             'type'        => 'string',
-                            'description' => 'Meta key to delete',
+                            'description' => 'Meta key to delete. Page-builder storage keys are refused: use that builder\'s abilities.',
                         ],
                     ],
                     'required' => [ 'post_id', 'key' ],

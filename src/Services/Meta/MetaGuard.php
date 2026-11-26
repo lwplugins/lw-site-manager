@@ -77,9 +77,10 @@ final class MetaGuard {
     public static function write( string $type, int $objectId, string $key ): ?\WP_Error {
         $key = self::canonicalKey( $key );
 
-        // Key shape and role/session keys are refused for everyone, before any
-        // capability check — no capability makes writing a role assignment acceptable here.
-        $error = self::guardShape( $key ) ?? self::guardUserKey( $type, $key ) ?? self::checkCapability( $type, $objectId, 1 );
+        // Key shape, role/session keys and builder storage are refused for everyone,
+        // before any capability check — no capability makes writing a role assignment acceptable here.
+        $error = self::guardShape( $key ) ?? self::guardUserKey( $type, $key ) ?? self::guardBuilderKey( $type, $key )
+            ?? self::checkCapability( $type, $objectId, 1 );
         if ( $error ) {
             return $error;
         }
@@ -100,7 +101,38 @@ final class MetaGuard {
     public static function writeKey( string $type, string $key ): ?\WP_Error {
         $key = self::canonicalKey( $key );
 
+        return self::guardShape( $key ) ?? self::guardUserKey( $type, $key ) ?? self::guardBuilderKey( $type, $key )
+            ?? self::guardKey( $type, $key );
+    }
+
+    /**
+     * Guard copying one stored key to a duplicate, without the builder-storage rule.
+     *
+     * Duplicating a post copies the builder's whole consistent set of keys as the
+     * builder wrote them, which is not the hand-edit the builder rule is about;
+     * every other key policy still applies.
+     *
+     * @param string $type Object type: post, user, comment or term.
+     * @param string $key  Meta key being copied.
+     */
+    public static function copyKey( string $type, string $key ): ?\WP_Error {
+        $key = self::canonicalKey( $key );
+
         return self::guardShape( $key ) ?? self::guardUserKey( $type, $key ) ?? self::guardKey( $type, $key );
+    }
+
+    /**
+     * Guard a WooCommerce meta map: gated keys always, builder storage on
+     * products and variations (they are posts; orders are not).
+     *
+     * The WooCommerce data stores write keys literally, so these maps skip the
+     * shape rule and the admin-only protected-key rule, as before.
+     *
+     * @param mixed $meta   The caller's meta map.
+     * @param bool  $isPost Whether the entity is stored as a post.
+     */
+    public static function guardWcMap( mixed $meta, bool $isPost ): ?\WP_Error {
+        return ( $isPost ? BuilderMetaKeys::guardMap( $meta ) : null ) ?? GatedMetaKeys::guardMap( $meta );
     }
 
     /**
@@ -214,6 +246,16 @@ final class MetaGuard {
      */
     private static function guardUserKey( string $type, string $key ): ?\WP_Error {
         return 'user' === $type ? ProtectedMeta::guardUserWrite( $key ) : null;
+    }
+
+    /**
+     * Refuse page-builder storage keys on posts, whoever the caller is.
+     *
+     * @param string $type Object type.
+     * @param string $key  Canonical meta key.
+     */
+    private static function guardBuilderKey( string $type, string $key ): ?\WP_Error {
+        return 'post' === $type ? BuilderMetaKeys::guard( $key ) : null;
     }
 
     /**
