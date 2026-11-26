@@ -43,12 +43,38 @@ final class BuilderMetaKeys {
         return ResponseFormatter::error(
             'builder_meta_key',
             sprintf(
-                'The meta key "%1$s" is %2$s page-builder storage and cannot be written or deleted through the generic meta abilities. Write it through %3$s instead, so the builder\'s caches and generated CSS stay in sync. Reading it is allowed.',
+                'The meta key "%1$s" is %2$s page-builder storage and cannot be written or deleted through the generic meta abilities. %3$s Reading it is allowed.',
                 $key,
                 $group['label'],
-                $group['abilities']
+                self::instead( $group )
             ),
             403
+        );
+    }
+
+    /**
+     * What to use instead: the dedicated abilities, which come with LW Site
+     * Manager Extra, or the builder's own editor when there are none here.
+     *
+     * @param array{label: string, family: string, editor: string} $group Matched group.
+     */
+    private static function instead( array $group ): string {
+        $sync = 'so the builder\'s caches and generated CSS stay in sync.';
+
+        if ( '' === $group['family'] ) {
+            return sprintf( 'Edit it in %s, %s', $group['editor'], $sync );
+        }
+
+        if ( defined( 'LW_SITE_MANAGER_EXTRA_VERSION' ) ) {
+            return sprintf( 'Write it through the %s abilities of LW Site Manager Extra (%s) instead, %s', $group['label'], $group['family'], $sync );
+        }
+
+        return sprintf(
+            'Edit it in %s, or install LW Site Manager Extra, whose %s abilities (%s) write it %s',
+            $group['editor'],
+            $group['label'],
+            $group['family'],
+            $sync
         );
     }
 
@@ -76,16 +102,19 @@ final class BuilderMetaKeys {
      * The builder group a key belongs to, if any.
      *
      * @param string $key Meta key.
-     * @return array{label: string, abilities: string}|null
+     * @return array{label: string, family: string, editor: string}|null
      */
     public static function match( string $key ): ?array {
         $normalized = strtolower( trim( $key ) );
 
         foreach ( self::groups() as $id => $group ) {
             if ( self::inGroup( $normalized, $group ) ) {
+                $label = (string) ( $group['label'] ?? $id );
+
                 return [
-                    'label'     => (string) ( $group['label'] ?? $id ),
-                    'abilities' => (string) ( $group['abilities'] ?? 'the builder\'s own abilities or editor' ),
+                    'label'  => $label,
+                    'family' => (string) ( $group['family'] ?? '' ),
+                    'editor' => (string) ( $group['editor'] ?? 'the ' . $label . ' editor' ),
                 ];
             }
         }
@@ -131,8 +160,9 @@ final class BuilderMetaKeys {
         /**
          * Filters the page-builder storage keys the generic meta abilities refuse to write.
          *
-         * Each group is id => [ 'label', 'abilities', 'keys', 'prefixes', 'patterns' ]:
-         * exact keys and prefixes are compared case-insensitively, patterns are
+         * Each group is id => [ 'label', 'family', 'editor', 'keys', 'prefixes', 'patterns' ]:
+         * `family` names the dedicated LW Site Manager Extra abilities (empty when
+         * there are none), `editor` the builder's own editor; exact keys and prefixes are compared case-insensitively, patterns are
          * regular expressions matched against the lowercased key. Remove a group
          * (or return an empty array) to allow generic writes again; add one to
          * protect another builder.

@@ -22,51 +22,52 @@ if ( ! defined( 'ABSPATH' ) ) {
 final class BuilderMetaKeyList {
 
     /**
-     * Builder groups, as id => [ label, abilities, keys, prefixes, patterns ].
+     * Builder groups, as id => [ label, family, editor, keys, prefixes, patterns ].
      *
-     * `abilities` names the dedicated ability family to use instead, or the
-     * builder's own editor when there are none. Keys and prefixes are matched
+     * `family` names the dedicated LW Site Manager Extra ability family (none
+     * for builders it only reads or does not support); `editor` the builder's
+     * own editor, "the <label> editor" when left out. Keys and prefixes are matched
      * case-insensitively; patterns are regular expressions.
      *
-     * @return array<string, array{label: string, abilities: string, keys?: list<string>, prefixes?: list<string>, patterns?: list<string>}>
+     * @return array<string, array{label: string, family?: string, editor?: string, keys?: list<string>, prefixes?: list<string>, patterns?: list<string>}>
      */
     public static function groups(): array {
         return [
             'elementor'      => [
                 'label'     => 'Elementor',
-                'abilities' => 'the Elementor abilities (site-manager/el-*)',
+                'family'    => 'site-manager/el-*',
                 'keys'      => [ '_elementor' ],
                 'prefixes'  => [ '_elementor_' ],
             ],
             'bricks'         => [
                 'label'     => 'Bricks',
-                'abilities' => 'the Bricks abilities (site-manager/br-*)',
+                'family'    => 'site-manager/br-*',
                 'prefixes'  => [ '_bricks_', '_bab_' ],
             ],
             'breakdance'     => [
                 'label'     => 'Breakdance',
-                'abilities' => 'the Breakdance abilities (site-manager/bd-*)',
+                'family'    => 'site-manager/bd-*',
                 'prefixes'  => [ '_breakdance_' ],
             ],
             'oxygen'         => [
                 'label'     => 'Oxygen',
-                'abilities' => 'the Oxygen abilities (site-manager/oxy-*)',
+                'family'    => 'site-manager/oxy-*',
                 'prefixes'  => [ '_oxygen_' ],
             ],
             'beaver-builder' => [
                 'label'     => 'Beaver Builder',
-                'abilities' => 'the Beaver Builder abilities (site-manager/beaver-*)',
+                'family'    => 'site-manager/beaver-*',
                 'prefixes'  => [ '_fl_builder_' ],
             ],
             'wpbakery'       => [
                 'label'     => 'WPBakery',
-                'abilities' => 'the WPBakery abilities (site-manager/wpb-*)',
+                'family'    => 'site-manager/wpb-*',
                 'keys'      => [ '_vc_post_settings' ],
                 'prefixes'  => [ '_wpb_' ],
             ],
             'divi'           => [
                 'label'     => 'Divi',
-                'abilities' => 'the Divi builder (the site-manager/divi-* abilities only read)',
+                'editor'    => 'the Divi builder',
                 'keys'      => [
                     '_et_pb_use_builder',
                     '_et_pb_old_content',
@@ -81,31 +82,30 @@ final class BuilderMetaKeyList {
             ],
             'brizy'          => [
                 'label'     => 'Brizy',
-                'abilities' => 'the Brizy editor',
                 'keys'      => [ 'brizy' ],
                 'prefixes'  => [ 'brizy-', 'brizy_' ],
             ],
             'kirki'          => [
                 'label'     => 'Kirki',
-                'abilities' => 'the Kirki editor',
                 'keys'      => [ 'kirki' ],
                 'prefixes'  => [ 'kirki_' ],
                 'patterns'  => [ '/^staged_\d+_kirki/i' ],
             ],
             'spectra'        => [
                 'label'     => 'Spectra',
-                'abilities' => 'the Spectra abilities (site-manager/spectra-*)',
+                'family'    => 'site-manager/spectra-*',
                 'prefixes'  => [ '_uag_', '_uagb_' ],
             ],
             'generateblocks' => [
                 'label'     => 'GenerateBlocks',
-                'abilities' => 'the GenerateBlocks abilities (site-manager/gb-*)',
+                'family'    => 'site-manager/gb-*',
                 'keys'      => [ '_generateblocks_dynamic_css_version' ],
                 'prefixes'  => [ 'gb_style_' ],
             ],
             'lw-snapshots'   => [
-                'label'     => 'LW Site Manager Extra layout snapshots',
-                'abilities' => 'the builder\'s snapshot abilities',
+                'label'     => 'LW layout-snapshot',
+                'family'    => 'site-manager/*-snapshot*',
+                'editor'    => 'the builder\'s editor',
                 'keys'      => [ '_lw_sme_layout_snapshots' ],
             ],
         ];

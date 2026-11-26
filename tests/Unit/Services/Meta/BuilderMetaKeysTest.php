@@ -75,9 +75,62 @@ final class BuilderMetaKeysTest extends TestCase {
             'spectra page assets'     => [ '_uag_page_assets', 'site-manager/spectra-*' ],
             'spectra block counts'    => [ '_uagb_previous_block_counts', 'site-manager/spectra-*' ],
             'generateblocks css'      => [ 'gb_style_css', 'site-manager/gb-*' ],
-            'lw layout snapshots'     => [ '_lw_sme_layout_snapshots', 'snapshot abilities' ],
+            'lw layout snapshots'     => [ '_lw_sme_layout_snapshots', 'site-manager/*-snapshot*' ],
             'collation case spelling' => [ '_ELEMENTOR_Data', 'site-manager/el-*' ],
             'slashed spelling'        => [ '\\_elementor_data', 'site-manager/el-*' ],
+        ];
+    }
+
+    public function test_without_extra_the_message_points_to_the_editor_and_extra(): void {
+        $this->grantAdmin();
+
+        $result = MetaManager::set_post_meta( [ 'post_id' => 42, 'key' => '_elementor_data', 'value' => '[]' ] );
+
+        $this->assertBuilderKey( $result, 'Edit it in the Elementor editor, or install LW Site Manager Extra, whose Elementor abilities (site-manager/el-*)' );
+    }
+
+    public function test_builder_without_dedicated_abilities_points_to_its_editor_only(): void {
+        $this->grantAdmin();
+
+        $result = MetaManager::set_post_meta( [ 'post_id' => 42, 'key' => 'brizy', 'value' => 'x' ] );
+
+        $this->assertBuilderKey( $result, 'Edit it in the Brizy editor, so' );
+        $this->assertStringNotContainsString( 'LW Site Manager Extra', $result->get_error_message() );
+    }
+
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
+    public function test_with_extra_active_the_message_names_its_abilities(): void {
+        define( 'LW_SITE_MANAGER_EXTRA_VERSION', '1.0.0' );
+        $this->grantAdmin();
+
+        $result = MetaManager::set_post_meta( [ 'post_id' => 42, 'key' => '_bricks_page_content_2', 'value' => '[]' ] );
+
+        $this->assertBuilderKey( $result, 'Write it through the Bricks abilities of LW Site Manager Extra (site-manager/br-*) instead' );
+        $this->assertStringNotContainsString( 'install', $result->get_error_message() );
+    }
+
+    public function test_order_meta_keeps_builder_keys_writable(): void {
+        $this->assertNull( MetaGuard::guardWcMap( [ '_elementor_data' => '[]' ], false ) );
+    }
+
+    /**
+     * @dataProvider provide_wc_spellings
+     */
+    public function test_wc_product_map_refuses_other_spellings( string $key ): void {
+        $error = MetaGuard::guardWcMap( [ $key => '[]' ], true );
+
+        $this->assertInstanceOf( \WP_Error::class, $error );
+        $this->assertSame( 'builder_meta_key', $error->get_error_code() );
+    }
+
+    public static function provide_wc_spellings(): array {
+        return [
+            'uppercase'        => [ '_ELEMENTOR_DATA' ],
+            'trailing space'   => [ '_elementor_data ' ],
+            'slashed'          => [ '\\_elementor_data' ],
         ];
     }
 
