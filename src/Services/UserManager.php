@@ -313,7 +313,7 @@ class UserManager extends AbstractService {
         // Generate new password or use provided one
         $new_password = $input['new_password'] ?? wp_generate_password( 16, true, true );
 
-        wp_set_password( $new_password, $user->ID );
+        wp_set_password( wp_slash( $new_password ), $user->ID );
 
         // Send notification if requested
         $send_notification = $input['send_notification'] ?? true;

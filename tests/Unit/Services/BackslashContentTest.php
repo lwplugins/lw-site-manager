@@ -124,4 +124,12 @@ final class BackslashContentTest extends TestCase {
         $this->assertSame( wp_slash( 'p\\w"d' ), $GLOBALS['wp_last_updated_user']['user_pass'] );
         $this->assertSame( 'O\\Neil', $GLOBALS['wp_last_updated_user']['last_name'] );
     }
+
+    public function test_reset_password_is_hashed_like_wp_login(): void {
+        grant_wp_caps( [ 'edit_users', 'edit_user:2' ] );
+
+        UserManager::reset_password( [ 'id' => 2, 'new_password' => 'p\\w"d', 'send_notification' => false ] );
+
+        $this->assertSame( wp_slash( 'p\\w"d' ), $GLOBALS['wp_last_set_password']['password'] );
+    }
 }
